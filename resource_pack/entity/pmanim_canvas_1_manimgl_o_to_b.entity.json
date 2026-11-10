@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pmanim:canvas_1_manimgl_o_to_b",
+      "materials": {
+        "default": "pmanim_canvas_manimgl_o_to_b"
+      },
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "textures": {
+        "default": "textures/manim/manimgl_o_to_b"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_canvas"
+      ]
+    }
+  }
+}

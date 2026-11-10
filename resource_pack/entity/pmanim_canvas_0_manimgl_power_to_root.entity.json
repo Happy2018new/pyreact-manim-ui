@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pmanim:canvas_0_manimgl_power_to_root",
+      "materials": {
+        "default": "pmanim_canvas_manimgl_power_to_root"
+      },
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "textures": {
+        "default": "textures/manim/manimgl_power_to_root"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_canvas"
+      ]
+    }
+  }
+}

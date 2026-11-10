@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pmanim:canvas_1_runtime_shapes",
+      "materials": {
+        "default": "pmanim_canvas_runtime_shapes"
+      },
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "textures": {
+        "default": "textures/ui/white_bg"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_canvas"
+      ]
+    }
+  }
+}

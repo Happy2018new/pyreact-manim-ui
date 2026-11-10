@@ -1,0 +1,392 @@
+{
+  "background_only": true,
+  "physical_input_tested": false,
+  "player": {
+    "passed": true,
+    "frames": 30,
+    "fps": [
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375
+    ],
+    "checks": [
+      "all scenes: install, seek start/midpoint/endpoint, visible, paused, no reported error",
+      "all scenes advance during playback and pause without reported errors; FPS samples respect cap",
+      "play advances; pause keeps the same position",
+      "play at endpoint restarts at the beginning",
+      "hide stops playback; navigator pop cleans subscriptions; synthetic F8 release on actual HUD reopens with one subscription",
+      "four FPS samples at or below the configured 60 FPS cap (1 FPS rounding tolerance)"
+    ],
+    "load_timings": [
+      {
+        "reused": false,
+        "previous_scene": "",
+        "success": true,
+        "total_seconds": 1.5759900999999998,
+        "operation": "first_install",
+        "install_seconds": 1.5758097,
+        "scene": "manimgl_o_to_b"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 0.00010489999999663269,
+        "operation": "reuse",
+        "install_seconds": 5.920000000969594e-05,
+        "scene": "manimgl_o_to_b"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 0.9056706000000077,
+        "operation": "switch_install",
+        "install_seconds": 0.9055928999999878,
+        "scene": "manimgl_c_to_s"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_c_to_s",
+        "success": true,
+        "total_seconds": 1.72164070000008,
+        "operation": "switch_install",
+        "install_seconds": 1.7215110999999297,
+        "scene": "manimgl_8_to_1"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_8_to_1",
+        "success": true,
+        "total_seconds": 1.757915300000036,
+        "operation": "switch_install",
+        "install_seconds": 1.7577330999999958,
+        "scene": "manimgl_ui_to_ux"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_ui_to_ux",
+        "success": true,
+        "total_seconds": 3.984609599999999,
+        "operation": "switch_install",
+        "install_seconds": 3.9845530000000053,
+        "scene": "manimgl_fraction_swap"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_fraction_swap",
+        "success": true,
+        "total_seconds": 7.338553899999965,
+        "operation": "switch_install",
+        "install_seconds": 7.338387199999943,
+        "scene": "manimgl_power_to_root"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_power_to_root",
+        "success": true,
+        "total_seconds": 90.21351449999997,
+        "operation": "switch_install",
+        "install_seconds": 90.21310990000006,
+        "scene": "manimgl_chinese_change"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_chinese_change",
+        "success": true,
+        "total_seconds": 5.329999999048596e-05,
+        "operation": "reuse",
+        "install_seconds": 8.200000138458563e-06,
+        "scene": "manimgl_o_to_b"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 4.4399999978850246e-05,
+        "operation": "reuse",
+        "install_seconds": 6.0999998368060915e-06,
+        "scene": "manimgl_c_to_s"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_c_to_s",
+        "success": true,
+        "total_seconds": 4.4800000068789814e-05,
+        "operation": "reuse",
+        "install_seconds": 6.499999926745659e-06,
+        "scene": "manimgl_8_to_1"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_8_to_1",
+        "success": true,
+        "total_seconds": 4.280000007383933e-05,
+        "operation": "reuse",
+        "install_seconds": 6.299999995462713e-06,
+        "scene": "manimgl_ui_to_ux"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_ui_to_ux",
+        "success": true,
+        "total_seconds": 5.1799999937429675e-05,
+        "operation": "reuse",
+        "install_seconds": 6.800000164730591e-06,
+        "scene": "manimgl_fraction_swap"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_fraction_swap",
+        "success": true,
+        "total_seconds": 5.51000000541535e-05,
+        "operation": "reuse",
+        "install_seconds": 7.599999889862374e-06,
+        "scene": "manimgl_power_to_root"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_power_to_root",
+        "success": true,
+        "total_seconds": 4.669999998441199e-05,
+        "operation": "reuse",
+        "install_seconds": 6.4000000747910235e-06,
+        "scene": "manimgl_chinese_change"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_chinese_change",
+        "success": true,
+        "total_seconds": 83.46354229999997,
+        "operation": "switch_install",
+        "install_seconds": 83.463254,
+        "scene": "manimgl_chinese_math"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_chinese_math",
+        "success": true,
+        "total_seconds": 5.750000013904355e-05,
+        "operation": "reuse",
+        "install_seconds": 8.299999990413198e-06,
+        "scene": "manimgl_o_to_b"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 5.25000000379805e-05,
+        "operation": "reuse",
+        "install_seconds": 8.200000138458563e-06,
+        "scene": "manimgl_c_to_s"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_c_to_s",
+        "success": true,
+        "total_seconds": 4.7200000153679866e-05,
+        "operation": "reuse",
+        "install_seconds": 6.900000016685226e-06,
+        "scene": "manimgl_8_to_1"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_8_to_1",
+        "success": true,
+        "total_seconds": 4.279999984646565e-05,
+        "operation": "reuse",
+        "install_seconds": 5.80000005356851e-06,
+        "scene": "manimgl_ui_to_ux"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_ui_to_ux",
+        "success": true,
+        "total_seconds": 4.409999996823899e-05,
+        "operation": "reuse",
+        "install_seconds": 6.800000164730591e-06,
+        "scene": "manimgl_fraction_swap"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_fraction_swap",
+        "success": true,
+        "total_seconds": 4.4800000068789814e-05,
+        "operation": "reuse",
+        "install_seconds": 6.600000006073969e-06,
+        "scene": "manimgl_power_to_root"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_power_to_root",
+        "success": true,
+        "total_seconds": 5.0799999826267594e-05,
+        "operation": "reuse",
+        "install_seconds": 6.900000016685226e-06,
+        "scene": "manimgl_chinese_change"
+      },
+      {
+        "reused": true,
+        "previous_scene": "manimgl_chinese_change",
+        "success": true,
+        "total_seconds": 4.449999983080488e-05,
+        "operation": "reuse",
+        "install_seconds": 6.299999995462713e-06,
+        "scene": "manimgl_chinese_math"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_chinese_math",
+        "success": true,
+        "total_seconds": 0.007414499999867985,
+        "operation": "switch_install",
+        "install_seconds": 0.007344699999976001,
+        "scene": "basic_geometry"
+      },
+      {
+        "reused": false,
+        "previous_scene": "basic_geometry",
+        "success": true,
+        "total_seconds": 0.01029900000003181,
+        "operation": "switch_install",
+        "install_seconds": 0.010057199999891964,
+        "scene": "axes_sine"
+      }
+    ]
+  },
+  "canvas": {
+    "background_only": true,
+    "physical_input_tested": false,
+    "checks": [
+      "ten compiled canvas scenes: start/mid/end; right state unchanged",
+      "both independent clocks advance and remain stable after pause",
+      "three close/reopen cycles release both slots and restore the original player"
+    ],
+    "loads": [
+      {
+        "reused": true,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 0.0005513000000973989,
+        "operation": "reuse",
+        "install_seconds": 4.900000021734741e-06,
+        "scene": "manimgl_o_to_b"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_o_to_b",
+        "success": true,
+        "total_seconds": 0.0001511999998911051,
+        "operation": "switch_install",
+        "install_seconds": 3.370000013092067e-05,
+        "scene": "manimgl_c_to_s"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_c_to_s",
+        "success": true,
+        "total_seconds": 0.00020979999999326537,
+        "operation": "switch_install",
+        "install_seconds": 5.03999999637017e-05,
+        "scene": "manimgl_8_to_1"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_8_to_1",
+        "success": true,
+        "total_seconds": 0.00018330000011701486,
+        "operation": "switch_install",
+        "install_seconds": 7.300000015675323e-05,
+        "scene": "manimgl_ui_to_ux"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_ui_to_ux",
+        "success": true,
+        "total_seconds": 0.00018790000012813834,
+        "operation": "switch_install",
+        "install_seconds": 5.1900000016757986e-05,
+        "scene": "manimgl_fraction_swap"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_fraction_swap",
+        "success": true,
+        "total_seconds": 0.00013420000004771282,
+        "operation": "switch_install",
+        "install_seconds": 3.620000006776536e-05,
+        "scene": "manimgl_power_to_root"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_power_to_root",
+        "success": true,
+        "total_seconds": 0.0001861000000644708,
+        "operation": "switch_install",
+        "install_seconds": 7.199999799922807e-06,
+        "scene": "manimgl_chinese_change"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_chinese_change",
+        "success": true,
+        "total_seconds": 0.0001443999999537482,
+        "operation": "switch_install",
+        "install_seconds": 4.279999984646565e-05,
+        "scene": "manimgl_chinese_math"
+      },
+      {
+        "reused": false,
+        "previous_scene": "manimgl_chinese_math",
+        "success": true,
+        "total_seconds": 0.00011719999974957318,
+        "operation": "switch_install",
+        "install_seconds": 1.4599999758502236e-05,
+        "scene": "basic_geometry"
+      },
+      {
+        "reused": false,
+        "previous_scene": "basic_geometry",
+        "success": true,
+        "total_seconds": 0.00010130000009667128,
+        "operation": "switch_install",
+        "install_seconds": 5.999999757477781e-06,
+        "scene": "axes_sine"
+      }
+    ],
+    "runtime_shader_before": "223a998f5f611f5e0c69f67f3b7d72ae8e16d4d16af088ba6dfa079b92ed44da",
+    "reuse": {
+      "reused": true,
+      "previous_scene": "axes_sine",
+      "success": true,
+      "total_seconds": 9.790000012799283e-05,
+      "operation": "reuse",
+      "install_seconds": 5.8999999055231456e-06,
+      "scene": "manimgl_o_to_b"
+    },
+    "fps": 60.0775146484375,
+    "runtime_shader_after": "223a998f5f611f5e0c69f67f3b7d72ae8e16d4d16af088ba6dfa079b92ed44da",
+    "passed": true,
+    "frame_count": 31
+  },
+  "window_sizes_tested": [
+    [
+      1280,
+      720
+    ],
+    [
+      640,
+      360
+    ]
+  ],
+  "offline_tests": {
+    "total": 190,
+    "passed": 189,
+    "skipped": 1
+  },
+  "cold_postprocess_loads_seconds": {
+    "manimgl_chinese_change": 90.21351449999997,
+    "manimgl_chinese_math": 83.46354229999997
+  }
+}

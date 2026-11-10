@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pmanim:canvas_1_basic_geometry",
+      "materials": {
+        "default": "pmanim_canvas_basic_geometry"
+      },
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "textures": {
+        "default": "textures/manim/basic_geometry"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_canvas"
+      ]
+    }
+  }
+}

@@ -45,7 +45,10 @@ def main():
             output = ROOT / ".runtime/compiled" / scene["name"]
             compile_scene(scene, output)
             outputs.append(output)
-    print(json.dumps(deploy(outputs), ensure_ascii=False, indent=2))
+    result = deploy(outputs)
+    from build_canvas import build as build_canvas
+    result["canvas"] = build_canvas()
+    print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

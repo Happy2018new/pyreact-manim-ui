@@ -222,3 +222,20 @@ Button 是按钮 Primitive，映射原生 button 控件。
 - `children`：按钮内容，挂载到 Button 自身。
 
 Button 模板中包含 `default`、`hover`、`pressed` 三个状态子控件，状态切换由原生 button 控件处理。
+
+## 本项目扩展：ManimCanvas
+
+从 `manim_ui.canvas_primitive` 导入 `ManimCanvas`，不属于 Pyreact 上游接口。
+用 `manim_ui.canvas.create_canvas_player()` 创建播放器，作为 `player` prop。
+`scene` 是 `generated_canvas.CANVAS_SCENES` 的场景名；`autoPlay` 默认 False，
+`onReady(player)` 在原生布局完成并成功加载首个场景后触发。
+尺寸、位置、透明度、zIndex 均放 `Style`，不要传独立 opacity prop。
+
+同屏最多两个独立槽位；第三个挂载明确报错。Primitive 卸载自动停止并释放槽位，
+播放器可复挂；业务永久关闭时调用 `player.dispose()`。不要在原生挂载及布局前
+调用 `load/play`；首帧会读取 `scene` 自动加载。所有调用都在客户端线程。
+
+`player.renderer.set_shape(morph=0.5, progress=0.75, stroke_width=0.04,
+scale=0.8, color=(0.2, 0.8, 1.0), rotation=0.0)` 更新 `runtime_shapes` 的实时
+uniform。rotation 使用弧度，morph/progress/RGB 在 0..1，scale 大于 0，
+stroke_width 等于 0 时实心。此功能不接受任意运行时字体或 LaTeX 排版。

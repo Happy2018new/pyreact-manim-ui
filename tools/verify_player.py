@@ -27,7 +27,7 @@ def main():
     sys.path.insert(0, str(ROOT / ".agents/skills/pyreact-debugging/scripts"))
     from _session import load_session
     from _background_policy import require_background_session
-    from mcdk import Client, return_value
+    from mcdk import Client, MCDKError, return_value
     session = load_session(live=True)
     if Path(session["project"]).resolve() != ROOT:
         raise ValueError("Player verification project mismatch")
@@ -54,8 +54,30 @@ def main():
             "'physical': player.game.GetScreenViewInfo(), 'used': player.viewport, 'canvas': player.canvas})")
         assert list(report["viewport"]["used"]) == list(report["viewport"]["physical"][:2]), report["viewport"]
         scenes = execute("_result = json.dumps(player.scenes)")
+        report["cold_load_timeouts"] = []
         for index, scene in enumerate(scenes):
-            state("assert player.select_scene(%d)" % index)
+            try:
+                state("assert player.select_scene(%d)" % index)
+            except MCDKError as error:
+                if "IPC JSON request timed out" not in str(error):
+                    raise
+                # A shader installation can block the game after RPC times
+                # out. Never replay the mutation: only inspect its completion.
+                deadline = time.monotonic() + 240.0
+                report["cold_load_timeouts"].append(scene["name"])
+                while True:
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError("Scene load did not recover: " + scene["name"])
+                    try:
+                        loaded = state()
+                    except MCDKError as pending:
+                        if not any(message in str(pending) for message in (
+                                "IPC JSON request timed out", "execute_code returned no value")):
+                            raise
+                        time.sleep(1.0)
+                        continue
+                    assert loaded["scene"] == scene["name"] and not loaded["error"], loaded
+                    break
             for step, timestamp in enumerate((0.0, scene["duration"] / 2, scene["duration"])):
                 current = state("player.seek(%r)" % timestamp)
                 assert current["visible"] and not current["error"] and current["flip_y"]
@@ -75,6 +97,7 @@ def main():
                     frame["capture"] = str(output)
                 report["frames"].append(frame)
         report["checks"].append("all scenes: install, seek start/midpoint/endpoint, visible, paused, no reported error")
+        report["load_timings"] = execute("_result = json.dumps(player.load_timings())")
         for index, scene in enumerate(scenes):
             state("assert player.select_scene(%d)\nplayer.seek(0.0)\nplayer.toggle_play()" % index)
             time.sleep(0.3)

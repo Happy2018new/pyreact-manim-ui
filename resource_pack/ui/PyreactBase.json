@@ -92,6 +92,9 @@
         "paper_doll_tmpl@PyreactBase.paperDoll": {}
       },
       {
+        "manim_canvas_tmpl@PyreactBase.manimCanvas": {}
+      },
+      {
         "scroll_tmpl@PyreactBase.scrollBase": {}
       },
       {
@@ -409,6 +412,9 @@
     "init_rot_y": 0.0,
     "rotation": "none",
     "screen_scale": 1.0
+  },
+  "manimCanvas@PyreactBase.paperDoll": {
+    "enable_scissor_test": true
   },
   "scrollBase@common.scrolling_panel": {
     "$scrolling_content": "PyreactBase.scroll_content_panel",

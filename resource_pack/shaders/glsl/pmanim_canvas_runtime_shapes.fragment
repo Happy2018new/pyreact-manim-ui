@@ -1,0 +1,42 @@
+// __multiversion__
+// Parameterized runtime shapes: no per-value shader or atlas compilation.
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // time_seconds, aspect, pixel_height, opacity
+uniform vec4 EXTRA_ACTOR_UNIFORM2; // circle-to-box morph, reveal, stroke width, scale
+uniform vec4 EXTRA_ACTOR_UNIFORM4; // red, green, blue, rotation radians
+
+float boxDistance(vec2 p, vec2 halfSize) {
+    vec2 delta = abs(p) - halfSize;
+    return length(max(delta, vec2(0.0))) + min(max(delta.x, delta.y), 0.0);
+}
+
+void main() {
+    float aspect = max(EXTRA_ACTOR_UNIFORM1.y, 0.001);
+    float pixelHeight = max(EXTRA_ACTOR_UNIFORM1.z, 1.0);
+    float opacity = clamp(EXTRA_ACTOR_UNIFORM1.w, 0.0, 1.0);
+    float morph = clamp(EXTRA_ACTOR_UNIFORM2.x, 0.0, 1.0);
+    float progress = clamp(EXTRA_ACTOR_UNIFORM2.y, 0.0, 1.0);
+    float strokeWidth = max(EXTRA_ACTOR_UNIFORM2.z, 0.0);
+    float scale = max(EXTRA_ACTOR_UNIFORM2.w, 0.001);
+    float phase = EXTRA_ACTOR_UNIFORM1.x * 1.5707963267948966;
+    vec2 drift = vec2(0.035 * sin(phase), 0.02 * (cos(phase) - 1.0));
+    vec2 p = (uv - vec2(0.5)) * vec2(aspect, 1.0) - drift;
+    float angle = EXTRA_ACTOR_UNIFORM4.w;
+    float c = cos(angle), s = sin(angle);
+    vec2 q = vec2(c * p.x + s * p.y, -s * p.x + c * p.y) / scale;
+    float circle = length(q) - 0.32;
+    float rectangle = boxDistance(q, vec2(0.36, 0.25));
+    float distanceToShape = mix(circle, rectangle, morph) * scale;
+    if (strokeWidth > 0.0) distanceToShape = abs(distanceToShape) - strokeWidth * 0.5;
+    float aa = 1.0 / pixelHeight;
+    float coverage = 1.0 - smoothstep(-aa, aa, distanceToShape);
+    if (progress <= 0.0) coverage = 0.0;
+    else if (progress < 1.0) {
+        // Clockwise reveal beginning at the top, in the rotated shape's frame.
+        float turn = fract(atan(q.y, q.x) / 6.283185307179586 + 1.25);
+        float angularAA = aa / max(length(p), aa) / 6.283185307179586;
+        coverage *= 1.0 - smoothstep(progress - angularAA, progress + angularAA, turn);
+    }
+    gl_FragColor = vec4(clamp(EXTRA_ACTOR_UNIFORM4.rgb, 0.0, 1.0), coverage * opacity);
+}

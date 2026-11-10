@@ -1,0 +1,32 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_2;
+uniform vec4 EXTRA_VECTOR1; // mode, flip_y, point radius, reserved
+
+float readScalar(float index) {
+    vec2 coord = (vec2(mod(index, 16.0), floor(index / 16.0)) + vec2(0.5)) / 16.0;
+    vec2 bytes = floor(texture2D(TEXTURE_2, coord).rg * 255.0 + vec2(0.5));
+    return dot(bytes, vec2(256.0, 1.0)) / 65535.0;
+}
+
+void main() {
+    vec2 p = uv;
+    if (EXTRA_VECTOR1.y > 0.5) p.y = 1.0 - p.y;
+    if (EXTRA_VECTOR1.x < 0.5) {
+        vec2 tc = (floor(clamp(p, vec2(0.0), vec2(0.99999)) * 16.0) + vec2(0.5)) / 16.0;
+        // Direct data-channel display lets the host verify every one of 256
+        // runtime-generated scalars. Placeholder texels have B=255 instead.
+        gl_FragColor = vec4(texture2D(TEXTURE_2, tc).rgb, 1.0);
+        return;
+    }
+    float nearest = 2.0;
+    for (int i = 0; i < 128; i++) {
+        float index = float(i) * 2.0;
+        vec2 point = vec2(readScalar(index), readScalar(index + 1.0));
+        nearest = min(nearest, distance(p, 0.06 + 0.88 * point));
+    }
+    float ink = 1.0 - smoothstep(EXTRA_VECTOR1.z * 0.75, EXTRA_VECTOR1.z, nearest);
+    gl_FragColor = vec4(mix(vec3(0.025, 0.04, 0.075), vec3(0.2, 0.95, 0.8), ink), 1.0);
+}

@@ -1,0 +1,16 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // progress, opacity, reserved, reserved
+uniform vec4 EXTRA_ACTOR_UNIFORM2; // RGB, reserved
+
+void main() {
+    vec2 p = uv * 2.0 - 1.0;
+    float phase = EXTRA_ACTOR_UNIFORM1.x;
+    vec2 center = vec2(mix(-0.6, 0.6, phase), 0.0);
+    float ring = 1.0 - smoothstep(0.025, 0.06, abs(length(p - center) - 0.42));
+    float crosshair = 1.0 - smoothstep(0.012, 0.035, min(abs(p.x), abs(p.y)));
+    float boundary = 1.0 - smoothstep(0.015, 0.04, abs(max(abs(p.x), abs(p.y)) - 0.94));
+    float alpha = max(ring, max(crosshair * 0.5, boundary)) * EXTRA_ACTOR_UNIFORM1.y;
+    gl_FragColor = vec4(EXTRA_ACTOR_UNIFORM2.rgb, alpha);
+}

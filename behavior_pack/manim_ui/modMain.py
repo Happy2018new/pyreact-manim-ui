@@ -3,7 +3,7 @@ from mod.common.mod import Mod
 import mod.client.extraClientApi as clientApi
 
 
-@Mod.Binding(name="pyreact_manim_ui", version="0.1.0")
+@Mod.Binding(name="pyreact_manim_ui", version="0.3.0")
 class ManimMod(object):
     @Mod.InitClient()
     def client_init(self):

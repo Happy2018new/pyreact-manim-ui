@@ -1,0 +1,56 @@
+{
+  "materials": {
+    "version": "1.0.0",
+    "pmanim_canvas:entity_static": {
+      "vertexShader": "shaders/pmanim_canvas.vertex",
+      "+states": [
+        "DisableCulling",
+        "DisableDepthTest",
+        "DisableDepthWrite",
+        "Blending"
+      ],
+      "blendSrc": "SourceAlpha",
+      "blendDst": "OneMinusSrcAlpha",
+      "samplerStates": [
+        {
+          "samplerIndex": 0,
+          "textureWrap": "Clamp",
+          "textureFilter": "Point"
+        }
+      ]
+    },
+    "pmanim_canvas_manimgl_o_to_b:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_o_to_b.fragment"
+    },
+    "pmanim_canvas_manimgl_c_to_s:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_c_to_s.fragment"
+    },
+    "pmanim_canvas_manimgl_8_to_1:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_8_to_1.fragment"
+    },
+    "pmanim_canvas_manimgl_ui_to_ux:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_ui_to_ux.fragment"
+    },
+    "pmanim_canvas_manimgl_fraction_swap:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_fraction_swap.fragment"
+    },
+    "pmanim_canvas_manimgl_power_to_root:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_power_to_root.fragment"
+    },
+    "pmanim_canvas_manimgl_chinese_change:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_chinese_change.fragment"
+    },
+    "pmanim_canvas_manimgl_chinese_math:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_manimgl_chinese_math.fragment"
+    },
+    "pmanim_canvas_basic_geometry:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_basic_geometry.fragment"
+    },
+    "pmanim_canvas_axes_sine:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_axes_sine.fragment"
+    },
+    "pmanim_canvas_runtime_shapes:pmanim_canvas": {
+      "fragmentShader": "shaders/pmanim_canvas_runtime_shapes.fragment"
+    }
+  }
+}

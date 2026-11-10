@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "pmanim:canvas_1_manimgl_chinese_math",
+      "materials": {
+        "default": "pmanim_canvas_manimgl_chinese_math"
+      },
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "textures": {
+        "default": "textures/manim/manimgl_chinese_math"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_canvas"
+      ]
+    }
+  }
+}

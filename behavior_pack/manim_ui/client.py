@@ -3,11 +3,13 @@
 """Client-only transport and playback; glyph geometry stays on the GPU."""
 import mod.client.extraClientApi as clientApi
 from .generated_scenes import SCENES
-from .timeline import Timeline, get_playback_clock
+from .timeline import get_playback_clock
+from .playback import PlaybackController
 from . import pyreact
 
 ClientSystem = clientApi.GetClientSystemCls()
 PLAYER_PAGE_KEY = "manim_player"
+CANVAS_PAGE_KEY = "manim_canvas_demo"
 
 
 class ManimClient(ClientSystem):
@@ -16,21 +18,18 @@ class ManimClient(ClientSystem):
         factory = clientApi.GetEngineCompFactory()
         self.post = factory.CreatePostProcess(clientApi.GetLevelId())
         self.game = factory.CreateGame(clientApi.GetLevelId())
-        self.scenes = SCENES
-        self.scene_index = 0
-        self.timeline = None
-        self.visible = False
         # NetEase 3.10 postprocess UV origin is bottom-left, unlike atlas rows.
         self.flip_y = True
         self.viewport = (1280.0, 720.0)
         self._viewport_dirty = False
         self.canvas = (0.0, 1.0)
         self.ui_scale = 1.0
-        self.error = ""
-        self._subscribers = []
-        self._last_notify = 0.0
         self._last_parameters = None
+        self._touched_post_names = set()
         self._clock = get_playback_clock(platform=clientApi.GetPlatform())
+        self.playback = PlaybackController(SCENES, self, self._clock)
+        self.scenes = self.playback.scenes
+        self.canvas_demo = None
         self._reopen_key = str(clientApi.GetMinecraftEnum().KeyBoardType.KEY_F8)
         self._listeners = [
             ("UiInitFinished", self.on_ui_ready),
@@ -42,7 +41,24 @@ class ManimClient(ClientSystem):
         for event, callback in self._listeners:
             self.ListenForEvent(clientApi.GetEngineNamespace(), clientApi.GetEngineSystemName(), event, self, callback)
 
+    # Compatibility for the demo panel and existing diagnostics. New callers
+    # select names through load/play rather than relying on generated indices.
+    scene_index = property(lambda self: self.playback.scene_index)
+    timeline = property(lambda self: self.playback.timeline)
+    visible = property(lambda self: self.playback.visible)
+    _subscribers = property(lambda self: self.playback._subscribers)
+
+    @property
+    def error(self):
+        return self.playback.error
+
+    @error.setter
+    def error(self, value):
+        self.playback.error = value
+
     def on_ui_ready(self, _args=None):
+        if self.playback.disposed:
+            return
         self.update_viewport()
         if not self.scenes:
             self.error = "No compiled scenes. Run tools/deploy_demo.py."
@@ -51,6 +67,8 @@ class ManimClient(ClientSystem):
         self.open_panel()
 
     def open_panel(self):
+        if self.playback.disposed:
+            return False
         navigator = pyreact.navigator
         if not navigator.is_ready or navigator.is_transitioning:
             return False
@@ -69,6 +87,44 @@ class ManimClient(ClientSystem):
         if clientApi.GetTopUI() != "hud_screen":
             return
         self.open_panel()
+
+    def open_canvas_panel(self):
+        navigator = pyreact.navigator
+        if self.playback.disposed or not navigator.is_ready or navigator.is_transitioning:
+            return False
+        if navigator.contains(CANVAS_PAGE_KEY):
+            return True
+        from .canvas_panel import CanvasDemo, CanvasPanel
+        self.canvas_demo = CanvasDemo()
+        self.hide()
+        accepted = navigator.push(CanvasPanel(demo=self.canvas_demo, onBack=self.close_canvas_panel),
+                                  key=CANVAS_PAGE_KEY, on_result=self._canvas_closed,
+                                  on_error=self._canvas_error)
+        if not accepted and self.canvas_demo is not None:
+            self._canvas_closed()
+        return accepted
+
+    def close_canvas_panel(self):
+        navigator = pyreact.navigator
+        if not navigator.contains(CANVAS_PAGE_KEY) or navigator.is_transitioning:
+            return False
+        return navigator.pop()
+
+    def canvas_snapshot(self):
+        return self.canvas_demo.snapshot() if self.canvas_demo is not None else None
+
+    def _canvas_closed(self, _result=None):
+        if self.canvas_demo is not None:
+            self.canvas_demo.dispose()
+            self.canvas_demo = None
+        if not self.playback.disposed and pyreact.navigator.contains(PLAYER_PAGE_KEY):
+            self.show()
+
+    def _canvas_error(self, error):
+        self._canvas_closed()
+        self.error = "Canvas UI failed: " + str(error)
+        print("[manim-ui] " + self.error)
+        self.notify()
 
     def on_ui_error(self, error):
         self.hide()
@@ -96,10 +152,11 @@ class ManimClient(ClientSystem):
             self.ui_scale = 1.0
         self._last_parameters = None
 
-    def _install(self, scene):
+    def install_scene(self, scene):
         name = scene["post_name"]
-        if name in self.post.GetPostProcessOrder():
-            return True
+        self._touched_post_names.add(name)
+        if name in (self.post.GetPostProcessOrder() or []):
+            return True, True
         definition = {
             "name": name,
             "enable": False,
@@ -115,124 +172,115 @@ class ManimClient(ClientSystem):
             }],
         }
         result = self.post.AddPostProcess(definition)
-        self.post.SetEnableByName(name, False)
-        return bool(result)
+        disabled = self.post.SetEnableByName(name, False)
+        return bool(result and disabled), False
+
+    def scene_names(self):
+        return self.playback.scene_names()
+
+    def load(self, name):
+        return self.playback.load(name)
+
+    def load_timings(self):
+        return self.playback.load_timings()
 
     def select_scene(self, index):
         if not self.scenes:
             return False
-        self.hide()
         target_index = int(index) % len(self.scenes)
-        scene = self.scenes[target_index]
-        if not self._install(scene):
-            self.error = "Unable to install shader: " + scene["name"]
-            print("[manim-ui] " + self.error)
-            self.notify()
-            return False
-        self.scene_index = target_index
-        self.timeline = Timeline(scene["duration"])
+        return self.load(self.scenes[target_index]["name"])
+
+    def set_scene_visible(self, scene, enabled):
         self._last_parameters = None
-        self.error = ""
-        self.show()
-        self.notify()
-        return True
+        return bool(self.post.SetEnableByName(scene["post_name"], enabled))
+
+    def release_scenes(self):
+        # The public SDK has no documented whole-process removal API. Disable
+        # only our visited scenes; keep native registrations available for reuse.
+        for name in self._touched_post_names:
+            self.post.SetEnableByName(name, False)
+        self._touched_post_names.clear()
+        self._last_parameters = None
 
     def show(self):
-        if self.timeline is None:
-            return False
-        name = self.scenes[self.scene_index]["post_name"]
-        self.visible = bool(self.post.SetEnableByName(name, True))
-        if not self.visible:
-            self.error = "Unable to enable shader: " + name
-            print("[manim-ui] " + self.error)
-        self._last_parameters = None
-        self._update_frame()
-        return self.visible
+        return self.playback.show()
 
     def hide(self):
-        if self.timeline is not None:
-            self.timeline.pause(self._clock())
-            self.post.SetEnableByName(self.scenes[self.scene_index]["post_name"], False)
-        self.visible = False
+        return self.playback.hide()
+
+    def play(self, name=None):
+        return self.playback.play(name)
+
+    def pause(self):
+        return self.playback.pause()
+
+    def replay(self, name=None):
+        return self.playback.replay(name)
+
+    def stop(self):
+        return self.playback.stop()
 
     def toggle_play(self):
         if self.timeline is None:
-            return
+            return False
         if self.timeline.playing:
-            self.timeline.pause(self._clock())
-        else:
-            if self.show():
-                self.timeline.play(self._clock())
-        self.notify()
+            return self.pause()
+        return self.play()
 
     def seek(self, seconds):
-        if self.timeline is None:
-            return
-        now = self._clock()
-        self.timeline.pause(now)
-        self.timeline.seek(seconds, now)
-        self._update_frame()
-        self.notify()
+        return self.playback.seek(seconds)
 
     def on_frame(self, _args=None):
+        if self.playback.disposed:
+            return
         if self._viewport_dirty:
             self._viewport_dirty = False
             self.update_viewport()
         self._update_frame()
 
     def _update_frame(self):
-        if not self.visible or self.timeline is None:
-            return
-        now = self._clock()
-        position = self.timeline.sample(now)
+        self.playback.frame()
+
+    def render_scene(self, scene, position):
         width, height = self.viewport
         if height <= 0 or width <= 0:
-            return
+            return True
         top_ratio, height_ratio = self.canvas
         canvas_height = float(height) * height_ratio
         parameters = (position, float(width) / canvas_height, canvas_height, 1.0)
         options = (float(self.flip_y), top_ratio, height_ratio, 0.0)
         cache_key = (parameters, options)
         if cache_key != self._last_parameters:
-            name = self.scenes[self.scene_index]["post_name"]
+            name = scene["post_name"]
             ok = self.post.SetParameter(name, "playback", list(parameters))
             ok_options = self.post.SetParameter(name, "options", list(options))
             if not ok or not ok_options:
-                self.error = "Shader parameter update failed"
-                self.hide()
-                print("[manim-ui] " + self.error)
+                return False
             self._last_parameters = cache_key
-        if now - self._last_notify >= 0.1:
-            self._last_notify = now
-            self.notify()
+        return True
 
     def snapshot(self):
-        scene = self.scenes[self.scene_index] if self.scenes else {}
-        return {
-            "scene": scene.get("name", ""), "title": scene.get("title", ""),
-            "position": self.timeline.position if self.timeline else 0.0,
-            "duration": self.timeline.duration if self.timeline else 1.0,
-            "playing": bool(self.timeline and self.timeline.playing),
-            "visible": self.visible, "error": self.error, "flip_y": self.flip_y,
-            "ui_scale": self.ui_scale,
-        }
+        state = self.playback.snapshot()
+        state.update(flip_y=self.flip_y, ui_scale=self.ui_scale)
+        return state
 
     def subscribe(self, callback):
-        self._subscribers.append(callback)
-        def unsubscribe():
-            if callback in self._subscribers:
-                self._subscribers.remove(callback)
-        return unsubscribe
+        if not callable(callback):
+            raise TypeError("subscriber must be callable")
+        return self.playback.subscribe(lambda _state: callback(self.snapshot()))
 
     def notify(self):
-        if not self._subscribers:
-            return
-        state = self.snapshot()
-        for callback in tuple(self._subscribers):
-            callback(state)
+        self.playback.notify()
+
+    def dispose(self):
+        return self.Destroy()
 
     def Destroy(self):
-        self.hide()
-        self._subscribers = []
+        if self.canvas_demo is not None:
+            self.canvas_demo.dispose()
+            self.canvas_demo = None
+        disposed = self.playback.dispose()
         for event, callback in self._listeners:
             self.UnListenForEvent(clientApi.GetEngineNamespace(), clientApi.GetEngineSystemName(), event, self, callback)
+        self._listeners = []
+        return disposed

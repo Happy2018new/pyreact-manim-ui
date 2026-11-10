@@ -428,6 +428,122 @@ class PlayerLifecycleTests(unittest.TestCase):
         unsubscribe()  # Late component cleanup remains safe after system teardown.
         self.assertEqual(len(received), 1)
 
+    def test_name_api_reuses_shader_and_notifies_panel_compatible_state(self):
+        received = []
+        self.player.subscribe(received.append)
+        with patch.object(self.post, "AddPostProcess", wraps=self.post.AddPostProcess) as install:
+            self.assertEqual(self.player.scene_names(), ("first", "second"))
+            self.assertTrue(self.player.play("second"))
+            self.player.seek(2)
+            self.assertTrue(self.player.pause())
+            self.assertTrue(self.player.replay())
+            self.assertEqual(self.player.snapshot()["position"], 0)
+            self.assertTrue(self.player.stop())
+            self.assertEqual(self.post.enabled, set())
+            self.assertTrue(self.player.load("second"))
+            install.assert_called_once()
+        state = received[-1]
+        self.assertEqual(state["scene"], "second")
+        self.assertIn("ui_scale", state)
+        self.assertIn("flip_y", state)
+        self.assertTrue(state["last_load"]["reused"])
+        self.assertEqual(self.player.load_timings()[-1]["operation"], "reuse")
+
+    def test_order_unavailable_is_handled_without_membership_error(self):
+        with patch.object(self.post, "GetPostProcessOrder", return_value=None):
+            self.assertTrue(self.player.load("first"))
+        self.assertEqual(self.post.enabled, {"first_post"})
+
+    def test_successful_scene_selection_requires_enable_and_initial_upload(self):
+        self.post.fail_enable.add("second_post")
+        self.assertFalse(self.player.select_scene(1))
+        self.assertFalse(self.player.snapshot()["last_load"]["success"])
+        self.post.fail_enable.clear()
+        self.post.fail_parameter = True
+        self.assertFalse(self.player.load("second"))
+        self.assertFalse(self.player.snapshot()["visible"])
+        self.assertFalse(self.player.snapshot()["last_load"]["success"])
+
+    def test_dispose_entrypoint_is_terminal_and_unregisters_only_once(self):
+        self.player.on_ui_ready()
+        self.player.play()
+        registered = list(self.player.registered)
+        self.assertTrue(self.player.dispose())
+        self.assertFalse(self.player.dispose())
+        self.player.Destroy()
+        self.assertCountEqual(self.player.unregistered, registered)
+        self.assertFalse(self.player.load("second"))
+        self.assertFalse(self.player.open_panel())
+        reads = self.game.GetScreenViewInfo.call_count
+        self.player.on_resize({})
+        self.player.on_frame()
+        self.player.on_ui_ready()
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, reads)
+        self.assertEqual(self.post.enabled, set())
+
+    def test_paused_frames_do_not_query_install_state_or_repeat_parameters(self):
+        self.player.on_ui_ready()
+        with patch.object(self.post, "GetPostProcessOrder", wraps=self.post.GetPostProcessOrder) as order:
+            with patch.object(self.post, "SetParameter", wraps=self.post.SetParameter) as upload:
+                for _ in range(20):
+                    self.now += 0.1
+                    self.player.on_frame()
+        order.assert_not_called()
+        upload.assert_not_called()
+
+    def _canvas_page_module(self):
+        module = types.ModuleType(PACKAGE + ".canvas_panel")
+        module.CanvasDemo = Mock(side_effect=lambda: types.SimpleNamespace(
+            dispose=Mock(), snapshot=lambda: {"canvas": True}))
+        module.CanvasPanel = lambda **props: props
+        return module
+
+    def test_canvas_page_hides_postprocess_and_restores_it_on_return(self):
+        self.player.on_ui_ready()
+        self.player.seek(0.75)
+        canvas = self._canvas_page_module()
+        with patch.dict(sys.modules, {PACKAGE + ".canvas_panel": canvas}):
+            with patch.object(self.pyreact.navigator, "push", wraps=self._push_navigation) as push:
+                self.assertTrue(self.player.open_canvas_panel())
+                demo = self.player.canvas_demo
+                self.assertFalse(self.player.visible)
+                self.assertEqual(self.player.canvas_snapshot(), {"canvas": True})
+                self.assertTrue(self.player.open_canvas_panel())
+                canvas.CanvasDemo.assert_called_once()
+                self.navigation_pages.remove(self.module.CANVAS_PAGE_KEY)
+                push.call_args.kwargs["on_result"](None)
+        demo.dispose.assert_called_once()
+        self.assertIsNone(self.player.canvas_demo)
+        self.assertTrue(self.player.visible)
+        self.assertEqual(self.player.snapshot()["position"], 0.75)
+
+    def test_canvas_navigation_failure_disposes_owned_players_and_keeps_error(self):
+        self.player.on_ui_ready()
+        self.navigation_error = RuntimeError("canvas mount failed")
+        canvas = self._canvas_page_module()
+        created = types.SimpleNamespace(dispose=Mock(), snapshot=lambda: {})
+        canvas.CanvasDemo.side_effect = None
+        canvas.CanvasDemo.return_value = created
+        with patch.dict(sys.modules, {PACKAGE + ".canvas_panel": canvas}):
+            self.assertFalse(self.player.open_canvas_panel())
+        created.dispose.assert_called_once()
+        self.assertIsNone(self.player.canvas_demo)
+        self.assertTrue(self.player.visible)
+        self.assertIn("canvas mount failed", self.player.error)
+
+    def test_destroy_cleans_owned_canvas_demo_without_reopening_postprocess(self):
+        self.player.on_ui_ready()
+        canvas = self._canvas_page_module()
+        with patch.dict(sys.modules, {PACKAGE + ".canvas_panel": canvas}):
+            self.player.open_canvas_panel()
+        demo = self.player.canvas_demo
+        self.player.Destroy()
+        demo.dispose.assert_called_once()
+        self.assertIsNone(self.player.canvas_demo)
+        self.assertFalse(self.player.open_canvas_panel())
+        self.player._canvas_closed()  # A late navigator result is harmless.
+        self.assertFalse(self.player.visible)
+
 
 if __name__ == "__main__":
     unittest.main()

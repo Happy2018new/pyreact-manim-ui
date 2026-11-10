@@ -76,6 +76,7 @@ def PlayerPanel(player):
                         action_button("起点", partial(player.seek, 0.0), scale),
                         action_button("中间态", partial(player.seek, duration / 2), scale),
                         action_button("终点", partial(player.seek, duration), scale),
+                        action_button("独立画布", player.open_canvas_panel, scale),
                     ], scale),
                 ],
             ),
