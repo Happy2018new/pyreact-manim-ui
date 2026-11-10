@@ -1,0 +1,6 @@
+{
+  "mcdk": "../better-building-editor/tools/data/snow-passive-startup-r12-v6/inputs/mcdk_binary/mcdk.exe",
+  "mcdk_sha256": "b8eb8959f97a4348006837bb7897d1e5cb957855d1746145974d8f37c00be9f9",
+  "guard_dll": "../better-building-editor/docs/evidence/background-focus-r13-v1/inputs/native_focus_guard.dll",
+  "guard_sha256": "04b073e1aea6fe16a70573e64c6aac31940431409ac90c79f250e02f35a3ec93"
+}

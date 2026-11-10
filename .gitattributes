@@ -1,0 +1,13 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.glsl text eol=lf
+*.fragment text eol=lf
+*.vertex text eol=lf
+*.material text eol=lf
+*.png binary
+*.webp binary
+*.ttf binary
+*.otf binary

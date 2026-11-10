@@ -1,0 +1,34 @@
+# Local tools, managed worlds, screenshots, logs and credentials
+.runtime/
+.tools/
+.venv*/
+.pyreact-debug/
+.mcdev.json
+background-tools.local.json
+*.cppconfig
+.env
+.env.*
+!.env.example
+
+# Python/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Rebuildable packages and downloaded binaries
+build/
+dist/
+.agents/skills/pyreact-debugging/bin/
+*.exe
+*.dll
+
+# Editors and OS metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
