@@ -84,7 +84,24 @@ vec4 fanSegmentDistance(vec4 px, vec4 py, vec2 a, vec2 b) {
 """
 
 
-def _fan_path_code(index, path, layout):
+def _curve_activity(scene, path_index):
+    """True/False for constant active/inactive slots, None for changing slots.
+
+    Marker texture samples interpolate endpoint values in [0, 1]. Constant
+    endpoints therefore stay constant at every time, including clamped ends.
+    Do not infer activity from geometry: a degenerate active curve can still
+    contribute to the native fill border.
+    """
+    paths = [frame["paths"][path_index] for frame in scene["frames"]]
+    activity = []
+    for index, curve in enumerate(paths[0]["curves"]):
+        skipped = curve["skip_marker"]
+        changing = any(path["curves"][index]["skip_marker"] != skipped for path in paths[1:])
+        activity.append(None if changing else not skipped)
+    return activity
+
+
+def _fan_path_code(index, path, layout, activity):
     style = layout["style_offset"] + index * 9
     lines = ["    // Native fixed curve slots; shared-base fans accumulate as one glyph.",
              "    {",
@@ -99,8 +116,12 @@ def _fan_path_code(index, path, layout):
              "        vec4 winding = vec4(0.0);",
              "        vec4 distanceToCurve = vec4(1.0e20);",
              "        vec2 base = samplePoint(%s, frames);" % _float(path["base_point"])]
-    for curve in path["curves"]:
-        lines += ["        if (sampleScalar(%s, frames) > 0.0) {" % _float(curve["active_offset"]),
+    for curve, active in zip(path["curves"], activity):
+        if active is False:
+            continue
+        guard = ("        if (sampleScalar(%s, frames) > 0.0) {" % _float(curve["active_offset"])
+                 if active is None else "        {")
+        lines += [guard,
                   "            vec2 a = samplePoint(%s, frames);" % _float(curve["start"]),
                   "            fanEdge(px, py, base, a, winding);",
                   "            for (int i = 1; i < %d; ++i) {" % curve["count"],
@@ -212,8 +233,11 @@ void main() {
     vec3 color = %(background)s;
     if (screenUV.y >= 0.0 && screenUV.y <= 1.0) {
 """ % constants
-    render_path = _fan_path_code if scene["schema_version"] == 2 else _path_code
-    paths = "\n".join(render_path(i, path, layout) for i, path in enumerate(layout["paths"]))
+    if scene["schema_version"] == 2:
+        paths = "\n".join(_fan_path_code(i, path, layout, _curve_activity(scene, i))
+                          for i, path in enumerate(layout["paths"]))
+    else:
+        paths = "\n".join(_path_code(i, path, layout) for i, path in enumerate(layout["paths"]))
     footer = """
     }
     vec4 original = texture2D(TEXTURE_0, uv);

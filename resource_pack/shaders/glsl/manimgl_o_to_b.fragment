@@ -343,7 +343,7 @@ void main() {
         vec4 winding = vec4(0.0);
         vec4 distanceToCurve = vec4(1.0e20);
         vec2 base = samplePoint(0.0, frames);
-        if (sampleScalar(721.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(1.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -354,7 +354,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(722.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(6.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 8; ++i) {
@@ -365,7 +365,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(723.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(14.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -376,7 +376,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(724.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(19.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -387,7 +387,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(725.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(24.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -398,7 +398,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(726.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(28.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -409,7 +409,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(727.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(33.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -420,7 +420,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(728.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(40.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -431,7 +431,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(729.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(46.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -442,7 +442,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(730.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(51.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -453,7 +453,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(731.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(56.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -464,7 +464,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(732.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(61.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -475,7 +475,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(733.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(66.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -486,7 +486,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(734.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(73.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -497,7 +497,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(735.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(76.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -508,7 +508,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(736.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(79.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -519,7 +519,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(737.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(82.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -530,7 +530,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(738.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(87.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -541,7 +541,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(739.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(92.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -552,18 +552,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(740.0, frames) > 0.0) {
-            vec2 a = samplePoint(97.0, frames);
-            fanEdge(px, py, base, a, winding);
-            for (int i = 1; i < 11; ++i) {
-                vec2 b = samplePoint(97.0 + float(i), frames);
-                fanEdge(px, py, a, b, winding);
-                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
-                a = b;
-            }
-            fanEdge(px, py, a, base, winding);
-        }
-        if (sampleScalar(741.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(108.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -574,7 +563,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(742.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(113.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -585,7 +574,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(743.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(118.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 8; ++i) {
@@ -596,7 +585,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(744.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(126.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 8; ++i) {
@@ -607,7 +596,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(745.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(134.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -618,7 +607,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(746.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(139.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -629,7 +618,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(747.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(146.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -640,7 +629,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(748.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(151.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -651,7 +640,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(749.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(156.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 8; ++i) {
@@ -662,7 +651,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(750.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(164.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 8; ++i) {
@@ -673,7 +662,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(751.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(172.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -684,7 +673,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(752.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(179.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -695,18 +684,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(753.0, frames) > 0.0) {
-            vec2 a = samplePoint(184.0, frames);
-            fanEdge(px, py, base, a, winding);
-            for (int i = 1; i < 14; ++i) {
-                vec2 b = samplePoint(184.0 + float(i), frames);
-                fanEdge(px, py, a, b, winding);
-                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
-                a = b;
-            }
-            fanEdge(px, py, a, base, winding);
-        }
-        if (sampleScalar(754.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(198.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -717,7 +695,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(755.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(203.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -728,7 +706,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(756.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(208.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -739,7 +717,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(757.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(213.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -750,7 +728,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(758.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(218.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 9; ++i) {
@@ -761,7 +739,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(759.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(227.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -772,7 +750,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(760.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(232.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -783,7 +761,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(761.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(237.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -794,7 +772,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(762.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(242.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -805,7 +783,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(763.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(247.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -816,7 +794,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(764.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(252.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -827,7 +805,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(765.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(257.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -838,7 +816,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(766.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(262.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -849,7 +827,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(767.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(267.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -860,7 +838,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(768.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(272.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -871,7 +849,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(769.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(277.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -882,7 +860,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(770.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(282.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -893,7 +871,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(771.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(287.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -904,7 +882,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(772.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(292.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -915,7 +893,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(773.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(297.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -926,7 +904,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(774.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(302.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -937,7 +915,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(775.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(307.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -948,7 +926,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(776.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(312.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -959,7 +937,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(777.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(317.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -970,7 +948,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(778.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(322.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -981,7 +959,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(779.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(327.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 9; ++i) {
@@ -992,7 +970,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(780.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(336.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -1003,7 +981,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(781.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(341.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -1014,7 +992,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(782.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(346.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
@@ -1025,7 +1003,7 @@ void main() {
             }
             fanEdge(px, py, a, base, winding);
         }
-        if (sampleScalar(783.0, frames) > 0.0) {
+        {
             vec2 a = samplePoint(351.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 5; ++i) {
