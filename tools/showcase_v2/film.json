@@ -1,11 +1,11 @@
 {
   "duration": 120,
   "title": "万象，始于一线",
-  "edition": "V8 / From a Line to Infinity",
-  "shader_sha256": "42a1fbcc9a7cd07aa1a6655ad50fa004d06ecb9d23e9f4a6e55c01224f163b21",
-  "texture_sha256": "54365019ac613b2f04a08168685eb9ab10511ab43d4a630e0e67601f2b4f369e",
-  "shader_bytes": 166826,
-  "atlas_bytes": 1334353,
+  "edition": "V9 / Spectral Constructions",
+  "shader_sha256": "29f4f0419d10f12fda61fe009d910f48988547da233fcb645e593089c951aa2d",
+  "texture_sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
+  "shader_bytes": 181475,
+  "atlas_bytes": 1332032,
   "glyph_transitions": [
     {
       "chapter": "geometry",
@@ -24,10 +24,10 @@
       "death_tracks": 3,
       "arc_strength": 0.055,
       "review_bounds": [
-        -2.172121572280539,
-        -4.032472891816094,
-        2.1726942204395776,
-        -3.1489440568086886
+        -2.9463232490328997,
+        -4.21,
+        2.9471058023274828,
+        -3.0465984000583064
       ],
       "source_hold": {
         "start": 17.2,
@@ -63,10 +63,10 @@
       "death_tracks": 4,
       "arc_strength": 0.055,
       "review_bounds": [
-        -1.7996682149640786,
-        -4.032472891816094,
-        1.7891315214094103,
-        -3.107527108183905
+        -2.437346493853927,
+        -4.21,
+        2.4229475577444224,
+        -2.9899999999999998
       ],
       "source_hold": {
         "start": 22,
@@ -102,10 +102,10 @@
       "death_tracks": 1,
       "arc_strength": 0.055,
       "review_bounds": [
-        -2.775013287013585,
-        -4.032472891816094,
-        2.7474880665337102,
-        -3.1267012416107876
+        -3.7702059249739466,
+        -4.21,
+        3.7325912891269972,
+        -3.0162024439390174
       ],
       "source_hold": {
         "start": 26.8,
@@ -134,24 +134,24 @@
       "source": "koch0",
       "target": "koch1",
       "tracks": 11,
-      "shape_morph_tracks": 6,
-      "transport_tracks": 0,
+      "shape_morph_tracks": 5,
+      "transport_tracks": 1,
       "stationary_tracks": 0,
       "birth_tracks": 1,
       "death_tracks": 4,
       "arc_strength": 0.055,
       "review_bounds": [
-        -0.9834583132054291,
-        -3.793439142514873,
-        0.9584799885400554,
-        -3.309363921670274
+        -1.8863953305618484,
+        -0.26324630408497096,
+        1.836993755112554,
+        0.5768135771410134
       ],
       "source_hold": {
         "start": 37.2,
         "end": 38.0,
         "duration": 0.7999999999999972
       },
-      "preserved_symbols": 0,
+      "preserved_symbols": 1,
       "hold_until": 42.8,
       "target_hold": {
         "start": 38.6,
@@ -180,10 +180,10 @@
       "death_tracks": 1,
       "arc_strength": 0.055,
       "review_bounds": [
-        -0.8980386109351159,
-        -3.793439142514873,
-        0.9004924285300304,
-        -3.299355712537786
+        -1.717454141627229,
+        -0.26324630408497096,
+        1.7223072475371712,
+        0.5966075907586008
       ],
       "source_hold": {
         "start": 42,
@@ -219,10 +219,10 @@
       "death_tracks": 2,
       "arc_strength": 0.055,
       "review_bounds": [
-        -0.8706682136749935,
-        -4.079999999999999,
-        0.9426750476839882,
-        -3.06
+        -1.6633215781572088,
+        -0.8299999999999998,
+        1.805735094308332,
+        1.0699999999999998
       ],
       "source_hold": {
         "start": 46.8,
@@ -251,24 +251,24 @@
       "source": "wave0",
       "target": "wave1",
       "tracks": 17,
-      "shape_morph_tracks": 10,
-      "transport_tracks": 1,
+      "shape_morph_tracks": 9,
+      "transport_tracks": 2,
       "stationary_tracks": 0,
       "birth_tracks": 3,
       "death_tracks": 3,
       "arc_strength": 0.055,
       "review_bounds": [
-        -1.225135894938462,
-        -3.8238124240785947,
-        1.217663033602146,
-        -3.3043030461949696
+        -1.9112714775133341,
+        2.0820535928528994,
+        1.8993979311678535,
+        2.836829604379104
       ],
       "source_hold": {
         "start": 57.2,
         "end": 58.0,
         "duration": 0.7999999999999972
       },
-      "preserved_symbols": 1,
+      "preserved_symbols": 2,
       "hold_until": 62.8,
       "target_hold": {
         "start": 58.6,
@@ -297,10 +297,10 @@
       "death_tracks": 2,
       "arc_strength": 0.055,
       "review_bounds": [
-        -1.4039384102214014,
-        -3.942004823099913,
-        1.3964655488850866,
-        -3.1593105444256326
+        -2.195368807351782,
+        1.8942590032968056,
+        2.1834952610063043,
+        3.067206579412606
       ],
       "source_hold": {
         "start": 62,
@@ -336,10 +336,10 @@
       "death_tracks": 1,
       "arc_strength": 0.055,
       "review_bounds": [
-        -1.6297340955557658,
-        -4.079999999999999,
-        1.8945718888636784,
-        -3.06
+        -2.5541330629386056,
+        1.675,
+        2.9749308900834004,
+        3.225
       ],
       "source_hold": {
         "start": 66.8,
@@ -375,10 +375,10 @@
       "death_tracks": 0,
       "arc_strength": 0.055,
       "review_bounds": [
-        -3.388973275657857,
-        -4.0233333333333325,
-        3.353474942719332,
-        -3.1166666666666667
+        -3.2482455401391968,
+        2.0432942886751575,
+        3.2142478500702483,
+        2.9167057113248425
       ],
       "source_hold": {
         "start": 78.2,
@@ -414,10 +414,10 @@
       "death_tracks": 0,
       "arc_strength": 0.055,
       "review_bounds": [
-        -6.001154061072165,
-        -4.0233333333333325,
-        5.9656557281336395,
-        -3.1166666666666667
+        -5.75,
+        2.0432942886751575,
+        5.716002309931051,
+        2.9167057113248425
       ],
       "source_hold": {
         "start": 83.6,
@@ -453,10 +453,10 @@
       "death_tracks": 21,
       "arc_strength": 0.055,
       "review_bounds": [
-        -3.103339994887568,
-        -4.0233333333333325,
-        3.099701668265974,
-        -3.1166666666666667
+        -2.9746870107901624,
+        2.0432942886751575,
+        2.9712024893884177,
+        2.9167057113248425
       ],
       "source_hold": {
         "start": 89,
@@ -492,10 +492,10 @@
       "death_tracks": 0,
       "arc_strength": 0.055,
       "review_bounds": [
-        -1.4299039825725923,
-        -4.08,
-        1.4075897137316782,
-        -3.06
+        -1.7343270898109462,
+        -4.21,
+        1.7070540945609403,
+        -2.9899999999999998
       ],
       "source_hold": {
         "start": 98.6,
@@ -523,18 +523,18 @@
       "transition_end": 105.5,
       "source": "star1",
       "target": "star2",
-      "tracks": 20,
-      "shape_morph_tracks": 10,
+      "tracks": 21,
+      "shape_morph_tracks": 9,
       "transport_tracks": 1,
       "stationary_tracks": 0,
-      "birth_tracks": 0,
-      "death_tracks": 9,
+      "birth_tracks": 1,
+      "death_tracks": 10,
       "arc_strength": 0.055,
       "review_bounds": [
-        -0.6866765770348209,
-        -3.961982967746582,
-        0.742340528696755,
-        -3.1462496087506455
+        -0.8259380385981143,
+        -4.065756960579155,
+        0.893971757296034,
+        -3.095416188473011
       ],
       "source_hold": {
         "start": 104.1,
@@ -607,8 +607,8 @@
       2048
     ],
     "max_points_per_track": 256,
-    "unique_tracks": 185,
-    "packed_pixels": 86222,
+    "unique_tracks": 186,
+    "packed_pixels": 86730,
     "peak_track_points": 256,
     "component_matching": "outer then parent-local holes; arc samples preserve sharp corners; cyclic phase favours fewer folds",
     "birth_death": "interior point anchors; an unmatched component and its holes contract together; no opacity ramp",
@@ -626,27 +626,27 @@
     "matching_transport": 0
   },
   "typography_track_totals": {
-    "shape_morph": 137,
-    "transport": 9,
+    "shape_morph": 134,
+    "transport": 11,
     "stationary": 0,
-    "birth": 90,
-    "death": 51
+    "birth": 91,
+    "death": 52
   },
-  "geometry_transitions": "0–14: two offset Song title lines and a growing material line; 14–34: drawn circle to translucent six-petal sheet to projected (2,3) torus knot; 34–54: four actual Koch substitutions, local camera push and reunion; 54–74: complex rotation unrolls into sine and odd-harmonic synthesis; 74–96: a curve opens into a folded translucent surface and crown; 96–112: seven-piece assembly and four-level ratio-1/3 hexaflake; 112–120: single cream line and large Song title",
+  "geometry_transitions": "0–14: staggered Song contour growth, five braided spectral underlines and orbit arcs; 14–34: five phase-offset circles bloom into roses, hypotrochoids and projected (2,3) torus knots with 24 construction struts; 34–54: four actual Koch substitutions with four nested rotating traces and camera pulse; 54–74: four circles physically unroll into a harmonic wave train driven by four visible Fourier epicycles; 74–96: nine longitudinal strands, 32 cross struts and 32 diagonals open into a woven folded surface then torus crown; 96–112: four recursive hexaflake similarities with continuous rotation, breathing internal turns, kaleidoscopic contours and orbit arcs; 112–120: five spectral lines settle beneath the large Song title",
   "art_direction": {
-    "primary": "warm cream",
-    "secondary": "jade",
-    "accents": [
-      "coral",
-      "gold"
-    ],
-    "climax_only": "restrained violet",
+    "primary": "spectral cyan / magenta / violet / gold",
+    "typography": "large central Koch formulas; lower formulas beneath knot and fractal constructions; upper formulas over Fourier and woven surface",
     "primary_stroke_world_units": [
-      0.026,
-      0.034
+      0.014,
+      0.019
     ],
-    "auxiliary_stroke_world_units": 0.01,
-    "formula_morph_seconds": 0.6
+    "auxiliary_stroke_world_units": [
+      0.004,
+      0.01
+    ],
+    "formula_morph_seconds": 0.6,
+    "geometry_max_sampled_curve_segments_per_pixel": 576,
+    "repetition": "analytic orbit circles/ticks, inverse Koch folds and nearest-child hexaflake similarities"
   },
   "background_continuity": "No rectangular text reading masks; background lines remain continuous outside glyph ink coverage",
   "rendering": "paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",

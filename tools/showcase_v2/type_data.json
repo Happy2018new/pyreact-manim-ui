@@ -16768,7 +16768,7 @@
       "description": "#g0-85"
     }
   },
-  "sha256": "54365019ac613b2f04a08168685eb9ab10511ab43d4a630e0e67601f2b4f369e",
+  "sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
   "unique_shapes": 144,
   "provenance": {
     "formulas": "ManimGL 1.7.2 Tex / native LaTeX + dvisvgm; per-use layout preserved",
@@ -16789,8 +16789,8 @@
       2048
     ],
     "max_points_per_track": 256,
-    "unique_tracks": 185,
-    "packed_pixels": 86222,
+    "unique_tracks": 186,
+    "packed_pixels": 86730,
     "peak_track_points": 256,
     "component_matching": "outer then parent-local holes; arc samples preserve sharp corners; cyclic phase favours fewer folds",
     "birth_death": "interior point anchors; an unmatched component and its holes contract together; no opacity ramp",

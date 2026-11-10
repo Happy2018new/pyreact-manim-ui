@@ -49,16 +49,24 @@ class ShowcaseTimelineTests(unittest.TestCase):
                 self.assertGreaterEqual(event["arc_strength"], .03)
                 self.assertLessEqual(event["arc_strength"], .10)
 
-    def test_review_regions_fit_their_authored_typography_bands(self):
+    def test_large_formula_regions_fit_their_authored_chapter_positions(self):
         for event in self.events:
             x0, y0, x1, y1 = event["review_bounds"]
             with self.subTest(chapter=event["chapter"], target=event["target"]):
                 self.assertLess(x0, x1)
                 self.assertLess(y0, y1)
-                if event["chapter"] != "closing":
+                if event["chapter"] == "koch":
+                    self.assertGreaterEqual(y0, -.85)
+                    self.assertLessEqual(y1, 1.10)
+                    self.assertLessEqual(x1 - x0, 10.5)
+                elif event["chapter"] in ("geometry", "fractal"):
                     self.assertGreaterEqual(y0, -4.22)
-                    self.assertLessEqual(y1, -2.85)
-                    self.assertLessEqual(x1 - x0, 12.7)
+                    self.assertLessEqual(y1, -2.98)
+                    self.assertLessEqual(x1 - x0, 10.5)
+                elif event["chapter"] in ("harmonics", "surface"):
+                    self.assertGreaterEqual(y0, 1.64)
+                    self.assertLessEqual(y1, 3.32)
+                    self.assertLessEqual(x1 - x0, 11.6)
                 else:
                     self.assertLessEqual(x1 - x0, 12.2)
                     self.assertLessEqual(y1 - y0, 2.1)

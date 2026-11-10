@@ -283,12 +283,13 @@ def finish_holds(events, until):
 
 
 def make_type(groups, morph):
-    """Five formula chapters surround large geometry; titles never clear it."""
+    """Large formula transformations share the spectral constructions' stage."""
     code = ["void typography(inout vec3 c,vec2 p,float t,float aa) {"]
     events = []
 
-    def chain(name, start, end, keys, center=(0, -3.57), height=.62,
-              width=12.2, color="WHITE", arc=.055, max_height=1.02):
+    def chain(name, start, end, keys, center=(0, .12), height=1.12,
+              width=10.3, color="mix(WHITE,geoPalette(t*0.040),0.40)",
+              arc=.055, max_height=1.90):
         code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" %
                     (start, end, start, end))
         layouts = chain_layouts(groups, [key for _time, key in keys],
@@ -323,7 +324,7 @@ def make_type(groups, morph):
         height, width, left = .46, 6.8, -6.55
         scale = min(height, width / groups[key]["width"])
         center = (left + groups[key]["width"] * scale / 2, 3.57)
-        label(key, begin, end, center, height, width, "mix(WHITE,JADE,0.12)")
+        label(key, begin, end, center, height, width, "mix(WHITE,CYAN,0.35)")
 
     def grow(key, begin, full, stop, center, height, width, fade_end=True):
         target = layout(groups[key], center, height, width)
@@ -332,7 +333,7 @@ def make_type(groups, morph):
             glyph["opacity"] = 0.0
         # Birth contours expand at each glyph's own anchor: no flying fragments.
         pairs = pair_glyphs(source, target, "matching_transport")
-        visibility = "smoothstep(%.3f,%.3f,t)" % (begin, begin + .65)
+        visibility = "smoothstep(%.3f,%.3f,t)" % (begin, min(full, begin + 1.65))
         if fade_end:
             visibility += "*(1.0-smoothstep(12.8,13.7,t))"
         code.append("if(t>=%.3f && t<%.3f) { float visibility=%s; float u=smoothstep(%.3f,%.3f,t);" %
@@ -341,27 +342,30 @@ def make_type(groups, morph):
         code.append("}")
 
     # Deliberately offset Song lines leave the lower material line visible.
-    grow("c_open_line", .35, 2.2, 14.0, (-1.65, 1.12), 1.55, 9.8)
-    grow("c_open_infinity", 3.4, 5.4, 14.0, (1.05, -.82), 1.55, 11.2)
-    label("film_english", 6.1, 13.4, (0, -3.35), .25, 10.6, "JADE")
+    grow("c_open_line", .35, 2.8, 14.0, (-1.65, 1.12), 1.55, 9.8)
+    grow("c_open_infinity", 3.4, 6.1, 14.0, (1.05, -.82), 1.55, 11.2)
+    label("film_english", 6.8, 13.4, (0, -3.35), .25, 10.6, "CYAN")
 
     chapter_title("c_petal", 14.0, 34.0)
     chain("geometry", 14, 34, [(14, "petal0"), (17.2, "petal0"), (22, "petal1"),
-                              (26.8, "petal2"), (31.6, "petal3")])
+                              (26.8, "petal2"), (31.6, "petal3")],
+          center=(0, -3.60), height=.85, width=10.3, max_height=1.22)
     chapter_title("c_koch", 34.0, 54.0)
     chain("koch", 34, 54, [(34, "koch0"), (37.2, "koch0"), (42, "koch1"),
                           (46.8, "koch2"), (51.6, "koch3")])
     chapter_title("c_wave", 54.0, 74.0)
     chain("harmonics", 54, 74, [(54, "wave0"), (57.2, "wave0"), (62, "wave1"),
-                               (66.8, "wave2"), (71.6, "wave3")], height=.60)
+                               (66.8, "wave2"), (71.6, "wave3")],
+          center=(0, 2.45), height=.98, width=11.5, max_height=1.55)
     chapter_title("c_sheet", 74.0, 96.0)
     chain("surface", 74, 96, [(74, "sheet0"), (78.2, "sheet0"), (83.6, "sheet1"),
                              (89, "sheet2"), (94.4, "sheet3")],
-          height=.59, width=12.6, max_height=.98)
+          center=(0, 2.48), height=.98, width=11.5, max_height=1.58)
     chapter_title("c_star", 96.0, 112.0)
     chain("fractal", 96, 112, [(96, "star0"), (98.6, "star0"), (104.1, "star1"),
-                              (109.3, "star2")], height=.61, max_height=1.02,
-          color="mix(WHITE,GOLD,0.12)")
+                              (109.3, "star2")],
+          center=(0, -3.60), height=.85, width=10.4, max_height=1.22,
+          color="mix(WHITE,geoPalette(t*0.040+0.22),0.42)")
 
     # The seed is already fully grown at the handoff; title morph has no reset.
     grow("c_close_seed", 112.15, 112.9, 113.0, (0, .55), 1.40, 12, fade_end=False)
@@ -371,7 +375,7 @@ def make_type(groups, morph):
     code.append("if(t>=113.0) { float visibility=1.0; float u=smoothstep(113.8,114.4,t);")
     code.append(render_pairs(pairs, color="WHITE", arc_strength=.07, morph=morph))
     code.append("}")
-    label("film_english", 115.0, 122.0, (0, -2.82), .25, 11.0, "JADE")
+    label("film_english", 115.0, 122.0, (0, -2.82), .25, 11.0, "CYAN")
     code.append("}")
     closing = event_record("closing", 113, 120, "c_close_seed", "c_film_title",
                            pairs, (113.8, 114.4), .07, review_bounds(b), "shape_morph")
@@ -420,7 +424,7 @@ def build(assets=None):
         "samplerStates":[{"samplerIndex":i,"textureWrap":"Clamp","textureFilter":"Point"} for i in range(3)],
         "states":["DisableDepthTest"],"msaaSupport":"Both"}
     material_path.write_text(json.dumps(materials,indent=2)+"\n",encoding="utf-8",newline="\n")
-    report={"duration":120,"title":"万象，始于一线","edition":"V8 / From a Line to Infinity",
+    report={"duration":120,"title":"万象，始于一线","edition":"V9 / Spectral Constructions",
             "shader_sha256":hashlib.sha256(output.read_bytes()).hexdigest(),
             "texture_sha256":metadata["sha256"],"shader_bytes":output.stat().st_size,
             "atlas_bytes":atlas.stat().st_size,"glyph_transitions":events,
@@ -432,10 +436,13 @@ def build(assets=None):
             "typography_track_totals": {
                 kind: sum(event[kind + "_tracks"] for event in events)
                 for kind in ("shape_morph", "transport", "stationary", "birth", "death")},
-            "geometry_transitions":"0–14: two offset Song title lines and a growing material line; 14–34: drawn circle to translucent six-petal sheet to projected (2,3) torus knot; 34–54: four actual Koch substitutions, local camera push and reunion; 54–74: complex rotation unrolls into sine and odd-harmonic synthesis; 74–96: a curve opens into a folded translucent surface and crown; 96–112: seven-piece assembly and four-level ratio-1/3 hexaflake; 112–120: single cream line and large Song title",
-            "art_direction":{"primary":"warm cream","secondary":"jade","accents":["coral","gold"],
-                             "climax_only":"restrained violet","primary_stroke_world_units":[0.026,0.034],
-                             "auxiliary_stroke_world_units":0.01,"formula_morph_seconds":0.6},
+            "geometry_transitions":"0–14: staggered Song contour growth, five braided spectral underlines and orbit arcs; 14–34: five phase-offset circles bloom into roses, hypotrochoids and projected (2,3) torus knots with 24 construction struts; 34–54: four actual Koch substitutions with four nested rotating traces and camera pulse; 54–74: four circles physically unroll into a harmonic wave train driven by four visible Fourier epicycles; 74–96: nine longitudinal strands, 32 cross struts and 32 diagonals open into a woven folded surface then torus crown; 96–112: four recursive hexaflake similarities with continuous rotation, breathing internal turns, kaleidoscopic contours and orbit arcs; 112–120: five spectral lines settle beneath the large Song title",
+            "art_direction":{"primary":"spectral cyan / magenta / violet / gold",
+                             "typography":"large central Koch formulas; lower formulas beneath knot and fractal constructions; upper formulas over Fourier and woven surface",
+                             "primary_stroke_world_units":[0.014,0.019],
+                             "auxiliary_stroke_world_units":[0.004,0.010],
+                             "formula_morph_seconds":0.6,"geometry_max_sampled_curve_segments_per_pixel":576,
+                             "repetition":"analytic orbit circles/ticks, inverse Koch folds and nearest-child hexaflake similarities"},
             "background_continuity":"No rectangular text reading masks; background lines remain continuous outside glyph ink coverage",
             "rendering":"paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
             "game_validation":"Not run for this revision; prior review does not validate these resource hashes"}

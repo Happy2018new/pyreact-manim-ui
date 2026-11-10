@@ -1,13 +1,14 @@
-// V8: cream carries the subject, jade its surface, coral/gold its motion.
-// Recursion is geometry: four Koch substitutions and four hexaflake similarities.
+// V9: spectral constructions. Each chapter continuously deforms its material
+// coordinates; repeated detail uses analytic circles, folds and similarities.
 float geoLife(float t,float a,float b) {
     return smoothstep(a,a+0.65,t)*(1.0-smoothstep(b-0.65,b,t));
 }
 float geoInk(float d,float width,float aa) { return 1.0-smoothstep(width,width+aa,d); }
 float geoCross(vec2 a,vec2 b) { return a.x*b.y-a.y*b.x; }
-vec3 geoPigment(float along,float t) {
-    float front=0.5+0.5*sin(along*PI-t*0.17);
-    return mix(JADE,CORAL,smoothstep(0.58,0.95,front)*0.46);
+vec3 geoRibbon(float d,float along,float lane,float t,float width,float power,float aa) {
+    vec3 hue=geoPalette(along*0.78+lane*0.135-t*0.037);
+    float running=pow(0.5+0.5*cos(along*TAU*3.0-t*1.9+lane),10.0);
+    return glow(d,width,hue,power,aa)+glow(d,width*0.55,WHITE,power*0.18*running,aa);
 }
 void geoTrack(vec2 p,vec2 a,vec2 b,float ua,float ub,inout float d,inout float along) {
     vec2 e=b-a;
@@ -15,217 +16,231 @@ void geoTrack(vec2 p,vec2 a,vec2 b,float ua,float ub,inout float d,inout float a
     float q=length(p-a-u*e);
     if(q<d) { d=q; along=mix(ua,ub,u); }
 }
-float geoCrossing(vec2 p,vec2 a,vec2 b) {
-    if((a.y>p.y)!=(b.y>p.y))
-        return step(p.x,a.x+(p.y-a.y)*(b.x-a.x)/(b.y-a.y));
-    return 0.0;
-}
 float geoTriangle(vec2 p,vec2 a,vec2 b,vec2 c,float aa) {
     float orient=sign(geoCross(b-a,c-a));
     float da=orient*geoCross(b-a,p-a)/max(length(b-a),0.0001);
     float db=orient*geoCross(c-b,p-b)/max(length(c-b),0.0001);
     float dc=orient*geoCross(a-c,p-c)/max(length(a-c),0.0001);
-    float area=abs(geoCross(b-a,c-a));
-    return smoothstep(-aa,aa,min(da,min(db,dc)))*smoothstep(0.0001,0.003,area);
+    return smoothstep(-aa,aa,min(da,min(db,dc)))*smoothstep(0.0001,0.003,abs(geoCross(b-a,c-a)));
+}
+// All rings/ticks are analytic. They frame the ink without clearing its field.
+vec3 geoOrbits(vec2 p,float t,float radius,float power,float aa) {
+    vec2 q=p/vec2(1.78,1.0);
+    float r=length(q),a=atan(q.y,q.x);
+    vec3 c=vec3(0.0);
+    for(int lane=0;lane<3;lane++) {
+        float k=float(lane),rad=radius+k*0.13;
+        float sweep=smoothstep(-0.35,0.10,sin(a*(2.0+k)-t*(0.22+k*0.07)+k));
+        c+=glow(abs(r-rad),0.006,geoPalette(a/TAU-k*0.17-t*0.025),power*(0.16+0.42*sweep),aa);
+    }
+    float tick=abs(sin((a-t*0.025)*48.0))*max(r,0.1)/48.0;
+    float band=smoothstep(radius+0.35,radius+0.38,r)*(1.0-smoothstep(radius+0.47,radius+0.49,r));
+    c+=GOLD*geoInk(tick,0.005,aa)*band*power*0.52;
+    for(int j=0;j<6;j++) {
+        float angle=float(j)*TAU/6.0+t*0.24;
+        vec2 node=vec2(cos(angle)*1.78,sin(angle))*(radius+0.13);
+        c+=glow(length(p-node),0.030,geoPalette(float(j)/6.0-t*0.03),power*0.90,aa);
+    }
+    return c;
 }
 vec3 geoOpening(vec2 p,float t,float aa) {
-    float reveal=smoothstep(0.3,4.0,t);
-    float release=smoothstep(10.6,13.7,t);
-    vec3 c=vec3(0.0);
-    for(int lane=0;lane<2;lane++) {
+    float reveal=smoothstep(0.5,5.3,t),release=smoothstep(9.0,13.4,t);
+    vec3 c=geoOrbits(p-vec2(0.0,0.1),t,3.35,0.26*smoothstep(3.5,8.0,t),aa);
+    for(int lane=0;lane<5;lane++) {
         float k=float(lane),d=100.0,along=0.0;
-        vec2 previous=vec2(-6.1,-2.35-k*0.32);
-        for(int j=1;j<=96;j++) {
-            float u=min(float(j)/96.0,reveal);
-            float x=mix(-6.1,6.1,u);
-            float y=-2.35-k*0.32+sin(u*TAU-t*0.34+k*0.5)*(0.12+0.48*release);
-            y+=release*0.62*sin(u*PI);
+        vec2 previous=vec2(-6.3,-2.25+(k-2.0)*0.085);
+        for(int j=1;j<=64;j++) {
+            float u=min(float(j)/64.0,reveal),x=mix(-6.3,6.3,u);
+            float envelope=sin(PI*u);
+            float y=-2.25+(k-2.0)*0.085;
+            y+=envelope*(0.10+0.24*release)*sin(u*TAU*1.5-t*0.65+k*0.5);
+            y+=release*envelope*0.45*sin(u*TAU+k*0.22);
             vec2 current=vec2(x,y);
-            geoTrack(p,previous,current,max(0.0,u-1.0/96.0),u,d,along);
-            previous=current;
+            geoTrack(p,previous,current,max(0.0,u-1.0/64.0),u,d,along); previous=current;
         }
-        c+=glow(d,lane==0?0.030:0.010,lane==0?WHITE:JADE,lane==0?0.93:0.55,aa);
-        c+=CORAL*geoInk(d,0.041,aa)*pow(max(0.0,1.0-abs(along-fract(t*0.085))*14.0),3.0)*0.22;
+        c+=geoRibbon(d,along,k,t,lane==2?0.017:0.008,lane==2?0.98:0.60,aa);
     }
     return c*(1.0-smoothstep(13.0,14.0,t));
 }
-vec2 geoPetalPoint(float u,float t) {
-    float a=u*TAU-PI*0.5;
-    float bloom=smoothstep(18.5,23.0,t);
-    float knot=smoothstep(27.0,31.2,t);
-    float radius=2.88*mix(1.0,0.64+0.36*cos(6.0*a),bloom);
-    vec2 flower=vec2(cos(a)*mix(1.0,1.78,bloom),sin(a))*radius;
-    // A (2,3) torus knot is projected from 3D into the flower's frame.
-    float r=2.28+0.68*cos(3.0*a);
-    vec2 projected=vec2(1.68*r*cos(2.0*a),0.72*r*sin(2.0*a)+0.78*sin(3.0*a));
-    return mix(flower,projected,knot)+vec2(0.0,-0.02);
+vec2 geoPetalPoint(float u,float lane,float t) {
+    float a=u*TAU-PI*0.5,phase=(t-14.0)*0.30;
+    float bloom=smoothstep(16.7+lane*0.10,21.6+lane*0.10,t);
+    float spiro=smoothstep(21.5,25.7,t),knot=smoothstep(26.7,31.4,t);
+    float scale=0.64+lane*0.083;
+    float r=2.65*(1.0+bloom*(0.23*cos(6.0*a+phase)+0.045*cos(12.0*a-phase)));
+    vec2 rose=vec2(cos(a)*1.72,sin(a))*r;
+    vec2 hypo=vec2(1.72*(2.24*cos(a)+0.72*cos(5.0*a+phase)),
+                  2.24*sin(a)-0.72*sin(5.0*a+phase));
+    float kr=2.30+0.70*cos(3.0*a+phase);
+    vec2 torus=vec2(1.70*kr*cos(2.0*a),0.82*kr*sin(2.0*a)+0.72*sin(3.0*a+phase));
+    vec2 at=mix(mix(rose,hypo,spiro),torus,knot)*scale;
+    at=rot((lane-2.0)*0.044*sin(phase)+0.065*sin(phase*0.7))*at;
+    at.y+=0.08*sin(phase+lane*0.45);
+    return at;
 }
 vec3 geoPetals(vec2 p,float t,float aa) {
-    float draw=smoothstep(14.2,17.2,t);
-    float fill=smoothstep(19.5,22.0,t)*(1.0-smoothstep(28.0,31.0,t));
-    float knot=smoothstep(27.0,31.2,t);
-    float d=100.0,along=0.0,crossings=0.0;
-    vec2 previous=geoPetalPoint(0.0,t);
-    for(int j=1;j<=192;j++) {
-        float u=min(float(j)/192.0,draw);
-        vec2 current=geoPetalPoint(u,t);
-        geoTrack(p,previous,current,min(float(j-1)/192.0,draw),u,d,along);
-        crossings+=geoCrossing(p,previous,current);
-        previous=current;
+    float draw=smoothstep(14.1,17.2,t),net=smoothstep(17.4,19.5,t);
+    float camera=1.0+0.045*sin((t-14.0)*0.72);
+    vec2 q=p/camera;
+    vec3 c=geoOrbits(q,t,3.28,0.62,aa/camera);
+    for(int lane=0;lane<5;lane++) {
+        float k=float(lane),d=100.0,along=0.0;
+        vec2 previous=geoPetalPoint(0.0,k,t);
+        for(int j=1;j<=112;j++) {
+            float u=min(float(j)/112.0,draw);
+            vec2 current=geoPetalPoint(u,k,t);
+            geoTrack(q,previous,current,min(float(j-1)/112.0,draw),u,d,along); previous=current;
+        }
+        c+=geoRibbon(d,along,k,t,lane==4?0.019:0.010,lane==4?1.12:0.76,aa/camera);
     }
-    vec3 c=JADE*0.13*mod(crossings,2.0)*fill;
-    c+=glow(d,0.032,mix(WHITE,CORAL,knot*0.52),1.0,aa);
-    for(int i=0;i<6;i++) {
-        float u=float(i)/6.0+1.0/12.0;
-        vec2 edge=geoPetalPoint(u,t);
-        c+=glow(lineDistance(p,vec2(0.0,-0.02),edge),0.010,JADE,0.50*fill,aa);
+    for(int j=0;j<24;j++) {
+        float u=float(j)/24.0;
+        vec2 a=geoPetalPoint(u,0.0,t),b=geoPetalPoint(u,4.0,t);
+        vec2 ahead=geoPetalPoint(u+1.0/24.0,4.0,t);
+        vec3 hue=geoPalette(u-t*0.037);
+        c+=glow(lineDistance(q,a,b),0.005,hue,0.48*net,aa/camera);
+        c+=hue*geoTriangle(q,a,b,ahead,aa/camera)*0.043*net;
+        if(j<12) c+=glow(lineDistance(q,a,geoPetalPoint(u+0.25,0.0,t)),0.004,hue,0.16*net,aa/camera);
     }
-    float spark=fract(max(0.0,t-16.0)*0.075);
-    c+=glow(length(p-geoPetalPoint(spark,t)),0.071,GOLD,0.9*draw,aa);
+    float spark=fract((t-14.0)*0.095);
+    c+=glow(length(q-geoPetalPoint(spark,4.0,t)),0.050,WHITE,0.90,aa/camera);
     return c*geoLife(t,14.0,34.0);
 }
-// Inverse similarities fold the four real Koch children onto the unit edge.
-// theta=0 gives four collinear children; theta=PI/3 the Koch substitution.
+// Four inverse Koch similarities, including the continuously changing bend.
 vec2 geoKochEdge(vec2 q,float depth) {
     float metric=1.0;
     for(int k=0;k<4;k++) {
         float theta=(PI/3.0)*smoothstep(0.0,1.0,depth-float(k));
         float child=1.0/(2.0+2.0*cos(theta));
         vec2 normal=vec2(cos(theta*0.5),sin(theta*0.5));
-        q.x=min(q.x,1.0-q.x);
-        q-=vec2(child,0.0);
+        q.x=min(q.x,1.0-q.x); q-=vec2(child,0.0);
         q-=2.0*max(dot(q,normal),0.0)*normal;
-        q+=vec2(child,0.0);
-        q/=child;
-        metric*=child;
+        q=(q+vec2(child,0.0))/child; metric*=child;
     }
     return vec2(length(q-vec2(clamp(q.x,0.0,1.0),0.0)),q.y)*metric;
 }
-vec3 geoKoch(vec2 p,float t,float aa) {
-    float depth=4.0*smoothstep(36.5,44.0,t);
-    float push=smoothstep(44.8,47.0,t)*(1.0-smoothstep(49.0,52.0,t));
-    float zoom=mix(1.0,2.85,push);
-    vec2 focus=vec2(2.24,0.56)*push;
-    vec2 q=p/zoom+focus;
-    q.x/=1.48;
-    q.y+=0.05;
-    float d=100.0,ancestor=100.0,cap=0.0;
-    vec2 v0=vec2(0.0,3.10),v1=vec2(2.684679,-1.55),v2=vec2(-2.684679,-1.55);
-    float inside=geoTriangle(q,v0,v1,v2,aa/zoom);
+float geoSnowflake(vec2 p,float depth) {
+    float d=100.0;
+    vec2 v0=vec2(0.0,2.88),v1=vec2(2.494153,-1.44),v2=vec2(-2.494153,-1.44);
     for(int side=0;side<3;side++) {
-        vec2 a=side==0?v0:(side==1?v1:v2);
-        vec2 b=side==0?v1:(side==1?v2:v0);
-        vec2 e=b-a;
-        float span=length(e);
-        vec2 tangent=e/span,normal=vec2(-tangent.y,tangent.x);
-        vec2 local=vec2(dot(q-a,tangent),dot(q-a,normal))/span;
-        vec2 edge=geoKochEdge(local,depth);
-        d=min(d,edge.x*span);
-        ancestor=min(ancestor,geoKochEdge(local,max(0.0,depth-1.0)).x*span);
-        cap+=step(0.0,local.x)*step(local.x,1.0)*step(0.0,local.y)
-             *(1.0-smoothstep(-aa/zoom,aa/zoom,edge.y*span));
+        vec2 a=side==0?v0:(side==1?v1:v2),b=side==0?v1:(side==1?v2:v0);
+        vec2 e=b-a; float span=length(e); vec2 tangent=e/span;
+        vec2 local=vec2(dot(p-a,tangent),dot(p-a,vec2(-tangent.y,tangent.x)))/span;
+        d=min(d,geoKochEdge(local,depth).x*span);
     }
-    d*=zoom;
-    ancestor*=zoom;
-    vec3 c=JADE*0.068*min(1.0,inside+cap);
-    c+=glow(ancestor,0.010,JADE,0.34*smoothstep(0.6,1.2,depth),aa);
-    c+=glow(d,0.031,WHITE,1.03,aa);
-    float front=exp(-pow((q.x-(t-34.0)*0.37+3.1)*1.2,2.0));
-    c+=glow(d,0.039,mix(CORAL,GOLD,smoothstep(40.0,49.0,t)),0.38*front,aa);
+    return d;
+}
+vec3 geoKoch(vec2 p,float t,float aa) {
+    float depth=4.0*smoothstep(35.5,45.0,t);
+    depth-=0.42*smoothstep(46.0,48.0,t)*(0.5+0.5*sin((t-47.0)*1.15));
+    float push=smoothstep(44.0,46.5,t)*(1.0-smoothstep(48.5,52.0,t));
+    float zoom=1.0+0.42*push;
+    vec2 q=rot((t-34.0)*0.040+0.035*sin(t*0.7))*(p/vec2(1.62,1.0)/zoom);
+    vec3 c=geoOrbits(p,t,3.25,0.45*(1.0-0.5*push),aa);
+    float a=atan(q.y,q.x)/TAU;
+    for(int lane=0;lane<4;lane++) {
+        float k=float(lane),scale=1.0-k*0.13;
+        vec2 local=rot(k*(0.12+0.035*sin(t*0.65)))*q/scale;
+        float detail=max(0.0,depth-k*0.20);
+        float d=geoSnowflake(local,detail)*scale*zoom;
+        c+=geoRibbon(d,a+k*0.09,k,t,lane==0?0.016:0.007,lane==0?1.08:0.65,aa);
+    }
+    // Rotating subdivisions connect corresponding boundary vertices.
+    for(int j=0;j<12;j++) {
+        float angle=float(j)*TAU/12.0+(t-34.0)*0.035;
+        vec2 ray=vec2(cos(angle),sin(angle));
+        float active=smoothstep(37.0,41.0,t);
+        c+=glow(lineDistance(p,ray*vec2(1.62,1.0)*1.85,ray*vec2(1.62,1.0)*3.15),
+                0.004,geoPalette(float(j)/12.0-t*0.037),0.23*active,aa);
+    }
     return c*geoLife(t,34.0,54.0);
 }
-vec2 geoWavePoint(float u,float t) {
-    float a=TAU*u;
-    float phase=(t-54.0)*0.82;
-    float unroll=smoothstep(58.6,63.2,t);
-    vec2 circle=2.75*vec2(cos(a+phase),sin(a+phase));
-    float h3=smoothstep(64.0,66.4,t),h5=smoothstep(67.0,69.3,t),h7=smoothstep(70.0,71.8,t);
-    float wave=sin(a+phase)+h3*sin(3.0*(a+phase))/3.0
-              +h5*sin(5.0*(a+phase))/5.0+h7*sin(7.0*(a+phase))/7.0;
-    return mix(circle,vec2(mix(-5.55,5.55,u),2.13*wave),unroll);
+float geoHarmonic(float a,float t) {
+    return sin(a)+smoothstep(60.5,62.5,t)*sin(3.0*a)/3.0
+        +smoothstep(64.0,66.0,t)*sin(5.0*a)/5.0
+        +smoothstep(68.0,70.0,t)*sin(7.0*a)/7.0;
+}
+vec2 geoWavePoint(float u,float lane,float t) {
+    float phase=(t-54.0)*0.95,a=TAU*u+phase;
+    float unroll=smoothstep(56.2+u*0.7,60.6+u*0.7,t);
+    vec2 circle=vec2(cos(a)*1.55,sin(a))*(2.65-lane*0.21);
+    float waveAngle=phase-u*TAU*1.6,n=lane*2.0+1.0;
+    float y=lane<0.5?-0.35+1.55*geoHarmonic(waveAngle,t)
+          :-2.12-lane*0.40+1.35*sin(n*waveAngle)/n;
+    vec2 wave=vec2(mix(-1.30,6.40,u),y);
+    return mix(circle,wave,unroll);
 }
 vec3 geoWaves(vec2 p,float t,float aa) {
-    float unroll=smoothstep(58.6,63.2,t);
-    float grid=smoothstep(54.0,55.0,t)*(1.0-smoothstep(62.5,65.0,t));
     vec3 c=vec3(0.0);
-    c+=glow(lineDistance(p,vec2(-6.0,0.0),vec2(6.0,0.0)),0.010,JADE,0.34,aa);
-    c+=glow(lineDistance(p,vec2(0.0,-3.0),vec2(0.0,3.0)),0.010,JADE,0.26*grid,aa);
-    float d=100.0,along=0.0;
-    vec2 previous=geoWavePoint(0.0,t);
-    for(int j=1;j<=160;j++) {
-        float u=float(j)/160.0;
-        vec2 current=geoWavePoint(u,t);
-        geoTrack(p,previous,current,u-1.0/160.0,u,d,along);
-        previous=current;
-    }
-    c+=glow(d,0.032,WHITE,1.02,aa);
-    float separate=smoothstep(63.0,65.0,t)*(1.0-smoothstep(70.3,73.0,t));
-    for(int lane=0;lane<2;lane++) {
-        float n=lane==0?3.0:5.0;
-        float sd=100.0;
-        vec2 last=vec2(-5.55,2.13*sin(n*(t-54.0)*0.82)/n);
-        for(int j=1;j<=80;j++) {
-            float u=float(j)/80.0;
-            vec2 v=vec2(mix(-5.55,5.55,u),2.13*sin(n*(TAU*u+(t-54.0)*0.82))/n);
-            sd=min(sd,lineDistance(p,last,v)); last=v;
+    float unroll=smoothstep(57.0,61.5,t);
+    c+=geoOrbits(p,t,3.16,0.34*(1.0-unroll),aa);
+    for(int lane=0;lane<4;lane++) {
+        float k=float(lane),d=100.0,along=0.0;
+        vec2 previous=geoWavePoint(0.0,k,t);
+        for(int j=1;j<=112;j++) {
+            float u=float(j)/112.0; vec2 current=geoWavePoint(u,k,t);
+            geoTrack(p,previous,current,u-1.0/112.0,u,d,along); previous=current;
         }
-        c+=glow(sd,0.010,lane==0?JADE:CORAL,0.54*separate,aa);
+        c+=geoRibbon(d,along,k,t,lane==0?0.018:0.008,lane==0?1.14:0.66,aa);
     }
-    vec2 point=geoWavePoint(fract((t-54.0)*0.11),t);
-    c+=glow(length(p-point),0.077,GOLD,0.95,aa);
-    c+=glow(lineDistance(p,vec2(0.0),point),0.010,CORAL,0.62*(1.0-unroll),aa);
+    float phase=(t-54.0)*0.95;
+    vec2 origin=vec2(-4.28,-0.35),endpoint=origin;
+    for(int harmonic=0;harmonic<4;harmonic++) {
+        float k=float(harmonic),n=k*2.0+1.0;
+        float begin=harmonic==1?60.5:(harmonic==2?64.0:68.0);
+        float grow=harmonic==0?1.0:smoothstep(begin,begin+2.0,t);
+        float radius=1.55*grow/n;
+        vec2 next=endpoint+radius*vec2(cos(n*phase),sin(n*phase));
+        vec3 hue=geoPalette(k*0.19-t*0.037);
+        c+=glow(abs(length(p-endpoint)-radius),0.008,hue,0.72*unroll*grow,aa);
+        c+=glow(lineDistance(p,endpoint,next),0.008,hue,0.92*unroll*grow,aa);
+        c+=glow(length(p-next),0.029,WHITE,0.75*unroll*grow,aa);
+        endpoint=next;
+    }
+    vec2 head=vec2(-1.30,-0.35+1.55*geoHarmonic(phase,t));
+    c+=glow(lineDistance(p,endpoint,head),0.006,GOLD,0.68*unroll,aa);
+    c+=glow(length(p-head),0.043,WHITE,unroll,aa);
+    c+=glow(lineDistance(p,vec2(-6.6,-0.35),vec2(6.6,-0.35)),0.004,CYAN,0.23*unroll,aa);
+    c+=glow(lineDistance(p,vec2(-4.28,-2.55),vec2(-4.28,1.85)),0.004,CYAN,0.20*unroll,aa);
     return c*geoLife(t,54.0,74.0);
 }
 vec2 geoSheetPoint(float u,float v,float t) {
-    float grow=smoothstep(76.5,80.5,t);
-    float fold=smoothstep(80.0,85.0,t);
-    float crown=smoothstep(87.0,92.0,t);
-    float a=u*TAU;
-    float phase=(t-74.0)*0.18;
-    vec3 sheet=vec3((u*2.0-1.0)*5.50,
-                    0.58*sin(a+phase)+v*1.42*grow,
-                    v*1.30*sin(a*1.5+phase)*grow*fold);
-    vec2 projected=vec2(sheet.x+sheet.z*0.48,sheet.y*0.88+sheet.z*0.70);
-    float r=2.15+0.80*v+0.30*cos(5.0*a+phase);
-    vec2 flower=vec2(1.70*r*cos(a),0.85*r*sin(a)+v*0.65*sin(5.0*a+phase));
-    return mix(projected,flower,crown)+vec2(0.0,-0.05);
+    float grow=smoothstep(75.0,79.2,t),fold=smoothstep(78.5,83.0,t),crown=smoothstep(86.2,92.5,t);
+    float a=u*TAU,phase=(t-74.0)*0.43;
+    vec3 sheet=vec3((u*2.0-1.0)*5.65,
+                    0.55*sin(a-phase)+v*1.55*grow,
+                    (v*0.92*sin(a*2.0+phase)+0.38*sin(a*3.0-phase))*grow*fold);
+    vec2 projected=vec2(sheet.x+sheet.z*0.48,sheet.y*0.81+sheet.z*0.74);
+    float radius=2.30+0.76*v+0.26*cos(5.0*a-phase);
+    vec2 torus=vec2(1.75*radius*cos(a+phase*0.13),
+                   0.84*radius*sin(a+phase*0.13)+0.48*v*sin(3.0*a+phase));
+    return rot(0.035*sin(phase))*mix(projected,torus,crown)+vec2(0.0,-0.50);
 }
 vec3 geoSheets(vec2 p,float t,float aa) {
-    vec3 c=vec3(0.0);
-    float grow=smoothstep(76.5,80.5,t);
-    // Fifty-six large translucent facets carry the projected folds.
-    for(int j=0;j<28;j++) {
-        float u=float(j)/28.0,w=float(j+1)/28.0;
+    vec3 c=vec3(0.0); float grow=smoothstep(75.0,79.2,t);
+    for(int j=0;j<32;j++) {
+        float u=float(j)/32.0,w=float(j+1)/32.0;
         vec2 a=geoSheetPoint(u,-1.0,t),b=geoSheetPoint(w,-1.0,t);
         vec2 d=geoSheetPoint(u,1.0,t),e=geoSheetPoint(w,1.0,t);
+        vec3 hue=geoPalette(u*0.90-t*0.037);
         float face=geoTriangle(p,a,b,d,aa)+geoTriangle(p,b,e,d,aa);
-        float light=0.72+0.28*sin(u*TAU*2.0+(t-74.0)*0.15);
-        c+=geoPigment(u,t)*face*0.095*light*grow;
+        c+=hue*face*0.048*grow;
+        c+=glow(lineDistance(p,a,d),0.006,hue,0.66*grow,aa);
+        c+=glow(lineDistance(p,a,e),0.004,geoPalette(u+0.25-t*0.037),0.30*grow,aa);
     }
-    for(int lane=0;lane<5;lane++) {
-        float v=float(lane)*0.5-1.0;
-        float d=100.0,along=0.0;
+    for(int lane=0;lane<9;lane++) {
+        float k=float(lane),v=k*0.25-1.0,d=100.0,along=0.0;
         vec2 previous=geoSheetPoint(0.0,v,t);
-        for(int j=1;j<=80;j++) {
-            float u=float(j)/80.0;
-            vec2 current=geoSheetPoint(u,v,t);
-            geoTrack(p,previous,current,u-1.0/80.0,u,d,along); previous=current;
+        for(int j=1;j<=64;j++) {
+            float u=float(j)/64.0; vec2 current=geoSheetPoint(u,v,t);
+            geoTrack(p,previous,current,u-1.0/64.0,u,d,along); previous=current;
         }
-        bool edge=(lane==0 || lane==4);
-        float visible=lane==2?1.0:grow;
-        c+=glow(d,edge?0.030:(lane==2?0.028:0.010),edge?WHITE:JADE,
-                (edge?0.93:(lane==2?0.68:0.45))*visible,aa);
+        bool edge=lane==0||lane==8;
+        c+=geoRibbon(d,along,k*0.65,t,edge?0.017:0.007,edge?1.04:0.68,aa)*(lane==4?1.0:grow);
     }
-    for(int j=0;j<12;j++) {
-        float u=float(j)/12.0;
-        float d=100.0;
-        vec2 last=geoSheetPoint(u,-1.0,t);
-        for(int k=1;k<=6;k++) {
-            vec2 current=geoSheetPoint(u,float(k)/3.0-1.0,t);
-            d=min(d,lineDistance(p,last,current)); last=current;
-        }
-        c+=glow(d,0.010,mix(JADE,CORAL,float(j)/11.0),0.36*grow,aa);
-    }
+    float cursor=fract((t-74.0)*0.080);
+    c+=glow(length(p-geoSheetPoint(cursor,1.0,t)),0.043,WHITE,0.90,aa);
+    c+=geoOrbits(p-vec2(0.0,-0.50),t,3.30,0.26*smoothstep(87.0,92.0,t),aa);
     return c*geoLife(t,74.0,96.0);
 }
 float geoHexagon(vec2 p) {
@@ -233,56 +248,61 @@ float geoHexagon(vec2 p) {
     return max(p.y,max(p.x*0.8660254+p.y*0.5,p.x*0.8660254-p.y*0.5))-0.8660254;
 }
 vec3 geoStar(vec2 p,float t,float aa) {
-    float assembly=smoothstep(96.0,99.5,t);
-    float depth=1.0+3.0*smoothstep(99.5,108.0,t);
-    vec2 q=vec2(p.x/1.66,p.y+0.02)/3.10;
-    float scale=3.10,valid=1.0;
-    vec3 c=vec3(0.0);
-    // Seven parent pieces assemble; each has seven ratio-1/3 children.
+    float local=t-96.0,assembly=smoothstep(96.0,99.0,t);
+    float depth=1.0+3.0*smoothstep(98.5,106.5,t);
+    float camera=1.0+0.06*sin(local*0.75);
+    vec2 q=rot(local*0.14+0.045*sin(local))*vec2(p.x/1.70,p.y)/(3.06*camera);
+    float scale=3.06*camera,valid=1.0;
+    vec3 c=geoOrbits(p,t,3.34,0.82,aa);
+    // Seven similarities at every level; each branch turns within its parent.
+    // Nearest-child folding evaluates 7^4 pieces with only 4 x 6 candidates.
     for(int level=0;level<4;level++) {
-        float k=float(level);
-        float spread=level==0?mix(1.30,2.0/3.0,assembly):2.0/3.0;
-        vec2 chosen=vec2(0.0);
-        float nearest=geoHexagon(q*3.0)/3.0;
-        float branch=0.0;
+        float k=float(level),spread=level==0?mix(1.02,2.0/3.0,assembly):2.0/3.0;
+        vec2 chosen=vec2(0.0); float nearest=geoHexagon(q*3.0)/3.0,branch=0.0;
         for(int child=0;child<6;child++) {
             float a=float(child)*PI/3.0;
             vec2 center=vec2(cos(a),sin(a))*spread;
             float candidate=geoHexagon((q-center)*3.0)/3.0;
             if(candidate<nearest) { nearest=candidate; chosen=center; branch=float(child+1); }
         }
-        float reveal=smoothstep(k+0.05,k+0.75,depth);
-        float next=smoothstep(k+1.05,k+1.75,depth);
-        float sd=nearest*scale;
+        float reveal=smoothstep(k+0.02,k+0.78,depth),sd=nearest*scale;
         float ink=1.0-smoothstep(-aa,aa,sd);
-        float width=level==0?0.030:0.010;
-        float strength=level==0?0.82:0.60;
-        vec3 hue=mix(CORAL,GOLD,clamp((t-99.0)*0.085+branch*0.045,0.0,1.0));
-        float violet=smoothstep(106.0,109.5,t)*step(4.5,branch)*0.32;
-        hue=mix(hue,VIOLET,violet);
-        c+=hue*ink*(0.075-0.010*k)*valid*reveal;
-        c+=glow(abs(sd),width,level==0?mix(WHITE,GOLD,0.38):hue,
-                strength*valid*reveal*(1.0-0.34*next),aa);
+        vec3 hue=geoPalette(k*0.17+branch*0.073-local*0.057+atan(q.y,q.x)/TAU*0.24);
+        c+=hue*ink*(0.038-0.005*k)*valid*reveal;
+        c+=glow(abs(sd),level==0?0.014:0.006,hue,(level==0?0.96:0.78)*valid*reveal,aa);
         valid*=ink;
-        q=(q-chosen)*3.0;
+        q=rot(0.07*sin(local*0.8+k*1.2))*(q-chosen)*3.0;
         scale/=3.0;
     }
+    vec2 polar=p/vec2(1.70,1.0); float r=length(polar),a=atan(polar.y,polar.x)-local*0.14;
+    for(int ring=0;ring<3;ring++) {
+        float k=float(ring);
+        float radius=2.85+k*0.16+0.17*cos(6.0*a+local*0.6+k*0.7);
+        c+=glow(abs(r-radius),0.006,geoPalette(a/TAU+k*0.17-local*0.045),0.62*assembly,aa);
+    }
+    float spoke=abs(sin(a*6.0))*r/6.0;
+    float band=smoothstep(2.7,2.8,r)*(1.0-smoothstep(3.35,3.55,r));
+    c+=glow(spoke,0.005,GOLD,0.36*assembly,aa)*band;
     return c*geoLife(t,96.0,112.0);
 }
 vec3 geoClosing(vec2 p,float t,float aa) {
-    float settle=smoothstep(112.0,115.0,t);
-    float d=100.0,along=0.0;
-    vec2 previous=vec2(-5.9,-1.78);
-    for(int j=1;j<=96;j++) {
-        float u=float(j)/96.0;
-        vec2 current=vec2(mix(-5.9,5.9,u),-1.78+(1.0-settle)*0.62*sin(u*TAU));
-        geoTrack(p,previous,current,u-1.0/96.0,u,d,along); previous=current;
+    float settle=smoothstep(112.0,116.4,t);
+    vec3 c=geoOrbits(p,t,3.12,0.49*(1.0-0.36*settle),aa);
+    for(int lane=0;lane<5;lane++) {
+        float k=float(lane),d=100.0,along=0.0;
+        vec2 previous=vec2(-5.9,-1.78+(k-2.0)*0.06);
+        for(int j=1;j<=64;j++) {
+            float u=float(j)/64.0;
+            float y=-1.78+(k-2.0)*0.06+sin(PI*u)*(1.0-settle)*0.52*sin(u*TAU+k*0.35-t*0.4);
+            vec2 current=vec2(mix(-5.9,5.9,u),y);
+            geoTrack(p,previous,current,u-1.0/64.0,u,d,along); previous=current;
+        }
+        c+=geoRibbon(d,along,k,t,lane==2?0.013:0.006,lane==2?0.80:0.42,aa);
     }
-    vec3 c=glow(d,0.031,WHITE,0.86*smoothstep(112.0,112.8,t),aa);
-    c+=glow(d,0.039,GOLD,0.10*settle,aa);
-    return c;
+    return c*smoothstep(112.0,112.8,t);
 }
 vec3 geometryAct(vec2 p,float t,float aa) {
+    if(abs(p.x)>7.8 || abs(p.y)>4.3) return vec3(0.0);
     if(t<14.0) return geoOpening(p,t,aa);
     if(t<34.0) return geoPetals(p,t,aa);
     if(t<54.0) return geoKoch(p,t,aa);

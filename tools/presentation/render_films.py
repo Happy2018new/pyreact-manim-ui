@@ -17,10 +17,10 @@ shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
 
 FILMS = {
-    "client_showcase": {"title": "Metamorphosis | From a line to infinity", "folder": "client-showcase-v8",
+    "client_showcase": {"title": "Metamorphosis | Spectral infinity", "folder": "client-showcase-v9",
                         "filename": "from-a-line-to-infinity-120s.mp4", "poster": 105.0,
                         "times": (4.8, 10, 21, 31, 40, 50, 62, 78, 89, 99, 107, 117)},
-    "story_showcase": {"title": "A letter from the wind", "folder": "storybook-wind-v4",
+    "story_showcase": {"title": "A letter from the wind | Celestial currents", "folder": "storybook-wind-v5",
                        "filename": "a-letter-from-the-wind-120s.mp4", "poster": 95.0,
                        "times": (4.8, 10, 23, 37, 44, 53, 65, 76, 85, 95, 104, 116)},
 }

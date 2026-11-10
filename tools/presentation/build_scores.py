@@ -1,7 +1,7 @@
 """Two original scene-specific scores, made entirely with oscillator synthesis.
 
-Mathematics: 80 BPM, D Lydian, felt/wood keys and narrow string harmonics.
-Story: 90 BPM in three, E minor opening into G major, plucks and dark choir.
+Mathematics: 80 BPM, D Lydian, interlocking synth figures and warm low pulses.
+Story: 90 BPM in three, E minor opening into G major, moving air and crystal.
 Cue sheets are independent of the visual compiler. No recorded instruments,
 external samples, or previously rendered score are used.
 """
@@ -85,9 +85,22 @@ class Orchestra:
     def bass(self, start, note, length=.62, gain=.14):
         t = self.clock(length)
         phase = 2 * np.pi * frequency(note) * t
-        voice = np.sin(phase) + .16 * np.sin(phase * 2) + .028 * np.sin(phase * 3)
-        envelope = smooth(t / .022) * np.exp(-t * 1.9) * smooth((length - t) / .12)
+        voice = (np.sin(phase) + .23 * np.sin(phase * 2) * np.exp(-t * 2.5)
+                 + .075 * np.sin(phase * 3) * np.exp(-t * 6))
+        envelope = smooth(t / .016) * np.exp(-t * 1.65) * smooth((length - t) / .12)
         self.add(start, voice * envelope, gain)
+
+    def crystal(self, start, note, gain=.055, pan=0, length=1.5):
+        """Short glass-like pluck; upper partials disappear before the warm tail."""
+        t = self.clock(length)
+        phase = 2 * np.pi * frequency(note) * t
+        voice = (np.sin(phase + .32 * np.sin(phase * 2) * np.exp(-t * 11))
+                 * np.exp(-t * 2.5)
+                 + .23 * np.sin(phase * 2.003) * np.exp(-t * 7)
+                 + .085 * np.sin(phase * 3.997) * np.exp(-t * 14)
+                 + .028 * np.sin(phase * 6.013) * np.exp(-t * 23))
+        envelope = smooth(t / .009) * smooth((length - t) / .18)
+        self.add(start, voice * envelope, gain, pan)
 
     def pad(self, start, notes, length, gain=.16, choir=False, width=.72,
             attack=1.0, release=1.6):
@@ -155,17 +168,23 @@ class Orchestra:
         self.add(start, voice * smooth(t / .006) * smooth((length - t) / .15), gain)
 
     def wind(self, start, length, gain=.025, pan=0, rise=False):
-        """Brief low-band turbulence for gestures, never a white-noise bed."""
+        """Evolving oscillator turbulence, with softer and slower outer bands."""
         t = self.clock(length)
         voice = np.zeros(len(t), dtype=np.float64)
-        for index in range(16):
-            f = 88 + index * 41.73 + self.rng.uniform(-12, 12)
-            voice += (np.sin(2 * np.pi * f * t + self.rng.uniform(0, 2 * np.pi))
-                      * (1 + .28 * np.sin(t * (1.7 + index * .23))) / 16)
+        for index in range(24):
+            f = 113 + index * 59.73 + self.rng.uniform(-22, 22)
+            drift = .8 + index * .031
+            phase = (2 * np.pi * f * t + self.rng.uniform(0, 2 * np.pi)
+                     + (2.2 + index * .11) * np.sin(t * drift + index))
+            shade = math.exp(-((f - 480) / 840) ** 2)
+            voice += (np.sin(phase) * shade
+                      * (1 + .45 * np.sin(t * (1.7 + index * .23))) / 20)
         envelope = np.sin(np.pi * np.clip(t / length, 0, 1)) ** 2
         if rise:
             envelope *= smooth(t / max(.1, length * .75))
-        self.add(start, voice * envelope, gain, pan)
+        motion = .5 + .5 * np.sin(t * (1.6 / max(1.0, length)) + pan * 2)
+        self.add(start, voice * envelope * motion, gain, min(.95, pan + .35))
+        self.add(start, voice * envelope * (1 - motion), gain, max(-.95, pan - .35))
 
     def sweep(self, start, length, low=180.0, high=700.0, gain=.025, pan=0):
         t = self.clock(length)
@@ -234,26 +253,40 @@ def compose_math():
         score.pad(start, notes, end - start + 1.8, gain,
                   width=.40 if start < 34 else .76,
                   attack=.55 if start == 104 else 1.1, release=1.8)
+        if 74 <= start < 112:
+            score.pad(start + .22, (notes[1] + 12, notes[3] + 12),
+                      end - start + 1.2, gain * (.32 if start >= 96 else .19),
+                      width=.92, attack=.8, release=1.5)
 
     # D-F#-E-A begins as two incomplete gestures, then develops.
     opening = ((1.5, 62), (3, 66), (5.25, 64), (8.25, 69), (10.5, 66), (12, 64))
     for index, (when, note) in enumerate(opening):
         score.key(when, note, .105 if index < 3 else .085,
                   math.sin(index * 1.3) * .36, 3.0)
+    for index, when in enumerate((7.5, 9, 10.5, 12)):
+        score.bass(when, chord_at(harmony, when)[0] - 12, .70, .04 + .012 * index)
+        score.crystal(when + .375, (73, 74, 78, 76)[index], .026 + .004 * index,
+                      (-1) ** index * .55)
 
     # Pulse, harmonic figures and melody have independent entrances and rests.
     for index in range(round(DURATION / beat)):
         when = index * beat
         notes = chord_at(harmony, when)
-        if 14 <= when < 54 or 74 <= when < 104:
+        if 14 <= when < 54 or 74 <= when < 112:
             strength = (.105 if when < 34 else .13 if when < 54
-                        else .14 if when < 96 else .15 + .06 * (when - 96) / 8)
-            if index % 2 == 0 or (96 <= when < 104 and index % 4 == 3):
-                score.bass(when, notes[0] - 12, .68, strength)
-            if index % 4 == 0:
-                score.drum(when, strength * .68)
-            if (34 <= when < 54 or 80 <= when < 104) and index % 4 == 2:
-                score.drum(when, strength * .40, True, .12)
+                        else .14 if when < 96 else .16 + .06 * min(1, (when - 96) / 8))
+            phrase = index % 8
+            active = when < 110.5
+            if active and (phrase in (0, 2, 3, 4, 6) or when >= 96):
+                score.bass(when, notes[0] - 12, .58,
+                           strength * (1.0 if phrase % 2 == 0 else .65))
+            if active and (index % 2 == 0 or (100 <= when < 104)):
+                score.drum(when, strength * (.72 if index % 4 == 0 else .44))
+            if (34 <= when < 54 or 80 <= when < 110) and index % 4 == 2:
+                score.drum(when, strength * .46, True, .24)
+            if (40 <= when < 54 or 86 <= when < 104) and phrase in (1, 5, 7):
+                score.bass(when + beat * .5, notes[1] - 12, .30, strength * .42)
+                score.drum(when + beat * .5, .026, True, -.35)
         elif 54 <= when < 74 and index % 4 == 0:
             score.bass(when, notes[0] - 12, 1.25, .073)
 
@@ -267,6 +300,14 @@ def compose_math():
                   math.sin(index * 1.39) * .48, 1.9, False)
     for index, note in enumerate((74, 78, 76, 81, 78, 76)):
         score.key(18 + index * beat * 2, note, .092, -.16, 2.6)
+    # Offbeat answers make the rotating lines feel like separate moving voices.
+    for index, when in enumerate(np.arange(20.0625, 33.5, beat)):
+        if index % 8 in (2, 6, 7):
+            continue
+        notes = chord_at(harmony, float(when))
+        note = register(notes[(3, 1, 4, 2)[index % 4]], 69, 81)
+        score.crystal(float(when), note, .035 + .008 * (index % 4 == 0),
+                      (-1) ** index * .68, 1.2)
 
     # Koch: the intervals recur in shortened and answering fragments.
     koch = (62, 66, 64, 69, 66, 62, 69, 64, 74, 78, 76, 81)
@@ -278,6 +319,10 @@ def compose_math():
                 register(notes[(index // 2 + 1) % len(notes)], 62, 81))
         score.key(float(when), note, .077 if index % 4 else .105,
                   math.sin(index * 2.399) * .63, 1.55, False)
+        if index % 6 in (1, 4):
+            answer = register(notes[(index + 2) % len(notes)], 69, 83)
+            score.crystal(float(when + beat / 4), answer, .043,
+                          -math.sin(index * 2.399) * .78, 1.1)
 
     # Sine/harmonics: withdraw busy keys and let longer notes breathe.
     for index, (when, note, length) in enumerate(((55.5, 66, 3.7), (60, 69, 3.4),
@@ -288,6 +333,14 @@ def compose_math():
         notes = chord_at(harmony, when)
         score.key(when, register(notes[(index + 1) % len(notes)], 62, 76),
                   .045, math.sin(index * 1.4) * .45, 2.5)
+    # A slower pulse remains beneath the harmonic wave, then gathers momentum.
+    for index, when in enumerate(np.arange(60, 73.5, beat)):
+        notes = chord_at(harmony, float(when))
+        if index % 4 in (0, 3):
+            score.bass(float(when), notes[0] - 12, .65, .065 + .025 * (when - 60) / 14)
+        if index % 4 in (1, 2):
+            score.crystal(float(when), register(notes[index % len(notes)], 64, 80),
+                          .027 + .015 * (when - 60) / 14, math.sin(index * .8) * .7, 1.9)
 
     # Folded corolla: wider interlocking figures and the complete upper theme.
     for index, when in enumerate(np.arange(74.25, 103.875, beat / 2)):
@@ -298,6 +351,10 @@ def compose_math():
         rise = float(np.clip((when - 96) / 8, 0, 1))
         score.key(float(when), note, .070 + .045 * rise,
                   math.sin(index * 1.47) * .70, 1.8, False)
+        if index % 4 in (1, 3) and (when >= 86 or index % 8 == 3):
+            answer = register(notes[(index + 3) % len(notes)], 69, 83)
+            score.crystal(float(when + beat / 4), answer, .038 + .032 * rise,
+                          -math.sin(index * 1.47) * .82, 1.05)
     for begin, transpose, strength in ((76.5, 0, .105), (85.5, -12, .09), (94.5, 0, .11)):
         for index, note in enumerate((74, 78, 76, 81)):
             score.ribbon(begin + index * beat * 2, note + transpose,
@@ -307,13 +364,19 @@ def compose_math():
     for cue, low, high in ((14, 160, 430), (34, 210, 620),
                            (54, 460, 230), (74, 190, 590)):
         score.sweep(cue - .85, .95, low, high, .018, -.2)
+        score.wind(cue - 1.2, 1.3, .055, .35, True)
         score.key(cue, register(chord_at(harmony, cue)[1], 62, 74), .09, .22, 2.4)
+        score.dip(cue - .34, cue - .12, cue - .045, cue + .04,
+                  .30 if cue == 54 else .52)
+    score.dip(95.55, 95.82, 95.94, 96.07, .28)
     score.sweep(96, 3.2, 130, 400, .018, -.28)
     score.sweep(100.3, 3.5, 250, 860, .035, .26)
+    score.wind(99.5, 4.45, .12, -.3, True)
     for index, when in enumerate((100.5, 102, 102.75, 103.125, 103.5, 103.75)):
         score.drum(when, .08 + .014 * index)
 
-    # 104: the fractal star opens. The large harmony holds; rapid figures stop.
+    # 104: the star opens; a broad chord carries a slower, sparkling orbit.
+    score.dip(103.79, 103.92, 103.965, 104.015, .18)
     score.impact(104, .24, .85)
     score.bass(104, 38, 2.8, .23)
     for index, note in enumerate((62, 69, 73, 78, 80, 88)):
@@ -321,6 +384,12 @@ def compose_math():
                   -.62 + index * .24, 4.2)
     for index, (when, note) in enumerate(((105.75, 78), (107.25, 76), (109.5, 74))):
         score.ribbon(when, note, 2.4, .105 - index * .015, .18 - index * .18)
+    for index, when in enumerate(np.arange(104.375, 110.75, beat / 2)):
+        if index % 8 in (3, 7):
+            continue
+        note = (74, 81, 78, 80, 73, 78, 76, 81)[index % 8]
+        score.crystal(float(when), note, .072 - .022 * (when - 104) / 7,
+                      math.sin(index * 1.14) * .84, 1.7)
     score.bass(108, 38, 2.6, .105)
 
     # 112: the original timbre and a quiet resolving answer remain.
@@ -378,8 +447,18 @@ def compose_story():
         score.key(when, note, .095 if index < 4 else .075,
                   math.sin(index * 1.5) * .36, 3.2)
     for cue, pan in ((1, -.45), (5.3, .45)):
-        score.wind(cue + .2, 1.4, .024, pan)
+        score.wind(cue + .2, 1.4, .055, pan)
         score.sweep(cue + .5, 1.2, 210, 410, .012, pan)
+    # Long air gestures cross shorter crystalline letters, leaving real gaps.
+    for when, length, pan, gain in ((.2, 6.8, -.5, .085), (7.7, 7.9, .45, .10),
+                                    (17, 6.1, -.3, .065), (24, 7.7, .4, .075)):
+        score.wind(when, length, gain, pan)
+    for phrase, begin in enumerate((3.8, 9.4, 13.7)):
+        notes = chord_at(harmony, begin)
+        for index in range(4):
+            note = register(notes[(index + phrase) % len(notes)], 67, 83)
+            score.crystal(begin + index * beat / 2, note, .032 - index * .004,
+                          -.65 + index * .42, 1.6)
 
     # Star: lilting lower accompaniment, rather than continuous high bells.
     for index, when in enumerate(np.arange(16, 32, beat)):
@@ -397,6 +476,13 @@ def compose_story():
         score.ribbon(when, note, 2.2, .075, math.sin(index) * .23)
     score.key(16, 71, .12, -.25, 3.4)
     score.key(16.12, 79, .035, .3, 3.4)
+    for index, when in enumerate(np.arange(16 + beat / 2, 31.5, beat / 2)):
+        if index % 12 in (3, 6, 9, 10, 11):
+            continue
+        notes = chord_at(harmony, float(when))
+        note = register(notes[(0, 2, 1, 3, 2, 4)[index % 6] % len(notes)], 64, 83)
+        score.crystal(float(when), note, .035 + .012 * (index % 6 == 0),
+                      math.sin(index * 1.13) * .76, 1.35)
 
     # Meteors gain motion and tension, then stop at the single low impact.
     for index, when in enumerate(np.arange(32, 42.7, beat)):
@@ -412,7 +498,19 @@ def compose_story():
     score.sweep(32.3, 2.4, 190, 680, .022, -.5)
     score.sweep(36.1, 2.2, 330, 980, .025, .45)
     score.sweep(40.5, 1.75, 1100, 170, .035, -.2)
-    score.wind(41.7, 1.1, .065, .2, True)
+    for index, (begin, length, pan) in enumerate(((32.2, 1.8, -.7), (35.4, 1.6, .65),
+                                                 (38.6, 1.5, -.45), (40.4, 2.2, .5))):
+        score.wind(begin, length, .10 + index * .025, pan, True)
+        notes = chord_at(harmony, begin)
+        for part in range(5):
+            note = register(notes[(4 - part) % len(notes)], 66, 83)
+            score.crystal(begin + .18 + part * .14, note, .043 + index * .005,
+                          pan * (1 - part * .45), .95)
+    for index, when in enumerate((40.67, 41, 41.33, 41.67, 42, 42.33, 42.5, 42.67)):
+        score.bass(when, 35, .30, .07 + index * .01)
+        score.drum(when, .045 + index * .007, index % 2 == 1, .18)
+    score.wind(41.7, 1.1, .13, .2, True)
+    score.dip(42.7, 42.84, 42.94, 43.015, .18)
     score.impact(43, .34, .42)
     # The pause includes reverberation, giving the shattering room to read.
     score.dip(43.18, 43.48, 44.18, 44.65, .025)
@@ -423,8 +521,10 @@ def compose_story():
     for index, (when, note) in enumerate(drift):
         score.key(when, note, .052, math.sin(index * 2.399) * .78, 3.7)
     for when, pan in ((47, -.6), (53.3, .55), (59.5, -.3)):
-        score.wind(when, 1.2, .025, pan)
+        score.wind(when, 3.2, .055, pan)
     score.ribbon(58.2, 66, 3.6, .035, -.3)
+    for index, (when, note) in enumerate(((46.1, 78), (51.9, 76), (57.9, 78), (62.8, 76))):
+        score.crystal(when, note, .025, (-1) ** index * .85, 2.1)
 
     # Orbit: the root returns, then the pulse rebuilds one layer at a time.
     for index, when in enumerate(np.arange(64, 78, beat)):
@@ -442,6 +542,17 @@ def compose_story():
     for index, note in enumerate((64, 71, 67, 66)):
         score.ribbon(65.33 + index * 2.67, note, 2.0, .058, (-1) ** index * .24)
     score.key(64, 64, .10, -.2, 3)
+    score.wind(62.7, 3.8, .09, -.6, True)
+    score.wind(68.2, 4.5, .11, .5, True)
+    score.wind(73.2, 4.7, .13, -.3, True)
+    for index, when in enumerate(np.arange(64 + beat / 2, 77.85, beat / 2)):
+        amount = (when - 64) / 14
+        if index % 6 in (3, 5) and when < 70:
+            continue
+        notes = chord_at(harmony, float(when))
+        note = register(notes[(0, 1, 3, 2, 4, 1)[index % 6] % len(notes)], 64, 81)
+        score.crystal(float(when), note, .026 + .029 * amount,
+                      math.sin(index * (.54 + amount * .32)) * .84, 1.2)
 
     # Reassembly grows register, counter-voice and harmony in one long crescendo.
     for index, when in enumerate(np.arange(78, 94, beat / 2)):
@@ -456,6 +567,14 @@ def compose_story():
             score.drum(float(when), .10 + .055 * amount)
         if index % 6 == 4:
             score.drum(float(when), .045 + .028 * amount, True, .12)
+        if when >= 82 and index % 6 in (2, 5):
+            score.bass(float(when), notes[0] - 12, .48, .07 + .045 * amount)
+        if index % 6 in (1, 4) or (when >= 88 and index % 6 == 5):
+            note = register(notes[(index + 3) % len(notes)], 69, 83)
+            score.crystal(float(when + beat / 4), note, .035 + .035 * amount,
+                          -math.sin(index * 1.73) * .86, 1.1)
+        if when >= 86 and index % 6 in (1, 3, 5):
+            score.drum(float(when), .024 + .020 * amount, True, -.30)
     for index, (when, note, length) in enumerate(((78.67, 76, 2.4), (81.33, 83, 2.4),
                                                (84, 79, 2.4), (86.67, 78, 2.4),
                                                (89.33, 76, 2.5), (92, 78, 1.8))):
@@ -464,6 +583,12 @@ def compose_story():
         score.sweep(when, .8, 210 + index * 35, 520 + index * 55,
                     .014 + index * .003, (-1) ** index * .48)
     score.sweep(91.9, 1.9, 230, 790, .032, .25)
+    score.wind(78.3, 5.2, .085, .5)
+    score.wind(84.1, 5.6, .11, -.5, True)
+    score.wind(90.1, 3.8, .17, .35, True)
+    for cue in (16, 32, 64, 78):
+        score.dip(cue - .28, cue - .09, cue - .03, cue + .055, .60)
+    score.dip(93.58, 93.82, 93.93, 94.025, .24)
 
     # 94: G6/9 opens with the two wings. Space replaces the fast motion.
     score.impact(94, .22, .95)
@@ -477,6 +602,16 @@ def compose_story():
     for index, when in enumerate((98, 102, 106)):
         score.bass(when, 31, 1.8, .10 - index * .014)
         score.key(when + 1.33, (71, 74, 71)[index], .065, (-1) ** index * .4, 3.0)
+    # The wings retain a few luminous moving threads inside the broad release.
+    for phrase, begin in enumerate((94.67, 98.67, 102.67)):
+        notes = chord_at(harmony, begin)
+        for index in range(6):
+            note = register(notes[(index + 1) % len(notes)], 67, 83)
+            score.crystal(begin + index * beat / 2, note, .05 - phrase * .009,
+                          math.sin(index * .85 + phrase) * .86, 1.8)
+    score.pad(94.2, (62, 67, 71, 76), 9.2, .09, width=.96, attack=1.4, release=3.0)
+    score.wind(94, 6.5, .10, -.45)
+    score.wind(102, 5.8, .065, .4)
 
     # Title: the first small voice returns with its final E, without a new swell.
     for index, (when, note) in enumerate(((110.4, 71), (112.4, 67),

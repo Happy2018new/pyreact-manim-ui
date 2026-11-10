@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-10",
+  "revision": {
+    "math": 9,
+    "story": 5
+  },
+  "subagent_model": "gpt-6-astra",
+  "subagent_reasoning_effort": "ultra",
+  "acceptance": "Export and handoff completed; full visual/listening acceptance left to the user.",
+  "films": [
+    {
+      "scene": "client_showcase",
+      "video": {
+        "path": "dist/client-showcase-v9/from-a-line-to-infinity-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 80701157,
+        "sha256": "2c43c545b0e039863683ca1215db8c0568dd2d4817d1ac40f971c1600206fcee",
+        "render_seconds": 114.032
+      },
+      "shader_sha256": "29f4f0419d10f12fda61fe009d910f48988547da233fcb645e593089c951aa2d",
+      "texture_sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
+      "audio_master_sha256": "e643b300e0584efabb625aeb29938481681cce6cbdee1e806787490b4607b0fa",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    },
+    {
+      "scene": "story_showcase",
+      "video": {
+        "path": "dist/storybook-wind-v5/a-letter-from-the-wind-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 87786515,
+        "sha256": "7fd37555f98e207e530dcf2d6d212c1d48771d128332bcd79c07627326e45cec",
+        "render_seconds": 80.778
+      },
+      "shader_sha256": "cb109b7830122cec20001c9d6617285364d26247fe67123e2d4cc8acf74efbc8",
+      "texture_sha256": "9d2c892b0f9f4124d81e1fd7870baa506e035ff4952911574d67262cbd3adfae",
+      "audio_master_sha256": "bebcfbf8366337faae7054c83a76f912669a4487b35a63bcb20441745bf0f7a5",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    }
+  ],
+  "typography": {
+    "english": "Native LaTeX Computer Modern Roman through ManimGL Tex/basic and dvisvgm",
+    "chinese": "Noto Serif SC Song, weight 400",
+    "morph": "Schema-2 contour roles; per-contour winding; holes clipped by parent shell; component union; parent-constrained hole anchors",
+    "story_opening": "Two staggered Song lines, upper left then lower right; slow opacity reveal plus contour growth; glowing wind underlines",
+    "story_subtitles": "After opening, previous sentence remains; 1.15-second outline transformation without sentence opacity fades",
+    "limitation": "Bounded polygon approximation; not native Manim curve topology or strict 1:1"
+  },
+  "game_preparation": {
+    "owned_instance_started": true,
+    "owner": "manim-dual-presentation",
+    "ready": true,
+    "fps_cap": 60,
+    "background_noactivation": true,
+    "left_running": true,
+    "visual_or_listening_acceptance": false,
+    "runtime_error_at_handoff": "",
+    "scene_at_handoff": "story_showcase",
+    "position_at_handoff": 0.0,
+    "playing_at_handoff": false,
+    "visible_at_handoff": true
+  },
+  "game_audio": {
+    "original_synthesis": true,
+    "external_samples": false,
+    "sample_rate": 48000,
+    "channels": 2,
+    "ogg_files": 240,
+    "bytes": 6750438,
+    "segment_seconds": 5,
+    "resume_quantization_seconds": 1,
+    "timing_limit": "Resume selects the preceding whole-second tail; decoding and game scheduling add latency. No sample-accurate synchronization claim.",
+    "master_sha256": {
+      "client_showcase": "e643b300e0584efabb625aeb29938481681cce6cbdee1e806787490b4607b0fa",
+      "story_showcase": "bebcfbf8366337faae7054c83a76f912669a4487b35a63bcb20441745bf0f7a5"
+    },
+    "revision": "Expanded original scores: stereo crystal counterpoint, bass pulses, meteor/wind gestures, staged climactic builds"
+  },
+  "math_background_fix": "Rebuilt the full visual score without text rectangle cutouts; glyph holes preserve background geometry",
+  "story_style": "Curvilinear soul filaments, braided currents, meteor fragments, vortex reunion, flowing aurora wings",
+  "previous_outputs_preserved": true,
+  "math_style": "Spectral layered hypotrochoids and knots, Koch trails, epicycles, woven surfaces, rotating recursive finale, enlarged formula morphs",
+  "reference_comparison": "Earlier contact sheets compared with V8/V4 to identify reduced color, layering, motion and typography emphasis",
+  "verification": {
+    "timeline_tests": {
+      "command": "python -m unittest tests.test_showcase_timeline",
+      "passed": 11
+    },
+    "keyframe_composition": "Inspected offline contact sheets; moved knot and fractal formulas away from dense crossings",
+    "production_shader_and_atlas_match_export": true,
+    "deployed_audio_matches_export": true,
+    "full_visual_listening_acceptance": false
+  }
+}

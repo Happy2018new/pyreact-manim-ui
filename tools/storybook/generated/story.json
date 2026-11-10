@@ -1,5 +1,5 @@
 {
-  "schema": 4,
+  "schema": 5,
   "id": "story_showcase",
   "title": "风的回信",
   "duration": 120.0,
@@ -8,7 +8,7 @@
     1920,
     1080
   ],
-  "style": "纯二维几何线条童话、明亮奶白主线、青绿风带、温金与少量珊瑚强调、局部半透明几何面、宋体轮廓短诗",
+  "style": "纯二维流动数学童话、青蓝紫与洋红曲线花丝、暖金星核、三股编织光流、玫瑰与轨道纹饰、弯曲极光羽翼、宋体轮廓短诗",
   "shader": "shaders/glsl/story_showcase.fragment",
   "texture": "textures/manim/story_showcase",
   "texture_slot": "TEXTURE_2",
@@ -75,8 +75,8 @@
   },
   "geometry": {
     "source": "tools/storybook/film.fragment",
-    "source_sha256": "00d90c98fcdd5c74174acf456dc05731e4698236de52a3f9757172cfbde81099",
-    "provenance": "original geometric star, shaped wind ribbons and 24 persistent filled contour fragments",
+    "source_sha256": "3b7b399f8a13533a848a684b00254b89cf2fa1f1fbd68d5acaeb1841ecbf59e0",
+    "provenance": "original harmonic petal curves, polar rose lace, orbital families and 24 persistent bundled curve fragments",
     "opening_star_anchor": [
       -1.2,
       0.45
@@ -86,20 +86,29 @@
       0.45
     ],
     "persistent_fragments": 24,
-    "reassembled_shape": "double-layer twelve-petal light crown",
+    "reassembled_shape": "layered mathematical rose with smooth aurora wings",
     "main_subject_height_fraction": [
-      0.45,
-      0.65
+      0.55,
+      0.69
     ],
     "bounded_geometry": {
-      "fragment_vertices": 4,
+      "curve_segments_per_fragment": 32,
+      "filaments_per_fragment": 7,
       "wind_ribbons": 3,
-      "segments_per_ribbon": 36,
-      "return_trails": 8,
-      "segments_per_return_trail": 12,
-      "meteor_strands": 3,
-      "segments_per_meteor_strand": 20,
-      "background_dots": 32
+      "filaments_per_ribbon": 13,
+      "segments_per_ribbon": 52,
+      "return_trails": 24,
+      "segments_per_return_trail": 10,
+      "meteor_strands": 9,
+      "shared_meteor_segments": 28,
+      "orbital_families": 3,
+      "orbital_filaments_per_family": 7,
+      "rose_filaments": 11,
+      "instanced_comet_seeds": 72,
+      "comet_seed_distance_evaluations_per_pixel": 3,
+      "background_depth_threads": 15,
+      "background_stars": "one sparse jittered cell evaluated per pixel",
+      "filament_evaluation": "nearest curve coordinate plus bounded analytic repetition; no per-filament loops"
     },
     "meteor_impact_seconds": 43.0,
     "reassembly_seconds": [
@@ -108,56 +117,56 @@
     ],
     "closing_title_seconds": 110.0,
     "caption_band_center_y": -3.05,
-    "transition": "the same filled geometric fragments break from the whole star, travel continuously and return along arcs"
+    "transition": "the same 24 harmonic petal curves break from the luminous soul, carry filament bundles through drifting and spiral motion, return along arcs and unfurl into smooth wings"
   },
   "chapters": [
     {
       "start": 0,
       "end": 16,
       "title": "如果星光散落",
-      "action": "左上与右下两行大宋体先后淡入并展开轮廓，青金风带托住文字；第一句收拢为星核。"
+      "action": "左上与右下两行大宋体先后淡入并展开轮廓；三股青紫编织风流连起诗句，第一句收拢为暖金星核。"
     },
     {
       "start": 16,
       "end": 32,
       "title": "一束风与一颗星",
-      "action": "有宽窄变化的风带托起清晰的大星核，双层几何瓣片构成可辨认的完整形。"
+      "action": "24束连续的曲线花瓣展开为大幅星魂；玫瑰曲线、三族倾斜轨道与金色同心细环构成流动的数学花冠。"
     },
     {
       "start": 32,
       "end": 44,
       "title": "光碎了，名字还在",
-      "action": "明亮流星拖着长尾划过；43秒撞击，完整星核拆为24片有面积的几何碎片。"
+      "action": "九股编织尾迹的流星沿长弧进入；43秒撞击后，24束原有曲线拆成旋转彗星花种，伴随三层冲击波。"
     },
     {
       "start": 44,
       "end": 64,
       "title": "每一片都有归处",
-      "action": "同一批碎片分层散开，在横跨画面的风带中旋转漂流，保留各自轮廓与身份。"
+      "action": "24束彩色花种保留原曲线身份，携带细尾迹漂流；72粒小彗星与三股多丝风流填满流动空间。"
     },
     {
       "start": 64,
       "end": 78,
       "title": "风听见回声",
-      "action": "风从乱流中找到旋转节拍，大片碎片进入不同半径的回旋轨道。"
+      "action": "三股39丝风流卷入多圈螺旋涡流；花种与细彗星沿不同半径和速度回旋，形成有前后层次的旋转织锦。"
     },
     {
       "start": 78,
       "end": 96,
       "title": "散落的光重新相认",
-      "action": "24片几何碎片逐片沿弧归位，94秒完成双层十二瓣光冠，并迎来明亮绽放。"
+      "action": "24束曲线依次沿弧归位、恢复尺度；94秒重新绽放为分层数学玫瑰与轨道花丝，暖金星核亮起。"
     },
     {
       "start": 96,
       "end": 110,
       "title": "夜空有了回信",
-      "action": "大光冠舒展为开阔光翼，中央星核与左右长线保持完整的几何构图。"
+      "action": "外层12束花瓣连续舒展成青、紫、洋红相间的弯曲极光羽翼；内层花冠上移，柔和环流托起片名。"
     },
     {
       "start": 110,
       "end": 120,
       "title": "风的回信",
-      "action": "末句轮廓变成大标题，结语轮廓随之展开；安定的光翼与风带陪伴片名停留。"
+      "action": "末句轮廓变成大标题，结语轮廓随之展开；多丝曲翼、金色核心与流动光包围绕片名停留。"
     }
   ],
   "subtitles": [
@@ -2397,9 +2406,9 @@
       ]
     }
   },
-  "source_sha256": "00d90c98fcdd5c74174acf456dc05731e4698236de52a3f9757172cfbde81099",
-  "builder_source_sha256": "b4c77386652130987aaa12eef054cdf7f7a268d6d78b48badd5993c1c8805b81",
-  "shader_sha256": "a47f85adaef84cff0fa91857455d3eb84e977a4fdae59c0085963bef549d8c3a",
+  "source_sha256": "3b7b399f8a13533a848a684b00254b89cf2fa1f1fbd68d5acaeb1841ecbf59e0",
+  "builder_source_sha256": "a7a7b1cf925c0bfce6e9b3d714835c22364f44292ed17d4157cfa35e24b9187a",
+  "shader_sha256": "cb109b7830122cec20001c9d6617285364d26247fe67123e2d4cc8acf74efbc8",
   "build": ".venv-reference/Scripts/python.exe -B -X utf8 tools/storybook/build_film.py",
   "verification": "resources generated; no test, render review, or game acceptance performed for this revision"
 }

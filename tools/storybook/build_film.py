@@ -1,4 +1,4 @@
-"""Build Wind's Reply, a geometric fairy tale with Song contour typography.
+"""Build Wind's Reply, a luminous mathematical fairy tale with Song contours.
 
 Host Python only. Uses the already pinned Noto Serif SC source and the existing
 SDF text compiler; it never imports the game runtime or overwrites math assets.
@@ -57,14 +57,14 @@ CUES = [
     ("motto", 113.4, 120.5, .34, -.72),
 ]
 CHAPTERS = [
-    (0, 16, "如果星光散落", "左上与右下两行大宋体先后淡入并展开轮廓，青金风带托住文字；第一句收拢为星核。"),
-    (16, 32, "一束风与一颗星", "有宽窄变化的风带托起清晰的大星核，双层几何瓣片构成可辨认的完整形。"),
-    (32, 44, "光碎了，名字还在", "明亮流星拖着长尾划过；43秒撞击，完整星核拆为24片有面积的几何碎片。"),
-    (44, 64, "每一片都有归处", "同一批碎片分层散开，在横跨画面的风带中旋转漂流，保留各自轮廓与身份。"),
-    (64, 78, "风听见回声", "风从乱流中找到旋转节拍，大片碎片进入不同半径的回旋轨道。"),
-    (78, 96, "散落的光重新相认", "24片几何碎片逐片沿弧归位，94秒完成双层十二瓣光冠，并迎来明亮绽放。"),
-    (96, 110, "夜空有了回信", "大光冠舒展为开阔光翼，中央星核与左右长线保持完整的几何构图。"),
-    (110, 120, "风的回信", "末句轮廓变成大标题，结语轮廓随之展开；安定的光翼与风带陪伴片名停留。"),
+    (0, 16, "如果星光散落", "左上与右下两行大宋体先后淡入并展开轮廓；三股青紫编织风流连起诗句，第一句收拢为暖金星核。"),
+    (16, 32, "一束风与一颗星", "24束连续的曲线花瓣展开为大幅星魂；玫瑰曲线、三族倾斜轨道与金色同心细环构成流动的数学花冠。"),
+    (32, 44, "光碎了，名字还在", "九股编织尾迹的流星沿长弧进入；43秒撞击后，24束原有曲线拆成旋转彗星花种，伴随三层冲击波。"),
+    (44, 64, "每一片都有归处", "24束彩色花种保留原曲线身份，携带细尾迹漂流；72粒小彗星与三股多丝风流填满流动空间。"),
+    (64, 78, "风听见回声", "三股39丝风流卷入多圈螺旋涡流；花种与细彗星沿不同半径和速度回旋，形成有前后层次的旋转织锦。"),
+    (78, 96, "散落的光重新相认", "24束曲线依次沿弧归位、恢复尺度；94秒重新绽放为分层数学玫瑰与轨道花丝，暖金星核亮起。"),
+    (96, 110, "夜空有了回信", "外层12束花瓣连续舒展成青、紫、洋红相间的弯曲极光羽翼；内层花冠上移，柔和环流托起片名。"),
+    (110, 120, "风的回信", "末句轮廓变成大标题，结语轮廓随之展开；多丝曲翼、金色核心与流动光包围绕片名停留。"),
 ]
 
 
@@ -234,9 +234,9 @@ def build(output):
     shutil.copyfile(shader_path, production_shader)
     shutil.copyfile(atlas_path, production_atlas)
     manifest = {
-        "schema": 4, "id": "story_showcase", "title": TEXT["title"],
+        "schema": 5, "id": "story_showcase", "title": TEXT["title"],
         "duration": 120.0, "fps": 60, "resolution": [1920, 1080],
-        "style": "纯二维几何线条童话、明亮奶白主线、青绿风带、温金与少量珊瑚强调、局部半透明几何面、宋体轮廓短诗",
+        "style": "纯二维流动数学童话、青蓝紫与洋红曲线花丝、暖金星核、三股编织光流、玫瑰与轨道纹饰、弯曲极光羽翼、宋体轮廓短诗",
         "shader": "shaders/glsl/story_showcase.fragment",
         "texture": "textures/manim/story_showcase", "texture_slot": "TEXTURE_2",
         "uniforms": {"EXTRA_VECTOR1": ["time_seconds", "physical_canvas_aspect", "physical_canvas_height", "opacity"],
@@ -247,19 +247,25 @@ def build(output):
         "font": dict(font_report, source_sha256=FONT_SHA256, license="SIL OFL 1.1"),
         "vector_morph": morph.report(),
         "geometry": {"source": "tools/storybook/film.fragment", "source_sha256": digest(source),
-                     "provenance": "original geometric star, shaped wind ribbons and 24 persistent filled contour fragments",
+                     "provenance": "original harmonic petal curves, polar rose lace, orbital families and 24 persistent bundled curve fragments",
                      "opening_star_anchor": list(STAR_ANCHOR),
                      "main_star_anchor": [0, .45],
-                     "persistent_fragments": 24, "reassembled_shape": "double-layer twelve-petal light crown",
-                     "main_subject_height_fraction": [.45, .65],
-                     "bounded_geometry": {"fragment_vertices": 4, "wind_ribbons": 3,
-                                          "segments_per_ribbon": 36, "return_trails": 8,
-                                          "segments_per_return_trail": 12,
-                                          "meteor_strands": 3, "segments_per_meteor_strand": 20,
-                                          "background_dots": 32},
+                     "persistent_fragments": 24, "reassembled_shape": "layered mathematical rose with smooth aurora wings",
+                     "main_subject_height_fraction": [.55, .69],
+                     "bounded_geometry": {"curve_segments_per_fragment": 32, "filaments_per_fragment": 7,
+                                          "wind_ribbons": 3, "filaments_per_ribbon": 13,
+                                          "segments_per_ribbon": 52, "return_trails": 24,
+                                          "segments_per_return_trail": 10,
+                                          "meteor_strands": 9, "shared_meteor_segments": 28,
+                                          "orbital_families": 3, "orbital_filaments_per_family": 7,
+                                          "rose_filaments": 11, "instanced_comet_seeds": 72,
+                                          "comet_seed_distance_evaluations_per_pixel": 3,
+                                          "background_depth_threads": 15,
+                                          "background_stars": "one sparse jittered cell evaluated per pixel",
+                                          "filament_evaluation": "nearest curve coordinate plus bounded analytic repetition; no per-filament loops"},
                      "meteor_impact_seconds": 43.0, "reassembly_seconds": [78.0, 94.0],
                      "closing_title_seconds": 110.0, "caption_band_center_y": -3.05,
-                     "transition": "the same filled geometric fragments break from the whole star, travel continuously and return along arcs"},
+                     "transition": "the same 24 harmonic petal curves break from the luminous soul, carry filament bundles through drifting and spiral motion, return along arcs and unfurl into smooth wings"},
         "chapters": [{"start": a, "end": b, "title": title, "action": action} for a, b, title, action in CHAPTERS],
         "subtitles": subtitle_manifest(),
         "groups": groups,
