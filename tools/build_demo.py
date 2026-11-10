@@ -48,6 +48,8 @@ def main():
     result = deploy(outputs)
     from build_canvas import build as build_canvas
     result["canvas"] = build_canvas()
+    from build_showcase import build as build_showcase
+    result["showcase"] = build_showcase()
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

@@ -544,6 +544,129 @@ class PlayerLifecycleTests(unittest.TestCase):
         self.player._canvas_closed()  # A late navigator result is harmless.
         self.assertFalse(self.player.visible)
 
+    def _enable_showcase(self):
+        self.player.Destroy()
+        self.module.SCENES = SCENES + [{"name": "client_showcase", "title": "Showcase", "duration": 37.0,
+                                      "post_name": "showcase_post", "material": "showcase_material",
+                                      "texture": "showcase_texture"}]
+        self.player = self.module.ManimClient("tests", "showcase")
+        showcase = types.ModuleType(PACKAGE + ".showcase_panel")
+        showcase.ShowcasePanel = lambda **props: props
+        patcher = patch.dict(sys.modules, {PACKAGE + ".showcase_panel": showcase})
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        self.pyreact.navigator.pop = Mock(return_value=True)
+        self.player.on_ui_ready()
+
+    def test_showcase_starts_after_mount_and_returns_to_original_paused_position(self):
+        self._enable_showcase()
+        self.player.load("second")
+        self.player.seek(3)
+        self.player.play()
+        self.now += 0.5
+        original_canvas = self.player.canvas
+        with patch.object(self.pyreact.navigator, "push", wraps=self._push_navigation) as push:
+            self.assertTrue(self.player.open_showcase())
+            self.assertFalse(self.player.visible)
+            callbacks = push.call_args.kwargs
+            self.now += 20  # Page creation delay must not skip the opening.
+            self.assertTrue(callbacks["on_complete"](None))
+            state = self.player.snapshot()
+            self.assertEqual((state["scene"], state["duration"], state["position"]),
+                             ("client_showcase", 37, 0))
+            self.assertTrue(state["playing"])
+            self.assertEqual(self.player.canvas, (0, 1))
+            self.assertEqual(self.post.parameters[("showcase_post", "options")][1:3], (0, 1))
+            self.now += 2
+            self.player.on_frame()
+            self.assertEqual(self.player.snapshot()["position"], 2)
+            self.assertTrue(self.player.open_showcase())  # No restart/duplicate push.
+            self.assertEqual(self.player.snapshot()["position"], 2)
+            self.assertEqual(push.call_count, 1)
+            self.assertTrue(self.player.replay_showcase())
+            self.assertEqual(self.player.snapshot()["position"], 0)
+            self.assertTrue(self.player.close_showcase())
+            self.pyreact.navigator.pop.assert_called_once()
+            self.navigation_pages.remove(self.module.SHOWCASE_PAGE_KEY)
+            self.player._showcase_closed()  # Component cleanup from native Esc.
+            callbacks["on_result"](None)  # Idempotent navigator result.
+        restored = self.player.snapshot()
+        self.assertEqual((restored["scene"], restored["position"]), ("second", 3.5))
+        self.assertFalse(restored["playing"])
+        self.assertTrue(restored["visible"])
+        self.assertEqual(self.player.canvas, original_canvas)
+        self.assertEqual(self.post.enabled, {"second_post"})
+
+    def test_showcase_resize_stays_fullscreen_and_restores_updated_player_margins(self):
+        self._enable_showcase()
+        self.player.open_showcase()
+        self.player._showcase_ready()
+        self.logical_screen_size = (320, 180)
+        self.physical_viewport = (640, 360)
+        self.player.on_resize({})
+        self.player.on_frame()
+        self.assertEqual(self.player.canvas, (0, 1))
+        self.assertEqual(self.post.parameters[("showcase_post", "playback")][2], 360)
+        self.player._showcase_closed()
+        self.assertAlmostEqual(self.player.canvas[1], 0.35)
+        self.assertAlmostEqual(self.post.parameters[("first_post", "playback")][2], 126)
+
+    def test_showcase_navigation_and_shader_failure_restore_previous_scene(self):
+        self._enable_showcase()
+        self.player.seek(1.5)
+        self.navigation_error = RuntimeError("showcase mount failed")
+        self.assertFalse(self.player.open_showcase())
+        self.assertEqual(self.player.snapshot()["scene"], "first")
+        self.assertEqual(self.player.snapshot()["position"], 1.5)
+        self.assertIn("showcase mount failed", self.player.error)
+        self.assertIsNone(self.player._showcase_return)
+        self.navigation_error = None
+        self.post.fail_install.add("showcase_post")
+        self.assertTrue(self.player.open_showcase())
+        self.assertFalse(self.player._showcase_ready())
+        self.assertEqual(self.player.snapshot()["scene"], "first")
+        self.assertEqual(self.player.snapshot()["position"], 1.5)
+        self.assertEqual(self.post.enabled, {"first_post"})
+        self.pyreact.navigator.pop.assert_called_once()
+
+    def test_showcase_destroy_and_late_cleanup_do_not_restart_playback(self):
+        self._enable_showcase()
+        self.player.open_showcase()
+        self.player._showcase_ready()
+        self.player.Destroy()
+        self.player._showcase_closed()
+        self.assertFalse(self.player._showcase_ready())
+        self.assertFalse(self.player.open_showcase())
+        self.assertFalse(self.player.replay_showcase())
+        self.assertEqual(self.post.enabled, set())
+
+    def test_showcase_overlay_has_only_two_quiet_actions_and_unmount_restores_player(self):
+        self._enable_showcase()
+        self.player.seek(1.25)
+        self.player.open_showcase()
+        self.player._showcase_ready()
+        effects = []
+        self.pyreact.Component = lambda component: component
+        self.pyreact.use_effect = lambda effect, deps: effects.append(effect)
+        self.pyreact.Color = lambda *values: values
+        self.pyreact.Style = lambda **props: props
+        for name in ("Panel", "Image", "Label", "Button"):
+            setattr(self.pyreact, name, lambda **props: props)
+        self.pyreact.ButtonState = types.SimpleNamespace(hover="hover", pressed="pressed")
+        self.pyreact.FlexDirection = types.SimpleNamespace(row="row")
+        self.pyreact.Position = types.SimpleNamespace(absolute="absolute")
+        self.pyreact.TextAlignment = types.SimpleNamespace(center="center")
+        module = self._load("showcase_panel")
+        element = module.ShowcasePanel(player=self.player)
+        actions = element["children"][0]["children"]
+        self.assertEqual([action["children"]["content"] for action in actions], ["重播", "返回"])
+        self.assertEqual(module._quiet_background("default")["color"][-1], 0)
+        disconnect = effects[0]()
+        disconnect()
+        self.assertEqual(self.player.snapshot()["scene"], "first")
+        self.assertEqual(self.player.snapshot()["position"], 1.25)
+        self.assertFalse(self.player.snapshot()["playing"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -209,7 +209,8 @@ def build(root=ROOT, output=None):
     output = Path(output).resolve() if output is not None else root
     resource = output / "resource_pack"
     behavior = output / "behavior_pack"
-    scenes = read_scenes(root / "behavior_pack/manim_ui/generated_scenes.py")
+    scenes = [scene for scene in read_scenes(root / "behavior_pack/manim_ui/generated_scenes.py")
+              if scene.get("canvas_compatible", True)]
     vertex = (root / "tools/canvas/pmanim_canvas.vertex").read_bytes()
     if b"EXTRA_ACTOR_UNIFORM3" not in vertex or b"gl_Position.xy" not in vertex:
         raise ValueError("The measured NDC canvas vertex contract is missing")

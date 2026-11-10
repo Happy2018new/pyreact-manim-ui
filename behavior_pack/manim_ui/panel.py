@@ -55,6 +55,11 @@ def PlayerPanel(player):
                     Label(content="MANIM / " + title, color=Color(0.5, 0.85, 1), fontSize=15 * scale, shadow=False),
                     Label(content="拖动进度检查中间态 · Esc 关闭 · F8 重开",
                           color=Color(0.7, 0.72, 0.77), fontSize=10 * scale, shadow=False),
+                    Button(style=Style(position=Position.absolute, right=0, top=0,
+                                       width=92 * scale, height=26 * scale),
+                           onClick=player.open_showcase,
+                           children=Label(content="作品演示", color=Color(0.55, 0.9, 1),
+                                          fontSize=12 * scale, shadow=False)),
                 ],
             ),
             Panel(

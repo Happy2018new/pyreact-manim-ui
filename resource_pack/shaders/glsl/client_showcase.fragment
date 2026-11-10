@@ -1,0 +1,218 @@
+// __multiversion__
+// Let ideas become visible. A deterministic, forty-one-second visual score.
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_2;
+uniform vec4 EXTRA_VECTOR1;
+uniform vec4 EXTRA_VECTOR2;
+const vec4 TYPE_TITLE = vec4(107.0, 36.0, 1834.0, 248.0);
+const vec4 TYPE_OPENING_EN = vec4(36.0, 339.0, 1976.0, 90.0);
+const vec4 TYPE_BRAND = vec4(312.0, 484.0, 1423.0, 120.0);
+const vec4 TYPE_SOURCE_WORD = vec4(112.0, 644.0, 784.0, 376.0);
+const vec4 TYPE_TARGET_WORD = vec4(1134.0, 644.0, 788.0, 376.0);
+const vec4 TYPE_CHAPTER_LIGHT = vec4(129.0, 1060.0, 253.0, 248.0);
+const vec4 TYPE_CHAPTER_SHAPE = vec4(638.0, 1060.0, 259.0, 248.0);
+const vec4 TYPE_CHAPTER_RHYTHM = vec4(1152.0, 1060.0, 256.0, 248.0);
+const vec4 TYPE_CHAPTER_UNIVERSE = vec4(1572.0, 1076.0, 440.0, 216.0);
+const vec4 TYPE_FOOTER = vec4(36.0, 1692.0, 1976.0, 104.0);
+const vec4 TYPE_SIGNATURE = vec4(36.0, 1870.0, 1976.0, 84.0);
+const vec4 TYPE_FORMULA = vec4(36.0, 1380.0, 1976.0, 248.0);
+const float PI = 3.14159265359;
+const vec3 INK = vec3(0.018, 0.028, 0.053);
+const vec3 ICE = vec3(0.29, 0.87, 0.94);
+const vec3 GOLD = vec3(1.0, 0.71, 0.35);
+const vec3 PAPER = vec3(0.94, 0.94, 0.87);
+
+float ease(float a, float b, float t) { return smoothstep(a, b, t); }
+float window(float t, float a, float b) { return ease(a, a+0.8,t)*(1.0-ease(b-0.8,b,t)); }
+mat2 turn(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
+float hash(float n) { return fract(sin(n*78.233+12.9898)*43758.5453); }
+float stroke(float d, float w, float aa) { return 1.0-smoothstep(w,w+aa,d); }
+float segment(vec2 p, vec2 a, vec2 b) {
+    vec2 v=b-a; return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.00001),0.0,1.0));
+}
+void light(inout vec3 c, float d, vec3 hue, float w, float power, float aa) {
+    c += hue*power*(stroke(d,w,aa)+0.13*exp(-d*23.0));
+}
+float maskAt(vec2 p, vec2 center, float h, vec4 rect) {
+    vec2 size=vec2(h*rect.z/rect.w,h);
+    vec2 q=(p-center)/size+0.5;
+    q.y=1.0-q.y;
+    if (min(q.x,q.y)<0.0 || max(q.x,q.y)>1.0) return 0.0;
+    vec2 pix=rect.xy+q*rect.zw-0.5;
+    vec2 base=floor(pix), f=fract(pix);
+    float a=texture2D(TEXTURE_2,(base+vec2(0.5,0.5))/2048.0).r;
+    float b=texture2D(TEXTURE_2,(base+vec2(1.5,0.5))/2048.0).r;
+    float c=texture2D(TEXTURE_2,(base+vec2(0.5,1.5))/2048.0).r;
+    float d=texture2D(TEXTURE_2,(base+vec2(1.5,1.5))/2048.0).r;
+    return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
+}
+void lettering(inout vec3 c, vec2 p, vec2 center, float h, vec4 rect, vec3 hue, float opacity) {
+    c=mix(c,hue,clamp(maskAt(p,center,h,rect)*opacity,0.0,1.0));
+}
+vec2 glyphPoint(float i, float row) {
+    vec4 b=floor(texture2D(TEXTURE_2,vec2(i+0.5,row+0.5)/2048.0)*255.0+0.5);
+    return vec2(dot(b.rg,vec2(256.0,1.0)),dot(b.ba,vec2(256.0,1.0)))/65535.0*4.0-2.0;
+}
+vec3 stageSeed(vec2 p, float t, float aa) {
+    vec3 c=vec3(0.0);
+    float born=ease(0.0,1.4,t);
+    float r=length(p-vec2(0.0,0.55));
+    float blast=ease(0.5,3.5,t);
+    c+=ICE*0.13*exp(-r*r*0.45)*born;
+    for (int j=0;j<4;j++) {
+        float i=float(j), radius=(0.5+i*0.45)*blast;
+        float ang=atan(p.y-0.55,p.x)+t*(0.15+i*0.03);
+        float arc=ease(-0.95,0.0,sin(ang+i*1.4));
+        light(c,abs(r-radius),mix(ICE,GOLD,i/4.0),0.008,(0.3+arc*0.45)*born,aa);
+    }
+    float a=t*0.6;
+    vec2 at=vec2(cos(a),sin(a))*1.4*blast+vec2(0.0,0.55);
+    light(c,length(p-at),GOLD,0.035,born,aa);
+    light(c,r,PAPER,0.025+0.04*(1.0-born),1.2*born,aa);
+    lettering(c,p,vec2(0.0,-2.0),0.28,TYPE_OPENING_EN,PAPER,ease(1.0,2.6,t));
+    return c;
+}
+vec3 stageGlyph(vec2 p, float t, float aa) {
+    vec3 c=vec3(0.0);
+    float morph=ease(7.6,10.4,t);
+    float airborne=sin(PI*morph);
+    vec2 q=p-vec2(0.0,0.35);
+    float intro=1.0-ease(7.3,8.2,t);
+    float outro=ease(10.1,10.9,t);
+    lettering(c,p,vec2(0.0,0.35),1.9,TYPE_SOURCE_WORD,PAPER,intro);
+    lettering(c,p,vec2(0.0,0.35),1.9,TYPE_TARGET_WORD,PAPER,outro);
+    if(abs(q.x)<5.4 && abs(q.y)<2.8) {
+        float points=0.0, bloom=0.0;
+        for (int k=0;k<256;k++) {
+            float i=float(k);
+            vec2 a=glyphPoint(i,2040.0), b=glyphPoint(i,2041.0);
+            vec2 at=mix(a,b,morph)*1.162234;
+            at+=airborne*vec2(sin(i*2.399+t*0.2)*0.42,cos(i*1.17+t*0.3)*0.55);
+            float d=length(q-at);
+            vec2 tail=at-(b-a)*0.07*airborne-vec2(cos(i),sin(i))*0.055*airborne;
+            points=max(points,stroke(segment(q,tail,at),0.009,aa));
+            bloom+=exp(-d*75.0)*0.11;
+        }
+        c+=mix(GOLD,ICE,morph)*(points*(0.25+airborne*0.9)+bloom*airborne);
+    }
+    float line=ease(5.0,6.7,t);
+    light(c,segment(p,vec2(-2.6,-1.2),vec2(-2.6+5.2*line,-1.2)),ICE,0.005,0.45,aa);
+    lettering(c,p,vec2(0.0,2.75),0.37,TYPE_CHAPTER_SHAPE,GOLD,0.85);
+    lettering(c,p,vec2(0.0,-2.3),0.23,TYPE_OPENING_EN,PAPER,0.65);
+    return c;
+}
+vec3 stageWave(vec2 p, float t, float aa) {
+    vec3 c=vec3(0.0);
+    float enter=ease(13.0,14.5,t);
+    float phase=(t-14.0)*1.6;
+    vec2 center=vec2(-3.9,0.3);
+    float radius=1.35;
+    vec2 v=center+radius*vec2(cos(phase),sin(phase));
+    float circle=abs(length(p-center)-radius);
+    light(c,circle,ICE,0.009,0.7*enter,aa);
+    light(c,segment(p,center-vec2(1.7,0),center+vec2(1.7,0)),ICE,0.004,0.22,aa);
+    light(c,segment(p,center-vec2(0,1.7),center+vec2(0,1.7)),ICE,0.004,0.22,aa);
+    light(c,segment(p,center,v),GOLD,0.014,enter,aa);
+    light(c,length(p-v),PAPER,0.042,enter,aa);
+    vec2 waveStart=vec2(-1.35,v.y);
+    float dotline=step(0.4,fract(p.x*7.0));
+    light(c,segment(p,v,waveStart),GOLD,0.005,0.36*dotline,aa);
+    light(c,segment(p,vec2(-1.35,0.3),vec2(6.2,0.3)),ICE,0.005,0.33,aa);
+    if(p.x>=-1.35 && p.x<6.2) {
+        float x=p.x+1.35;
+        float a=phase-x*1.03;
+        float y=0.3+radius*sin(a);
+        float d=abs(p.y-y)/sqrt(1.0+pow(radius*1.03*cos(a),2.0));
+        float reveal=1.0-ease(7.3*enter,7.3*enter+0.1,x);
+        light(c,d,ICE,0.017,reveal,aa);
+        float trail=0.3+radius*sin(a-0.12);
+        light(c,abs(p.y-trail),ICE,0.006,0.12*reveal,aa);
+        float grid=abs(fract(x*0.5+0.5)-0.5);
+        c+=ICE*stroke(grid,0.001,aa*0.3)*0.06*ease(-1.5,-1.3,p.y)*(1.0-ease(1.9,2.1,p.y));
+    }
+    light(c,length(p-waveStart),GOLD,0.035,enter,aa);
+    lettering(c,p,vec2(0.0,2.85),0.4,TYPE_CHAPTER_RHYTHM,GOLD,1.0);
+    lettering(c,p,vec2(0.0,-2.1),0.63,TYPE_FORMULA,PAPER,ease(14.0,15.2,t));
+    return c;
+}
+vec3 stageUniverse(vec2 p, float t, float aa) {
+    vec3 c=vec3(0.0);
+    float arrive=ease(24.0,25.4,t);
+    float leave=1.0-ease(31.4,33.5,t);
+    vec2 q=turn((t-24.0)*0.13)*p;
+    q.y-=0.12;
+    float expand=(0.35+0.65*arrive)*(0.08+0.92*leave);
+    for(int j=0;j<12;j++) {
+        float i=float(j), angle=i*PI/6.0;
+        vec2 center=vec2(cos(angle),sin(angle))*(1.02+0.3*sin((t-24.0)*0.8))*expand;
+        float radius=(1.4+0.18*cos((t-24.0)*0.8)+0.06*sin(t*0.7+i))*expand;
+        float d=abs(length(q-center)-radius);
+        vec3 hue=mix(ICE,GOLD,0.5+0.5*sin(i*0.6+t*0.25));
+        light(c,d,hue,0.007,0.47,aa);
+    }
+    float r=length(q), a=atan(q.y,q.x);
+    float petals=(2.3+0.18*cos(6.0*a+t))*expand;
+    light(c,abs(r-petals),GOLD,0.012,0.7,aa);
+    light(c,abs(r-2.72*expand),ICE,0.004,0.35,aa);
+    float ticks=step(0.89,fract(a/PI*48.0));
+    c+=GOLD*stroke(abs(r-3.02*expand),0.05*expand,aa)*ticks*0.32;
+    vec2 comet=vec2(cos(t*0.75),sin(t*0.75))*2.72*expand;
+    light(c,length(q-comet),PAPER,0.035,0.95,aa);
+    for(int k=0;k<48;k++) {
+        float i=float(k), a=i*2.399963+0.07*t;
+        float r=(2.9+hash(i+9.0)*1.2)*expand;
+        vec2 at=vec2(cos(a),sin(a))*r;
+        light(c,length(q-at),mix(ICE,GOLD,hash(i)),0.012+0.012*hash(i+4.0),0.55,aa);
+    }
+    c+=ICE*exp(-r*r*0.45)*0.06;
+    lettering(c,p,vec2(0.0,3.45),0.34,TYPE_CHAPTER_UNIVERSE,GOLD,leave);
+    return c;
+}
+vec3 stageFinal(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float enter=ease(33.0,35.0,t);
+    float r=length(p-vec2(0.0,0.2));
+    c+=ICE*exp(-r*r*0.085)*0.055;
+    vec2 q=turn(0.19+(t-33.0)*0.008)*(p-vec2(0.0,0.2));
+    float oval=abs(length(q/vec2(5.7,2.3))-1.0)*2.3;
+    light(c,oval,ICE,0.004,0.18*enter,aa);
+    float mark=segment(p,vec2(-0.32,1.9),vec2(0.32,1.9));
+    light(c,mark,GOLD,0.012,enter,aa);
+    vec3 hue=mix(PAPER,vec3(1.0,0.84,0.55),0.12+0.12*sin(p.x*0.4-t));
+    lettering(c,p,vec2(0.0,0.35+0.15*(1.0-enter)),1.14,TYPE_TITLE,hue,enter);
+    lettering(c,p,vec2(0.0,-1.1),0.22,TYPE_OPENING_EN,PAPER,0.75*ease(34.5,36.0,t));
+    lettering(c,p,vec2(0.0,-2.6),0.23,TYPE_BRAND,ICE,ease(35.0,36.5,t));
+    return c;
+}
+void main() {
+    vec2 v=uv;
+    if(EXTRA_VECTOR2.x>0.5) v.y=1.0-v.y;
+    float top=EXTRA_VECTOR2.y;
+    float height=EXTRA_VECTOR2.z>0.0?EXTRA_VECTOR2.z:1.0;
+    vec2 local=vec2(v.x,(v.y-top)/height);
+    vec4 original=texture2D(TEXTURE_0,uv);
+    if(local.y<0.0 || local.y>1.0) { gl_FragColor=original; return; }
+    float aspect=EXTRA_VECTOR1.y;
+    vec2 p=vec2((local.x-0.5)*aspect,0.5-local.y)*9.0;
+    // Letterbox the composition on narrow windows instead of cropping titles.
+    p*=max(1.0,(16.0/9.0)/aspect);
+    float aa=10.0/max(EXTRA_VECTOR1.z,1.0)*max(1.0,(16.0/9.0)/aspect);
+    float t=clamp(EXTRA_VECTOR1.x,0.0,41.0);
+    vec3 color=INK;
+    color+=vec3(0.005,0.015,0.023)*exp(-dot(p,p)*0.06);
+    // Tiny fixed stars stay deterministic when scrubbing or replaying.
+    vec2 cell=floor(p*1.7);
+    float star=hash(dot(cell,vec2(13.1,79.7)));
+    vec2 pos=(cell+vec2(0.15+0.7*star,0.15+0.7*hash(star*80.0)))/1.7;
+    color+=ICE*stroke(length(p-pos),0.004,aa)*step(0.79,star)*0.15;
+    if(t<5.8) color+=stageSeed(p,t,aa)*window(t,0.0,5.8);
+    if(t>5.0 && t<13.8) color+=stageGlyph(p,t,aa)*window(t,5.0,13.8);
+    if(t>13.0 && t<24.8) color+=stageWave(p,t,aa)*window(t,13.0,24.8);
+    if(t>24.0 && t<34.0) color+=stageUniverse(p,t,aa)*window(t,24.0,34.0);
+    if(t>33.0) color+=stageFinal(p,t,aa);
+    color*=0.84+0.16*exp(-dot(p,p)*0.012);
+    color=clamp(color,0.0,1.0);
+    gl_FragColor=mix(original,vec4(color,1.0),clamp(EXTRA_VECTOR1.w,0.0,1.0));
+}

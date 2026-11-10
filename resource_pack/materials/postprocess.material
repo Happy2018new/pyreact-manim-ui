@@ -328,5 +328,38 @@
       "DisableDepthTest"
     ],
     "msaaSupport": "Both"
+  },
+  "pmanim_client_showcase": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/client_showcase.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
   }
 }

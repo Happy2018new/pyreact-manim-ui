@@ -1,0 +1,330 @@
+{
+  "schema": 1,
+  "size": [
+    2048,
+    2048
+  ],
+  "atlas": "showcase_atlas.png",
+  "sha256": "ca097efbaba432b4b0a8f57b5b7aecbf6411147530f12223a53b20366da6504c",
+  "sampler": "Point; manually bilinear text only",
+  "texture_coordinates": "top-left pixel origin, x right, y down; use texel centers",
+  "mask_channel": "R",
+  "labels": {
+    "title": {
+      "text": "让想法，成为可见",
+      "rect": [
+        107,
+        36,
+        1834,
+        248
+      ],
+      "ink_rect": [
+        111,
+        40,
+        1826,
+        240
+      ],
+      "aspect": 7.608333333333333,
+      "uv": [
+        0.05224609375,
+        0.017578125,
+        0.8955078125,
+        0.12109375
+      ]
+    },
+    "opening_en": {
+      "text": "FROM A POINT. TO POSSIBILITY.",
+      "rect": [
+        36,
+        339,
+        1976,
+        90
+      ],
+      "ink_rect": [
+        40,
+        343,
+        1968,
+        82
+      ],
+      "aspect": 24.0,
+      "uv": [
+        0.017578125,
+        0.16552734375,
+        0.96484375,
+        0.0439453125
+      ]
+    },
+    "brand": {
+      "text": "PYREACT / MANIM",
+      "rect": [
+        312,
+        484,
+        1423,
+        120
+      ],
+      "ink_rect": [
+        316,
+        488,
+        1415,
+        112
+      ],
+      "aspect": 12.633928571428571,
+      "uv": [
+        0.15234375,
+        0.236328125,
+        0.69482421875,
+        0.05859375
+      ]
+    },
+    "source_word": {
+      "text": "想法",
+      "rect": [
+        112,
+        644,
+        784,
+        376
+      ],
+      "ink_rect": [
+        116,
+        648,
+        776,
+        368
+      ],
+      "aspect": 2.108695652173913,
+      "uv": [
+        0.0546875,
+        0.314453125,
+        0.3828125,
+        0.18359375
+      ]
+    },
+    "target_word": {
+      "text": "可见",
+      "rect": [
+        1134,
+        644,
+        788,
+        376
+      ],
+      "ink_rect": [
+        1138,
+        648,
+        780,
+        368
+      ],
+      "aspect": 2.119565217391304,
+      "uv": [
+        0.5537109375,
+        0.314453125,
+        0.384765625,
+        0.18359375
+      ]
+    },
+    "chapter_light": {
+      "text": "光",
+      "rect": [
+        129,
+        1060,
+        253,
+        248
+      ],
+      "ink_rect": [
+        133,
+        1064,
+        245,
+        240
+      ],
+      "aspect": 1.0208333333333333,
+      "uv": [
+        0.06298828125,
+        0.517578125,
+        0.12353515625,
+        0.12109375
+      ]
+    },
+    "chapter_shape": {
+      "text": "形",
+      "rect": [
+        638,
+        1060,
+        259,
+        248
+      ],
+      "ink_rect": [
+        642,
+        1064,
+        251,
+        240
+      ],
+      "aspect": 1.0458333333333334,
+      "uv": [
+        0.3115234375,
+        0.517578125,
+        0.12646484375,
+        0.12109375
+      ]
+    },
+    "chapter_rhythm": {
+      "text": "律",
+      "rect": [
+        1152,
+        1060,
+        256,
+        248
+      ],
+      "ink_rect": [
+        1156,
+        1064,
+        248,
+        240
+      ],
+      "aspect": 1.0333333333333334,
+      "uv": [
+        0.5625,
+        0.517578125,
+        0.125,
+        0.12109375
+      ]
+    },
+    "chapter_universe": {
+      "text": "万象",
+      "rect": [
+        1572,
+        1076,
+        440,
+        216
+      ],
+      "ink_rect": [
+        1576,
+        1080,
+        432,
+        208
+      ],
+      "aspect": 2.076923076923077,
+      "uv": [
+        0.767578125,
+        0.525390625,
+        0.21484375,
+        0.10546875
+      ]
+    },
+    "footer": {
+      "text": "MATHEMATICS IN MOTION",
+      "rect": [
+        36,
+        1692,
+        1976,
+        104
+      ],
+      "ink_rect": [
+        40,
+        1696,
+        1968,
+        96
+      ],
+      "aspect": 20.5,
+      "uv": [
+        0.017578125,
+        0.826171875,
+        0.96484375,
+        0.05078125
+      ]
+    },
+    "signature": {
+      "text": "EVERY IDEA BEGINS WITH A POINT",
+      "rect": [
+        36,
+        1870,
+        1976,
+        84
+      ],
+      "ink_rect": [
+        40,
+        1874,
+        1968,
+        76
+      ],
+      "aspect": 25.894736842105264,
+      "uv": [
+        0.017578125,
+        0.9130859375,
+        0.96484375,
+        0.041015625
+      ]
+    },
+    "formula": {
+      "text": "e^{i\\theta}=\\cos\\theta+i\\sin\\theta",
+      "rect": [
+        36,
+        1380,
+        1976,
+        248
+      ],
+      "ink_rect": [
+        40,
+        1384,
+        1968,
+        240
+      ],
+      "aspect": 8.2,
+      "uv": [
+        0.017578125,
+        0.673828125,
+        0.96484375,
+        0.12109375
+      ]
+    }
+  },
+  "fonts": {
+    "song": {
+      "family": "Noto Serif SC / derived Pyreact Manim Song",
+      "weight": 400,
+      "source_sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
+      "subset_sha256": "0c2d3ced805ca87ce04c8b405c8fe73e294643cb44cb75330465b6d6fbb35025",
+      "license": "OFL-1.1"
+    },
+    "latin": {
+      "family": "DejaVu Serif",
+      "sha256": "107244956e9962b9e96faccdc551825e0ae0898ae13737133e1b921a2fd35ffa",
+      "license": "tools/reference/fonts/LICENSE_DEJAVU"
+    }
+  },
+  "formula_renderer": "ManimGL 1.7.2 Tex + installed LaTeX / dvisvgm, CairoSVG alpha rasterization",
+  "duration": 41.0,
+  "shader_sha256": "b98a8260b847a96dd1ddd01b5097bf1a4cf02ea68dc1ec39241df0ebada98278",
+  "typography_generator": "tools/showcase/build_typography.py",
+  "morph": {
+    "kind": "equal-arc-length font-outline point-cloud transport",
+    "source": "想法",
+    "target": "可见",
+    "source_row": 2040,
+    "target_row": 2041,
+    "count": 256,
+    "first_column": 0,
+    "encoding": "RG=x uint16 big-endian, BA=y uint16 big-endian",
+    "decode": "(high*255*256+low*255)/65535*4-2",
+    "geometry_y": "up",
+    "source_geometry": {
+      "bounds": [
+        -1.683297180043384,
+        -0.8,
+        1.683297180043384,
+        0.8
+      ],
+      "contours": 22,
+      "count": 256
+    },
+    "target_geometry": {
+      "bounds": [
+        -1.7018826135105205,
+        -0.8,
+        1.7018826135105205,
+        0.8
+      ],
+      "contours": 8,
+      "count": 256
+    },
+    "assignment": "scipy.optimize.linear_sum_assignment, minimum squared displacement",
+    "max_quantization_error": 3.0518043793392844e-05
+  }
+}

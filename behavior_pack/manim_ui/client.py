@@ -10,6 +10,8 @@ from . import pyreact
 ClientSystem = clientApi.GetClientSystemCls()
 PLAYER_PAGE_KEY = "manim_player"
 CANVAS_PAGE_KEY = "manim_canvas_demo"
+SHOWCASE_PAGE_KEY = "manim_showcase"
+SHOWCASE_SCENE = "client_showcase"
 
 
 class ManimClient(ClientSystem):
@@ -30,6 +32,7 @@ class ManimClient(ClientSystem):
         self.playback = PlaybackController(SCENES, self, self._clock)
         self.scenes = self.playback.scenes
         self.canvas_demo = None
+        self._showcase_return = None
         self._reopen_key = str(clientApi.GetMinecraftEnum().KeyBoardType.KEY_F8)
         self._listeners = [
             ("UiInitFinished", self.on_ui_ready),
@@ -104,6 +107,79 @@ class ManimClient(ClientSystem):
             self._canvas_closed()
         return accepted
 
+    def open_showcase(self):
+        """Open a clean full-screen presentation, starting after UI mount."""
+        navigator = pyreact.navigator
+        if self.playback.disposed or not navigator.is_ready or navigator.is_transitioning:
+            return False
+        if navigator.contains(SHOWCASE_PAGE_KEY):
+            return True
+        if navigator.contains(CANVAS_PAGE_KEY) or SHOWCASE_SCENE not in self.scene_names():
+            return False
+        from .showcase_panel import ShowcasePanel
+        was_visible = self.visible
+        self.pause()
+        state = self.snapshot()
+        self._showcase_return = {
+            "scene": state["scene"] if self.timeline is not None else None,
+            "position": state["position"], "visible": was_visible,
+            "canvas": self.canvas,
+        }
+        self.hide()
+        self.canvas = (0.0, 1.0)
+        self._last_parameters = None
+        accepted = navigator.push(ShowcasePanel(player=self), key=SHOWCASE_PAGE_KEY,
+                                  on_complete=self._showcase_ready,
+                                  on_result=self._showcase_closed,
+                                  on_error=self._showcase_error)
+        if not accepted and self._showcase_return is not None:
+            self._showcase_closed()
+        return accepted
+
+    def _showcase_ready(self, entry=None):
+        if entry is not None and entry.key != SHOWCASE_PAGE_KEY:
+            return False
+        if self._showcase_return is None or self.playback.disposed:
+            return False
+        if self.replay(SHOWCASE_SCENE):
+            return True
+        self._showcase_error(self.error)
+        self.close_showcase()
+        return False
+
+    def replay_showcase(self):
+        if self._showcase_return is None:
+            return False
+        return self.replay(SHOWCASE_SCENE)
+
+    def close_showcase(self):
+        navigator = pyreact.navigator
+        if not navigator.contains(SHOWCASE_PAGE_KEY) or navigator.is_transitioning:
+            return False
+        return navigator.pop()
+
+    def _showcase_closed(self, _result=None):
+        saved = self._showcase_return
+        if saved is None:
+            return
+        self._showcase_return = None
+        self.hide()
+        self.canvas = saved["canvas"]
+        self._last_parameters = None
+        if self.playback.disposed or saved["scene"] is None:
+            return
+        if not self.load(saved["scene"]):
+            return
+        self.seek(saved["position"])
+        if not saved["visible"]:
+            self.hide()
+
+    def _showcase_error(self, error):
+        self._showcase_closed()
+        self.error = "Showcase UI failed: " + str(error)
+        print("[manim-ui] " + self.error)
+        self.notify()
+
     def close_canvas_panel(self):
         navigator = pyreact.navigator
         if not navigator.contains(CANVAS_PAGE_KEY) or navigator.is_transitioning:
@@ -150,6 +226,11 @@ class ManimClient(ClientSystem):
         else:
             self.canvas = (0.0, 1.0)
             self.ui_scale = 1.0
+        if self._showcase_return is not None:
+            # Keep the underlying player's future margins current while the
+            # presentation uses the entire physical viewport after a resize.
+            self._showcase_return["canvas"] = self.canvas
+            self.canvas = (0.0, 1.0)
         self._last_parameters = None
 
     def install_scene(self, scene):
@@ -276,6 +357,7 @@ class ManimClient(ClientSystem):
         return self.Destroy()
 
     def Destroy(self):
+        self._showcase_return = None
         if self.canvas_demo is not None:
             self.canvas_demo.dispose()
             self.canvas_demo = None

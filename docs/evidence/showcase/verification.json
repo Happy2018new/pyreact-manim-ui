@@ -1,0 +1,145 @@
+{
+  "title": "让想法，成为可见",
+  "duration_seconds": 41,
+  "background_only": true,
+  "fps_cap": 60,
+  "physical_mouse_touch_tested": false,
+  "game": {
+    "sizes": [
+      [
+        640,
+        360
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "passed": true,
+    "keyframe_times": [
+      4.0,
+      6.5,
+      9.2,
+      17.0,
+      28.5,
+      38.0
+    ],
+    "fps_1280": [
+      60.0775146484375,
+      60.0775146484375,
+      59.96131134033203,
+      59.96131134033203,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      59.96131134033203
+    ],
+    "fps_640": [
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      56.530208587646484,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375,
+      60.0775146484375
+    ],
+    "continuous_playback_seconds": 41,
+    "ends_paused": true,
+    "original_scene_and_position_restored": true,
+    "postprocess_install_call_seconds": 0.33467099999998595,
+    "install_timing_is_not_startup_or_first_frame": true,
+    "client_initialization_exceeded_120_second_launcher_wait": true
+  },
+  "offline_tests": {
+    "full_suite_total": 198,
+    "full_suite_passed": 197,
+    "full_suite_skipped": 1,
+    "additional_showcase_build_tests_passed": 2,
+    "python2_syntax_modules": 4
+  },
+  "video": {
+    "ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "color_range": "tv",
+          "color_space": "bt709",
+          "avg_frame_rate": "60/1",
+          "duration": "41.000000",
+          "nb_frames": "2460",
+          "nb_read_frames": "2460"
+        },
+        {
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 2,
+          "avg_frame_rate": "0/0",
+          "duration": "41.000000",
+          "nb_frames": "1923",
+          "nb_read_frames": "1922"
+        }
+      ],
+      "format": {
+        "duration": "41.000000",
+        "size": "7957786"
+      }
+    },
+    "mp4_boxes": [
+      {
+        "type": "ftyp",
+        "offset": 0,
+        "size": 32
+      },
+      {
+        "type": "moov",
+        "offset": 32,
+        "size": 66695
+      },
+      {
+        "type": "free",
+        "offset": 66727,
+        "size": 8
+      },
+      {
+        "type": "mdat",
+        "offset": 66735,
+        "size": 7891051
+      }
+    ],
+    "faststart_verified": true,
+    "full_decode_passed": true,
+    "measured_audio_integrated_lufs": -15.69,
+    "measured_audio_true_peak_db": -3.9,
+    "sha256": "e5f8d37c415e89030e3f1c93b8bc63ac44a38bd1f640e1f8be6e9655c8ef1258",
+    "shader_sha256": "b98a8260b847a96dd1ddd01b5097bf1a4cf02ea68dc1ec39241df0ebada98278",
+    "texture_sha256": "ca097efbaba432b4b0a8f57b5b7aecbf6411147530f12223a53b20366da6504c",
+    "source": "same shipped shader via offline desktop GL, not game capture"
+  },
+  "package": {
+    "bytes": 2267755,
+    "sha256": "1db05c7978f0d5c04744caf0a347ca267cc4e3c75c2efd8f448edbc2db9c0713",
+    "files": 130
+  },
+  "limits": [
+    "MP4 is same-shader offline rendering, not MC recording",
+    "Soundtrack is included in MP4 only",
+    "Chinese transition is outline point transport, not native Manim curve Transform",
+    "The specialized film is full-screen postprocess, not a generic transparent canvas scene",
+    "Background state tests do not verify physical mouse/touch input"
+  ]
+}
