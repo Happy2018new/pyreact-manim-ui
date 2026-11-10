@@ -38,30 +38,33 @@ float sdfSample(vec2 q,vec4 tile) {
 // __TYPE_FUNCTIONS__
 
 vec3 atmosphere(vec2 p,float t,float aa) {
-    // One restrained lighting plane gives the mathematical forms their space.
-    vec3 c=vec3(0.009,0.021,0.046);
-    float depth=exp(-dot((p-vec2(-2.4,0.8))*vec2(0.20,0.29),(p-vec2(-2.4,0.8))*vec2(0.20,0.29)));
-    c+=vec3(0.008,0.027,0.048)*depth;
+    vec3 c=vec3(0.006,0.012,0.032);
+    vec2 axis=rot(0.10*sin(t*0.08))*p;
+    float depth=exp(-dot((axis-vec2(-2.4,0.8))*vec2(0.20,0.29),(axis-vec2(-2.4,0.8))*vec2(0.20,0.29)));
+    float counter=exp(-dot((axis-vec2(4.0,-1.5))*vec2(0.23,0.31),(axis-vec2(4.0,-1.5))*vec2(0.23,0.31)));
+    c+=geoPalette(t*0.012+0.2)*depth*0.024;
+    c+=geoPalette(t*0.012+0.65)*counter*0.016;
     return c;
 }
 vec3 introStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
-    float draw=smoothstep(0.0,1.35,t);
-    for(int layer=0;layer<6;layer++) {
-        float lane=float(layer),d=100.0;
+    float draw=smoothstep(0.0,1.25,t);
+    float laceLife=smoothstep(2.3,3.6,t)*(1.0-smoothstep(8.8,11.5,t));
+    float depth=1.0+4.0*smoothstep(2.8,7.6,t);
+    c+=geoFractalLace(p*vec2(0.63,1.0),t,depth,1.0,3.25,aa)*laceLife*0.78;
+    for(int layer=0;layer<5;layer++) {
+        float lane=float(layer),d=100.0,along=0.0;
         vec2 previous=geoIntroPoint(0.0,lane,t);
-        for(int j=1;j<=72;j++) {
-            float u=float(j)/72.0;
-            vec2 current=geoIntroPoint(min(u,draw),lane,t);
-            d=min(d,lineDistance(p,previous,current));
+        for(int j=1;j<=96;j++) {
+            float u=min(float(j)/96.0,draw);
+            float previousU=min(float(j-1)/96.0,draw);
+            vec2 current=geoIntroPoint(u,lane,t);
+            geoTrack(p,previous,current,previousU,u,d,along);
             previous=current;
         }
-        vec3 hue=layer==0?GOLD:mix(vec3(0.045,0.28,0.58),CYAN,lane/5.0);
-        float power=layer==5?1.12:layer==0?0.92:0.56;
-        c+=glow(d,layer==5?0.023:0.012,hue,power,aa);
+        c+=geoRibbon(d,along,lane,t,layer==4?0.030:0.015,layer==4?1.15:0.74,aa);
     }
-    float reading=mix(1.0,geoReadingMask(p,vec2(0.0,0.25),vec2(5.7,0.91)),smoothstep(0.2,1.0,t));
-    return c*reading*gate(t,0.0,12.0);
+    return c*gate(t,0.0,12.0);
 }
 vec3 algebraStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
@@ -88,7 +91,7 @@ vec3 algebraStage(vec2 p,float t,float aa) {
             }
             vec2 joined=vec2(-3.1,-1.5)+offset;
             vec2 center=mix(mix(joined,spread,separate),vec2(3.1,-1.5)+offset,assemble);
-            c+=geoPanel(p,center,halfSize,turn*separate*(1.0-assemble),hue,0.30,aa);
+            c+=geoPanel(p,center,halfSize,turn*separate*(1.0-assemble),hue,0.30,t,aa);
         }
         float brace=separate*(1.0-assemble);
         c+=glow(lineDistance(p,vec2(-2.55,-2.9),vec2(3.25,-2.9)),0.012,GOLD,0.85*brace,aa);
@@ -122,7 +125,7 @@ vec3 algebraStage(vec2 p,float t,float aa) {
         float join=j==3?smoothstep(38.15,39.15,t):square;
         vec2 center=mix(spread,assembledCenter+offset,join);
         float visible=j==3?smoothstep(36.2,37.6,t):1.0;
-        vec3 panel=geoPanel(p,center,halfSize,startAngle*(1.0-square),hue,0.30*(1.0-extract),aa);
+        vec3 panel=geoPanel(p,center,halfSize,startAngle*(1.0-square),hue,0.30*(1.0-extract),t,aa);
         c+=panel*visible*(1.0-0.80*extract)*(1.0-rounding);
     }
     float left=assembledCenter.x-1.8,right=assembledCenter.x+1.8;
@@ -132,7 +135,7 @@ vec3 algebraStage(vec2 p,float t,float aa) {
     c+=glow(lineDistance(p,vec2(right,0.51),vec2(right,0.79)),0.010,GOLD,measure,aa);
     // The extracted square perimeter becomes the next chapter's circle.
     float perimeter=smoothstep(41.0,42.5,t);
-    float d=100.0;
+    float d=100.0,along=0.0;
     vec2 previous=vec2(0.0);
     for(int j=0;j<=96;j++) {
         float u=float(j)/96.0;
@@ -140,31 +143,33 @@ vec3 algebraStage(vec2 p,float t,float aa) {
         vec2 box=geoPolygon(u,4.0,2.5455844,PI*0.25);
         vec2 circle=vec2(cos(a),sin(a))*2.02;
         vec2 current=mix(box,circle,rounding)+mix(assembledCenter,vec2(-1.75,-0.8),rounding);
-        if(j>0) d=min(d,lineDistance(p,previous,current));
+        if(j>0) geoTrack(p,previous,current,u-1.0/96.0,u,d,along);
         previous=current;
     }
-    c+=glow(d,0.023,CYAN,1.12*perimeter,aa);
+    c+=geoRibbon(d,along,4.0,t,0.026,1.12*perimeter,aa);
     return c*gate(t,32.4,48.0);
 }
 vec3 closingStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float settle=smoothstep(114.0,118.0,t);
-    for(int layer=0;layer<6;layer++) {
-        float lane=float(layer),d=100.0,crossings=0.0;
+    float colorTime=mix(t,118.0+(t-118.0)*0.22,settle);
+    c+=geoFractalLace(p*vec2(0.56,1.0),colorTime,mix(5.0,1.8,settle),1.0,3.2,aa)*mix(0.85,0.28,settle);
+    for(int layer=0;layer<5;layer++) {
+        float lane=float(layer),d=100.0,along=0.0,crossings=0.0;
         vec2 previous=geoClosingPoint(0.0,lane,t);
-        for(int j=1;j<=64;j++) {
-            vec2 current=geoClosingPoint(float(j)/64.0,lane,t);
-            d=min(d,lineDistance(p,previous,current));
+        for(int j=1;j<=96;j++) {
+            float u=float(j)/96.0;
+            vec2 current=geoClosingPoint(u,lane,t);
+            geoTrack(p,previous,current,u-1.0/96.0,u,d,along);
             crossings+=geoRayCrossing(p,previous,current);
             previous=current;
         }
-        vec3 hue=layer==0?GOLD:mix(vec3(0.04,0.25,0.48),CYAN,lane/5.0);
-        float power=layer==0?0.82:layer==5?0.90:0.44;
-        float wings=mix(1.0,smoothstep(2.6,5.1,abs(p.x)),settle);
-        c+=hue*mod(crossings,2.0)*(0.018+lane*0.004)*(1.0-settle);
-        c+=glow(d,layer==5?0.017:0.010,hue,power*mix(1.0,0.65,settle),aa)*wings;
+        vec3 hue=geoPalette(along*1.35-lane*0.105-colorTime*0.065);
+        c+=hue*mod(crossings,2.0)*(0.014+lane*0.002)*(1.0-settle);
+        c+=geoRibbon(d,along,lane,colorTime,layer==4?0.024:0.013,
+                    (layer==4?1.10:0.70)*mix(1.0,0.72,settle),aa);
     }
-    return c*geoReadingMask(p,vec2(0.0,0.15),vec2(mix(3.35,5.95,smoothstep(114.0,115.0,t)),0.76));
+    return c;
 }
 void main() {
     vec2 v=uv;
@@ -179,10 +184,15 @@ void main() {
     float aa=9.0/max(EXTRA_VECTOR1.z,1.0)*narrow;
     float t=clamp(EXTRA_VECTOR1.x,0.0,120.0);
     vec3 c=atmosphere(p,t,aa);
-    if(t<12.0) c+=introStage(p,t,aa);
-    c+=geometryAct(p,t,aa);
-    if(t>=28.0 && t<48.0) c+=algebraStage(p,t,aa);
-    if(t>=114.0) c+=closingStage(p,t,aa);
+    vec3 mathematics=vec3(0.0);
+    if(t<12.0) mathematics+=introStage(p,t,aa);
+    mathematics+=geometryAct(p,t,aa);
+    if(t>=28.0 && t<48.0) mathematics+=algebraStage(p,t,aa);
+    if(t>=114.0) mathematics+=closingStage(p,t,aa);
+    // One spatially uniform pigment compression preserves every curve and
+    // the empty spaces between letters. Only glyph ink is added afterward.
+    float peak=max(mathematics.r,max(mathematics.g,mathematics.b));
+    c+=mathematics*(0.82/(0.40+peak));
     typography(c,p,t,aa);
     c*=0.9+0.1*exp(-dot(p,p)*0.01);
     c=clamp(c,0.0,1.0)*smoothstep(0.0,0.6,t);

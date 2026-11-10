@@ -94,6 +94,15 @@ class Orchestra:
             self.bell(start + .02, 86, .075, -.3, 3.0)
             self.bell(start + .075, 93, .035, .4, 2.5)
 
+    def sweep(self, start, length, low=280.0, high=1800.0, gain=.045, pan=0):
+        """A soft pitched streak for meteors and converging star fragments."""
+        t = self.clock(length)
+        # Integral of a linear frequency ramp; reverse the endpoints for a fall.
+        phase = 2 * np.pi * (low * t + (high - low) * t * t / (2 * length))
+        envelope = np.sin(np.pi * np.clip(t / length, 0, 1)) ** 2
+        voice = (np.sin(phase) + .18 * np.sin(phase * 2.003)) * envelope
+        self.add(start, voice, gain, pan)
+
     def finish(self, reverb=True):
         if reverb:
             dry = self.mix.copy()
@@ -147,19 +156,35 @@ def compose_story():
     for start in range(0, 120, 8):
         gain = .19 if 54 <= start < 76 else .08 if 32 <= start < 54 else .045
         score.wind(start, min(9.0, 120 - start), gain, math.sin(start * .1) * .6)
-    for cue in (16, 34, 54, 76, 96, 110):
-        score.wind(cue - 2.4, 2.8, .16 if cue in (54, 76, 96) else .1, -.25, True)
-        score.impact(cue, .19 if cue in (54, 76, 96) else .10, cue in (16, 76, 96))
-    # Seed sparkles, paper sail unfurls, distant thunder, branches and star flight.
+    for cue in (16, 34, 43, 54, 76, 96, 110.2):
+        score.wind(cue - 2.4, 2.8, .18 if cue == 43 else .10, -.25, True)
+        score.impact(cue, .27 if cue == 43 else .11 if cue in (76, 96) else .07,
+                     cue in (16, 43, 76, 96))
+    # Opening wind underlines, star sparks, meteors, scattering and reunion.
+    for cue, pan in ((1.0, -.55), (5.8, .55)):
+        score.wind(cue, 4.0, .055, pan, True)
+        score.sweep(cue + .8, 2.3, 420, 840, .016, pan)
     for i, note in enumerate((86, 90, 93, 98)):
         score.bell(21 + .16 * i, note, .065, -.5 + i / 3, 3.0)
     score.wind(33.2, 1.5, .13, .65)
+    score.sweep(36.0, 6.8, 250, 1700, .035, -.40)
+    score.sweep(41.0, 1.9, 1900, 340, .045, .40)
+    for i, note in enumerate((98, 93, 90, 86, 81, 78, 74, 69)):
+        score.bell(43.05 + i * .14, note, .045, math.sin(i * 2.399) * .8, 2.5)
     for cue in (58.5, 65.5, 71.0):
-        score.impact(cue, .17)
+        score.impact(cue, .075)
         score.wind(cue, 3.5, .13, -.4)
     for i in range(18):
         score.bell(77 + i * .66, (74, 78, 81, 86, 90)[i % 5], .055,
                    math.sin(i * 1.7) * .7, 3)
+    # Individual pitched grains draw inward with the fixed-identity fragments.
+    for i in range(28):
+        start = 78.0 + i * .56
+        pan = math.sin(i * 2.399) * .75 * (1 - i / 32)
+        score.sweep(start, 1.15, 380 + i * 17, 900 + i * 19, .012, pan)
+    score.bell(84.4, 86, .06, -.2, 4)
+    score.pad(91.0, (62, 69, 74, 81), 5.5, .08)
+    score.bell(93.9, 93, .12, 0, 5)
     for i in range(24):
         score.wind(96 + i * .43, .8, .065, math.sin(i * 1.5) * .7)
     score.bell(110, 86, .14, -.2, 5)

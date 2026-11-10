@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-10",
+  "revision": {
+    "math": 7,
+    "story": 3
+  },
+  "subagent_model": "gpt-6-astra",
+  "subagent_reasoning_effort": "ultra",
+  "acceptance": "Not performed, per user request; delivered for user review.",
+  "films": [
+    {
+      "scene": "client_showcase",
+      "video": {
+        "path": "dist/client-showcase-v7/metamorphosis-fractal-chroma-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 41155816,
+        "sha256": "5270d58f85b99b1f7743f7beeb9fd986fb009bb234d4e1cb4718df45bb117b59",
+        "render_seconds": 252.805
+      },
+      "shader_sha256": "2db260200293e8105de2534d3805c229e67defbebc41a817dffa93eb8d0a2fa3",
+      "texture_sha256": "76d29e390a1ff444e593ea3c7f8c79d0a38de20b95f23890082fb4243a669e8e",
+      "audio_master_sha256": "8bd4ded84328fc6f8ace3af70615fc4ea5f7f5473bee6e6c59c4c684e02acf4e",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    },
+    {
+      "scene": "story_showcase",
+      "video": {
+        "path": "dist/storybook-wind-v3/the-star-borrowed-by-the-wind-stardust-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 18200851,
+        "sha256": "703efd39d2126793fb94224ccb37896dc719bd5d758a49c013d12f12e63babc3",
+        "render_seconds": 279.261
+      },
+      "shader_sha256": "55373d2df9c1ae19ac10eba3851c51e1444b25158e8dd022d04a7eeaf3ab9315",
+      "texture_sha256": "a040675401fc4ed0bdf606e665c94eb23f1a3e600b68a8fa801a8a74907412b4",
+      "audio_master_sha256": "76664d61f23a13f04bdc4dd44b8eb41cc1b1702f90eca78adf98c7dd6bcb2fa8",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    }
+  ],
+  "typography": {
+    "english": "Native LaTeX Computer Modern Roman through ManimGL Tex/basic and dvisvgm",
+    "chinese": "Noto Serif SC Song, weight 400",
+    "morph": "Matched closed contours and holes, equal-arc correspondence, bounded 256-point tracks",
+    "story_opening": "Two staggered Song lines, upper left then lower right; slow opacity reveal plus contour growth; glowing wind underlines",
+    "story_subtitles": "After opening, previous sentence remains; 1.15-second outline transformation without sentence opacity fades",
+    "limitation": "Bounded polygon approximation; not native Manim curve topology or strict 1:1"
+  },
+  "game_preparation": {
+    "owned_instance_started": true,
+    "owner": "manim-dual-presentation",
+    "ready": true,
+    "fps_cap": 60,
+    "background_noactivation": true,
+    "left_running": true,
+    "visual_or_listening_acceptance": false,
+    "runtime_error_at_handoff": ""
+  },
+  "game_audio": {
+    "original_synthesis": true,
+    "external_samples": false,
+    "sample_rate": 48000,
+    "channels": 2,
+    "ogg_files": 240,
+    "bytes": 9388664,
+    "segment_seconds": 5,
+    "resume_quantization_seconds": 1,
+    "timing_limit": "Resume selects the preceding whole-second tail; decoding and game scheduling add latency. No sample-accurate synchronization claim.",
+    "master_sha256": {
+      "client_showcase": "8bd4ded84328fc6f8ace3af70615fc4ea5f7f5473bee6e6c59c4c684e02acf4e",
+      "story_showcase": "76664d61f23a13f04bdc4dd44b8eb41cc1b1702f90eca78adf98c7dd6bcb2fa8"
+    },
+    "revision": "Added opening wind, 43s meteor impact and converging spectral grains"
+  },
+  "math_background_fix": "Removed geoReadingMask rectangular cutouts from intro, finale and closing; text remains coverage-based additive compositing",
+  "story_style": "Abstract mathematical lines; fixed-identity fragments scatter, drift and reassemble; no character or landscape illustrations"
+}

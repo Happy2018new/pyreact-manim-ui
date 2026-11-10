@@ -1,5 +1,6 @@
 // __multiversion__
-// Original curved-vector storybook; seven chapters share one continuous world.
+// A mathematical fairy tale: wind, a waking star, a meteor, and a soul rejoined.
+// All 48 fragments retain their identity and their corresponding curve points.
 precision highp float;
 #include "fragmentVersionCentroidUV.h"
 uniform sampler2D TEXTURE_0;
@@ -8,359 +9,272 @@ uniform vec4 EXTRA_VECTOR1;
 uniform vec4 EXTRA_VECTOR2;
 const float PI=3.14159265359;
 const float TAU=6.28318530718;
-const vec3 INK=vec3(.047,.068,.128);
-const vec3 TEAL=vec3(.19,.39,.40);
-const vec3 MIST=vec3(.46,.64,.61);
-const vec3 GOLD=vec3(.91,.70,.38);
-const vec3 PAPER=vec3(.90,.85,.69);
-const vec3 CORAL=vec3(.70,.29,.26);
+const vec3 GOLD=vec3(.98,.74,.38);
+const vec3 CYAN=vec3(.34,.78,.89);
+const vec3 VIOLET=vec3(.66,.49,.94);
+const vec3 PAPER=vec3(.94,.91,.83);
 float sat(float x) { return clamp(x,0.,1.); }
 float ease(float a,float b,float t) { return smoothstep(a,b,t); }
 float hash(float n) { return fract(sin(n*127.1+311.7)*43758.5453); }
 mat2 rotate(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
 float fill(float d,float aa) { return 1.-smoothstep(-aa,aa,d); }
-float ellipse(vec2 p,vec2 s) { return (length(p/s)-1.)*min(s.x,s.y); }
-float box(vec2 p,vec2 s) { vec2 v=abs(p)-s; return min(max(v.x,v.y),0.)+length(max(v,0.)); }
 float segment(vec2 p,vec2 a,vec2 b) {
-    vec2 v=b-a; return length(p-a-v*sat(dot(p-a,v)/max(dot(v,v),.0000001)));
-}
-void paint(inout vec3 c,float d,vec3 hue,float opacity,float aa) { c=mix(c,hue,fill(d,aa)*opacity); }
-void contourEdge(vec2 p,vec2 a,vec2 b,inout float d,inout float winding) {
-    vec2 e=b-a,w=p-a,r=w-e*sat(dot(w,e)/max(dot(e,e),.0000001));
-    d=min(d,dot(r,r));
-    if((a.y>p.y)!=(b.y>p.y)) {
-        if(p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x) winding=-winding;
-    }
+    vec2 edge=b-a;
+    return length(p-a-edge*sat(dot(p-a,edge)/max(dot(edge,edge),.0000001)));
 }
 vec2 bezier(vec2 a,vec2 b,vec2 c,vec2 d,float u) {
     float v=1.-u; return v*v*v*a+3.*v*v*u*b+3.*v*u*u*c+u*u*u*d;
 }
-float curve(vec2 p,vec2 a,vec2 b,vec2 c,vec2 d,float progress) {
-    vec2 low=min(min(a,b),min(c,d))-.18,high=max(max(a,b),max(c,d))+.18;
-    if(p.x<low.x || p.y<low.y || p.x>high.x || p.y>high.y) return 20.;
-    float distance=20.; vec2 previous=a;
-    for(int k=1;k<=18;k++) {
-        vec2 current=bezier(a,b,c,d,float(k)/18.*progress);
-        distance=min(distance,segment(p,previous,current)); previous=current;
-    }
-    return distance;
+vec3 storyFragmentColor(float i) {
+    vec3 hue=mix(GOLD,CYAN,hash(i+34.));
+    return mix(hue,VIOLET,ease(.68,.94,hash(i+91.))*.82);
 }
-void inkCurve(inout vec3 c,vec2 p,vec2 a,vec2 b,vec2 cc,vec2 d,float width,vec3 hue,float alpha,float aa) {
-    paint(c,curve(p,a,b,cc,d,1.)-width,hue,alpha,aa);
+void glowLine(inout vec3 c,float d,float width,vec3 hue,float power,float aa) {
+    c+=hue*power*(fill(d-width,aa)+.17*exp(-d*42.)+.029*exp(-d*11.));
 }
-// __STORY_ART__
+vec2 nucleus(float t) { return vec2(mix(-.4,0.,ease(18.,26.,t)),.2); }
 
-float gust(float t) { return sin(t*1.08)+.30*sin(t*2.61+.8); }
-vec3 sky(vec2 p,float t) {
-    float h=sat((p.y+3.7)/7.5);
-    vec3 c=mix(vec3(.065,.17,.22),vec3(.042,.055,.125),h);
-    vec2 haze=p-vec2(-2.8,1.2);
-    c+=vec3(.055,.115,.12)*exp(-dot(haze,haze)*.052);
-    c+=vec3(.045,.021,.025)*exp(-dot(p-vec2(3.,.3),p-vec2(3.,.3))*.07)*ease(85.,110.,t);
+// The original star is two uninterrupted, rotating rose curves. The 24 pieces
+// in each curve are adjacent parameter intervals, not newly spawned particles.
+vec2 originalPoint(float i,float u,float t) {
+    float layer=floor(i/24.),theta=(mod(i,24.)+u)*TAU/24.;
+    float birth=ease(14.,24.,t),turn=.065*(t-16.)*(1.-layer*1.55);
+    float r=(.47+layer*.33)*(1.+.22*cos(5.*theta+layer*.65))*birth;
+    return rotate(turn)*vec2(cos(theta)*r,sin(theta)*r);
+}
+vec2 soulPoint(float i,float u) {
+    float layer=floor(i/24.),theta=(mod(i,24.)+u)*TAU/24.;
+    float r=(1.03+layer*.36)*(1.+.255*cos(6.*theta+layer*.54));
+    return rotate(.13+layer*.11)*vec2(cos(theta)*r,sin(theta)*r*.89);
+}
+vec2 burstTarget(float i) {
+    float angle=i*2.399963+.31,rad=2.2+hash(i+13.)*3.75;
+    return vec2(cos(angle)*rad,sin(angle)*rad*.47)+vec2(0.,.35);
+}
+vec2 driftPosition(float i,float t) {
+    vec2 initial=burstTarget(i);
+    float angle=i*2.399963+.31+(t-54.)*(.095+hash(i+8.)*.030);
+    float rad=2.2+hash(i+13.)*3.75;
+    vec2 orbit=vec2(cos(angle)*rad,sin(angle)*rad*.47)+vec2(.18*sin(t*.10),.35);
+    orbit+=vec2(.15*sin(t*.31+i),.10*cos(t*.27+i));
+    return mix(initial,orbit,ease(54.,61.,t));
+}
+vec2 finalStar(float i) {
+    float side=mod(i,2.)<.5?-1.:1.;
+    return vec2(side*(2.55+hash(i+17.)*4.7),-1.95+hash(i+4.)*4.95);
+}
+float gatherAmount(float i,float t) {
+    float start=76.+i/47.*9.5;
+    return ease(start,start+8.4,t);
+}
+float spreadAmount(float i,float t) { return ease(96.+i/48.*2.,103.8+i/48.*2.,t); }
+vec2 fragmentCenter(float i,float t) {
+    if(t<43.) return nucleus(t)+originalPoint(i,.5,t);
+    vec2 initial=vec2(0.,.2)+originalPoint(i,.5,43.);
+    if(t<54.) {
+        float u=ease(43.+hash(i+12.)*.42,51.,t); vec2 target=burstTarget(i);
+        vec2 impulse=target-initial;
+        return bezier(initial,initial+impulse*.58+vec2(.2,.3),target-impulse*.15,target,u);
+    }
+    float start=76.+i/47.*9.5;
+    if(t<start) return driftPosition(i,t);
+    vec2 destination=vec2(0.,.2)+soulPoint(i,.5);
+    if(t<96.) {
+        float u=gatherAmount(i,t); vec2 from=driftPosition(i,start);
+        float side=mod(i,2.)<.5?-1.:1.;
+        vec2 control1=rotate(side*.64)*(from-vec2(0.,.2))*.92+vec2(0.,.2);
+        vec2 control2=destination+rotate(side*.65)*(destination-vec2(0.,.2))*.90;
+        return bezier(from,control1,control2,destination,u);
+    }
+    vec2 target=finalStar(i); float u=spreadAmount(i,t);
+    return bezier(destination,destination*1.5+vec2(.0,.35),target*.86+vec2(.0,.45),target,u);
+}
+vec2 fragmentLocal(float i,float u,float t) {
+    if(t<43.) return originalPoint(i,u,t)-originalPoint(i,.5,t);
+    vec2 original=originalPoint(i,u,43.)-originalPoint(i,.5,43.);
+    float gather=gatherAmount(i,t),spin=(t-43.)*(.11+hash(i+6.)*.18);
+    float stop=76.+i/47.*9.5;
+    spin=mix(spin,(stop-43.)*(.11+hash(i+6.)*.18),gather);
+    vec2 broken=rotate(spin)*original*(1.+.16*sin((t-43.)*.5+i)*(1.-gather));
+    vec2 complete=soulPoint(i,u)-soulPoint(i,.5);
+    vec2 point=mix(broken,complete,gather);
+    if(t>=96.) {
+        float theta=u*TAU,r=(.07+hash(i+21.)*.055)*(.24+.76*pow(abs(cos(theta*2.)),5.));
+        vec2 star=vec2(cos(theta),sin(theta))*r;
+        point=mix(complete,star,spreadAmount(i,t));
+    }
+    return point;
+}
+void fragments(inout vec3 c,vec2 p,float t,float aa) {
+    if(t<14.) return;
+    for(int j=0;j<48;j++) {
+        float i=float(j); vec2 at=fragmentCenter(i,t),q=p-at;
+        // Every local segment is enclosed by this conservative box. No atlas
+        // fetch or curve subdivision occurs outside its small screen region.
+        if(max(abs(q.x),abs(q.y))>.96) continue;
+        float d=20.; vec2 previous=fragmentLocal(i,0.,t);
+        for(int k=1;k<=16;k++) {
+            vec2 current=fragmentLocal(i,float(k)/16.,t);
+            d=min(d,segment(q,previous,current)); previous=current;
+        }
+        float birth=ease(14.,20.,t),rejoined=gatherAmount(i,t);
+        float width=.009+rejoined*.004;
+        vec3 hue=storyFragmentColor(i);
+        glowLine(c,d,width,hue,(.48+.18*rejoined)*birth,aa);
+        float sparkle=.8+.2*sin(t*.83+i*1.4);
+        c+=hue*.022*birth*sparkle*exp(-dot(q,q)*13.);
+    }
+}
+
+// Six visible wind strokes preserve their parameter identities. First they
+// carry the two opening lines; then they become orbits, a vortex and a frame.
+vec2 openingWind(float i,float u) {
+    float group=step(2.5,i),strand=mod(i,3.),x=mix(-2.,2.,group),y=mix(1.13,-1.67,group)-strand*.062;
+    return bezier(vec2(x-4.45,y+.13),vec2(x-1.9,y-.16-strand*.035),
+                  vec2(x+1.45,y-.04),vec2(x+4.4,y+.17),u);
+}
+vec2 orbitWind(float i,float u,float t) {
+    float angle=u*TAU*.94+i*.66+t*.025;
+    float radius=1.34+i*.145;
+    return nucleus(t)+rotate(-.38+i*.23)*vec2(cos(angle)*radius,sin(angle)*radius*.43);
+}
+vec2 flowingWind(float i,float u,float t) {
+    float y=(i-2.5)*.38+.30;
+    return vec2(-8.2+u*16.4,y+sin(u*TAU*.88+i*.4-t*.18)*(.36+i*.025));
+}
+vec2 vortexWind(float i,float u,float t) {
+    float angle=u*TAU*1.12+i*TAU/6.-t*.105;
+    float radius=.48+u*5.95;
+    return vec2(cos(angle)*radius,sin(angle)*radius*.48)+vec2(.12*sin(t*.10),.35);
+}
+vec2 restoredWind(float i,float u) {
+    float theta=u*TAU+i*TAU/6.,r=.30+u*1.85;
+    return vec2(cos(theta)*r,sin(theta)*r*.85)+vec2(0.,.2);
+}
+vec2 closingWind(float i,float u) {
+    float strand=mod(i,3.),side=i<3.?1.:-1.;
+    return bezier(vec2(-7.,side*(1.62+strand*.06)),vec2(-3.7,side*(3.28+strand*.06)),
+                  vec2(3.8,side*(3.12+strand*.10)),vec2(7.,side*(1.64+strand*.10)),u);
+}
+vec2 windPoint(float i,float u,float t) {
+    vec2 point=openingWind(i,u);
+    point=mix(point,orbitWind(i,u,t),ease(i<3.?12.:18.,i<3.?18.:25.,t));
+    point=mix(point,flowingWind(i,u,t),ease(41.,53.,t));
+    point=mix(point,vortexWind(i,u,t),ease(53.,64.,t));
+    point=mix(point,restoredWind(i,u),ease(76.,95.,t));
+    return mix(point,closingWind(i,u),ease(96.,110.,t));
+}
+void winds(inout vec3 c,vec2 p,float t,float aa) {
+    for(int j=0;j<6;j++) {
+        float i=float(j),start=i<3.?1.:5.8,draw=ease(start,start+3.6,t);
+        if(draw<.001) continue;
+        float d=20.,nearest=0.; vec2 previous=windPoint(i,0.,t);
+        for(int k=1;k<=48;k++) {
+            float u=float(k)/48.*draw; vec2 current=windPoint(i,u,t);
+            float distance=segment(p,previous,current);
+            if(distance<d) { d=distance; nearest=u; } previous=current;
+        }
+        float taper=pow(max(.0,sin(PI*nearest)),.4);
+        float storm=ease(43.,55.,t)*(1.-ease(76.,94.,t));
+        float strength=mix(.24,.14,storm)*(1.-ease(107.,114.,t)*.20);
+        vec3 hue=mod(i,3.)<.5?GOLD:mix(CYAN,VIOLET,mod(i,3.)*.22);
+        glowLine(c,d,.004+.005*taper,hue,strength*(.15+.85*taper),aa);
+    }
+}
+
+vec2 meteorPosition(float time) {
+    if(time<=43.) {
+        float u=sat((time-34.)/9.);
+        return bezier(vec2(-9.1,4.7),vec2(-5.4,3.3),vec2(-2.2,.29),vec2(0.,.2),u);
+    }
+    return bezier(vec2(0.,.2),vec2(2.3,.11),vec2(7.0,-2.6),vec2(11.,-4.7),sat((time-43.)/7.));
+}
+void meteor(inout vec3 c,vec2 p,float t,float aa) {
+    if(t<34. || t>52.) return;
+    vec2 head=meteorPosition(t);
+    float visible=1.-ease(50.,52.,t);
+    for(int strand=0;strand<3;strand++) {
+        float i=float(strand),d=20.,nearest=0.; vec2 previous=head;
+        for(int k=1;k<=28;k++) {
+            float u=float(k)/28.,past=t-u*(2.15+i*.22);
+            vec2 current=meteorPosition(past);
+            vec2 tangent=meteorPosition(past+.035)-current;
+            vec2 normal=vec2(-tangent.y,tangent.x)/max(length(tangent),.0001);
+            current+=normal*(i-1.)*.045*sin(u*PI)+normal*sin(u*7.+t*1.3+i)*.017*u;
+            float distance=segment(p,previous,current);
+            if(distance<d) { d=distance; nearest=u; } previous=current;
+        }
+        float taper=pow(1.-nearest,1.5),width=(.013+i*.003)*taper+.002;
+        vec3 hue=i<.5?GOLD:(i<1.5?CYAN:VIOLET);
+        glowLine(c,d,width,hue,(.34+.65*taper)*visible,aa);
+    }
+    float radius=length(p-head);
+    c+=PAPER*visible*(1.1*fill(radius-.042,aa)+.31*exp(-radius*17.)+.045*exp(-radius*3.));
+    // A single impact has an outward-moving wave and a short crossed flare.
+    float age=t-43.;
+    if(age>=0. && age<4.) {
+        vec2 q=p-vec2(0.,.2); float energy=1.-ease(.1,3.7,age),r=length(q);
+        float ring=abs(r-(.18+age*2.7));
+        glowLine(c,ring,.010+age*.003,mix(GOLD,CYAN,sat(age)),energy*.28,aa);
+        float flash=exp(-age*age*8.);
+        c+=GOLD*flash*(.42*exp(-r*r*2.8)+.17*exp(-abs(q.y)*40.-abs(q.x)*.65));
+        c+=PAPER*flash*.11*exp(-abs(q.x)*50.-abs(q.y)*1.8);
+    }
+}
+
+void coreLight(inout vec3 c,vec2 p,float t,float aa) {
+    float born=ease(12.,16.,t),broken=1.-ease(43.,45.8,t),restored=ease(82.,94.,t);
+    float presence=max(born*broken,restored)*(1.-ease(99.,109.,t)*.78);
+    vec2 q=p-nucleus(t); float r=length(q),breath=.88+.12*sin(t*.91);
+    c+=GOLD*presence*breath*(.20*exp(-r*r*11.)+.022*exp(-r*r*.43));
+    float core=.028+ease(16.,28.,t)*.018+restored*.012;
+    c+=PAPER*presence*(.84*fill(r-core,aa)+.19*exp(-r*22.));
+    // Diffraction rays are curved by the same slow orbital motion.
+    float rays=exp(-abs(q.x)*83.-abs(q.y)*5.)+exp(-abs(q.y)*77.-abs(q.x)*4.);
+    c+=GOLD*presence*rays*.10;
+    float reunion=exp(-pow((t-94.)/.72,2.));
+    c+=CYAN*reunion*.08*exp(-pow(r-1.85-(t-94.)*.55,2.)*40.);
+}
+void reunionTrails(inout vec3 c,vec2 p,float t,float aa) {
+    if(t<76. || t>95.) return;
+    // Only twelve of the tracked pieces carry long filaments. This keeps the
+    // return paths legible without rendering 48 screen-wide Bézier trails.
+    for(int j=0;j<12;j++) {
+        float i=float(j)*4.,start=76.+i/47.*9.5;
+        if(t<start || t>start+8.6) continue;
+        float d=20.,nearest=0.; vec2 previous=fragmentCenter(i,t);
+        for(int k=1;k<=16;k++) {
+            float u=float(k)/16.,past=max(start,t-u*2.5);
+            vec2 current=fragmentCenter(i,past);
+            float distance=segment(p,previous,current);
+            if(distance<d) { d=distance; nearest=u; } previous=current;
+        }
+        float strength=(1.-nearest)*ease(start,start+.8,t)*(1.-ease(start+7.5,start+8.6,t));
+        glowLine(c,d,.006,storyFragmentColor(i),strength*.26,aa);
+    }
+}
+void stardust(inout vec3 c,vec2 p,float t,float aa) {
+    for(int j=0;j<72;j++) {
+        float i=float(j),identity=mod(i,48.),h=hash(i+2.3);
+        vec2 field=vec2(hash(i+23.)*16.2-8.1,hash(i+46.)*6.5-3.1);
+        field+=vec2(.025*sin(t*.12+i),.018*cos(t*.15+i));
+        vec2 offset=vec2(cos(i*2.399+t*.16),sin(i*2.399+t*.16))*(.12+h*.30);
+        vec2 following=fragmentCenter(identity,max(t,14.))+offset;
+        float follow=ease(18.,30.,t)*(1.-ease(105.,114.,t)*.65);
+        vec2 at=mix(field,following,follow),q=p-at;
+        if(max(abs(q.x),abs(q.y))>.35) continue;
+        float r=length(q),active=ease(16.,30.,t),pulse=.80+.20*sin(t*.72+i*1.7);
+        float size=.005+h*.009+active*.003;
+        c+=storyFragmentColor(i)*pulse*(fill(r-size,aa)*(.22+active*.36)+(.014+active*.018)*exp(-r*24.));
+    }
+}
+vec3 space(vec2 p,float t) {
+    vec3 c=vec3(.008,.012,.025);
+    c+=vec3(.009,.018,.031)*exp(-dot(p-vec2(-2.,.5),p-vec2(-2.,.5))*.055);
+    c+=vec3(.013,.008,.025)*exp(-dot(p-vec2(3.,.4),p-vec2(3.,.4))*.09);
+    float open=ease(18.,32.,t),returning=ease(83.,96.,t);
+    c+=mix(vec3(.014,.010,.004),vec3(.005,.014,.022),returning)*open*exp(-dot(p,p)*.19);
     return c;
-}
-void stars(inout vec3 c,vec2 p,float t,float aa) {
-    float presence=max(1.-ease(2.,13.,t),ease(88.,111.,t));
-    for(int j=0;j<61;j++) {
-        float i=float(j),h=hash(i+7.);
-        vec2 at=vec2(hash(i+1.2)*16.6-8.3,-.1+hash(i*3.4+8.)*3.65);
-        float radius=(.008+h*.008)*mix(.15,1.,ease(h*.60,h*.60+.32,presence));
-        float pulse=.70+.30*sin(t*.46+i*2.2),d=length(p-at);
-        c+=mix(PAPER,GOLD,h)*pulse*(fill(d-radius,aa)*(.18+.56*presence)+.010*exp(-d*15.));
-    }
-}
-void seed(inout vec3 c,vec2 p,vec2 at,float r,float t,float aa) {
-    vec2 q=rotate(.32*sin(t*.7))*(p-at);
-    float d=ellipse(q,vec2(r*.70,r));
-    c+=GOLD*(.19*exp(-dot(q,q)/(r*r*22.))+.023*exp(-length(q)*1.9));
-    paint(c,d,mix(GOLD,PAPER,.35),1.,aa);
-    inkCurve(c,q,vec2(-r*.20,-r*.66),vec2(r*.26,-r*.16),vec2(-r*.08,r*.25),vec2(r*.14,r*.70),r*.055,PAPER,.9,aa);
-}
-
-// Six-head figure, curved profile and hands, broad skirt and leather boots.
-void girl(inout vec3 c,vec2 p,vec2 at,float size,float t,float wind,float aa) {
-    vec2 q=(p-at)/size; float a=aa/size;
-    if(q.x< -1.75 || q.x>1.2 || q.y<-.12 || q.y>3.15) return;
-    q.x-=.018*sin(t*1.25)*sat(q.y/3.);
-    vec2 cloth=q;
-    cloth.x-=wind*.11*sin(t*2.6+q.y*3.)*sat((2.3-q.y)/1.7);
-    paint(c,art_cape(cloth),CORAL,1.,a);
-    paint(c,art_capeShade(cloth),vec3(.48,.18,.21),1.,a);
-    paint(c,art_capeFold(cloth),vec3(.80,.38,.30),.7,a);
-    paint(c,art_backBoot(q),vec3(.17,.16,.19),1.,a);
-    paint(c,art_frontBoot(q),vec3(.21,.19,.21),1.,a);
-    paint(c,art_dress(q),vec3(.17,.30,.34),1.,a);
-    paint(c,art_dressLight(q),vec3(.26,.42,.43),1.,a);
-    inkCurve(c,q,vec2(-.11,1.65),vec2(-.15,1.21),vec2(-.08,.83),vec2(-.04,.50),.008,MIST,.6,a);
-    inkCurve(c,q,vec2(-.27,1.16),vec2(-.30,.90),vec2(-.40,.71),vec2(-.43,.57),.007,MIST,.32,a);
-    inkCurve(c,q,vec2(-.52,.61),vec2(-.27,.46),vec2(.15,.44),vec2(.37,.58),.012,GOLD,.75,a);
-    paint(c,art_neck(q),vec3(.76,.57,.45),1.,a);
-    paint(c,art_farSleeve(q),vec3(.48,.22,.23),1.,a);
-    paint(c,art_face(q),vec3(.87,.70,.54),1.,a);
-    paint(c,ellipse(q-vec2(.12,2.53),vec2(.054,.025)),vec3(.84,.51,.41),.38,a);
-    vec2 hair=q; hair.x-=wind*.052*sin(t*2.1+q.y*7.)*sat((2.85-q.y)*2.);
-    paint(c,art_hair(hair),vec3(.105,.115,.175),1.,a);
-    paint(c,art_hairLight(hair),vec3(.23,.29,.33),.85,a);
-    inkCurve(c,hair,vec2(.12,2.88),vec2(-.20,3.03),vec2(-.30,2.70),vec2(-.27,2.52),.009,vec3(.40,.43,.42),.75,a);
-    inkCurve(c,hair,vec2(-.25,2.63),vec2(-.31,2.32),vec2(-.57,2.25),vec2(-.78,2.23),.008,MIST,.45,a);
-    inkCurve(c,q,vec2(.16,2.69),vec2(.18,2.70),vec2(.20,2.70),vec2(.213,2.68),.009,INK,.9,a);
-    inkCurve(c,q,vec2(.205,2.50),vec2(.215,2.50),vec2(.225,2.50),vec2(.232,2.51),.006,vec3(.51,.29,.26),.8,a);
-    paint(c,art_sleeve(q),CORAL,1.,a);
-    paint(c,art_hand(q),vec3(.88,.71,.55),1.,a);
-    inkCurve(c,q,vec2(.46,1.91),vec2(.48,1.88),vec2(.50,1.85),vec2(.52,1.84),.011,GOLD,.85,a);
-    inkCurve(c,cloth,vec2(-.16,2.21),vec2(-.34,1.83),vec2(-.40,1.24),vec2(-.94,.78),.009,GOLD,.67,a);
-    paint(c,ellipse(q-vec2(.035,2.22),vec2(.035,.029)),GOLD,1.,a);
-}
-
-float landHeight(float x,float layer,float cloud,float t) {
-    float base=-2.72+layer*.46;
-    float hills=.27*sin(x*.43+layer*1.8)+.14*sin(x*.81-layer*.9);
-    float waves=.16*sin(x*.56-t*.10+layer)+.07*sin(x*1.40+t*.05+layer*2.3);
-    float rounded=.30*exp(-pow((mod(x+layer*3.1+t*.13,6.4)-3.2)/1.25,2.));
-    return base+mix(hills,waves+rounded,cloud)+cloud*layer*.30;
-}
-float arch(vec2 p,float width,float height) {
-    return min(box(p-vec2(0.,(height-width)*.5),vec2(width,(height-width)*.5)),length(p-vec2(0.,height-width))-width);
-}
-void house(inout vec3 c,vec2 p,vec2 at,float size,float variant,float lit,float aa) {
-    vec2 q=(p-at)/size; float a=aa/size;
-    if(abs(q.x)>.76 || q.y<-.08 || q.y>1.8) return;
-    vec3 stone=mix(vec3(.21,.32,.35),vec3(.28,.40,.40),variant);
-    paint(c,art_house(q),stone,1.,a);
-    paint(c,art_houseSide(q),stone*.74,1.,a);
-    float roof=variant>.60?art_roofTall(q):art_roof(q);
-    paint(c,roof,mix(vec3(.12,.25,.30),vec3(.18,.32,.35),variant),1.,a);
-    paint(c,abs(roof)-.009,MIST,.44,a);
-    inkCurve(c,q,vec2(-.62,.80),vec2(-.30,.78),vec2(.23,.81),vec2(.60,.83),.009,GOLD,.43,a);
-    float doorway=arch(q-vec2(-.20,.02),.086,.40);
-    paint(c,doorway,vec3(.08,.15,.20),1.,a);
-    paint(c,abs(doorway)-.009,MIST,.35,a);
-    float window=arch(q-vec2(.28,.43),.070,.23);
-    paint(c,window,mix(vec3(.28,.39,.37),GOLD,lit*.82+.12),1.,a);
-    paint(c,segment(q,vec2(.28,.45),vec2(.28,.65))-.008,stone*.75,1.,a);
-    paint(c,segment(q,vec2(.22,.54),vec2(.34,.54))-.007,stone*.75,1.,a);
-    paint(c,ellipse(q-vec2(-.035,1.02+variant*.10),vec2(.055,.065)),GOLD,.25+.6*lit,a);
-    paint(c,segment(q,vec2(-.41,.12),vec2(-.40,.72))-.010,MIST,.25,a);
-    paint(c,segment(q,vec2(-.46,.30),vec2(.43,.31))-.006,MIST,.15,a);
-    c+=GOLD*lit*.027*exp(-dot(q-vec2(.28,.54),q-vec2(.28,.54))*16.);
-}
-void cloudCurl(inout vec3 c,vec2 p,vec2 at,float radius,vec3 hue,float power,float aa) {
-    vec2 q=p-at;
-    if(abs(q.x)>radius*1.8 || abs(q.y)>radius*1.3) return;
-    vec2 previous=vec2(-radius*1.65,-radius*.23); float distance=20.;
-    for(int k=0;k<=24;k++) {
-        float u=float(k)/24.,theta=-PI*.16+u*PI*1.84,r=radius*(1.-u*.77);
-        vec2 current=vec2(-cos(theta)*r,sin(theta)*r*.65);
-        distance=min(distance,segment(q,previous,current)); previous=current;
-    }
-    paint(c,distance-.009,hue,power,aa);
-}
-void landscape(inout vec3 c,vec2 p,float t,float cloud,float aa) {
-    float travel=ease(28.,36.,t)*(1.-ease(100.,111.,t));
-    float lit=.04+.88*ease(100.,111.,t);
-    for(int k=0;k<4;k++) {
-        float layer=3.-float(k),top=landHeight(p.x,layer,cloud,t);
-        vec3 hue=mix(vec3(.075,.18,.235),vec3(.16,.32,.34),layer/3.);
-        hue=mix(hue,vec3(.15,.34,.36)+layer*.016,cloud*.56);
-        paint(c,p.y-top,hue,1.,aa);
-        paint(c,abs(p.y-top)-.008,MIST,.15+cloud*.17,aa);
-        if(k==0 || k==2) {
-            for(int j=0;j<7;j++) {
-                float i=float(j),h=hash(i+layer*3.5),x=-8.8+i*2.67+layer*.64;
-                float y=landHeight(x,layer,cloud,t)-.05-travel*5.5;
-                house(c,p,vec2(x,y),(.43+h*.22)*(1.+(3.-layer)*.21),h,lit,aa);
-            }
-        }
-        for(int j=0;j<3;j++) {
-            float x=-6.7+float(j)*6.1-layer*.8+sin(t*.05)*.28;
-            cloudCurl(c,p,vec2(x,landHeight(x,layer,cloud,t)-.18),.54+layer*.15,MIST,cloud*.38,aa);
-        }
-    }
-    float road=curve(p,vec2(-4.8,-3.5),vec2(-.8,-2.8),vec2(-5.,-2.9),vec2(-2.6,-2.25),1.);
-    paint(c,road-.043,vec3(.32,.42,.40),(1.-travel)*.40,aa);
-}
-
-vec2 boatCenter(float t) { return vec2(-1.75+sat((t-34.)/20.)*3.,-.38+.13*sin((t-34.)*.42)); }
-void treeControls(float i,out vec2 a,out vec2 b,out vec2 cc,out vec2 d) {
-    if(i<.5) { a=vec2(.02,-2.42); b=vec2(-.22,-1.05); cc=vec2(.43,.91); d=vec2(.18,2.55); return; }
-    float j=i-1.,side=mod(j,2.)<.5?-1.:1.,level=floor(j*.5),h=hash(i+8.);
-    float rootY=-1.49+level*.40;
-    a=vec2(.08+.07*sin(rootY*1.8),rootY);
-    d=vec2(side*(2.83-level*.21+h*.37),-.25+level*.34+h*.41);
-    b=a+vec2(side*(.64-level*.025),.12+.24*h);
-    cc=d-vec2(side*(.48+.25*h),.62+level*.028);
-}
-vec2 starPosition(float i) { return vec2(-6.9+hash(i+3.7)*13.8,1.42+hash(i+66.)*1.65); }
-void motifControls(float stage,float i,float t,out vec2 a,out vec2 b,out vec2 cc,out vec2 d) {
-    if(stage<1.5) {
-        if(i<6.) {
-            float y=1.56+i*.21;
-            a=vec2(-9.,y-.28); b=vec2(-3.2,y+1.45+.18*sin(t*.18+i));
-            cc=vec2(1.3,y-1.38); d=vec2(9.,y+.15);
-        } else {
-            float theta=(i-6.)*.29+.1,r=.75+(i-6.)*.075;
-            vec2 center=mix(vec2(3.85,1.80),vec2(-1.25,-.40),stage*.55);
-            a=center+vec2(cos(theta),sin(theta))*r;
-            b=center+vec2(cos(theta+1.),sin(theta+1.))*r*1.32;
-            cc=center+vec2(cos(theta+1.6),sin(theta+1.6))*r*.68;
-            d=center+vec2(cos(theta+2.3),sin(theta+2.3))*r*.28;
-        }
-        return;
-    }
-    if(stage<2.5) {
-        vec2 center=boatCenter(t);
-        if(i<.5) { a=vec2(-1.57,.17); b=vec2(-.73,-.32); cc=vec2(.05,-.79); d=vec2(1.56,.35); }
-        else if(i<1.5) { a=vec2(-1.57,.17); b=vec2(-.56,-.04); cc=vec2(.44,-.12); d=vec2(1.56,.35); }
-        else if(i<2.5) { a=vec2(-1.15,.36); b=vec2(-.98,.91); cc=vec2(-.50,1.46); d=vec2(-.05,1.88); }
-        else if(i<3.5) { a=vec2(-.05,1.88); b=vec2(-.12,1.24); cc=vec2(-.15,.69); d=vec2(-.13,.16); }
-        else if(i<4.5) { a=vec2(-.13,.16); b=vec2(-.49,.21); cc=vec2(-.80,.23); d=vec2(-1.15,.36); }
-        else if(i<5.5) { a=vec2(-.02,.10); b=vec2(-.06,.75); cc=vec2(.02,1.35); d=vec2(.03,1.98); }
-        else {
-            float y=-.72-(i-6.)*.14;
-            a=vec2(-9.,y); b=vec2(-3.3,y+1.); cc=vec2(2.7,y-.72); d=vec2(9.,y+.25); return;
-        }
-        a+=center; b+=center; cc+=center; d+=center; return;
-    }
-    if(stage<3.5) {
-        float trunk=floor(i/3.),twig=mod(i,3.),x=-7.3+trunk*2.83;
-        float lean=.48+.13*sin(t*.9+trunk);
-        if(twig<.5) { a=vec2(x,-2.75); b=vec2(x-.24,-.40); cc=vec2(x+lean,1.8); d=vec2(x+lean*1.8,4.5); }
-        else { float side=twig<1.5?-1.:1.; a=vec2(x+.15,-.3+twig*.6); b=a+vec2(side*.55,.28); cc=a+vec2(side*1.1,1.); d=a+vec2(side*1.3,2.2); }
-        return;
-    }
-    treeControls(i,a,b,cc,d); if(stage<4.5) return;
-    vec2 target=starPosition(i),from=d;
-    float travel=ease(96.,109.,t),flap=sin(t*4.4+i)*.15;
-    vec2 at=mix(from,target,travel)+vec2(sin(travel*PI+i)*.44,sin(travel*PI)*.52);
-    if(stage<5.5) { a=at+vec2(-.28,.13+flap); b=at+vec2(-.11,.16+flap); cc=at+vec2(-.10,-.10); d=at; return; }
-    a=target; d=starPosition(mod(i+1.,18.)); b=mix(a,d,.333); cc=mix(a,d,.667);
-}
-void narrativeCurves(inout vec3 c,vec2 p,float t,float aa) {
-    float stage=0.,next=0.,u=0.;
-    if(t<14.) { stage=0.; next=0.; }
-    else if(t<18.) { stage=0.; next=1.; u=ease(14.,18.,t); }
-    else if(t<31.) { stage=1.; next=1.; }
-    else if(t<37.) { stage=1.; next=2.; u=ease(31.,37.,t); }
-    else if(t<50.) { stage=2.; next=2.; }
-    else if(t<57.) { stage=2.; next=3.; u=ease(50.,57.,t); }
-    else if(t<74.) { stage=3.; next=3.; }
-    else if(t<82.) { stage=3.; next=4.; u=ease(74.,82.,t); }
-    else if(t<96.) { stage=4.; next=4.; }
-    else if(t<103.) { stage=4.; next=5.; u=ease(96.,103.,t); }
-    else if(t<108.) { stage=5.; next=5.; }
-    else if(t<114.) { stage=5.; next=6.; u=ease(108.,114.,t); }
-    else { stage=6.; next=6.; }
-    float location=mix(stage,next,u);
-    for(int j=0;j<18;j++) {
-        float i=float(j); vec2 a,b,cc,d,a0,b0,c0,d0;
-        motifControls(stage,i,t,a,b,cc,d); motifControls(next,i,t,a0,b0,c0,d0);
-        a=mix(a,a0,u); b=mix(b,b0,u); cc=mix(cc,c0,u); d=mix(d,d0,u);
-        float gold=ease(3.1,4.,location),constellation=ease(5.1,6.,location);
-        vec3 hue=mix(MIST*.78,GOLD,gold);
-        float alpha=mix(.24,.86,gold)*(1.-constellation*.84);
-        float width=mix(.009,.019,gold)*(1.-constellation*.62);
-        if(location>2. && location<4.) width+=sin((location-2.)*PI*.5)*.016;
-        float distance=curve(p,a,b,cc,d,1.);
-        paint(c,distance-width,hue,alpha,aa);
-        c+=GOLD*.019*gold*(1.-constellation)*exp(-distance*32.);
-    }
-}
-
-void forest(inout vec3 c,vec2 p,float t,float aa) {
-    float grow=ease(50.,59.,t)*(1.-ease(75.,83.,t)); if(grow<.001) return;
-    for(int j=0;j<7;j++) {
-        float i=float(j),x=-8.3+i*2.80,h=hash(i+3.),bend=(.42+.15*gust(t+i))*grow;
-        vec2 a=vec2(x,-2.60),b=a+vec2(-.18,1.70*grow),cc=a+vec2(bend,4.3*grow),d=a+vec2(bend*1.6,(6.6+h)*grow);
-        float distance=curve(p,a,b,cc,d,1.),width=mix(.17,.065,sat((p.y+2.6)/6.));
-        vec3 bark=mix(vec3(.115,.25,.28),vec3(.18,.32,.33),h);
-        paint(c,distance-width,bark,1.,aa); paint(c,distance-width*.70,MIST,.10,aa);
-        for(int k=0;k<3;k++) {
-            float f=float(k),side=mod(f+i,2.)<.5?-1.:1.;
-            vec2 root=bezier(a,b,cc,d,.32+f*.17),end=root+vec2(side*(1.3+f*.15),1.2*grow);
-            inkCurve(c,p,root,root+vec2(side*.55,.12),end-vec2(side*.12,.50),end,.027-f*.005,bark,1.,aa);
-            for(int l=0;l<3;l++) {
-                vec2 at=mix(root,end,.62+float(l)*.16)+vec2(side*.10,.12);
-                vec2 q=rotate(side*.7+.1*sin(t+i+f))*(p-at);
-                paint(c,ellipse(q,vec2(.20*grow,.064*grow)),mix(bark,TEAL,.50),.85,aa);
-            }
-        }
-    }
-}
-void vessel(inout vec3 c,vec2 p,float t,float aa) {
-    if(t<31. || t>55.) return;
-    float open=ease(31.,37.,t),release=ease(49.,55.,t); vec2 q=p-boatCenter(t);
-    // Paper surfaces unfold from a narrow ribbon and stretch back into waves.
-    q.x/=mix(2.70,1.,open)*(1.+release*4.); q.y/=max(.005,open*(1.-release));
-    float a=aa/max(.02,open*(1.-release));
-    paint(c,art_boat(q),vec3(.77,.76,.62),1.,a);
-    paint(c,art_sail(q),PAPER,1.,a);
-    paint(c,art_sailShade(q),vec3(.72,.71,.59),.50,a);
-    inkCurve(c,q,vec2(-1.55,.16),vec2(-.72,-.11),vec2(.21,-.22),vec2(1.54,.34),.012,vec3(.40,.46,.43),.85,a);
-    inkCurve(c,q,vec2(.19,-.48),vec2(.08,-.22),vec2(-.01,.08),vec2(-.02,.19),.010,vec3(.40,.46,.43),.80,a);
-    inkCurve(c,q,vec2(-.08,.21),vec2(-.03,.75),vec2(-.04,1.42),vec2(.02,1.98),.014,GOLD,.85,a);
-    inkCurve(c,q,vec2(.02,1.98),vec2(.25,2.05),vec2(.36,1.85+.04*sin(t*2.)),vec2(.60,1.94),.026,CORAL,.95,a);
-}
-void treeDetails(inout vec3 c,vec2 p,float t,float aa) {
-    if(t<76. || t>110.) return;
-    float growth=ease(76.,91.,t),release=ease(96.,106.,t);
-    vec2 q=p; q.y=-2.42+(q.y+2.42)/max(.008,growth);
-    q.x-=.045*sin(t*.8+q.y)*sat((q.y+2.4)/5.);
-    float trunk=art_trunk(q);
-    paint(c,trunk,vec3(.34,.40,.32),1.-release,aa/max(.1,growth));
-    paint(c,abs(trunk)-.009,GOLD,.70*(1.-release),aa);
-    for(int j=1;j<18;j++) {
-        float i=float(j),side=mod(i,2.)<.5?-1.:1.; vec2 a,b,cc,d; treeControls(i,a,b,cc,d);
-        float born=ease(79.+i*.28,83.+i*.28,t);
-        for(int k=0;k<2;k++) {
-            float f=float(k); vec2 root=bezier(a,b,cc,d,.57+f*.24);
-            vec2 end=root+vec2(side*(.18+hash(i+f)*.18),.42+.14*hash(i+8.));
-            float u=born*(1.-release);
-            inkCurve(c,p,root,mix(root,root+vec2(side*.13,.06),u),mix(root,end-vec2(side*.06,.25),u),mix(root,end,u),.009,GOLD,.72,aa);
-        }
-    }
-    for(int j=0;j<5;j++) {
-        float i=float(j),side=mod(i,2.)<.5?-1.:1.,u=ease(77.,82.+i,t)*(1.-release);
-        vec2 end=vec2(side*(.85+i*.28),-2.60+.05*sin(i));
-        float d=curve(p,vec2(.06,-2.38),vec2(side*.30,-2.50),vec2(side*.64,-2.24),end,u);
-        paint(c,d-.009,GOLD,.58,aa);
-    }
-}
-void leafFlight(inout vec3 c,vec2 p,float t,float aa) {
-    if(t<81.) return;
-    for(int j=0;j<34;j++) {
-        float i=float(j),branch=1.+floor(i*.5),f=mod(i,2.),side=mod(branch,2.)<.5?-1.:1.;
-        vec2 a,b,cc,d; treeControls(branch,a,b,cc,d);
-        vec2 from=bezier(a,b,cc,d,.75+f*.23)+vec2(side*.09,.10+f*.06);
-        float birth=ease(82.+branch*.27+f*.35,85.+branch*.25+f*.35,t);
-        float start=96.+hash(i+8.)*3.4,u=ease(start,start+10.5,t),morph=ease(start,start+2.4,t);
-        vec2 target=starPosition(i+19.),at=mix(from,target,u)+vec2(side*sin(u*PI)*.68,sin(u*PI)*.85);
-        float scale=mix(.42,.34,ease(.35,1.,u))*max(.002,birth);
-        vec2 q=rotate(mix(side*.43,.12*sin(t+i),morph))*(p-at)/scale;
-        float shape=art_leafBirdStar(q,.75+.37*sin(t*4.6+i),morph,ease(start+8.8,start+11.4,t))*scale;
-        paint(c,shape,mix(GOLD,PAPER,hash(i+3.)*.55),1.,aa);
-        c+=GOLD*.018*birth*exp(-dot(p-at,p-at)*46.);
-    }
-}
-void foreground(inout vec3 c,vec2 p,float t,float aa) {
-    for(int j=0;j<2;j++) {
-        float side=j==0?-1.:1.;
-        vec2 a=vec2(side*8.6,-3.35),b=vec2(side*7.5,-2.70),cc=vec2(side*7.7,-1.20),d=vec2(side*6.6,-.60);
-        inkCurve(c,p,a,b,cc,d,.032,vec3(.15,.30,.32),1.,aa);
-        for(int k=0;k<7;k++) {
-            float f=float(k),direction=mod(f,2.)<.5?-1.:1.; vec2 at=bezier(a,b,cc,d,.17+f*.115);
-            vec2 q=rotate(side*.48+direction*.77+.04*sin(t+f))*(p-at);
-            paint(c,ellipse(q,vec2(.29,.086)),mix(vec3(.13,.28,.30),TEAL,f/12.),1.,aa);
-            inkCurve(c,q,vec2(-.22,0.),vec2(-.07,.02),vec2(.10,.01),vec2(.22,0.),.005,MIST,.24,aa);
-        }
-    }
-}
-void particles(inout vec3 c,vec2 p,float t,float aa) {
-    float storm=ease(53.,58.,t)*(1.-ease(73.,78.,t));
-    for(int j=0;j<17;j++) {
-        float i=float(j),h=hash(i+6.),u=fract(t*(.017+storm*.06)+h);
-        vec2 at=vec2(-9.+u*18.,-1.9+hash(i+4.)*5.+.18*sin(u*TAU+i));
-        paint(c,ellipse(rotate(.3+storm*.50)*(p-at),vec2(.014+storm*.025,.0045)),mix(MIST,GOLD,h),.35,aa);
-    }
 }
 
 float sdfSample(vec2 q,vec4 tile) {
@@ -375,8 +289,8 @@ float sdfSample(vec2 q,vec4 tile) {
 }
 void letter(inout vec3 c,vec2 p,vec2 at,vec2 size,vec4 tile,vec3 hue,float opacity,float aa) {
     vec2 q=(p-at)/size+.5; if(min(q.x,q.y)<.003 || max(q.x,q.y)>.997) return;
-    float d=sdfSample(q,tile),edge=clamp(.5*fwidth(d),.55,8.),ink=smoothstep(-edge,edge,d);
-    c=mix(c,c*.33,smoothstep(-edge-1.5,edge-1.5,d)*opacity*.55); c=mix(c,hue,ink*opacity);
+    float d=sdfSample(q,tile),edge=clamp(.5*fwidth(d),.55,8.);
+    c=mix(c,hue,smoothstep(-edge,edge,d)*opacity);
 }
 // __STORY_VECTOR_MORPH__
 // __STORY_TYPOGRAPHY__
@@ -389,30 +303,14 @@ void main() {
     float aspect=max(EXTRA_VECTOR1.y,.1),narrow=max(1.,(16./9.)/aspect);
     vec2 p=vec2((local.x-.5)*aspect,.5-local.y)*9.*narrow;
     float aa=9./max(EXTRA_VECTOR1.z,1.)*narrow,t=clamp(EXTRA_VECTOR1.x,0.,120.);
-    float cloud=ease(29.,39.,t)*(1.-ease(50.,59.,t)); vec3 c=sky(p,t);
-    stars(c,p,t,aa);
-    vec2 moon=p-vec2(4.10,1.94);
-    paint(c,max(length(moon)-.55,-(length(moon-vec2(.18,.10))-.52)),vec3(.49,.59,.53),.70,aa);
-    c+=PAPER*.017*exp(-dot(moon,moon)*.65);
-    landscape(c,p,t,cloud,aa); forest(c,p,t,aa); treeDetails(c,p,t,aa);
-    vessel(c,p,t,aa); narrativeCurves(c,p,t,aa); leafFlight(c,p,t,aa);
-    float catchMove=ease(13.,20.,t),voyageMove=ease(31.,37.,t),land=ease(50.,57.,t),plant=ease(73.,80.,t);
-    vec2 at=mix(vec2(-3.3,-2.53),vec2(-2.35,-2.58),catchMove); float size=mix(.58,.86,catchMove);
-    at=mix(at,boatCenter(t)+vec2(.25,.14),voyageMove); size=mix(size,.49,voyageMove);
-    at=mix(at,vec2(-.62,-2.64),land); size=mix(size,.74,land);
-    at=mix(at,vec2(-2.45,-2.55),plant); size=mix(size,.58,plant); at.x-=ease(102.,115.,t)*.55;
-    float wind=.45+cloud*.28+ease(53.,59.,t)*(1.-ease(73.,78.,t))*.95;
-    girl(c,p,at,size,t,wind,aa);
-    vec2 hand=at+vec2(.72,2.08)*size,seedAt=mix(vec2(3.85,1.84),hand,ease(6.,23.,t));
-    seedAt+=vec2(sin(ease(6.,23.,t)*PI)*.9,sin(ease(6.,23.,t)*PI)*.6);
-    seedAt=mix(seedAt,vec2(.06,-2.38),ease(73.,78.,t));
-    float seedRadius=.052*(1.-ease(78.,81.,t));
-    if(seedRadius>.001 && t>4.) seed(c,p,seedAt,max(.002,seedRadius*ease(4.,6.,t)),t,aa);
-    foreground(c,p,t,aa); particles(c,p,t,aa);
-    c*=1.-.27*(1.-ease(-3.60,-2.55,p.y));
-    c*=1.-.12*sat(dot(p*vec2(.075,.10),p*vec2(.075,.10)));
-    c+=(fract(sin(dot(floor(gl_FragCoord.xy),vec2(12.9898,78.233)))*43758.5453)-.5)*.004;
+    vec3 c=space(p,t);
+    stardust(c,p,t,aa); winds(c,p,t,aa); reunionTrails(c,p,t,aa);
+    fragments(c,p,t,aa); coreLight(c,p,t,aa); meteor(c,p,t,aa);
+    // Additive radiance is compressed only for the illustration. Text retains
+    // its calibrated Song colors and original SDF edge coverage afterwards.
+    c=vec3(1.)-exp(-c*1.14);
+    c*=1.-.16*sat(dot(p*vec2(.075,.11),p*vec2(.075,.11)));
     typography(c,p,t,aa);
-    c*=1.-ease(3.69,3.73,abs(p.y)); c*=ease(0.,1.2,t);
+    c*=1.-ease(3.71,3.75,abs(p.y));
     gl_FragColor=mix(original,vec4(clamp(c,0.,1.),1.),clamp(EXTRA_VECTOR1.w,0.,1.));
 }

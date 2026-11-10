@@ -17,12 +17,12 @@ shared = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(shared)
 
 FILMS = {
-    "client_showcase": {"title": "Metamorphosis | A choreography of curves", "folder": "client-showcase-v6",
-                        "filename": "metamorphosis-curve-choreography-120s.mp4", "poster": 107.0,
+    "client_showcase": {"title": "Metamorphosis | Fractal chroma", "folder": "client-showcase-v7",
+                        "filename": "metamorphosis-fractal-chroma-120s.mp4", "poster": 108.0,
                         "times": (3.6, 9, 15, 23, 31, 41, 55, 74, 91, 104, 109, 117)},
-    "story_showcase": {"title": "The star borrowed by the wind | Drawn by the wind", "folder": "storybook-wind-v2",
-                       "filename": "the-star-borrowed-by-the-wind-curves-120s.mp4", "poster": 90.0,
-                       "times": (7, 14, 22, 32, 41, 51, 62, 74, 84, 93, 103, 116)},
+    "story_showcase": {"title": "The star borrowed by the wind | Stardust reunites", "folder": "storybook-wind-v3",
+                       "filename": "the-star-borrowed-by-the-wind-stardust-120s.mp4", "poster": 93.0,
+                       "times": (4.8, 10, 15, 25, 39, 48, 61, 73, 84, 95, 105, 116)},
 }
 
 

@@ -426,7 +426,8 @@ def build(assets=None):
             "typography_track_totals": {
                 kind: sum(event[kind + "_tracks"] for event in events)
                 for kind in ("shape_morph", "transport", "stationary", "birth", "death")},
-            "geometry_transitions":"Bezier fan; corresponding-control circle/square/triangle/petals; area dissection and completing the square; circle unrolls into sine; derivative and integral; four harmonics merge; folded curves become closing wings",
+            "geometry_transitions":"Spectral curve ribbons and parameter knots; five-level triangular/petal inverse IFS; three-level Sierpinski carpets on area tiles; circle unrolls into sine; derivative and integral; harmonic braids merge; recursive chromatic finale",
+            "background_continuity":"No rectangular text reading masks; background lines remain continuous outside glyph ink coverage",
             "rendering":"paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
             "game_validation":"Not run for this revision; prior review does not validate these resource hashes"}
     (folder / "film.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")

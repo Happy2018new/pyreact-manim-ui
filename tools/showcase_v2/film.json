@@ -1,8 +1,8 @@
 {
   "duration": 120,
-  "shader_sha256": "d7e94963958e54ee901ed46d4bdf1cbe04aa24daa88557591072366ffaffb013",
+  "shader_sha256": "2db260200293e8105de2534d3805c229e67defbebc41a817dffa93eb8d0a2fa3",
   "texture_sha256": "76d29e390a1ff444e593ea3c7f8c79d0a38de20b95f23890082fb4243a669e8e",
-  "shader_bytes": 158974,
+  "shader_bytes": 166691,
   "atlas_bytes": 781212,
   "glyph_transitions": [
     {
@@ -863,7 +863,8 @@
     "birth": 79,
     "death": 41
   },
-  "geometry_transitions": "Bezier fan; corresponding-control circle/square/triangle/petals; area dissection and completing the square; circle unrolls into sine; derivative and integral; four harmonics merge; folded curves become closing wings",
+  "geometry_transitions": "Spectral curve ribbons and parameter knots; five-level triangular/petal inverse IFS; three-level Sierpinski carpets on area tiles; circle unrolls into sine; derivative and integral; harmonic braids merge; recursive chromatic finale",
+  "background_continuity": "No rectangular text reading masks; background lines remain continuous outside glyph ink coverage",
   "rendering": "paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
   "game_validation": "Not run for this revision; prior review does not validate these resource hashes"
 }
