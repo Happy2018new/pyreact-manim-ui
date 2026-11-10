@@ -1,0 +1,14 @@
+# Official 3b1b ManimGL wheel, not Manim Community Edition.
+# URL hash verifies the exact upstream artifact while pip resolves dependencies.
+manimgl @ https://files.pythonhosted.org/packages/92/44/b692e4c666370714cff9ce7d54bc405fa9b5efa00db1c5abaf38e8b74f80/manimgl-1.7.2-py3-none-any.whl#sha256=e2644c93cffd93ea56ddded9c9752b9371f7d2d19e99da5693dd03b2e0d658e4
+# Text layout and numerical/render dependencies used by the reference run.
+ManimPango==0.7.1
+numpy==2.3.4
+Pillow==12.0.0
+fonttools==4.62.1
+scipy==1.17.1
+moderngl==5.13.0
+glcontext==3.1.0
+# ManimGL imports pkg_resources; pydub needs audioop on Python >= 3.13.
+setuptools==80.9.0
+audioop-lts==0.2.2; python_version >= '3.13'

@@ -1,0 +1,931 @@
+{
+  "kind": "native_manimgl_vs_generated_shader",
+  "text_one_to_one_accepted": false,
+  "native_reference": "ManimGL 1.7.2, commit f427fc67df75513be0cd3f3329e327a9a19401c3",
+  "limitations": [
+    "Only five supplied keyframes per scene are compared, not all times.",
+    "8 to 1 and UI to UX explicitly allow approximate behavior at known instantaneous native skip markers.",
+    "Quadratic curves use exported polylines; antialiasing and fill-border compositing are approximations.",
+    "This comparison uses desktop GL; separate game capture evidence validates Minecraft."
+  ],
+  "scenes": {
+    "manimgl_o_to_b": {
+      "schema": 1,
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "shader_sha256": "c74a98eb53b2ee04d75e1b15e2f46c3b4eb657bed3e3ca3078360dda244378da",
+      "texture_sha256": "8e922e7d20fc8834a3c5219e88f29182d737dd752b45412c84d27a19d03d85d0",
+      "foreground_iou_range": [
+        0.9739730090464185,
+        0.9814878438188396
+      ],
+      "foreground_mean_error_255_range": [
+        3.640892463773974,
+        5.28424539028128
+      ]
+    },
+    "manimgl_c_to_s": {
+      "schema": 1,
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "shader_sha256": "7cfa19d63d9e14e385cacb58acc14236385f0f917782b2ba2f04bc99317f3084",
+      "texture_sha256": "38c3c1d9ba2063e692457bb11e3846b0c22669102742bd69d5f36c171181c6b0",
+      "foreground_iou_range": [
+        0.9768044495006952,
+        0.9822170837118397
+      ],
+      "foreground_mean_error_255_range": [
+        3.728048305414881,
+        3.9973454683352294
+      ]
+    },
+    "manimgl_8_to_1": {
+      "schema": 2,
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "shader_sha256": "79a2d0af0bd989469c9cdb843381b7d6a24900a355f645b036994997447ced58",
+      "texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "foreground_iou_range": [
+        0.9731352554480046,
+        0.9903296703296703
+      ],
+      "foreground_mean_error_255_range": [
+        1.5318627450980393,
+        9.358662162663796
+      ]
+    },
+    "manimgl_ui_to_ux": {
+      "schema": 2,
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "shader_sha256": "4d025d7f2984ba57cc29c4747d1e85fee40d87e38cc049a68f4f333ffac3bb4a",
+      "texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "foreground_iou_range": [
+        0.9871848508202136,
+        0.9944563786293397
+      ],
+      "foreground_mean_error_255_range": [
+        1.3244866375626545,
+        2.0196631069030055
+      ]
+    }
+  },
+  "frames": [
+    {
+      "scene": "manimgl_o_to_b",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 133,
+      "mean_channel_error_255": 0.22757486979166666,
+      "foreground_mean_channel_error_255": 3.6886284526582025,
+      "foreground_iou": 0.9814689605088524,
+      "foreground_union_pixels": 39933,
+      "reference_bounds": [
+        471,
+        179,
+        809,
+        541
+      ],
+      "compiled_bounds": [
+        471,
+        180,
+        809,
+        540
+      ],
+      "differing_pixels": 62024,
+      "reference_sha256": "6d3923bf9693a3f6af0bcc477ee2992bcd72d3f1d320613a8ccf71cde5557661",
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 180,
+      "mean_channel_error_255": 0.2954459635416667,
+      "foreground_mean_channel_error_255": 5.28424539028128,
+      "foreground_iou": 0.9739730090464185,
+      "foreground_union_pixels": 40458,
+      "reference_bounds": [
+        472,
+        182,
+        807,
+        541
+      ],
+      "compiled_bounds": [
+        473,
+        182,
+        807,
+        541
+      ],
+      "differing_pixels": 58446,
+      "reference_sha256": "64b28b9fc1ccb96ce4c476996464eba3791aac5e7e25c44bb089a16cadb9b461",
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 245,
+      "mean_channel_error_255": 0.271591796875,
+      "foreground_mean_channel_error_255": 4.142656095143707,
+      "foreground_iou": 0.9810109018830525,
+      "foreground_union_pixels": 50450,
+      "reference_bounds": [
+        478,
+        192,
+        800,
+        541
+      ],
+      "compiled_bounds": [
+        479,
+        192,
+        800,
+        541
+      ],
+      "differing_pixels": 35719,
+      "reference_sha256": "8ad3545a1d0a3bb7ee9cfbb703123a1af7d9b29f21c723e87646bf450db0cb8a",
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 241,
+      "mean_channel_error_255": 0.2504839409722222,
+      "foreground_mean_channel_error_255": 3.640892463773974,
+      "foreground_iou": 0.9814878438188396,
+      "foreground_union_pixels": 49481,
+      "reference_bounds": [
+        485,
+        193,
+        795,
+        541
+      ],
+      "compiled_bounds": [
+        485,
+        194,
+        795,
+        541
+      ],
+      "differing_pixels": 46928,
+      "reference_sha256": "1779fee7975ab087be1f4ea677608db03567282544f1c5b2a9f4585f05771c74",
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 167,
+      "mean_channel_error_255": 0.2670486111111111,
+      "foreground_mean_channel_error_255": 3.741532443167076,
+      "foreground_iou": 0.9783645689878849,
+      "foreground_union_pixels": 50103,
+      "reference_bounds": [
+        486,
+        179,
+        794,
+        541
+      ],
+      "compiled_bounds": [
+        487,
+        179,
+        793,
+        541
+      ],
+      "differing_pixels": 55684,
+      "reference_sha256": "8e54dd334153663ff967c52f77fb71cccc526e77d76846830d7e8c456909dc84",
+      "compiled_manifest_sha256": "41ff12f8de4edbb5b4ae9f9ba1f05fcf2458181a05ee6f0fcfb12d5cb1cb460a",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 129,
+      "mean_channel_error_255": 0.20866644965277778,
+      "foreground_mean_channel_error_255": 3.9973454683352294,
+      "foreground_iou": 0.9768044495006952,
+      "foreground_union_pixels": 31644,
+      "reference_bounds": [
+        485,
+        179,
+        795,
+        541
+      ],
+      "compiled_bounds": [
+        485,
+        179,
+        795,
+        541
+      ],
+      "differing_pixels": 65468,
+      "reference_sha256": "78c7a6c4e15618958169291176db8908fece1c00b470b40a0e76109c6b63d15f",
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 136,
+      "mean_channel_error_255": 0.18662868923611112,
+      "foreground_mean_channel_error_255": 3.9558266142926057,
+      "foreground_iou": 0.9793949417683137,
+      "foreground_union_pixels": 29022,
+      "reference_bounds": [
+        501,
+        179,
+        782,
+        537
+      ],
+      "compiled_bounds": [
+        501,
+        179,
+        782,
+        536
+      ],
+      "differing_pixels": 56386,
+      "reference_sha256": "6e6ab8a3eccd09ba77926aa5e8f9320dcedafc4ed3ab6af299bcdaa0609458ef",
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 204,
+      "mean_channel_error_255": 0.13187934027777778,
+      "foreground_mean_channel_error_255": 3.728048305414881,
+      "foreground_iou": 0.9810673938449552,
+      "foreground_union_pixels": 25670,
+      "reference_bounds": [
+        518,
+        179,
+        767,
+        525
+      ],
+      "compiled_bounds": [
+        518,
+        179,
+        767,
+        524
+      ],
+      "differing_pixels": 25416,
+      "reference_sha256": "49e6f9f93726d4af163f405c1b652e7fe63cd42da362b2bdb38d487fe62bdb40",
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 138,
+      "mean_channel_error_255": 0.18029405381944444,
+      "foreground_mean_channel_error_255": 3.8698646836523225,
+      "foreground_iou": 0.9796720711934658,
+      "foreground_union_pixels": 32812,
+      "reference_bounds": [
+        515,
+        179,
+        753,
+        537
+      ],
+      "compiled_bounds": [
+        516,
+        179,
+        752,
+        536
+      ],
+      "differing_pixels": 38736,
+      "reference_sha256": "de76d01e5bb23db07af2c5f9f6b038c656e47e6420d376b72707b8f21644821b",
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 138,
+      "mean_channel_error_255": 0.19939344618055554,
+      "foreground_mean_channel_error_255": 3.8257494425633825,
+      "foreground_iou": 0.9822170837118397,
+      "foreground_union_pixels": 36327,
+      "reference_bounds": [
+        513,
+        179,
+        767,
+        541
+      ],
+      "compiled_bounds": [
+        514,
+        179,
+        766,
+        541
+      ],
+      "differing_pixels": 44335,
+      "reference_sha256": "e976ddca091a3830d18c45cb58bf15e6de522596642d0924ccba896d4de21a94",
+      "compiled_manifest_sha256": "5581270f8ea2541f2de6fbcb5d34a88310843a27a3e4ef49db21ca1c044dcbcb",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 128,
+      "mean_channel_error_255": 0.13267795138888888,
+      "foreground_mean_channel_error_255": 2.274957983193277,
+      "foreground_iou": 0.9903296703296703,
+      "foreground_union_pixels": 38675,
+      "reference_bounds": [
+        520,
+        179,
+        760,
+        541
+      ],
+      "compiled_bounds": [
+        520,
+        179,
+        760,
+        541
+      ],
+      "differing_pixels": 33639,
+      "reference_sha256": "8a930dad08a5558201d33df1dc60bfe2cbdd7846add52efd403501a5cd9c1ead",
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 219,
+      "mean_channel_error_255": 0.13150065104166667,
+      "foreground_mean_channel_error_255": 3.323156225218081,
+      "foreground_iou": 0.9876721216927402,
+      "foreground_union_pixels": 27742,
+      "reference_bounds": [
+        523,
+        201,
+        746,
+        516
+      ],
+      "compiled_bounds": [
+        523,
+        201,
+        746,
+        516
+      ],
+      "differing_pixels": 28412,
+      "reference_sha256": "1919b31147c0d47d67d0cf291f34ec3e21ff504dd263feacf315ade779477ade",
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 248,
+      "mean_channel_error_255": 0.28929036458333335,
+      "foreground_mean_channel_error_255": 9.358662162663796,
+      "foreground_iou": 0.9865993540962916,
+      "foreground_union_pixels": 26939,
+      "reference_bounds": [
+        534,
+        191,
+        736,
+        507
+      ],
+      "compiled_bounds": [
+        534,
+        191,
+        736,
+        506
+      ],
+      "differing_pixels": 13564,
+      "reference_sha256": "a999b1c128873485e35936061e36b92d25e48aad9f2ce66b86fd42e7ad2dd075",
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 248,
+      "mean_channel_error_255": 0.17773546006944443,
+      "foreground_mean_channel_error_255": 7.089238573425125,
+      "foreground_iou": 0.9731352554480046,
+      "foreground_union_pixels": 19319,
+      "reference_bounds": [
+        546,
+        182,
+        732,
+        533
+      ],
+      "compiled_bounds": [
+        546,
+        182,
+        732,
+        533
+      ],
+      "differing_pixels": 26204,
+      "reference_sha256": "335fe990c67ffa61146a6e32e5faacc74838e19bde0187dc5eee99e8db9588da",
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 64,
+      "mean_channel_error_255": 0.059246961805555554,
+      "foreground_mean_channel_error_255": 1.5318627450980393,
+      "foreground_iou": 0.9847870182555781,
+      "foreground_union_pixels": 23664,
+      "reference_bounds": [
+        549,
+        179,
+        731,
+        541
+      ],
+      "compiled_bounds": [
+        549,
+        179,
+        731,
+        541
+      ],
+      "differing_pixels": 19387,
+      "reference_sha256": "2e6c51d6d3a4287b7107b891ed43846b34d3b9684e6dac0e9d62c89aedc07bd5",
+      "compiled_manifest_sha256": "55d2cff86be0cc9d465ae360ca34c7121a7f9a97179cfb0ee7de54d7ec14bc81",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 128,
+      "mean_channel_error_255": 0.106474609375,
+      "foreground_mean_channel_error_255": 1.6772483707458363,
+      "foreground_iou": 0.9904127443881245,
+      "foreground_union_pixels": 34525,
+      "reference_bounds": [
+        433,
+        224,
+        847,
+        496
+      ],
+      "compiled_bounds": [
+        433,
+        224,
+        847,
+        496
+      ],
+      "differing_pixels": 40801,
+      "reference_sha256": "a1bc099db4a8dac833f4823a0cb1cb90c96e5b29cd70d0a03dc985ea2ec963d4",
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 127,
+      "mean_channel_error_255": 0.102509765625,
+      "foreground_mean_channel_error_255": 1.4996605751215142,
+      "foreground_iou": 0.9937002742553018,
+      "foreground_union_pixels": 36827,
+      "reference_bounds": [
+        426,
+        224,
+        853,
+        496
+      ],
+      "compiled_bounds": [
+        426,
+        224,
+        853,
+        496
+      ],
+      "differing_pixels": 38425,
+      "reference_sha256": "563ffd46b741a9fd5f898fb918ec2a7b3b76e05cf2b50c7ef64c53e2f4ed1ccd",
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 128,
+      "mean_channel_error_255": 0.10428493923611111,
+      "foreground_mean_channel_error_255": 1.3244866375626545,
+      "foreground_iou": 0.9944563786293397,
+      "foreground_union_pixels": 43293,
+      "reference_bounds": [
+        399,
+        224,
+        875,
+        496
+      ],
+      "compiled_bounds": [
+        400,
+        224,
+        874,
+        496
+      ],
+      "differing_pixels": 38648,
+      "reference_sha256": "721dcf2790a6b7441d767b48e238a5d7f91cfbdd0a4d5aae8e996876d0d64149",
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 128,
+      "mean_channel_error_255": 0.131044921875,
+      "foreground_mean_channel_error_255": 1.692491872418944,
+      "foreground_iou": 0.9890167823565592,
+      "foreground_union_pixels": 45524,
+      "reference_bounds": [
+        373,
+        224,
+        904,
+        496
+      ],
+      "compiled_bounds": [
+        373,
+        224,
+        903,
+        496
+      ],
+      "differing_pixels": 43867,
+      "reference_sha256": "c56f05a4805270e7234548d9bf45a9ef16125f2a53092bcdc27bab943d906d65",
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 126,
+      "mean_channel_error_255": 0.14892035590277777,
+      "foreground_mean_channel_error_255": 2.0196631069030055,
+      "foreground_iou": 0.9871848508202136,
+      "foreground_union_pixels": 45415,
+      "reference_bounds": [
+        366,
+        224,
+        914,
+        496
+      ],
+      "compiled_bounds": [
+        366,
+        224,
+        914,
+        496
+      ],
+      "differing_pixels": 46690,
+      "reference_sha256": "19018c85970f81bc749e9230cd888b2e865aa673aa687970fda2dfe6108aa6ea",
+      "compiled_manifest_sha256": "46f2bce50b8b446a875d93bfee06f814cdffa1d12b479e582235cb0d06243d51",
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ]
+    }
+  ]
+}

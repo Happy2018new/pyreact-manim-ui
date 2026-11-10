@@ -11,3 +11,5 @@
 *.webp binary
 *.ttf binary
 *.otf binary
+# Keep the upstream license copy byte-for-byte, including its original spaces.
+**/LICENSE_DEJAVU -text -whitespace

@@ -1,0 +1,176 @@
+{
+  "version": "0.1.0-preview",
+  "date": "2026-11-10",
+  "timezone": "America/New_York",
+  "environment": {
+    "client": "NetEase 3.10.0.448891",
+    "engine": "1.21.130",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "fps_cap": 60
+  },
+  "offline_tests_passed": 96,
+  "scene_count": 6,
+  "captured_states": 18,
+  "background_only": true,
+  "activation_fallback": false,
+  "fps_samples": [
+    60.0775146484375,
+    60.0775146484375,
+    60.0775146484375,
+    60.0775146484375
+  ],
+  "viewport": {
+    "canvas": [
+      0.17973856209150327,
+      0.4444444444444444
+    ],
+    "used": [
+      2036.0,
+      1224.0
+    ],
+    "logical": [
+      509.0,
+      306.0
+    ],
+    "physical": [
+      2036.0,
+      1224.0,
+      0.0,
+      0.0
+    ]
+  },
+  "player_api_checks": [
+    "all scenes: install, seek start/midpoint/endpoint, visible, paused, no reported error",
+    "play advances; pause keeps the same position",
+    "play at endpoint restarts at the beginning",
+    "hide stops playback; navigator pop cleans subscriptions; synthetic F8 release on actual HUD reopens with one subscription",
+    "four FPS samples at or below the configured 60 FPS cap (1 FPS rounding tolerance)"
+  ],
+  "frames": [
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 0.0,
+      "capture_sha256": "09ec0a2f30a405b8987e6e500226fe59e81a62e0f3c52504d3045eeb410f85aa",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 1.0,
+      "capture_sha256": "71865cd410051b12d9cde5bf65cf01dd26c9b7bfefa8747b8c1241ec49ebc084",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 2.0,
+      "capture_sha256": "085f8978083aef470a3226f4746af2b49e8963e5bb7abb556ba256ae48182bb8",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 0.0,
+      "capture_sha256": "42c949c91483e7326f5ab8e27350a585ec776629697a8ff047fc83e7316cb7d6",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 1.0,
+      "capture_sha256": "ee254a543b9dc87e35eb534c022f51828e7c2b8fd2f936a9aa8eb458abbbc006",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 2.0,
+      "capture_sha256": "7ac1e69858c913197b35275deb20e53a62880ee0c0c9f1841b9f150cb87bfeeb",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "time": 0.0,
+      "capture_sha256": "c8202b24883f68aaf098dcdd9f734debe67c38962593297883e324e3e210be95",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "time": 1.0,
+      "capture_sha256": "b370684909c1d26260a4be3d256373ddc3b6b74668726fc4359d3b2126fba9a0",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "time": 2.0,
+      "capture_sha256": "359d95c6689ee2c97ce987af71203e121f60fbd4bae26fc4318bd1144801d472",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "time": 0.0,
+      "capture_sha256": "89455eff42dd49a2185336d9a24fa3abb697a2ed74317056ec7ae8c08aca2b07",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "time": 1.0,
+      "capture_sha256": "a0ec0a609496382bbe428b376e349815fade212d0ccd4d4d78c7ab6fcd31701d",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "time": 2.0,
+      "capture_sha256": "40f62a1e55274f995c92f0a69c9861ff522ef6f75122ef161f13c4482679bb66",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "basic_geometry",
+      "time": 0.0,
+      "capture_sha256": "59c56de96532b69619e6bd4ea3738e19ba2d7dfcf01aa519eceee31f4e754e1a",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "basic_geometry",
+      "time": 2.8499999999999996,
+      "capture_sha256": "4e80b5a4762a75a393d5c81f2bfb8895a1f7229fdb42f801b5afa44df778bce0",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "basic_geometry",
+      "time": 5.699999999999999,
+      "capture_sha256": "c9a5b9de95e5b42a807022c50bb02b62b841083caaae45cb25a1843a2ae3c9e8",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "axes_sine",
+      "time": 0.0,
+      "capture_sha256": "f30c02c637442bf1b3ad944383ea6691dc24851a4c13cd2f196030d1d60a4c3c",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "axes_sine",
+      "time": 2.9,
+      "capture_sha256": "3a81759ebc9a298fe458d6b245a76f3486b97d2ed8a07e929b5707c975031ebc",
+      "background_protected_before_and_after": true
+    },
+    {
+      "scene": "axes_sine",
+      "time": 5.8,
+      "capture_sha256": "17d02096822a94335d1ed6f8714fd254592109f88d084906b289d3c3e447b434",
+      "background_protected_before_and_after": true
+    }
+  ],
+  "small_window": {
+    "pixels": [
+      640,
+      360
+    ],
+    "overlap_seen": false,
+    "background_protected_before_and_after": true
+  },
+  "physical_mouse_and_keyboard_verified_in_background": false,
+  "text_one_to_one_accepted": false,
+  "limitations": [
+    "F8 reopening was exercised by a synthetic SDK callback, not foreground keyboard input.",
+    "Raw screenshots and reports are local ignored evidence; foreground app titles are excluded here.",
+    "Only the stated Windows PC and two window sizes were verified.",
+    "8 to 1 and UI to UX explicitly use marker approximation; native fill blending also differs.",
+    "No Chinese/LaTeX, semantic text matching, arbitrary Manim compatibility or embedded UI multi-instance acceptance."
+  ]
+}

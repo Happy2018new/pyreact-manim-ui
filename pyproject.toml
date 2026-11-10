@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyreact-manim-ui"
+version = "0.1.0"
+description = "Compile Manim text animations into a NetEase Minecraft shader player."
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10", "numpy>=1.26"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

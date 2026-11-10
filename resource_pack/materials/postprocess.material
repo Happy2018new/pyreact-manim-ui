@@ -1,0 +1,200 @@
+{
+  "pmanim_manimgl_o_to_b": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_o_to_b.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_c_to_s": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_c_to_s.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_8_to_1": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_8_to_1.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_ui_to_ux": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_ui_to_ux.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_basic_geometry": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/basic_geometry.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_axes_sine": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/axes_sine.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "kind": "minecraft_vs_generated_shader",
+  "manim_reference_comparison": false,
+  "text_one_to_one_accepted": false,
+  "frames": [
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 0.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        747,
+        323,
+        1287,
+        899
+      ],
+      "compiled_foreground_bbox": [
+        749,
+        325,
+        1285,
+        897
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "3c038754a20405bd464ed459b34d3e301ab4c61a129767d470e7e151516f71a8",
+      "shader_sha256": "4d23fbfe8f4d57479c6da7772f6151badf9912cb8abacbf13b5cdd5172260bf7",
+      "texture_sha256": "8e922e7d20fc8834a3c5219e88f29182d737dd752b45412c84d27a19d03d85d0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.043290252057613166,
+      "maximum_channel_error_255": 126,
+      "foreground_mean_channel_error_255": 0.13752911371715767,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 1.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        759,
+        343,
+        1273,
+        899
+      ],
+      "compiled_foreground_bbox": [
+        761,
+        345,
+        1271,
+        897
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "fcd0c0687f653886bdae8c63f4d9ee7457bdb0fc438c74fead43462bba9ed972",
+      "shader_sha256": "4d23fbfe8f4d57479c6da7772f6151badf9912cb8abacbf13b5cdd5172260bf7",
+      "texture_sha256": "8e922e7d20fc8834a3c5219e88f29182d737dd752b45412c84d27a19d03d85d0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.00024727299872164525,
+      "maximum_channel_error_255": 1,
+      "foreground_mean_channel_error_255": 0.0005550615687225501,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "time": 2.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        772,
+        323,
+        1262,
+        899
+      ],
+      "compiled_foreground_bbox": [
+        774,
+        325,
+        1260,
+        897
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "3735572931b874e85431f15ea18c32830964155cb3176745a495cb7ea7e50092",
+      "shader_sha256": "4d23fbfe8f4d57479c6da7772f6151badf9912cb8abacbf13b5cdd5172260bf7",
+      "texture_sha256": "8e922e7d20fc8834a3c5219e88f29182d737dd752b45412c84d27a19d03d85d0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.0007405045351473923,
+      "maximum_channel_error_255": 1,
+      "foreground_mean_channel_error_255": 0.0016986845452531204,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 0.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        769,
+        323,
+        1265,
+        899
+      ],
+      "compiled_foreground_bbox": [
+        771,
+        325,
+        1263,
+        897
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "b1743cf5cf76845418a142e23fea9534d1e909adefb37c803689b18391233b5b",
+      "shader_sha256": "15235b56632bf76b8a2db149939336ddc472ea14eddae2d884513821f0852c3c",
+      "texture_sha256": "38c3c1d9ba2063e692457bb11e3846b0c22669102742bd69d5f36c171181c6b0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.0001225078405017921,
+      "maximum_channel_error_255": 1,
+      "foreground_mean_channel_error_255": 0.00041390193111119736,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 1.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        822,
+        323,
+        1220,
+        874
+      ],
+      "compiled_foreground_bbox": [
+        824,
+        325,
+        1218,
+        872
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "492cf10b113bbb84287f4c694de0a5517889ac34726ecdf877d032a2e2a445fe",
+      "shader_sha256": "15235b56632bf76b8a2db149939336ddc472ea14eddae2d884513821f0852c3c",
+      "texture_sha256": "38c3c1d9ba2063e692457bb11e3846b0c22669102742bd69d5f36c171181c6b0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.00010944012257293728,
+      "maximum_channel_error_255": 1,
+      "foreground_mean_channel_error_255": 0.000333608692889369,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "time": 2.0,
+      "capture_size": [
+        2034,
+        1222
+      ],
+      "viewport_uniform": [
+        2036.0,
+        1224.0
+      ],
+      "roi": [
+        815,
+        323,
+        1219,
+        899
+      ],
+      "compiled_foreground_bbox": [
+        817,
+        325,
+        1217,
+        897
+      ],
+      "roi_rule": "compiled foreground bbox at threshold 16, expanded by 2 pixels",
+      "colored_ui_pixels_in_roi": 0,
+      "roi_clear_of_colored_ui": true,
+      "capture_sha256": "1c6df714a29c137b942ba9debfafa5af3be2546bbcca84eb85f72b2b55753448",
+      "shader_sha256": "15235b56632bf76b8a2db149939336ddc472ea14eddae2d884513821f0852c3c",
+      "texture_sha256": "38c3c1d9ba2063e692457bb11e3846b0c22669102742bd69d5f36c171181c6b0",
+      "pixel_exact_in_roi": false,
+      "foreground_iou": 1.0,
+      "mean_channel_error_255": 0.0001547029702970297,
+      "maximum_channel_error_255": 1,
+      "foreground_mean_channel_error_255": 0.0003823360734085261,
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      }
+    }
+  ],
+  "all_rois_clear_of_colored_ui": true,
+  "foreground_iou_range": [
+    1.0,
+    1.0
+  ],
+  "foreground_mean_error_255_range": [
+    0.000333608692889369,
+    0.13752911371715767
+  ],
+  "limitations": [
+    "Only six captured static states on this PC are compared.",
+    "Game input uses a 2036x1224 viewport uniform while capture is 2034x1222.",
+    "Both sides use our generated shader; this checks MC transport/rendering, not Manim fidelity.",
+    "UI contamination check is scoped to these white glyph scenes and blue-grey player controls.",
+    "Original Manim comparison remains separate and has nonzero pixel differences."
+  ],
+  "reproduction": "python tools/compare_game_captures.py --report .runtime\\game\\verified-60fps\\report.json"
+}
