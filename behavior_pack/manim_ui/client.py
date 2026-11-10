@@ -5,6 +5,7 @@ import mod.client.extraClientApi as clientApi
 from .generated_scenes import SCENES
 from .timeline import get_playback_clock
 from .playback import PlaybackController
+from .presentation_audio import PresentationAudioController, PRESENTATION_SCENES
 from . import pyreact
 
 ClientSystem = clientApi.GetClientSystemCls()
@@ -24,15 +25,24 @@ class ManimClient(ClientSystem):
         self.flip_y = True
         self.viewport = (1280.0, 720.0)
         self._viewport_dirty = False
+        self._resize_grace_until = 0.0
+        self._parameter_retry_pending = False
+        self._last_parameter_failure = None
+        self._last_parameter_recovery = None
         self.canvas = (0.0, 1.0)
         self.ui_scale = 1.0
         self._last_parameters = None
         self._touched_post_names = set()
         self._clock = get_playback_clock(platform=clientApi.GetPlatform())
         self.playback = PlaybackController(SCENES, self, self._clock)
+        audio = (factory.CreateCustomAudio(clientApi.GetLevelId())
+                 if hasattr(factory, "CreateCustomAudio") else None)
+        self.presentation_audio = PresentationAudioController(audio, self._clock)
+        self.playback.subscribe(self._sync_presentation_audio)
         self.scenes = self.playback.scenes
         self.canvas_demo = None
         self._showcase_return = None
+        self._showcase_scene = SHOWCASE_SCENE
         self._reopen_key = str(clientApi.GetMinecraftEnum().KeyBoardType.KEY_F8)
         self._listeners = [
             ("UiInitFinished", self.on_ui_ready),
@@ -107,14 +117,16 @@ class ManimClient(ClientSystem):
             self._canvas_closed()
         return accepted
 
-    def open_showcase(self):
+    def open_showcase(self, scene_name=SHOWCASE_SCENE):
         """Open a clean full-screen presentation, starting after UI mount."""
         navigator = pyreact.navigator
         if self.playback.disposed or not navigator.is_ready or navigator.is_transitioning:
             return False
+        if scene_name not in PRESENTATION_SCENES or scene_name not in self.scene_names():
+            return False
         if navigator.contains(SHOWCASE_PAGE_KEY):
-            return True
-        if navigator.contains(CANVAS_PAGE_KEY) or SHOWCASE_SCENE not in self.scene_names():
+            return True if scene_name == self._showcase_scene else self.switch_showcase(scene_name)
+        if navigator.contains(CANVAS_PAGE_KEY):
             return False
         from .showcase_panel import ShowcasePanel
         was_visible = self.visible
@@ -126,6 +138,7 @@ class ManimClient(ClientSystem):
             "canvas": self.canvas,
         }
         self.hide()
+        self._showcase_scene = scene_name
         self.canvas = (0.0, 1.0)
         self._last_parameters = None
         accepted = navigator.push(ShowcasePanel(player=self), key=SHOWCASE_PAGE_KEY,
@@ -141,7 +154,7 @@ class ManimClient(ClientSystem):
             return False
         if self._showcase_return is None or self.playback.disposed:
             return False
-        if self.replay(SHOWCASE_SCENE):
+        if self.replay(self._showcase_scene):
             return True
         self._showcase_error(self.error)
         self.close_showcase()
@@ -150,12 +163,28 @@ class ManimClient(ClientSystem):
     def replay_showcase(self):
         if self._showcase_return is None:
             return False
-        return self.replay(SHOWCASE_SCENE)
+        return self.replay(self._showcase_scene)
+
+    def switch_showcase(self, scene_name=None):
+        if self._showcase_return is None or self.playback.disposed:
+            return False
+        if scene_name is None:
+            scene_name = (PRESENTATION_SCENES[1] if self._showcase_scene == PRESENTATION_SCENES[0]
+                          else PRESENTATION_SCENES[0])
+        if scene_name not in PRESENTATION_SCENES or scene_name not in self.scene_names():
+            return False
+        previous = self._showcase_scene
+        self._showcase_scene = scene_name
+        if self.replay(scene_name):
+            return True
+        self._showcase_scene = previous
+        return False
 
     def close_showcase(self):
         navigator = pyreact.navigator
         if not navigator.contains(SHOWCASE_PAGE_KEY) or navigator.is_transitioning:
             return False
+        self.pause()
         return navigator.pop()
 
     def _showcase_closed(self, _result=None):
@@ -211,6 +240,10 @@ class ManimClient(ClientSystem):
         # The event may precede the engine's physical viewport update. Read
         # the new values on the next render frame, coalescing resize bursts.
         self._viewport_dirty = True
+        # Native postprocess targets may also be rebuilding. Bound the grace
+        # period once a failure starts, even if more resize events arrive.
+        if not getattr(self, "_parameter_retry_pending", False):
+            self._resize_grace_until = self._clock() + 0.75
 
     def update_viewport(self):
         self.viewport = self.game.GetScreenViewInfo()[:2]
@@ -296,6 +329,7 @@ class ManimClient(ClientSystem):
         return self.playback.pause()
 
     def replay(self, name=None):
+        self.presentation_audio.stop()
         return self.playback.replay(name)
 
     def stop(self):
@@ -321,6 +355,11 @@ class ManimClient(ClientSystem):
 
     def _update_frame(self):
         self.playback.frame()
+        if self._sync_presentation_audio(self.playback.snapshot()):
+            self.notify()
+
+    def _sync_presentation_audio(self, state):
+        return self.presentation_audio.sync(state)
 
     def render_scene(self, scene, position):
         width, height = self.viewport
@@ -336,13 +375,39 @@ class ManimClient(ClientSystem):
             ok = self.post.SetParameter(name, "playback", list(parameters))
             ok_options = self.post.SetParameter(name, "options", list(options))
             if not ok or not ok_options:
+                now = self._clock()
+                grace_until = getattr(self, "_resize_grace_until", 0.0)
+                self._last_parameter_failure = {
+                    "post_name": name, "playback_result": ok, "options_result": ok_options,
+                    "parameters": parameters, "options": options,
+                    "at": now, "grace_until": grace_until,
+                }
+                self._last_parameters = None
+                if now < grace_until:
+                    if not getattr(self, "_parameter_retry_pending", False):
+                        print("[manim-ui] Resize parameter retry: %s playback=%r options=%r" %
+                              (name, ok, ok_options))
+                    self._parameter_retry_pending = True
+                    return True
+                self._parameter_retry_pending = False
+                print("[manim-ui] Parameter write failed: %s playback=%r options=%r" %
+                      (name, ok, ok_options))
                 return False
             self._last_parameters = cache_key
+            if getattr(self, "_parameter_retry_pending", False):
+                self._parameter_retry_pending = False
+                self._last_parameter_recovery = {
+                    "post_name": name, "at": self._clock(),
+                    "failure": self._last_parameter_failure,
+                }
+                print("[manim-ui] Resize parameter write recovered: " + name)
         return True
 
     def snapshot(self):
         state = self.playback.snapshot()
-        state.update(flip_y=self.flip_y, ui_scale=self.ui_scale)
+        audio = self.presentation_audio.snapshot()
+        state.update(flip_y=self.flip_y, ui_scale=self.ui_scale,
+                     showcase_scene=self._showcase_scene, audio=audio, audio_error=audio["error"])
         return state
 
     def subscribe(self, callback):
@@ -358,6 +423,7 @@ class ManimClient(ClientSystem):
 
     def Destroy(self):
         self._showcase_return = None
+        self.presentation_audio.dispose()
         if self.canvas_demo is not None:
             self.canvas_demo.dispose()
             self.canvas_demo = None

@@ -1,0 +1,2405 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "pmanim.presentation.client_showcase.s00": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s00",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s00_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s00_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s00_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s00_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s00_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s00_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s00_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s00_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s01_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s01_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s01_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s01_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s01_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s01_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s01_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s01_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s02_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s02_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s02_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s02_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s02_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s02_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s02_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s02_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s03_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s03_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s03_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s03_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s03_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s03_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s03_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s03_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s04_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s04_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s04_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s04_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s04_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s04_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s04_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s04_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s05": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s05",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s05_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s05_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s05_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s05_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s05_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s05_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s05_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s05_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s06": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s06",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s06_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s06_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s06_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s06_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s06_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s06_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s06_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s06_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s07": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s07",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s07_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s07_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s07_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s07_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s07_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s07_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s07_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s07_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s08": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s08",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s08_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s08_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s08_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s08_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s08_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s08_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s08_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s08_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s09": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s09",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s09_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s09_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s09_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s09_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s09_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s09_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s09_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s09_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s10": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s10",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s10_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s10_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s10_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s10_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s10_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s10_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s10_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s10_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s11": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s11",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s11_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s11_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s11_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s11_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s11_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s11_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s11_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s11_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s12": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s12",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s12_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s12_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s12_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s12_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s12_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s12_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s12_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s12_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s13": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s13",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s13_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s13_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s13_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s13_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s13_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s13_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s13_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s13_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s14": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s14",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s14_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s14_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s14_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s14_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s14_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s14_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s14_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s14_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s15": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s15",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s15_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s15_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s15_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s15_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s15_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s15_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s15_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s15_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s16": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s16",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s16_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s16_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s16_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s16_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s16_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s16_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s16_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s16_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s17": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s17",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s17_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s17_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s17_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s17_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s17_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s17_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s17_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s17_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s18": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s18",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s18_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s18_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s18_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s18_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s18_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s18_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s18_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s18_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s19": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s19",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s19_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s19_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s19_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s19_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s19_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s19_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s19_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s19_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s20": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s20",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s20_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s20_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s20_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s20_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s20_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s20_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s20_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s20_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s21": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s21",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s21_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s21_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s21_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s21_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s21_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s21_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s21_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s21_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s22": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s22",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s22_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s22_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s22_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s22_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s22_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s22_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s22_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s22_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s23": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s23",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s23_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s23_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s23_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s23_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s23_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s23_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.client_showcase.s23_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/client_showcase/s23_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s00": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s00",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s00_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s00_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s00_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s00_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s00_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s00_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s00_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s00_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s01_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s01_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s01_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s01_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s01_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s01_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s01_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s01_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s02_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s02_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s02_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s02_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s02_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s02_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s02_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s02_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s03_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s03_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s03_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s03_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s03_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s03_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s03_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s03_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s04_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s04_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s04_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s04_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s04_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s04_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s04_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s04_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s05": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s05",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s05_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s05_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s05_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s05_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s05_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s05_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s05_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s05_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s06": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s06",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s06_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s06_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s06_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s06_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s06_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s06_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s06_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s06_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s07": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s07",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s07_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s07_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s07_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s07_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s07_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s07_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s07_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s07_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s08": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s08",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s08_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s08_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s08_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s08_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s08_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s08_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s08_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s08_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s09": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s09",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s09_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s09_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s09_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s09_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s09_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s09_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s09_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s09_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s10": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s10",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s10_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s10_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s10_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s10_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s10_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s10_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s10_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s10_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s11": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s11",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s11_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s11_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s11_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s11_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s11_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s11_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s11_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s11_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s12": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s12",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s12_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s12_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s12_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s12_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s12_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s12_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s12_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s12_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s13": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s13",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s13_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s13_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s13_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s13_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s13_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s13_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s13_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s13_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s14": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s14",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s14_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s14_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s14_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s14_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s14_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s14_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s14_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s14_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s15": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s15",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s15_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s15_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s15_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s15_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s15_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s15_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s15_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s15_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s16": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s16",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s16_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s16_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s16_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s16_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s16_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s16_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s16_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s16_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s17": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s17",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s17_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s17_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s17_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s17_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s17_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s17_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s17_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s17_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s18": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s18",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s18_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s18_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s18_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s18_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s18_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s18_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s18_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s18_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s19": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s19",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s19_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s19_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s19_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s19_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s19_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s19_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s19_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s19_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s20": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s20",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s20_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s20_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s20_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s20_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s20_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s20_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s20_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s20_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s21": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s21",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s21_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s21_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s21_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s21_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s21_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s21_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s21_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s21_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s22": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s22",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s22_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s22_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s22_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s22_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s22_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s22_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s22_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s22_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s23": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s23",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s23_o01": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s23_o01",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s23_o02": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s23_o02",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s23_o03": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s23_o03",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    },
+    "pmanim.presentation.story_showcase.s23_o04": {
+      "category": "ui",
+      "sounds": [
+        {
+          "name": "sounds/pmanim/presentation/story_showcase/s23_o04",
+          "stream": true,
+          "volume": 1.0
+        }
+      ]
+    }
+  }
+}

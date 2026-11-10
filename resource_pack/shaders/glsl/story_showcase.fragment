@@ -1,0 +1,680 @@
+// __multiversion__
+// An original 120-second paper-cut fairy tale: The Star Borrowed by the Wind.
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_2;
+uniform vec4 EXTRA_VECTOR1;
+uniform vec4 EXTRA_VECTOR2;
+const float PI=3.14159265359;
+const float TAU=6.28318530718;
+const vec3 INK=vec3(0.012,0.036,0.065);
+const vec3 TEAL=vec3(0.16,0.48,0.49);
+const vec3 MIST=vec3(0.47,0.68,0.67);
+const vec3 AMBER=vec3(1.0,0.65,0.24);
+const vec3 PAPER=vec3(0.91,0.86,0.69);
+const vec3 CLOAK=vec3(0.67,0.17,0.14);
+mat2 rotate(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
+float sat(float x) { return clamp(x,0.0,1.0); }
+float hash(float n) { return fract(sin(n*127.1+311.7)*43758.5453); }
+float ease(float a,float b,float t) { return smoothstep(a,b,t); }
+float cue(float t,float a,float b) { return ease(a,a+1.3,t)*(1.0-ease(b-1.1,b,t)); }
+float fill(float d,float aa) { return 1.0-smoothstep(-aa,aa,d); }
+float segment(vec2 p,vec2 a,vec2 b) {
+    vec2 v=b-a;
+    return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.00001),0.0,1.0));
+}
+float ellipse(vec2 p,vec2 s) { return (length(p/s)-1.0)*min(s.x,s.y); }
+float box(vec2 p,vec2 s) { vec2 v=abs(p)-s; return min(max(v.x,v.y),0.0)+length(max(v,0.0)); }
+float triangle(vec2 p,vec2 a,vec2 b,vec2 c) {
+    vec2 e0=b-a,e1=c-b,e2=a-c;
+    vec2 v0=p-a,v1=p-b,v2=p-c;
+    vec2 pq0=v0-e0*clamp(dot(v0,e0)/dot(e0,e0),0.0,1.0);
+    vec2 pq1=v1-e1*clamp(dot(v1,e1)/dot(e1,e1),0.0,1.0);
+    vec2 pq2=v2-e2*clamp(dot(v2,e2)/dot(e2,e2),0.0,1.0);
+    float s=sign(e0.x*e2.y-e0.y*e2.x);
+    vec2 d=min(min(vec2(dot(pq0,pq0),s*(v0.x*e0.y-v0.y*e0.x)),
+                   vec2(dot(pq1,pq1),s*(v1.x*e1.y-v1.y*e1.x))),
+                   vec2(dot(pq2,pq2),s*(v2.x*e2.y-v2.y*e2.x)));
+    return -sqrt(d.x)*sign(d.y);
+}
+float softUnion(float a,float b,float k) {
+    float h=sat(0.5+0.5*(b-a)/k); return mix(b,a,h)-k*h*(1.0-h);
+}
+void paint(inout vec3 c,float d,vec3 hue,float opacity,float aa) { c=mix(c,hue,fill(d,aa)*opacity); }
+void light(inout vec3 c,vec2 p,vec2 at,float r,vec3 hue,float power,float aa) {
+    float d=length(p-at);
+    c+=hue*power*(exp(-d*d/(r*r*5.0))*0.34+fill(d-r,aa));
+}
+float gust(float t) { return sin(t*1.1)+0.34*sin(t*2.67+0.8)+0.15*sin(t*4.3); }
+float windX(float y,float t,float strength) { return strength*(sin(y*1.7-t*1.12)+0.3*sin(y*3.8-t*2.1)); }
+
+// Every wind ribbon is a deformed continuous strip with its own depth/phase.
+void ribbons(inout vec3 c,vec2 p,float t,float power,vec3 hue,float aa) {
+    for(int j=0;j<7;j++) {
+        float i=float(j),k=0.28+i*0.027;
+        float wave=sin(p.x*k-t*(0.16+i*0.016)+i*0.76);
+        float center=1.18+i*0.27+wave*(0.20+i*0.028)+0.11*sin(p.x*1.1-t*.71+i);
+        float strand=abs(p.y-center);
+        float taper=0.55+0.45*sin(p.x*0.19+i);
+        float d=strand-(0.012+0.014*i)*taper;
+        c+=hue*power*(0.13*fill(d,aa)+0.014*exp(-strand*9.0));
+    }
+}
+float mountain(float x,float seed) {
+    return sin(x*.39+seed)*.44+sin(x*.86+seed*1.9)*.17+sin(x*1.8+seed)*.055;
+}
+vec3 sky(vec2 p,float t,float dawn) {
+    float h=sat((p.y+3.5)/7.0);
+    vec3 c=mix(vec3(.025,.12,.16),vec3(.012,.027,.065),h);
+    c=mix(c,mix(vec3(.11,.20,.24),vec3(.025,.065,.14),h),dawn);
+    vec2 n=p-vec2(-3.1,1.8);
+    c+=vec3(.09,.20,.22)*exp(-dot(n,n)*.045);
+    c+=vec3(.12,.065,.055)*dawn*exp(-dot(p-vec2(2.,.6),p-vec2(2.,.6))*.06);
+    return c;
+}
+void stars(inout vec3 c,vec2 p,float t,float amount,float aa) {
+    for(int j=0;j<43;j++) {
+        float i=float(j);
+        vec2 at=vec2(hash(i+1.2)*16.4-8.2,.15+hash(i*3.4+8.)*3.6);
+        float pulse=.62+.38*sin(t*.7+i*2.2);
+        float born=ease(hash(i+55.)*.55,hash(i+55.)*.55+.35,amount);
+        float d=length(p-at);
+        c+=mix(PAPER,AMBER,hash(i+9.))*born*pulse*(fill(d-(.010+hash(i+32.)*.008),aa)+.018*exp(-d*14.));
+    }
+}
+void specks(inout vec3 c,vec2 p,float t,float amount,float storm,float aa) {
+    for(int j=0;j<27;j++) {
+        float i=float(j),h=hash(i+27.3);
+        float speed=.12+h*.36+storm*.7;
+        vec2 at=vec2(mod(hash(i+3.4)*18.+t*speed,18.)-9.,hash(i+4.7)*6.-2.8);
+        at.y+=sin(at.x*.7-t*.7+i)*(.08+storm*.12);
+        float d=ellipse(rotate(-.2-storm*.25)*(p-at),vec2(.018+storm*.042,.006));
+        c+=mix(MIST,AMBER,h)*amount*(.22+.12*sin(i+t))*fill(d,aa);
+    }
+}
+
+// The same red cloak and moving fringe identify her across all seven shots.
+void girl(inout vec3 c,vec2 p,vec2 at,float size,float t,float strength,float reach,float aa) {
+    vec2 q=(p-at)/size;
+    float a=aa/size;
+    float w=gust(t)*strength;
+    vec2 fabric=q;
+    fabric.x-=strength*.30*(.5+.5*sin(q.y*5.5-t*3.4))*sat(-q.y+.3);
+    float cape=triangle(fabric,vec2(-.13,.15),vec2(.15,.12),vec2(-.45-w*.14,-.86));
+    cape=min(cape,triangle(fabric,vec2(.13,.15),vec2(.23+strength*.2,-.67),vec2(-.45-w*.14,-.86)));
+    paint(c,cape,CLOAK,1.,a);
+    paint(c,segment(q,vec2(-.07,-.52),vec2(-.16,-.99))-.032,INK,1.,a);
+    paint(c,segment(q,vec2(.09,-.53),vec2(.15,-.98))-.032,INK,1.,a);
+    paint(c,triangle(q,vec2(-.12,.15),vec2(.12,.15),vec2(.20,-.60)),vec3(.055,.09,.12),1.,a);
+    paint(c,ellipse(q-vec2(.03,.39),vec2(.155,.20)),PAPER*.81,1.,a);
+    float hair=ellipse(q-vec2(-.035,.45),vec2(.177,.21));
+    hair=max(hair,-box(q-vec2(.17,.30),vec2(.16,.22)));
+    paint(c,hair,INK*.75,1.,a);
+    vec2 tip=vec2(-.45-strength*.36,.36+.16*sin(t*3.5));
+    paint(c,triangle(q,vec2(-.12,.56),vec2(-.12,.28),tip),INK*.75,1.,a);
+    paint(c,triangle(q,vec2(-.10,.48),vec2(-.13,.26),tip+vec2(-.10,-.10-.10*w)),INK*.75,1.,a);
+    float arm=segment(q,vec2(.10,.07),vec2(.30+.26*reach,-.14+.33*reach))-.037;
+    paint(c,arm,CLOAK*.83,1.,a);
+    paint(c,ellipse(q-vec2(.33+.28*reach,-.14+.33*reach),vec2(.068,.037)),PAPER*.85,1.,a);
+    // The warm seam makes the constantly bending cape legible in dark shots.
+    float seam=segment(fabric,vec2(-.11,.02),vec2(-.39-w*.10,-.74));
+    c+=AMBER*.12*fill(seam-.007,a);
+}
+void seed(inout vec3 c,vec2 p,vec2 at,float size,float t,float power,float aa) {
+    vec2 q=rotate(.4*sin(t*.8))*(p-at);
+    float kernel=ellipse(q,vec2(size*.70,size));
+    float d=length(q);
+    c+=AMBER*power*(.26*exp(-d*d/(size*size*22.))+.035*exp(-d*1.7));
+    paint(c,kernel,mix(AMBER,PAPER,.45),power,aa);
+    paint(c,segment(q,vec2(0.,-size*.45),vec2(size*.2,size*.65))-size*.07,PAPER,power*.7,aa);
+    float ring=abs(length(q/vec2(1.3,.70))-size*2.5);
+    c+=AMBER*power*.14*fill(ring-.006,aa);
+}
+
+float roof(vec2 p,vec2 at,float width,float height) {
+    vec2 q=p-at;
+    float home=box(q-vec2(0.,height*.32),vec2(width*.36,height*.32));
+    return min(home,triangle(q,vec2(-width*.5,height*.57),vec2(0.,height),vec2(width*.5,height*.57)));
+}
+void village(inout vec3 c,vec2 p,float t,float lit,float aa) {
+    float far=-1.40+mountain(p.x+.05*t,1.)*.7;
+    paint(c,p.y-far,vec3(.048,.14,.18),1.,aa);
+    float mid=-1.93+mountain(p.x+.025*t,4.)*.50;
+    paint(c,p.y-mid,vec3(.024,.086,.12),1.,aa);
+    for(int j=0;j<13;j++) {
+        float i=float(j),h=hash(i+2.);
+        vec2 at=vec2(-7.7+i*1.28,-2.18+sin(i*.9)*.16);
+        float width=.58+h*.43,height=.50+hash(i+8.)*.57;
+        paint(c,roof(p,at,width,height),mix(INK,vec3(.07,.13,.15),h*.25),1.,aa);
+        float window=box(p-(at+vec2(width*.06,height*.38)),vec2(width*.068,height*.095));
+        paint(c,window,AMBER*(.26+.65*lit),.55+.45*lit,aa);
+        c+=AMBER*lit*.04*exp(-length(p-(at+vec2(0.,height*.4)))*7.);
+        if(j==8) {
+            paint(c,box(p-at-vec2(-.15,height*.78),vec2(.035,height*.29)),INK,1.,aa);
+        }
+    }
+    float ground=-2.35+sin(p.x*.58)*.09;
+    paint(c,p.y-ground,vec3(.012,.031,.046),1.,aa);
+}
+
+vec3 lostVillage(vec2 p,float t,float aa) {
+    vec2 q=p+vec2(t*.014,-t*.003);
+    vec3 c=sky(q,t,0.);
+    stars(c,q,t,1.-ease(.0,11.,t)*.95,aa);
+    // An empty star-shaped opening, with the last glimmer falling away.
+    vec2 moon=q-vec2(3.5,1.9);
+    float ring=abs(length(moon)-.65);
+    c+=MIST*.16*fill(ring-.009,aa);
+    c+=MIST*.025*exp(-dot(moon,moon)*.6);
+    ribbons(c,q,t,.75,MIST,aa);
+    village(c,q,t,0.,aa);
+    girl(c,q,vec2(-2.6,-1.51),.65,t,.75,.2,aa);
+    float drop=ease(7.,16.,t);
+    vec2 at=mix(vec2(3.5,1.95),vec2(-.8,-.30),drop)+vec2(sin(drop*PI)*.6,sin(drop*PI)*.5);
+    seed(c,q,at,.045,t,ease(5.,6.5,t),aa);
+    // The trail is bent by wind, rather than screen-aligned particles.
+    for(int j=0;j<12;j++) {
+        float i=float(j),s=sat(drop-i*.020);
+        vec2 st=mix(vec2(3.5,1.95),vec2(-.8,-.30),s)+vec2(sin(s*PI)*.6,sin(s*PI)*.5);
+        light(c,q,st,.008,AMBER,.11*(1.-i/12.)*ease(6.,8.,t),aa);
+    }
+    specks(c,q,t,.45,0.,aa);
+    return c;
+}
+
+void closeBranch(inout vec3 c,vec2 p,float t,float aa) {
+    vec2 q=p;
+    q.x+=windX(q.y,t,.10);
+    float d=segment(q,vec2(-8.,2.45),vec2(-3.8,1.85))-.065;
+    d=min(d,segment(q,vec2(-5.9,2.14),vec2(-4.4,2.95))-.030);
+    d=min(d,segment(q,vec2(-5.1,2.02),vec2(-3.2,2.37))-.021);
+    paint(c,d,INK*.7,1.,aa);
+    for(int j=0;j<8;j++) {
+        float i=float(j);
+        vec2 at=vec2(-5.9+i*.40,2.18+.24*sin(i*1.3));
+        float leaf=ellipse(rotate(.5+sin(t*1.8+i)*.25)*(q-at),vec2(.19,.055));
+        paint(c,leaf,vec3(.06,.15,.16),1.,aa);
+    }
+}
+vec3 catchSeed(vec2 p,float t,float aa) {
+    float k=t-16.;
+    vec2 q=(p-vec2(.1,-.15))/(1.02+.014*k)+vec2(.1,-.15);
+    vec3 c=sky(q,t,.16);
+    c+=vec3(.08,.16,.15)*exp(-dot(q-vec2(1.,.4),q-vec2(1.,.4))*.12);
+    ribbons(c,q,t,.6,MIST,aa);
+    paint(c,q.y-(-2.55+mountain(q.x,3.)*.2),vec3(.025,.085,.10),1.,aa);
+    girl(c,q,vec2(-.95,-.45),1.85,t,.85,1.,aa);
+    float descent=ease(16.,23.,t);
+    vec2 at=mix(vec2(-.8,-.30),vec2(.18,-.08),descent);
+    at+=vec2(sin(descent*PI)*.72,sin(descent*PI)*.85);
+    at.y+=sin(t*1.6)*.025*descent;
+    seed(c,q,at,.095,t,1.,aa);
+    for(int j=0;j<10;j++) {
+        float i=float(j),u=t*.28+i*.63;
+        vec2 st=at+vec2(cos(u)*(.3+i*.025),sin(u)*(.18+i*.012));
+        light(c,q,st,.008,AMBER,.18*ease(22.,26.,t),aa);
+    }
+    closeBranch(c,q,t,aa);
+    specks(c,q,t,.58,0.,aa);
+    return c;
+}
+
+float cloudHeight(float x,float t,float i) {
+    return sin(x*(.34+i*.018)-t*(.11+i*.018)+i*1.7)*(.23+i*.025)
+          +sin(x*.91-t*.19+i*.8)*(.08+i*.012)
+          +sin(x*1.9+t*.13+i)*.035;
+}
+void cloudLayer(inout vec3 c,vec2 p,float t,float i,vec3 hue,float aa) {
+    float base=-2.55+i*.72;
+    float y=base+cloudHeight(p.x,t,i);
+    paint(c,p.y-y,hue,1.,aa);
+    float curl=abs(p.y-(y+.065));
+    c+=MIST*.045*fill(curl-.008,aa);
+    // Long calligraphic lines fold with the cloud surface.
+    float line=abs(p.y-(y-.13-.04*sin(p.x*.5+i)));
+    c+=MIST*.035*fill(line-.008,aa);
+}
+float boatSDF(vec2 q) {
+    float left=triangle(q,vec2(-1.15,.18),vec2(.05,-.38),vec2(.05,.10));
+    float right=triangle(q,vec2(.05,-.38),vec2(1.22,.28),vec2(.05,.10));
+    float sail=triangle(q,vec2(-.02,.11),vec2(-.02,1.03),vec2(-.69,.18));
+    return min(min(left,right),sail);
+}
+float boatCloudSDF(vec2 q) {
+    float d=ellipse(q-vec2(-.62,-.12),vec2(.53,.26));
+    d=softUnion(d,ellipse(q-vec2(.06,.04),vec2(.65,.43)),.18);
+    d=softUnion(d,ellipse(q-vec2(.69,-.10),vec2(.52,.25)),.18);
+    return d;
+}
+vec3 voyage(vec2 p,float t,float aa) {
+    float k=t-34.;
+    vec2 q=p+vec2(k*.027,-.04*sin(k*.13));
+    vec3 c=sky(q,t,.3);
+    vec2 moon=q-vec2(3.6,1.75);
+    c+=PAPER*.025*exp(-dot(moon,moon)*.17);
+    paint(c,length(moon)-.73,vec3(.43,.56,.51),1.,aa);
+    paint(c,length(moon-vec2(.22,.12))-.71,vec3(.027,.08,.13),1.,aa);
+    ribbons(c,q,t,1.,MIST,aa);
+    cloudLayer(c,q,t,4.,vec3(.055,.18,.22),aa);
+    cloudLayer(c,q,t,3.,vec3(.075,.23,.27),aa);
+    cloudLayer(c,q,t,2.,vec3(.11,.31,.33),aa);
+    vec2 center=vec2(-2.4+k*.24,.24+.18*sin(k*.43));
+    vec2 b=rotate(-.07+.07*sin(k*.7))*(q-center);
+    float morph=ease(49.,53.8,t);
+    girl(c,b,vec2(.10,.65),.56,t,1.,.2,aa);
+    seed(c,b,vec2(.40,.71),.045,t,1.-morph,aa);
+    float d=mix(boatSDF(b),boatCloudSDF(b),morph);
+    paint(c,d,mix(PAPER,vec3(.30,.49,.49),morph),1.,aa);
+    float fold=segment(b,vec2(-1.12,.17),vec2(.05,-.33));
+    fold=min(fold,segment(b,vec2(.05,-.33),vec2(.05,.12)));
+    fold=min(fold,segment(b,vec2(.05,.12),vec2(1.17,.27)));
+    paint(c,fold-.009,vec3(.44,.43,.34),(1.-morph)*.75,aa);
+    // The paper sail itself acquires a round cloud contour over five seconds.
+    cloudLayer(c,q,t,1.,vec3(.08,.24,.27),aa);
+    cloudLayer(c,q,t,0.,vec3(.035,.13,.18),aa);
+    specks(c,q,t,.5,0.,aa);
+    return c;
+}
+
+float bareTree(vec2 p,float x,float base,float h,float t,float wind) {
+    vec2 q=p-vec2(x,base);
+    float y=sat(q.y/h);
+    q.x-=wind*(y*y)*(.36+.12*gust(t+q.y*.45));
+    float trunk=segment(q,vec2(0.,0.),vec2(.04,h))-(.04+.095*(1.-y));
+    for(int j=0;j<4;j++) {
+        float i=float(j),side=mod(i,2.)<.5?-1.:1.;
+        float sy=h*(.34+i*.15);
+        vec2 a=vec2(0.,sy),b=vec2(side*(.47+.10*i),sy+h*.22);
+        trunk=min(trunk,segment(q,a,b)-(.026-i*.003));
+        trunk=min(trunk,segment(q,b,b+vec2(side*.16,h*.19))-.013);
+    }
+    return trunk;
+}
+// An almond leaf and a flapping swallow share a continuous signed contour.
+float leafBird(vec2 p,float flap,float morph) {
+    float leaf=ellipse(rotate(-.28)*p,vec2(.27,.09));
+    float body=ellipse(p,vec2(.16,.047));
+    float wings=triangle(p,vec2(-.03,-.02),vec2(-.12,.03),vec2(-.24,.13+flap*.20));
+    wings=min(wings,triangle(p,vec2(-.02,-.02),vec2(.11,.02),vec2(.29,.14+flap*.19)));
+    float tail=triangle(p,vec2(-.10,-.01),vec2(-.22,-.12),vec2(-.16,.03));
+    float bird=min(min(body,wings),tail);
+    return mix(leaf,bird,morph);
+}
+vec3 stormForest(vec2 p,float t,float aa) {
+    float k=t-54.;
+    vec2 q=p+vec2(sin(k*.33)*.035,sin(k*.67)*.016);
+    vec3 c=mix(vec3(.025,.075,.10),vec3(.07,.15,.17),sat((3.5-q.y)/7.));
+    float lightning=pow(sat(sin(t*2.1+sin(t*5.3)*2.)),22.)*.10*cue(t,58.,72.);
+    c+=vec3(.24,.31,.32)*lightning;
+    for(int j=0;j<9;j++) {
+        float i=float(j),h=hash(i+7.);
+        float x=-8.2+i*2.05-k*.018;
+        float d=bareTree(q,x,-2.15,4.1+h*1.8,t,.48);
+        paint(c,d,vec3(.027,.105,.12),1.,aa*1.4);
+    }
+    ribbons(c,q+vec2(0.,-.4),t*2.1,1.7,MIST,aa);
+    float floorY=-2.28+sin(q.x*.65)*.12;
+    paint(c,q.y-floorY,vec3(.014,.041,.055),1.,aa);
+    girl(c,q,vec2(-.43,-1.13),1.08,t,1.9,1.,aa);
+    vec2 at=vec2(.20,-.91+.035*sin(t*1.7));
+    seed(c,q,at,.078,t,1.2,aa);
+    // The light held in her hand pushes an oval breathing hole into the storm.
+    float shelter=abs(length((q-at)/vec2(1.10,.84))-1.);
+    c+=AMBER*.07*exp(-shelter*13.)*ease(57.,63.,t);
+    for(int j=0;j<17;j++) {
+        float i=float(j),h=hash(i+26.);
+        float u=fract(t*(.10+h*.05)+h);
+        vec2 at2=vec2(-10.+u*20.,-1.3+hash(i+9.)*4.2+.35*sin(u*TAU+i));
+        vec2 l=rotate(-.5+sin(t*2.+i)*.7)*(q-at2);
+        float d=leafBird(l*(1.7+h),sin(t*6.+i),0.);
+        paint(c,d,mix(TEAL,MIST,h)*.65,.75,aa);
+    }
+    // Two foreground trunks move faster than the distant forest.
+    paint(c,bareTree(q,-6.5+k*.02,-3.8,7.2,t,.80),INK*.6,1.,aa);
+    paint(c,bareTree(q,6.5-k*.02,-3.8,8.1,t,.75),INK*.6,1.,aa);
+    specks(c,q,t,.8,1.,aa);
+    return c;
+}
+
+vec2 branchEnd(float i) {
+    float side=mod(i,2.)<.5?-1.:1.;
+    float level=floor(i*.5);
+    float y=-.85+level*.43;
+    return vec2(side*(2.22-level*.24),y+1.00-level*.025);
+}
+vec2 branchRoot(float i) {
+    float level=floor(i*.5);
+    return vec2(.08*sin(level*1.1),-.92+level*.43);
+}
+vec2 growingTrunk(float u) { return vec2(.13*sin(u*4.4),-1.95+u*4.45); }
+void lightTree(inout vec3 c,vec2 p,float t,float growth,float release,float aa) {
+    vec2 q=p;
+    float y=sat((q.y+1.95)/4.5);
+    q.x-=.055*sin(t*1.7+q.y*1.3)*y*y;
+    float height=4.45*growth;
+    float trunk=segment(q,vec2(0.,-1.95),vec2(.11*sin(growth*4.4),-1.95+height));
+    float radius=mix(.11,.038,y);
+    // Its initial ellipse stretches directly into the first growing trunk.
+    float kernel=ellipse(q-vec2(0.,-1.88),vec2(.085,.115));
+    float wood=mix(kernel,trunk-radius,ease(0.,.14,growth));
+    c+=AMBER*.13*exp(-max(wood,0.)*6.0)*ease(0.,.08,growth);
+    paint(c,wood,vec3(.64,.40,.20),1.,aa);
+    paint(c,trunk-.016,vec3(1.,.79,.41),ease(.02,.25,growth),aa);
+    for(int j=0;j<14;j++) {
+        float i=float(j),level=floor(i*.5),side=mod(i,2.)<.5?-1.:1.;
+        vec2 a=branchRoot(i),b=branchEnd(i);
+        float born=.18+level*.090;
+        float u=ease(born,born+.22,growth);
+        vec2 mid=mix(a,b,.52)+vec2(side*.07,-.15);
+        float d=segment(q,a,mix(a,mid,sat(u*2.)))-(.041-level*.003);
+        if(u>.5) d=min(d,segment(q,mid,mix(mid,b,(u-.5)*2.))-(.024-level*.0015));
+        float on=ease(born-.02,born+.02,growth);
+        paint(c,d,vec3(.58,.39,.21),on,aa);
+        c+=AMBER*.14*exp(-max(d,0.)*14.)*on;
+        for(int l=0;l<3;l++) {
+            float f=float(l);
+            vec2 end=mix(mid,b,.36+f*.30)+vec2(side*(.11+f*.035),.30+f*.035);
+            float v=ease(born+.12+f*.018,born+.28+f*.02,growth);
+            float twig=segment(q,mix(mid,b,.28+f*.29),mix(mix(mid,b,.28+f*.29),end,v))-.013;
+            paint(c,twig,vec3(.80,.58,.28),v*.85,aa);
+            // Living leaves bend along the same wind field as the twigs.
+            vec2 leafAt=end+vec2(.04*sin(t*2.1+i+f),.025*sin(t*1.7+i));
+            float phase=t*2.2+i*.8+f;
+            vec2 lp=rotate(side*.35+sin(phase)*.20)*(q-leafAt);
+            float leaf=ellipse(lp,vec2(.13,.052));
+            float departure=96.+hash(i*3.+f+8.)*4.;
+            float stay=1.-ease(departure-.12,departure+.12,t)*step(.00001,release);
+            paint(c,leaf,mix(AMBER,PAPER,.23+f*.15),v*stay,aa);
+            c+=AMBER*.035*v*stay*exp(-dot(q-leafAt,q-leafAt)*35.);
+        }
+    }
+    // Roots grow across the slope in curling, repeated smaller arcs.
+    for(int j=0;j<5;j++) {
+        float i=float(j),side=mod(i,2.)<.5?-1.:1.;
+        vec2 at=vec2(side*(.30+i*.24),-2.08-i*.045);
+        float root=segment(q,vec2(0.,-1.94),at)-(.018-i*.002);
+        paint(c,root,AMBER*.65,ease(.05,.32,growth),aa);
+    }
+}
+vec3 growingStar(vec2 p,float t,float aa) {
+    float k=t-76.;
+    float scale=1.16-.014*min(k,18.);
+    vec2 q=p/scale+vec2(0.,.15);
+    vec3 c=sky(q,t,.28+ease(82.,94.,t)*.3);
+    ribbons(c,q,t,.54,MIST,aa);
+    stars(c,q,t,.12+ease(85.,96.,t)*.3,aa);
+    float hill=-2.28+.27*exp(-q.x*q.x*.08);
+    paint(c,q.y-hill,vec3(.020,.075,.09),1.,aa);
+    float growth=ease(76.4,93.5,t);
+    float aura=exp(-dot(q-vec2(0.,-.25),q-vec2(0.,-.25))*.19);
+    c+=AMBER*.09*aura*growth;
+    lightTree(c,q,t,growth,0.,aa/scale);
+    seed(c,q,vec2(.20*(1.-ease(75.,77.,t)),-1.88+.97*(1.-ease(75.,77.,t))),.095,t,1.-ease(77.,80.,t),aa);
+    girl(c,q,vec2(-1.25,-1.57),.49,t,.5,.2,aa);
+    for(int j=0;j<5;j++) {
+        float i=float(j);
+        float u=fract((t-76.)*.12-i*.19);
+        float r=.25+u*4.7;
+        float ring=abs(length((q-vec2(0.,-1.98))/vec2(1.,.20))-r)*.20;
+        c+=AMBER*.16*(1.-u)*growth*fill(ring-.009,aa);
+    }
+    specks(c,q,t,.7*growth,0.,aa);
+    return c;
+}
+
+vec3 homecoming(vec2 p,float t,float aa) {
+    float k=t-96.;
+    vec2 q=p/(.91-k*.005)+vec2(0.,.15);
+    vec3 c=sky(q,t,.56);
+    stars(c,q,t,.36+ease(100.,109.,t)*.64,aa);
+    ribbons(c,q,t,.65,MIST,aa);
+    village(c,q+vec2(0.,.30),t,ease(100.,108.,t),aa);
+    lightTree(c,q,t,1.,ease(96.,101.,t),aa);
+    girl(c,q,vec2(-1.25,-1.57),.49,t,.7,.2,aa);
+    for(int j=0;j<42;j++) {
+        float i=float(j),h=hash(i+8.);
+        float start=96.+h*4.;
+        float u=ease(start,start+8.3,t);
+        float side=mod(i,2.)<.5?-1.:1.;
+        float branch=floor(i/3.),f=mod(i,3.);
+        side=mod(branch,2.)<.5?-1.:1.;
+        vec2 a=branchRoot(branch),b=branchEnd(branch);
+        vec2 mid=mix(a,b,.52)+vec2(side*.07,-.15);
+        vec2 from=mix(mid,b,.36+f*.30)+vec2(side*(.11+f*.035),.30+f*.035);
+        from+=vec2(.04*sin(t*2.1+branch+f),.025*sin(t*1.7+branch))*(1.-u);
+        vec2 to=vec2((h-.5)*15.,2.1+hash(i+1.)*1.5);
+        vec2 at=mix(from,to,u)+vec2(side*sin(u*PI)*1.3,sin(u*PI)*.8);
+        float originalAngle=side*.35+sin(t*2.2+branch*.8+f)*.20+.28;
+        float turn=mix(originalAngle,side*.12+.45*sin(u*PI+i),ease(.0,.45,u));
+        vec2 bird=rotate(turn)*(q-at);
+        float morph=ease(start,start+2.6,t);
+        float birdSize=mix(.52,.20,ease(.5,1.,u));
+        float d=leafBird(bird/birdSize,sin(t*5.8+i*1.2),morph)*birdSize;
+        float visible=ease(start-.12,start+.12,t);
+        paint(c,d,mix(AMBER,PAPER,h*.5),visible*(1.-ease(.87,1.,u)*.78),aa);
+        c+=AMBER*.022*exp(-dot(q-at,q-at)*20.)*(1.-u);
+        float star=ease(.75,1.,u);
+        light(c,q,to,.014,AMBER,star*.7,aa);
+    }
+    return c;
+}
+vec3 titleCard(vec2 p,float t,float aa) {
+    vec3 c=sky(p,t,.64);
+    stars(c,p,t,1.,aa);
+    ribbons(c,p+vec2(0.,.45),t,.85,MIST,aa);
+    village(c,p-vec2(0.,.30),t,1.,aa);
+    girl(c,p,vec2(-2.3+(t-110.)*.07,-1.22),.44,t,.8,.1,aa);
+    vec2 at=vec2(2.9,1.7);
+    seed(c,p,at,.048,t,.8,aa);
+    // A single enormous, extremely quiet halo carries the opening's lost star.
+    float halo=abs(length((p-vec2(0.,.35))/vec2(5.3,2.5))-1.);
+    c+=AMBER*.07*exp(-halo*15.);
+    return c;
+}
+
+float sdfSample(vec2 q,vec4 tile) {
+    q.y=1.0-q.y;
+    vec2 pix=clamp(tile.xy+q*tile.zw-.5,tile.xy,tile.xy+tile.zw-1.);
+    vec2 b=floor(pix),f=fract(pix);
+    float a=texture2D(TEXTURE_2,(b+vec2(.5,.5))/4096.).r;
+    float b0=texture2D(TEXTURE_2,(b+vec2(1.5,.5))/4096.).r;
+    float c0=texture2D(TEXTURE_2,(b+vec2(.5,1.5))/4096.).r;
+    float d=texture2D(TEXTURE_2,(b+vec2(1.5,1.5))/4096.).r;
+    return (mix(mix(a,b0,f.x),mix(c0,d,f.x),f.y)-.5)*48.;
+}
+void letter(inout vec3 c,vec2 p,vec2 at,vec2 size,vec4 tile,vec3 hue,float opacity,float aa) {
+    vec2 q=(p-at)/size+.5;
+    if(min(q.x,q.y)<.003 || max(q.x,q.y)>.997 || opacity<.001) return;
+    float d=sdfSample(q,tile);
+    float edge=clamp(.5*fwidth(d),.55,8.);
+    float ink=smoothstep(-edge,edge,d);
+    float outline=smoothstep(-edge-2.,edge-2.,d);
+    c=mix(c,c*.28,outline*opacity*.62);
+    c=mix(c,hue,ink*opacity);
+}
+void typography(inout vec3 c,vec2 p,float t,float aa) {
+if(t>3.400 && t<13.500) {
+float opacity=cue(t,3.400,13.500);
+letter(c,p,vec2(-1.530330,-3.167492),vec2(0.313914,0.287427),vec4(0.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.294895,-3.166757),vec2(0.313914,0.289389),vec4(192.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.059459,-3.171907),vec2(0.313914,0.277618),vec4(384.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.824024,-3.166389),vec2(0.313914,0.288408),vec4(576.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.588589,-3.265345),vec2(0.313914,0.099079),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.353153,-3.166021),vec2(0.313914,0.273694),vec4(960.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.117718,-3.166021),vec2(0.313914,0.273694),vec4(960.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.117718,-3.162342),vec2(0.313914,0.277618),vec4(1152.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.353153,-3.170803),vec2(0.313914,0.276637),vec4(1344.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.588589,-3.169332),vec2(0.313914,0.278599),vec4(1536.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.824024,-3.166389),vec2(0.313914,0.290370),vec4(1728.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.059459,-3.166389),vec2(0.313914,0.286446),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.294895,-3.166757),vec2(0.313914,0.289389),vec4(2112.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.530330,-3.242170),vec2(0.313914,0.088288),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>18.500 && t<30.800) {
+float opacity=cue(t,18.500,30.800);
+letter(c,p,vec2(-1.525749,-3.161662),vec2(0.312974,0.277764),vec4(2496.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.291018,-3.169364),vec2(0.312974,0.282655),vec4(2688.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.056287,-3.169731),vec2(0.312974,0.283633),vec4(2880.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.821557,-3.265457),vec2(0.312974,0.098782),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.586826,-3.167530),vec2(0.312974,0.287545),vec4(3072.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.352096,-3.195771),vec2(0.312974,0.161377),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.117365,-3.167897),vec2(0.312974,0.286567),vec4(3456.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.117365,-3.167163),vec2(0.312974,0.286567),vec4(3648.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.352096,-3.171931),vec2(0.312974,0.273852),vec4(3840.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.586826,-3.167163),vec2(0.312974,0.288523),vec4(0.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.821557,-3.166063),vec2(0.312974,0.289501),vec4(192.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.056287,-3.171198),vec2(0.312974,0.275808),vec4(1344.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.291018,-3.166063),vec2(0.312974,0.287545),vec4(384.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.525749,-3.242350),vec2(0.312974,0.088024),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>36.800 && t<49.800) {
+float opacity=cue(t,36.800,49.800);
+letter(c,p,vec2(-1.872239,-3.166470),vec2(0.312040,0.286687),vec4(384.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.638209,-3.167567),vec2(0.312040,0.287662),vec4(576.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.404179,-3.196090),vec2(0.312040,0.160896),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.170149,-3.169396),vec2(0.312040,0.280836),vec4(768.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.936119,-3.168299),vec2(0.312040,0.285711),vec4(960.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.702090,-3.168664),vec2(0.312040,0.288637),vec4(1152.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.468060,-3.265567),vec2(0.312040,0.098488),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.234030,-3.167567),vec2(0.312040,0.285711),vec4(1344.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.000000,-3.167567),vec2(0.312040,0.285711),vec4(1536.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.234030,-3.169030),vec2(0.312040,0.283761),vec4(1728.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.468060,-3.167201),vec2(0.312040,0.288637),vec4(1920.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.702090,-3.163545),vec2(0.312040,0.274985),vec4(2112.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.936119,-3.169396),vec2(0.312040,0.280836),vec4(2304.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.170149,-3.167201),vec2(0.312040,0.284736),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.404179,-3.171590),vec2(0.312040,0.278886),vec4(2496.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.638209,-3.160254),vec2(0.312040,0.274010),vec4(2688.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.872239,-3.242530),vec2(0.312040,0.087761),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>57.000 && t<70.500) {
+float opacity=cue(t,57.000,70.500);
+letter(c,p,vec2(-1.883483,-3.169332),vec2(0.313914,0.284484),vec4(2880.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.648048,-3.163814),vec2(0.313914,0.279580),vec4(2880.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.412613,-3.166021),vec2(0.313914,0.289389),vec4(3072.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.177177,-3.166389),vec2(0.313914,0.284484),vec4(3264.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.941742,-3.166757),vec2(0.313914,0.289389),vec4(2112.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.706306,-3.242170),vec2(0.313914,0.088288),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.470871,-3.167860),vec2(0.313914,0.284484),vec4(3456.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.235435,-3.167125),vec2(0.313914,0.288408),vec4(3648.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.000000,-3.166389),vec2(0.313914,0.286446),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.235435,-3.168964),vec2(0.313914,0.281542),vec4(3840.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.470871,-3.265345),vec2(0.313914,0.099079),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.706306,-3.166021),vec2(0.313914,0.289389),vec4(3072.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.941742,-3.166757),vec2(0.313914,0.287427),vec4(0.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.177177,-3.161974),vec2(0.313914,0.276637),vec4(192.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.412613,-3.166757),vec2(0.313914,0.289389),vec4(384.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.648048,-3.167860),vec2(0.313914,0.284484),vec4(576.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.883483,-3.242170),vec2(0.313914,0.088288),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>81.300 && t<93.100) {
+float opacity=cue(t,81.300,93.100);
+letter(c,p,vec2(-2.106269,-3.169761),vec2(0.312040,0.279861),vec4(768.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.872239,-3.169396),vec2(0.312040,0.282786),vec4(960.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.638209,-3.265567),vec2(0.312040,0.098488),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.404179,-3.196090),vec2(0.312040,0.160896),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.170149,-3.168299),vec2(0.312040,0.285711),vec4(3456.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.936119,-3.169030),vec2(0.312040,0.281811),vec4(1152.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.702090,-3.169030),vec2(0.312040,0.281811),vec4(1152.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.468060,-3.167201),vec2(0.312040,0.284736),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.234030,-3.166836),vec2(0.312040,0.272060),vec4(960.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.000000,-3.265567),vec2(0.312040,0.098488),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.234030,-3.169030),vec2(0.312040,0.285711),vec4(1344.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.468060,-3.168299),vec2(0.312040,0.287662),vec4(1536.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.702090,-3.171590),vec2(0.312040,0.274985),vec4(1344.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.936119,-3.196090),vec2(0.312040,0.160896),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.170149,-3.164276),vec2(0.312040,0.280836),vec4(1728.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.404179,-3.167567),vec2(0.312040,0.287662),vec4(1920.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.638209,-3.167201),vec2(0.312040,0.292537),vec4(2112.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.872239,-3.160254),vec2(0.312040,0.274010),vec4(2688.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(2.106269,-3.242530),vec2(0.312040,0.087761),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>99.000 && t<108.700) {
+float opacity=cue(t,99.000,108.700);
+letter(c,p,vec2(-1.877844,-3.171564),vec2(0.312974,0.278743),vec4(2304.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.643114,-3.163496),vec2(0.312974,0.276786),vec4(2496.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.408383,-3.166430),vec2(0.312974,0.288523),vec4(2688.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.173653,-3.167163),vec2(0.312974,0.288523),vec4(2880.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.938922,-3.167163),vec2(0.312974,0.290479),vec4(3072.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.704192,-3.167163),vec2(0.312974,0.286567),vec4(3264.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.469461,-3.166796),vec2(0.312974,0.285589),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.234731,-3.265457),vec2(0.312974,0.098782),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.000000,-3.167530),vec2(0.312974,0.285589),vec4(3456.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.234731,-3.166796),vec2(0.312974,0.289501),vec4(1920.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.469461,-3.171198),vec2(0.312974,0.275808),vec4(1344.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.704192,-3.169731),vec2(0.312974,0.277764),vec4(1536.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.938922,-3.166796),vec2(0.312974,0.289501),vec4(1728.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.173653,-3.166796),vec2(0.312974,0.285589),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.408383,-3.166796),vec2(0.312974,0.291457),vec4(3648.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.643114,-3.167163),vec2(0.312974,0.286567),vec4(1536.000000,192.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.877844,-3.242350),vec2(0.312974,0.088024),vec4(2304.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+if(t>110.200 && t<120.500) {
+float opacity=cue(t,110.200,120.500);
+float unfold=smoothstep(110.2,112.8,t);
+letter(c,p,(vec2(-2.668475,0.493051)+vec2(0.0,(1.0-unfold)*-0.080000)),vec2(1.185989,1.074802),vec4(2880.000000,0.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.0000,111.8+0.0000,t),aa);
+letter(c,p,(vec2(-1.778983,0.502780)+vec2(0.0,(1.0-unfold)*0.000000)),vec2(1.185989,1.085921),vec4(3840.000000,384.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.0550,111.8+0.0550,t),aa);
+letter(c,p,(vec2(-0.889492,0.502780)+vec2(0.0,(1.0-unfold)*0.080000)),vec2(1.185989,1.085921),vec4(0.000000,576.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.1100,111.8+0.1100,t),aa);
+letter(c,p,(vec2(0.000000,0.504169)+vec2(0.0,(1.0-unfold)*-0.080000)),vec2(1.185989,1.082215),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.1650,111.8+0.1650,t),aa);
+letter(c,p,(vec2(0.889492,0.394373)+vec2(0.0,(1.0-unfold)*0.000000)),vec2(1.185989,0.611525),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.2200,111.8+0.2200,t),aa);
+letter(c,p,(vec2(1.778983,0.500000)+vec2(0.0,(1.0-unfold)*0.080000)),vec2(1.185989,1.085921),vec4(3456.000000,0.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.2750,111.8+0.2750,t),aa);
+letter(c,p,(vec2(2.668475,0.505559)+vec2(0.0,(1.0-unfold)*-0.080000)),vec2(1.185989,1.034034),vec4(960.000000,0.000000,192.000000,192.000000),vec3(1.0,0.86,0.56),opacity*smoothstep(110.2+0.3300,111.8+0.3300,t),aa);
+}
+if(t>113.500 && t<120.500) {
+float opacity=cue(t,113.500,120.500);
+letter(c,p,vec2(-1.588024,-0.785876),vec2(0.325749,0.300299),vec4(192.000000,576.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.343713,-0.816415),vec2(0.325749,0.167964),vec4(3264.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-1.099401,-0.785876),vec2(0.325749,0.302335),vec4(384.000000,576.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.855090,-0.789311),vec2(0.325749,0.295210),vec4(2880.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.610778,-0.787021),vec2(0.325749,0.299281),vec4(576.000000,576.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.366467,-0.888945),vec2(0.325749,0.102814),vec4(768.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(-0.122156,-0.787021),vec2(0.325749,0.297246),vec4(3456.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.122156,-0.788548),vec2(0.325749,0.295210),vec4(960.000000,384.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.366467,-0.785876),vec2(0.325749,0.284012),vec4(960.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.610778,-0.785876),vec2(0.325749,0.284012),vec4(960.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(0.855090,-0.789311),vec2(0.325749,0.289102),vec4(1536.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.099401,-0.786257),vec2(0.325749,0.301317),vec4(1728.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.343713,-0.786257),vec2(0.325749,0.297246),vec4(1920.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+letter(c,p,vec2(1.588024,-0.786639),vec2(0.325749,0.300299),vec4(2112.000000,0.000000,192.000000,192.000000),vec3(0.92,0.91,0.84),opacity,aa);
+}
+}
+
+void main() {
+    vec2 v=uv;
+    if(EXTRA_VECTOR2.x>.5) v.y=1.-v.y;
+    float height=EXTRA_VECTOR2.z>0.?EXTRA_VECTOR2.z:1.;
+    vec2 local=vec2(v.x,(v.y-EXTRA_VECTOR2.y)/height);
+    vec4 original=texture2D(TEXTURE_0,uv);
+    if(local.y<0. || local.y>1.) { gl_FragColor=original; return; }
+    float aspect=max(EXTRA_VECTOR1.y,.1);
+    float narrow=max(1.,(16./9.)/aspect);
+    vec2 p=vec2((local.x-.5)*aspect,.5-local.y)*9.*narrow;
+    float aa=9./max(EXTRA_VECTOR1.z,1.)*narrow;
+    float t=clamp(EXTRA_VECTOR1.x,0.,120.);
+    vec3 c;
+    // Short dissolves preserve the seed's screen-space direction between shots.
+    if(t<15.) c=lostVillage(p,t,aa);
+    else if(t<17.) c=mix(lostVillage(p,t,aa),catchSeed(p,t,aa),ease(15.,17.,t));
+    else if(t<33.) c=catchSeed(p,t,aa);
+    else if(t<35.) c=mix(catchSeed(p,t,aa),voyage(p,t,aa),ease(33.,35.,t));
+    else if(t<53.) c=voyage(p,t,aa);
+    else if(t<55.) c=mix(voyage(p,t,aa),stormForest(p,t,aa),ease(53.,55.,t));
+    else if(t<75.) c=stormForest(p,t,aa);
+    else if(t<77.) c=mix(stormForest(p,t,aa),growingStar(p,t,aa),ease(75.,77.,t));
+    else if(t<95.) c=growingStar(p,t,aa);
+    else if(t<97.) c=mix(growingStar(p,t,aa),homecoming(p,t,aa),ease(95.,97.,t));
+    else if(t<109.) c=homecoming(p,t,aa);
+    else if(t<111.) c=mix(homecoming(p,t,aa),titleCard(p,t,aa),ease(109.,111.,t));
+    else c=titleCard(p,t,aa);
+    // Restrained pigment/grain and soft optical edges retain cut-paper shapes.
+    float vignette=sat(1.-dot(p*vec2(.077,.12),p*vec2(.077,.12))*.34);
+    c*=.82+.18*vignette;
+    float grain=fract(sin(dot(floor(gl_FragCoord.xy),vec2(12.9898,78.233)))*43758.5453)-.5;
+    c+=grain*.008;
+    typography(c,p,t,aa);
+    float letterbox=1.-ease(3.64,3.68,abs(p.y));
+    c*=letterbox;
+    c*=ease(0.,1.5,t)*(1.-ease(119.,120.,t));
+    gl_FragColor=mix(original,vec4(clamp(c,0.,1.),1.),clamp(EXTRA_VECTOR1.w,0.,1.));
+}

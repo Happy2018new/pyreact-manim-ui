@@ -23,6 +23,9 @@ htmlcov/
 # Rebuildable packages and downloaded binaries
 build/
 dist/
+tools/storybook/generated/*.png
+tools/storybook/generated/*.fragment
+tools/storybook/generated/*.ttf
 .agents/skills/pyreact-debugging/bin/
 *.exe
 *.dll

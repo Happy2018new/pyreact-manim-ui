@@ -76,6 +76,17 @@ vec3 atmosphere(vec2 p,float t,float aa) {
             float d=abs(abs(p.y)-band);
             c+=glow(d,0.004,mix(CYAN,PINK,i/7.0),kinetic*0.12,aa);
         }
+        // Nested frame corners move in perspective, giving the quiet starfield depth.
+        // The open sides keep this motion outside the text and graph plane.
+        for(int j=0;j<4;j++) {
+            float i=float(j),depth=fract(t*0.105+i*0.25);
+            float size=0.69+0.34*depth*depth;
+            vec2 frame=abs(p)/vec2(7.65,4.05);
+            float d=abs(max(frame.x,frame.y)-size)*3.6;
+            float corners=smoothstep(size*0.64,size*0.86,min(frame.x,frame.y));
+            float life=sin(PI*depth);
+            c+=glow(d,0.004,mix(CYAN,PINK,i/4.0),0.11*kinetic*life,aa)*corners;
+        }
     }
     float energy=0.3+0.6*gate(t,0.0,12.0)+0.6*gate(t,102.0,114.0);
     for(int j=0;j<48;j++) {
@@ -91,14 +102,34 @@ vec3 introStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float enter=smoothstep(0.0,1.8,t);
     vec2 q=p-vec2(0.0,0.25);
+    float approach=1.0-smoothstep(0.15,2.15,t);
+    float fold=geoImpulse(t,3.55,0.6)+geoImpulse(t,8.35,0.65);
+    float reading=mix(1.0,smoothstep(0.73,1.25,abs(q.y)),smoothstep(0.5,1.4,t));
     for(int j=0;j<6;j++) {
         float i=float(j);
-        float r=2.1+i*0.31+0.12*sin(t*0.6+i);
+        float r=2.1+i*0.31+0.12*sin(t*0.6+i)+2.8*approach;
         vec2 v=rot(t*(0.06+i*0.012)+i*0.16)*q;
-        float d=abs(length(v/vec2(1.0,0.45+i*0.08))-r)*0.6;
+        v.x+=0.42*fold*abs(v.y);
+        float flatten=1.0-0.73*fold;
+        float d=abs(length(v/vec2(1.0,(0.45+i*0.08)*flatten))-r)*0.6*flatten;
         float opening=0.25+0.75*smoothstep(-0.2,0.7,sin(atan(v.y,v.x)*2.0+t));
-        c+=glow(d,0.005,mix(CYAN,PINK,i/6.0),0.22*enter*opening,aa);
+        c+=glow(d,0.006,mix(CYAN,PINK,i/6.0),0.32*enter*opening,aa)*reading;
     }
+    float curtain=smoothstep(2.2,4.4,t)*(1.0-smoothstep(9.5,11.7,t));
+    for(int j=0;j<6;j++) {
+        float i=float(j),side=j<3?-1.0:1.0,lane=mod(i,3.0);
+        float hinge=3.55+lane*0.96;
+        float opening=0.48+0.34*sin(t*0.48+lane*0.7)+0.36*fold;
+        vec2 a=vec2(side*hinge,2.7-lane*0.13);
+        vec2 b=vec2(side*(hinge+opening),1.15+0.34*sin(t*0.35+lane));
+        vec2 d=vec2(side*(hinge-0.25),-1.85+lane*0.12);
+        vec2 e=vec2(side*(hinge-opening*0.6),-0.45);
+        vec3 hue=mix(CYAN,PINK,lane/2.0);
+        c+=geoFacet(p,a,b,d,hue,(0.045+0.07*fold)*curtain,aa)*reading;
+        c+=geoFacet(p,a,d,e,mix(hue,GOLD,0.32),(0.03+0.05*fold)*curtain,aa)*reading;
+    }
+    c+=geoExpansion(q,t,3.65,1.4,2.6,5.5,CYAN,0.36,aa)*reading;
+    c+=geoExpansion(q,t,8.45,1.4,2.6,5.5,GOLD,0.36,aa)*reading;
     float sweep=sin(t*0.72)*2.0;
     c+=glow(lineDistance(p,vec2(-5.8,-1.4),vec2(-5.8+11.6*enter,-1.4)),0.008,CYAN,0.4,aa);
     c+=glow(length(p-vec2(sweep,-1.4)),0.03,WHITE,0.7,aa);
@@ -107,31 +138,54 @@ vec3 introStage(vec2 p,float t,float aa) {
 vec3 algebraStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float k=t-28.0;
+    float weave=geoImpulse(k,5.0,0.85)+geoImpulse(k,10.3,0.85)+geoImpulse(k,15.55,0.85);
     for(int j=0;j<4;j++) {
         float i=float(j),side=i<2.0?-1.0:1.0;
         float y=mod(i,2.0)<0.5?-1.8:1.8;
-        vec2 a=vec2(side*(6.2+0.08*sin(k)),y);
+        vec2 a=vec2(side*(6.2+0.08*sin(k)-0.18*weave),y);
         c+=glow(lineDistance(p,a,a-vec2(side*0.55,0.0)),0.008,CYAN,0.5,aa);
         c+=glow(lineDistance(p,a,a-vec2(0.0,sign(y)*0.3)),0.008,CYAN,0.5,aa);
     }
     for(int j=0;j<5;j++) {
         float i=float(j),r=0.17+0.035*i;
-        vec2 center=vec2(-4.0+i*2.0,-2.65);
-        vec2 q=rot(k*0.35+i)* (p-center);
+        float phase=k*0.75+i*1.25;
+        vec2 center=vec2((-4.0+i*2.0)*(1.0-0.26*weave),-2.65+0.38*sin(phase)*weave);
+        vec2 q=rot(k*0.35+i+0.5*weave)* (p-center);
+        q.y/=1.0-0.55*weave*(0.5+0.5*cos(phase));
         float blend=0.5+0.5*sin(k*0.8+i*0.65);
         float radius=mix(length(q),max(abs(q.x),abs(q.y)),blend);
         c+=glow(abs(radius-r),0.008,mix(CYAN,GOLD,i/4.0),0.65,aa);
+        if(j<4) {
+            float nextPhase=phase+1.25;
+            vec2 next=vec2((-2.0+i*2.0)*(1.0-0.26*weave),-2.65+0.38*sin(nextPhase)*weave);
+            vec2 hinge=mix(center,next,0.5)+vec2(0.0,-0.58*weave);
+            c+=geoFacet(p,center,next,hinge,mix(CYAN,PINK,i/4.0),0.085*weave,aa);
+            c+=glow(lineDistance(p,center,next),0.005,CYAN,0.13+0.25*weave,aa);
+        }
     }
     return c*gate(t,28.0,48.3);
 }
 vec3 closingStage(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float a=smoothstep(113.7,115.5,t);
-    vec2 q=rot(0.15+(t-114.0)*0.015)*(p-vec2(0.0,0.1));
+    float settle=smoothstep(114.2,117.5,t);
+    float hold=min(t,119.0);
+    vec2 q=rot(mix(0.3,0.08,settle)+(hold-114.0)*0.003)*(p-vec2(0.0,0.1));
+    float reading=smoothstep(0.7,1.22,abs(p.y-0.15));
     for(int j=0;j<3;j++) {
         float i=float(j);
-        float d=abs(length(q/vec2(5.8+i*0.12,2.0+i*0.15))-1.0)*2.0;
-        c+=glow(d,0.005,mix(CYAN,GOLD,i/2.0),0.3*a,aa);
+        float layerSettle=smoothstep(114.2+(2.0-i)*0.16,117.15+(2.0-i)*0.16,t);
+        vec2 axes=vec2(5.8+i*0.12,mix(3.25,2.0,layerSettle)+i*0.15);
+        float d=abs(length(q/axes)-1.0)*2.0;
+        c+=glow(d,0.005,mix(CYAN,GOLD,i/2.0),0.3*a,aa)*reading;
+    }
+    // The opening's folded planes resolve into two still, translucent wings.
+    for(int j=0;j<2;j++) {
+        float side=j==0?-1.0:1.0;
+        vec2 tip=vec2(side*6.55,0.15);
+        vec2 top=vec2(side*5.35,mix(3.1,2.35,settle));
+        vec2 bottom=vec2(side*5.15,mix(-3.0,-2.3,settle));
+        c+=geoFacet(p,tip,top,bottom,mix(CYAN,GOLD,float(j)),0.055*a,aa)*reading;
     }
     c+=glow(lineDistance(p,vec2(-0.5,1.65),vec2(0.5,1.65)),0.018,GOLD,a,aa);
     return c;

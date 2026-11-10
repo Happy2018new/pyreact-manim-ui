@@ -1,8 +1,8 @@
 {
   "duration": 120,
-  "shader_sha256": "0e7f15fa98734e22c9ee2eb24dbcfcb1192831de562a583ead95b235e7e63f40",
+  "shader_sha256": "8e9d965337c5c73ea00c6204f55611d4388c216971750c28be1bf3adb7c3c641",
   "texture_sha256": "b66d0f249034fd863cf9e6b7a5ffd42c5c8278a739f9ab0b9444f198ae9760d7",
-  "shader_bytes": 138737,
+  "shader_bytes": 145993,
   "atlas_bytes": 541266,
   "glyph_transitions": [
     {

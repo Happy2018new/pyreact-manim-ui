@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-10",
+  "acceptance": "Not performed, per user request; delivered for user review.",
+  "game_preparation": {
+    "owned_instance_started": true,
+    "owner": "manim-dual-presentation",
+    "fps_cap": 60,
+    "background_noactivation": true,
+    "left_running": true,
+    "player_page_available": true,
+    "last_read_state_error": "",
+    "last_read_audio_error": "",
+    "visual_or_listening_acceptance": false,
+    "resize_recovery_patch_applied": true
+  },
+  "films": [
+    {
+      "scene": "client_showcase",
+      "video": "dist/client-showcase-v5/metamorphosis-cinematic-120s.mp4",
+      "duration": 120,
+      "resolution": [1920, 1080],
+      "fps": 60,
+      "frames": 7200,
+      "bytes": 34518486,
+      "sha256": "1cda999f30b3142e1f350c8677c4e6090b62a4325a0551779c016fe4debb2ed0",
+      "shader_sha256": "8e9d965337c5c73ea00c6204f55611d4388c216971750c28be1bf3adb7c3c641",
+      "texture_sha256": "b66d0f249034fd863cf9e6b7a5ffd42c5c8278a739f9ab0b9444f198ae9760d7",
+      "audio_master_sha256": "8bd4ded84328fc6f8ace3af70615fc4ea5f7f5473bee6e6c59c4c684e02acf4e"
+    },
+    {
+      "scene": "story_showcase",
+      "video": "dist/storybook-wind-v1/the-star-borrowed-by-the-wind-120s.mp4",
+      "duration": 120,
+      "resolution": [1920, 1080],
+      "fps": 60,
+      "frames": 7200,
+      "bytes": 35795325,
+      "sha256": "4e20164384f1038fa299fff64ab56496591e7a0ec056c94ec0f89dcfde1edd76",
+      "shader_sha256": "a62132742d097d9dd87c6ef9ee8c4e1deeb828ee03b21f16d09fa35a126a04fe",
+      "texture_sha256": "9cacf41e64da1d054ddbd480cb677114cf4346a27937c92c20693386dc930567",
+      "audio_master_sha256": "0914f73a0679750da83f2e29d4d1aac86dc326a95e47a1c017f315dbeb8babfb"
+    }
+  ],
+  "game_audio": {
+    "original_synthesis": true,
+    "external_samples": false,
+    "sample_rate": 48000,
+    "channels": 2,
+    "ogg_files": 240,
+    "bytes": 9373793,
+    "segment_seconds": 5,
+    "resume_quantization_seconds": 1,
+    "timing_limit": "Resume selects the preceding whole-second tail; decoding and game scheduling add latency. No sample-accurate synchronization claim."
+  },
+  "subagent_model": "gpt-6.1-sol",
+  "subagent_reasoning_effort": "ultra"
+}

@@ -640,7 +640,7 @@ class PlayerLifecycleTests(unittest.TestCase):
         self.assertFalse(self.player.replay_showcase())
         self.assertEqual(self.post.enabled, set())
 
-    def test_showcase_overlay_has_only_two_quiet_actions_and_unmount_restores_player(self):
+    def test_showcase_overlay_has_four_quiet_actions_and_unmount_restores_player(self):
         self._enable_showcase()
         self.player.seek(1.25)
         self.player.open_showcase()
@@ -648,6 +648,7 @@ class PlayerLifecycleTests(unittest.TestCase):
         effects = []
         self.pyreact.Component = lambda component: component
         self.pyreact.use_effect = lambda effect, deps: effects.append(effect)
+        self.pyreact.use_state = lambda initial: (initial, lambda state: None)
         self.pyreact.Color = lambda *values: values
         self.pyreact.Style = lambda **props: props
         for name in ("Panel", "Image", "Label", "Button"):
@@ -659,7 +660,8 @@ class PlayerLifecycleTests(unittest.TestCase):
         module = self._load("showcase_panel")
         element = module.ShowcasePanel(player=self.player)
         actions = element["children"][0]["children"]
-        self.assertEqual([action["children"]["content"] for action in actions], ["重播", "返回"])
+        self.assertEqual([action["children"]["content"] for action in actions],
+                         ["切换：风之童话", "暂停", "重播", "返回"])
         self.assertEqual(module._quiet_background("default")["color"][-1], 0)
         disconnect = effects[0]()
         disconnect()

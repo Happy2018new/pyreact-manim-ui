@@ -5,6 +5,7 @@ from .pyreact import (
     Component, Panel, Label, Button, Slider, Style, Color,
     AlignItems, FlexDirection, FlexWrap, JustifyContent, Position, use_effect, use_state,
 )
+from .presentation_audio import PRESENTATION_SCENES, PRESENTATION_TITLES
 
 
 def action_button(text, callback, scale):
@@ -27,6 +28,17 @@ def button_row(children, scale):
                              flexDirection=FlexDirection.row, flexWrap=FlexWrap.wrap,
                              justifyContent=JustifyContent.center, rowGap=4 * scale, marginBottom=4 * scale),
                  children=children)
+
+
+def presentation_buttons(player, scale):
+    return Panel(style=Style(position=Position.absolute, right=0, top=0,
+                             flexDirection=FlexDirection.row), children=[
+        Button(style=Style(width=94 * scale, height=26 * scale, marginLeft=4 * scale),
+               onClick=partial(player.open_showcase, scene_name),
+               children=Label(content=PRESENTATION_TITLES[scene_name], color=Color(0.55, 0.9, 1),
+                              fontSize=12 * scale, shadow=False))
+        for scene_name in PRESENTATION_SCENES
+    ])
 
 
 @Component
@@ -52,21 +64,20 @@ def PlayerPanel(player):
             Panel(
                 style=Style(position=Position.absolute, left=18, top=14 * scale, right=18),
                 children=[
-                    Label(content="MANIM / " + title, color=Color(0.5, 0.85, 1), fontSize=15 * scale, shadow=False),
+                    Label(content="MANIM / " + title, color=Color(0.5, 0.85, 1), fontSize=15 * scale,
+                          style=Style(marginRight=208 * scale), shadow=False),
                     Label(content="拖动进度检查中间态 · Esc 关闭 · F8 重开",
-                          color=Color(0.7, 0.72, 0.77), fontSize=10 * scale, shadow=False),
-                    Button(style=Style(position=Position.absolute, right=0, top=0,
-                                       width=92 * scale, height=26 * scale),
-                           onClick=player.open_showcase,
-                           children=Label(content="作品演示", color=Color(0.55, 0.9, 1),
-                                          fontSize=12 * scale, shadow=False)),
+                          color=Color(0.7, 0.72, 0.77), fontSize=10 * scale,
+                          style=Style(marginRight=208 * scale), shadow=False),
+                    presentation_buttons(player, scale),
                 ],
             ),
             Panel(
                 style=Style(position=Position.absolute, left=20, right=20, bottom=14 * scale,
                             alignItems=AlignItems.center),
                 children=[
-                    Label(content=state["error"] or "%.2f / %.2f s" % (state["position"], duration),
+                    Label(content=state["error"] or state["audio_error"]
+                          or "%.2f / %.2f s" % (state["position"], duration),
                           color=Color(0.8, 0.85, 0.92), fontSize=10 * scale, shadow=False),
                     Slider(style=Style(width="100%", maxWidth=320, height=18 * scale,
                                        marginTop=5 * scale, marginBottom=8 * scale),

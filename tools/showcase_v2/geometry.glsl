@@ -9,6 +9,31 @@ float geoStroke(float distanceToLine,float width,float aa) {
     return 1.0-smoothstep(width,width+aa,distanceToLine);
 }
 float geoHash(float value) { return fract(sin(value*37.713+7.19)*43758.5453); }
+float geoImpulse(float t,float center,float width) {
+    float u=(t-center)/width;
+    return exp(-u*u);
+}
+vec3 geoFacet(vec2 p,vec2 a,vec2 b,vec2 c,vec3 hue,float strength,float aa) {
+    vec2 ab=b-a,bc=c-b,ca=a-c;
+    vec2 ap=p-a,bp=p-b,cp=p-c;
+    float x=ab.x*ap.y-ab.y*ap.x;
+    float y=bc.x*bp.y-bc.y*bp.x;
+    float z=ca.x*cp.y-ca.y*cp.x;
+    float inside=max(step(0.0,min(x,min(y,z))),step(max(x,max(y,z)),0.0));
+    float area=abs(ab.x*(c.y-a.y)-ab.y*(c.x-a.x));
+    inside*=smoothstep(0.00001,0.0003,area);
+    float edge=min(lineDistance(p,a,b),min(lineDistance(p,b,c),lineDistance(p,c,a)));
+    float sheen=0.5+0.5*cos((p.x+p.y)*2.0+a.x);
+    return mix(hue,WHITE,0.12*sheen)*strength*inside*(0.42+0.58*sheen)
+        +glow(edge,0.007,hue,strength*2.1,aa);
+}
+vec3 geoExpansion(vec2 p,float t,float start,float duration,float fromRadius,
+                  float toRadius,vec3 hue,float power,float aa) {
+    float age=clamp((t-start)/duration,0.0,1.0);
+    float radius=mix(fromRadius,toRadius,smoothstep(0.0,1.0,age));
+    float life=smoothstep(0.0,0.1,age)*(1.0-smoothstep(0.48,1.0,age));
+    return glow(abs(length(p)-radius),0.015,hue,power*life,aa);
+}
 float geoRayCrossing(vec2 p,vec2 a,vec2 b) {
     if((a.y>p.y)!=(b.y>p.y)) {
         float crossing=a.x+(p.y-a.y)*(b.x-a.x)/(b.y-a.y);
@@ -51,7 +76,15 @@ vec3 geoMorphChain(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float progress=clamp((t-12.0)/2.38,0.0,6.0);
     float angle=0.07*(t-12.0)+0.08*sin((t-12.0)*0.6);
-    vec2 q=p-vec2(0.0,-0.12);
+    // Two deliberate folding beats breathe the camera and fold entire faces.
+    float fold=geoImpulse(t,17.1,0.52)+geoImpulse(t,23.3,0.5);
+    float push=1.0+0.13*geoImpulse(t,17.65,0.65)+0.16*geoImpulse(t,23.85,0.7);
+    vec2 q=(p-vec2(0.0,-0.12))/push;
+    float foldScale=1.0-0.48*fold;
+    // The two halves hinge in opposite directions instead of only shrinking.
+    q.x+=0.21*fold*abs(q.y);
+    q.y/=foldScale;
+    aa/=push*foldScale;
     float mainDistance=100.0, echoDistance=100.0, innerDistance=100.0, crossings=0.0;
     vec2 previous=geoMorphPoint(0.0,progress,angle);
     vec2 echoPrevious=geoMorphPoint(0.0,max(0.0,progress-0.19),angle-0.055)*1.08;
@@ -79,6 +112,18 @@ vec3 geoMorphChain(vec2 p,float t,float aa) {
     c+=glow(mainDistance,0.024,hue,1.12,aa);
     c+=WHITE*geoStroke(mainDistance,0.005,aa)*0.68;
     c+=hue*exp(-dot(q,q)*0.35)*0.075;
+    float faceLife=smoothstep(13.3,15.0,t)*(1.0-smoothstep(26.0,27.6,t));
+    for(int j=0;j<8;j++) {
+        float i=float(j),u=i/8.0;
+        vec2 a=geoMorphPoint(u,progress,angle);
+        vec2 b=geoMorphPoint((i+1.0)/8.0,progress,angle);
+        vec2 hinge=vec2(sin(i*0.9+t*0.4),cos(i*0.7-t*0.3))*0.55*fold;
+        float shade=0.045+0.14*fold+0.04*(0.5+0.5*sin(i+t*0.5));
+        c+=geoFacet(q,hinge,a,b,mix(CYAN,PINK,i/8.0),shade*faceLife,aa);
+    }
+    // A shaped pressure wave follows each unfolding, rather than flashing.
+    c+=geoExpansion(p,t,17.35,1.25,2.45,4.1,GOLD,0.58,aa);
+    c+=geoExpansion(p,t,23.55,1.25,2.45,4.1,GOLD,0.58,aa);
     float drawU=fract((t-12.0)*0.23);
     vec2 cursor=geoMorphPoint(drawU,progress,angle);
     c+=glow(length(q-cursor),0.065,WHITE,1.15,aa);
@@ -269,7 +314,14 @@ vec2 geoFinalPoint(float u,float local) {
 vec3 geoFinale(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float local=t-102.0;
-    vec2 q=rot(local*0.12)*p;
+    float charge=geoImpulse(local,3.65,0.32)+geoImpulse(local,7.7,0.3)+geoImpulse(local,10.45,0.32);
+    float release=geoImpulse(local,4.15,0.5)+geoImpulse(local,8.2,0.48)+geoImpulse(local,10.95,0.48);
+    float camera=1.0+0.09*release;
+    vec2 q=rot(local*0.12+charge*0.08)*(p/camera);
+    // Compressing only the geometry leaves the reading plane undisturbed.
+    float contraction=1.0-0.22*charge;
+    q/=contraction;
+    aa/=camera*contraction;
     float d=100.0,echoDistance=100.0,outerDistance=100.0,crossings=0.0;
     vec2 previous=geoFinalPoint(0.0,local)*1.28;
     vec2 echoPrevious=rot(0.13)*geoFinalPoint(0.0,local-0.32)*1.43;
@@ -288,26 +340,56 @@ vec3 geoFinale(vec2 p,float t,float aa) {
         outerPrevious=outerCurrent;
     }
     float clearCenter=smoothstep(1.0,1.6,length(p));
+    vec2 textEdge=abs(p-vec2(0.0,0.1))-vec2(3.3,0.95);
+    float clearText=smoothstep(0.0,0.3,max(textEdge.x,textEdge.y));
     vec3 hue=mix(CYAN,PINK,0.5+0.5*sin(local*0.6));
     float inside=mod(crossings,2.0);
-    c+=hue*inside*(0.055+0.035*smoothstep(1.5,3.5,length(p)))*clearCenter;
+    c+=hue*inside*(0.055+0.035*smoothstep(1.5,3.5,length(p)))*clearText;
     c+=glow(outerDistance,0.006,CYAN,0.28,aa)*clearCenter;
-    c+=glow(echoDistance,0.009,GOLD,0.5,aa)*clearCenter;
-    c+=glow(d,0.024,hue,1.05,aa)*clearCenter;
-    c+=WHITE*geoStroke(d,0.004,aa)*0.42*clearCenter;
+    c+=glow(echoDistance,0.009,GOLD,0.5,aa)*clearText;
+    c+=glow(d,0.024,hue,1.05,aa)*clearText;
+    c+=WHITE*geoStroke(d,0.004,aa)*0.42*clearText;
+    for(int j=0;j<12;j++) {
+        float i=float(j),u=i/12.0;
+        vec2 a=geoFinalPoint(u,local)*1.28;
+        vec2 b=geoFinalPoint((i+1.0)/12.0,local)*1.28;
+        vec2 inner=(a+b)/max(length(a+b),0.00001)*mix(1.7,2.25,charge);
+        c+=geoFacet(q,inner,a,b,mix(CYAN,PINK,0.5+0.5*sin(i+local)),
+                    0.045+0.16*charge+0.07*release,aa)*clearText;
+        // Fold seams fan outward during the release, not through the text.
+        vec2 rayEnd=a*(1.0+0.42*release);
+        c+=glow(lineDistance(q,a,rayEnd),0.009,GOLD,release*0.5,aa)*clearText;
+    }
+    c+=geoExpansion(p,t,105.75,1.2,2.9,5.4,CYAN,0.5,aa)*clearText;
+    c+=geoExpansion(p,t,109.8,1.2,2.9,5.4,CYAN,0.5,aa)*clearText;
+    c+=geoExpansion(p,t,112.55,1.2,2.9,5.4,CYAN,0.5,aa)*clearText;
+    // Three charged folds release long, tilted sheets toward the frame edges.
+    // The age controls travel independently from brightness, so they never rewind.
+    for(int j=0;j<3;j++) {
+        float i=float(j);
+        float start=j==0?105.75:j==1?109.8:112.55;
+        float age=clamp((t-start)/1.2,0.0,1.0);
+        float life=sin(PI*age)*(1.0-age*0.45);
+        vec2 v=rot(-0.26+i*0.08)*p;
+        float spread=2.15+age*3.15;
+        float distanceToSheet=abs(abs(v.y)-spread);
+        float taper=smoothstep(0.6,3.3,abs(v.x));
+        c+=glow(distanceToSheet,0.022,mix(CYAN,GOLD,i/2.0),0.7*life,aa)*taper*clearText;
+        c+=mix(CYAN,PINK,i/2.0)*exp(-distanceToSheet*7.0)*0.07*life*taper*clearText;
+    }
     float headU=fract(local*0.31);
     float reverseU=fract(0.5-local*0.27);
     vec2 head=geoFinalPoint(headU,local)*1.28;
     vec2 reverseHead=rot(0.13)*geoFinalPoint(reverseU,local-0.32)*1.43;
-    c+=glow(length(q-head),0.06,WHITE,1.0,aa)*clearCenter;
-    c+=glow(length(q-reverseHead),0.055,GOLD,1.0,aa)*clearCenter;
+    c+=glow(length(q-head),0.06,WHITE,1.0,aa)*clearText;
+    c+=glow(length(q-reverseHead),0.055,GOLD,1.0,aa)*clearText;
     for(int j=1;j<=8;j++) {
         float delay=float(j)*0.012;
         float fade=1.0-float(j)/9.0;
         vec2 tail=geoFinalPoint(fract(headU-delay),local)*1.28;
         vec2 reverseTail=rot(0.13)*geoFinalPoint(fract(reverseU+delay),local-0.32)*1.43;
-        c+=glow(length(q-tail),0.018+0.022*fade,PINK,0.3*fade,aa)*clearCenter;
-        c+=glow(length(q-reverseTail),0.018+0.022*fade,GOLD,0.26*fade,aa)*clearCenter;
+        c+=glow(length(q-tail),0.018+0.022*fade,PINK,0.3*fade,aa)*clearText;
+        c+=glow(length(q-reverseTail),0.018+0.022*fade,GOLD,0.26*fade,aa)*clearText;
     }
     float r=length(p), a=atan(p.y,p.x);
     c+=glow(abs(r-(3.6+0.16*cos(8.0*a+local))),0.007,GOLD,0.55,aa);
