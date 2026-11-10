@@ -1,5 +1,5 @@
 // __multiversion__
-// METAMORPHOSIS. Authored 120-second score, with per-glyph SDF transport.
+// FROM A LINE TO INFINITY. Authored 120-second score; continuous vector ink.
 precision highp float;
 #include "fragmentVersionCentroidUV.h"
 uniform sampler2D TEXTURE_0;
@@ -8,24 +8,27 @@ uniform vec4 EXTRA_VECTOR1;
 uniform vec4 EXTRA_VECTOR2;
 const float PI=3.14159265359;
 const float TAU=6.28318530718;
-const vec3 CYAN=vec3(0.12,0.86,1.0);
-const vec3 GOLD=vec3(1.0,0.69,0.24);
-const vec3 PINK=vec3(0.97,0.25,0.58);
-const vec3 WHITE=vec3(0.94,0.97,1.0);
+const vec3 WHITE=vec3(0.98,0.94,0.82);
+const vec3 JADE=vec3(0.18,0.74,0.61);
+const vec3 CORAL=vec3(0.97,0.40,0.29);
+const vec3 GOLD=vec3(0.98,0.72,0.30);
+const vec3 VIOLET=vec3(0.61,0.43,0.78);
+// Public typography color aliases retained for source compatibility.
+const vec3 CYAN=vec3(0.18,0.74,0.61);
+const vec3 PINK=vec3(0.97,0.40,0.29);
 mat2 rot(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
-float hash1(float n) { return fract(sin(n*127.1+311.7)*43758.5453); }
 float gate(float t,float a,float b) {
     return smoothstep(a,a+0.7,t)*(1.0-smoothstep(b-0.7,b,t));
 }
 float lineDistance(vec2 p,vec2 a,vec2 b) {
-    vec2 v=b-a; return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.000001),0.0,1.0));
+    vec2 v=b-a;
+    return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.000001),0.0,1.0));
 }
 vec3 glow(float d,float width,vec3 hue,float power,float aa) {
-    return hue*power*((1.0-smoothstep(width,width+aa,d))+0.12*exp(-d*24.0));
+    return hue*power*((1.0-smoothstep(width,width+aa,d))+0.055*exp(-d*20.0));
 }
 float sdfSample(vec2 q,vec4 tile) {
     q.y=1.0-q.y;
-    // q addresses pixel edges; bilinear reads address pixel centers.
     vec2 pix=clamp(tile.xy+q*tile.zw-0.5,tile.xy,tile.xy+tile.zw-1.0);
     vec2 b=floor(pix),f=fract(pix);
     float d00=texture2D(TEXTURE_2,(b+vec2(0.5,0.5))/4096.0).r;
@@ -36,139 +39,13 @@ float sdfSample(vec2 q,vec4 tile) {
 }
 // __GEOMETRY__
 // __TYPE_FUNCTIONS__
-
-vec3 atmosphere(vec2 p,float t,float aa) {
-    vec3 c=vec3(0.006,0.012,0.032);
-    vec2 axis=rot(0.10*sin(t*0.08))*p;
-    float depth=exp(-dot((axis-vec2(-2.4,0.8))*vec2(0.20,0.29),(axis-vec2(-2.4,0.8))*vec2(0.20,0.29)));
-    float counter=exp(-dot((axis-vec2(4.0,-1.5))*vec2(0.23,0.31),(axis-vec2(4.0,-1.5))*vec2(0.23,0.31)));
-    c+=geoPalette(t*0.012+0.2)*depth*0.024;
-    c+=geoPalette(t*0.012+0.65)*counter*0.016;
-    return c;
-}
-vec3 introStage(vec2 p,float t,float aa) {
-    vec3 c=vec3(0.0);
-    float draw=smoothstep(0.0,1.25,t);
-    float laceLife=smoothstep(2.3,3.6,t)*(1.0-smoothstep(8.8,11.5,t));
-    float depth=1.0+4.0*smoothstep(2.8,7.6,t);
-    c+=geoFractalLace(p*vec2(0.63,1.0),t,depth,1.0,3.25,aa)*laceLife*0.78;
-    for(int layer=0;layer<5;layer++) {
-        float lane=float(layer),d=100.0,along=0.0;
-        vec2 previous=geoIntroPoint(0.0,lane,t);
-        for(int j=1;j<=96;j++) {
-            float u=min(float(j)/96.0,draw);
-            float previousU=min(float(j-1)/96.0,draw);
-            vec2 current=geoIntroPoint(u,lane,t);
-            geoTrack(p,previous,current,previousU,u,d,along);
-            previous=current;
-        }
-        c+=geoRibbon(d,along,lane,t,layer==4?0.030:0.015,layer==4?1.15:0.74,aa);
-    }
-    return c*gate(t,0.0,12.0);
-}
-vec3 algebraStage(vec2 p,float t,float aa) {
-    vec3 c=vec3(0.0);
-    // Four full-size area tiles retain their dimensions through the expansion.
-    if(t<32.4) {
-        float separate=smoothstep(28.8,29.6,t);
-        float assemble=smoothstep(30.8,32.1,t);
-        for(int j=0;j<4;j++) {
-            vec2 offset,halfSize,spread;
-            float turn=0.0;
-            vec3 hue;
-            if(j==0) {
-                offset=vec2(-0.625,-0.625); halfSize=vec2(1.25);
-                spread=vec2(-4.7,-1.9); hue=CYAN;
-            } else if(j==1) {
-                offset=vec2(1.25,-0.625); halfSize=vec2(0.625,1.25);
-                spread=vec2(-1.3,-1.9); hue=mix(CYAN,GOLD,0.35); turn=PI*0.5;
-            } else if(j==2) {
-                offset=vec2(-0.625,1.25); halfSize=vec2(1.25,0.625);
-                spread=vec2(2.0,-1.9); hue=mix(CYAN,GOLD,0.35);
-            } else {
-                offset=vec2(1.25,1.25); halfSize=vec2(0.625);
-                spread=vec2(5.15,-1.9); hue=GOLD;
-            }
-            vec2 joined=vec2(-3.1,-1.5)+offset;
-            vec2 center=mix(mix(joined,spread,separate),vec2(3.1,-1.5)+offset,assemble);
-            c+=geoPanel(p,center,halfSize,turn*separate*(1.0-assemble),hue,0.30,t,aa);
-        }
-        float brace=separate*(1.0-assemble);
-        c+=glow(lineDistance(p,vec2(-2.55,-2.9),vec2(3.25,-2.9)),0.012,GOLD,0.85*brace,aa);
-        c+=glow(lineDistance(p,vec2(-2.55,-2.9),vec2(-2.55,-2.68)),0.012,GOLD,0.85*brace,aa);
-        c+=glow(lineDistance(p,vec2(3.25,-2.9),vec2(3.25,-2.68)),0.012,GOLD,0.85*brace,aa);
-        return c*gate(t,28.0,32.4);
-    }
-    // Completing the square turns two equal rectangles around x^2. The last
-    // gold corner completes the area; the equal side is extracted afterward.
-    float square=smoothstep(37.8,38.6,t);
-    float extract=smoothstep(39.6,42.1,t);
-    float rounding=smoothstep(44.5,47.35,t);
-    vec2 assembledCenter=mix(vec2(2.45,-1.5),vec2(0.4,-1.5),extract);
-    for(int j=0;j<4;j++) {
-        vec2 offset,halfSize,spread;
-        float startAngle=0.0;
-        vec3 hue;
-        if(j==0) {
-            offset=vec2(-0.6,-0.6); halfSize=vec2(1.2);
-            spread=vec2(-4.5,-1.8); hue=CYAN;
-        } else if(j==1) {
-            offset=vec2(1.2,-0.6); halfSize=vec2(0.6,1.2);
-            spread=vec2(-1.2,-1.8); hue=mix(CYAN,GOLD,0.35); startAngle=PI*0.5;
-        } else if(j==2) {
-            offset=vec2(-0.6,1.2); halfSize=vec2(1.2,0.6);
-            spread=vec2(2.05,-1.8); hue=mix(CYAN,GOLD,0.35);
-        } else {
-            offset=vec2(1.2,1.2); halfSize=vec2(0.6);
-            spread=vec2(5.3,-1.8); hue=GOLD;
-        }
-        float join=j==3?smoothstep(38.15,39.15,t):square;
-        vec2 center=mix(spread,assembledCenter+offset,join);
-        float visible=j==3?smoothstep(36.2,37.6,t):1.0;
-        vec3 panel=geoPanel(p,center,halfSize,startAngle*(1.0-square),hue,0.30*(1.0-extract),t,aa);
-        c+=panel*visible*(1.0-0.80*extract)*(1.0-rounding);
-    }
-    float left=assembledCenter.x-1.8,right=assembledCenter.x+1.8;
-    float measure=smoothstep(39.0,40.5,t)*(1.0-smoothstep(43.8,45.6,t));
-    c+=glow(lineDistance(p,vec2(left,0.65),vec2(right,0.65)),0.022,GOLD,1.12*measure,aa);
-    c+=glow(lineDistance(p,vec2(left,0.51),vec2(left,0.79)),0.010,GOLD,measure,aa);
-    c+=glow(lineDistance(p,vec2(right,0.51),vec2(right,0.79)),0.010,GOLD,measure,aa);
-    // The extracted square perimeter becomes the next chapter's circle.
-    float perimeter=smoothstep(41.0,42.5,t);
-    float d=100.0,along=0.0;
-    vec2 previous=vec2(0.0);
-    for(int j=0;j<=96;j++) {
-        float u=float(j)/96.0;
-        float a=u*TAU+PI*0.25;
-        vec2 box=geoPolygon(u,4.0,2.5455844,PI*0.25);
-        vec2 circle=vec2(cos(a),sin(a))*2.02;
-        vec2 current=mix(box,circle,rounding)+mix(assembledCenter,vec2(-1.75,-0.8),rounding);
-        if(j>0) geoTrack(p,previous,current,u-1.0/96.0,u,d,along);
-        previous=current;
-    }
-    c+=geoRibbon(d,along,4.0,t,0.026,1.12*perimeter,aa);
-    return c*gate(t,32.4,48.0);
-}
-vec3 closingStage(vec2 p,float t,float aa) {
-    vec3 c=vec3(0.0);
-    float settle=smoothstep(114.0,118.0,t);
-    float colorTime=mix(t,118.0+(t-118.0)*0.22,settle);
-    c+=geoFractalLace(p*vec2(0.56,1.0),colorTime,mix(5.0,1.8,settle),1.0,3.2,aa)*mix(0.85,0.28,settle);
-    for(int layer=0;layer<5;layer++) {
-        float lane=float(layer),d=100.0,along=0.0,crossings=0.0;
-        vec2 previous=geoClosingPoint(0.0,lane,t);
-        for(int j=1;j<=96;j++) {
-            float u=float(j)/96.0;
-            vec2 current=geoClosingPoint(u,lane,t);
-            geoTrack(p,previous,current,u-1.0/96.0,u,d,along);
-            crossings+=geoRayCrossing(p,previous,current);
-            previous=current;
-        }
-        vec3 hue=geoPalette(along*1.35-lane*0.105-colorTime*0.065);
-        c+=hue*mod(crossings,2.0)*(0.014+lane*0.002)*(1.0-settle);
-        c+=geoRibbon(d,along,lane,colorTime,layer==4?0.024:0.013,
-                    (layer==4?1.10:0.70)*mix(1.0,0.72,settle),aa);
-    }
+vec3 atmosphere(vec2 p,float t) {
+    vec2 a=(p-vec2(-3.0,0.7))*vec2(0.17,0.25);
+    vec2 b=(p-vec2(4.2,-1.2))*vec2(0.22,0.29);
+    float warm=smoothstep(91.0,108.0,t)*(1.0-smoothstep(112.0,116.0,t));
+    vec3 c=vec3(0.009,0.018,0.021);
+    c+=JADE*exp(-dot(a,a))*0.021;
+    c+=mix(JADE,GOLD,warm)*exp(-dot(b,b))*0.014;
     return c;
 }
 void main() {
@@ -183,18 +60,10 @@ void main() {
     vec2 p=vec2((local.x-0.5)*aspect,0.5-local.y)*9.0*narrow;
     float aa=9.0/max(EXTRA_VECTOR1.z,1.0)*narrow;
     float t=clamp(EXTRA_VECTOR1.x,0.0,120.0);
-    vec3 c=atmosphere(p,t,aa);
-    vec3 mathematics=vec3(0.0);
-    if(t<12.0) mathematics+=introStage(p,t,aa);
-    mathematics+=geometryAct(p,t,aa);
-    if(t>=28.0 && t<48.0) mathematics+=algebraStage(p,t,aa);
-    if(t>=114.0) mathematics+=closingStage(p,t,aa);
-    // One spatially uniform pigment compression preserves every curve and
-    // the empty spaces between letters. Only glyph ink is added afterward.
-    float peak=max(mathematics.r,max(mathematics.g,mathematics.b));
-    c+=mathematics*(0.82/(0.40+peak));
+    vec3 c=atmosphere(p,t)+geometryAct(p,t,aa)*0.86;
+    // Glyph compositing touches glyph ink only. Letter gaps retain the exact
+    // same geometric field; there is no reading rectangle or mask of any kind.
     typography(c,p,t,aa);
-    c*=0.9+0.1*exp(-dot(p,p)*0.01);
-    c=clamp(c,0.0,1.0)*smoothstep(0.0,0.6,t);
+    c=clamp(c,0.0,1.0)*smoothstep(0.0,0.65,t);
     gl_FragColor=mix(original,vec4(c,1.0),clamp(EXTRA_VECTOR1.w,0.0,1.0));
 }

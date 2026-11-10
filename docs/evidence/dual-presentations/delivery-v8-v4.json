@@ -1,0 +1,91 @@
+{
+  "date": "2026-11-10",
+  "revision": {
+    "math": 8,
+    "story": 4
+  },
+  "subagent_model": "gpt-6.1-sol",
+  "subagent_reasoning_effort": "ultra",
+  "acceptance": "Not performed, per user request; delivered for user review.",
+  "films": [
+    {
+      "scene": "client_showcase",
+      "video": {
+        "path": "dist/client-showcase-v8/from-a-line-to-infinity-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 20872958,
+        "sha256": "6eb68ad2327f189aaa31d86ada0dd2d76b2e286c3d3582a63ae42081dee9bd13",
+        "render_seconds": 79.577
+      },
+      "shader_sha256": "42a1fbcc9a7cd07aa1a6655ad50fa004d06ecb9d23e9f4a6e55c01224f163b21",
+      "texture_sha256": "54365019ac613b2f04a08168685eb9ab10511ab43d4a630e0e67601f2b4f369e",
+      "audio_master_sha256": "212c12d4ae85f3a7ab226641365bc9e53aad61d8540c8bb457b7e6bcf1e640eb",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    },
+    {
+      "scene": "story_showcase",
+      "video": {
+        "path": "dist/storybook-wind-v4/a-letter-from-the-wind-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 24087378,
+        "sha256": "4c7f47f28a56c130353f9281bc8d9408bf641fc9130a55ba84d892ee64067a4e",
+        "render_seconds": 73.497
+      },
+      "shader_sha256": "a47f85adaef84cff0fa91857455d3eb84e977a4fdae59c0085963bef549d8c3a",
+      "texture_sha256": "9d2c892b0f9f4124d81e1fd7870baa506e035ff4952911574d67262cbd3adfae",
+      "audio_master_sha256": "2a72969d741e7417e98cc7f07c2e0dcd1eaf96faf9c7f6fd10250342bc65b4d4",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    }
+  ],
+  "typography": {
+    "english": "Native LaTeX Computer Modern Roman through ManimGL Tex/basic and dvisvgm",
+    "chinese": "Noto Serif SC Song, weight 400",
+    "morph": "Schema-2 contour roles; per-contour winding; holes clipped by parent shell; component union; parent-constrained hole anchors",
+    "story_opening": "Two staggered Song lines, upper left then lower right; slow opacity reveal plus contour growth; glowing wind underlines",
+    "story_subtitles": "After opening, previous sentence remains; 1.15-second outline transformation without sentence opacity fades",
+    "limitation": "Bounded polygon approximation; not native Manim curve topology or strict 1:1"
+  },
+  "game_preparation": {
+    "owned_instance_started": true,
+    "owner": "manim-dual-presentation",
+    "ready": true,
+    "fps_cap": 60,
+    "background_noactivation": true,
+    "left_running": true,
+    "visual_or_listening_acceptance": false,
+    "runtime_error_at_handoff": "",
+    "scene_at_handoff": "story_showcase",
+    "position_at_handoff": 0.0,
+    "playing_at_handoff": false,
+    "visible_at_handoff": true
+  },
+  "game_audio": {
+    "original_synthesis": true,
+    "external_samples": false,
+    "sample_rate": 48000,
+    "channels": 2,
+    "ogg_files": 240,
+    "bytes": 6609759,
+    "segment_seconds": 5,
+    "resume_quantization_seconds": 1,
+    "timing_limit": "Resume selects the preceding whole-second tail; decoding and game scheduling add latency. No sample-accurate synchronization claim.",
+    "master_sha256": {
+      "client_showcase": "212c12d4ae85f3a7ab226641365bc9e53aad61d8540c8bb457b7e6bcf1e640eb",
+      "story_showcase": "2a72969d741e7417e98cc7f07c2e0dcd1eaf96faf9c7f6fd10250342bc65b4d4"
+    },
+    "revision": "Both scores rewritten for the new seven-act storyboards; 80/90 BPM original synthesis"
+  },
+  "math_background_fix": "Rebuilt the full visual score without text rectangle cutouts; glyph holes preserve background geometry",
+  "story_style": "Wind reply: large geometric star, 24 area fragments, flowing ribbons and a twelve-petal reunion crown",
+  "previous_outputs_preserved": true
+}

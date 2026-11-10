@@ -245,7 +245,7 @@ def render_pairs(pairs, amount="u", opacity="visibility", arc_strength=0.32, col
     return render_vector_pairs(morph, pairs, amount, opacity, arc_strength, color)
 
 
-def transition_window(begin, stop, duration=0.8):
+def transition_window(begin, stop, duration=0.6):
     """A short readable motion followed by a real hold, not a chapter-long morph."""
     start = begin + min(0.8, max(0.0, (stop - begin - duration) * 0.4))
     return round(start, 3), round(start + duration, 3)
@@ -283,96 +283,101 @@ def finish_holds(events, until):
 
 
 def make_type(groups, morph):
+    """Five formula chapters surround large geometry; titles never clear it."""
     code = ["void typography(inout vec3 c,vec2 p,float t,float aa) {"]
     events = []
 
-    def chain(name, start, end, keys, center=(0, 0), height=1.5, width=12,
-              color="WHITE", arc=0.08, fade_in=True, fade_out=True, max_height=None,
-              transport_sources=()):
-        visibility = "gate(t,%.3f,%.3f)" % (start, end)
-        if not fade_in:
-            visibility = "(1.0-smoothstep(%.3f,%.3f,t))" % (end - 0.7, end) if fade_out else "1.0"
-        elif not fade_out:
-            visibility = "smoothstep(%.3f,%.3f,t)" % (start, start + 0.7)
-        code.append("if(t>=%.3f && t<%.3f) { float visibility=%s;" % (start, end, visibility))
-        layouts = chain_layouts(groups, [key for _time, key in keys], center, height, width, max_height)
+    def chain(name, start, end, keys, center=(0, -3.57), height=.62,
+              width=12.2, color="WHITE", arc=.055, max_height=1.02):
+        code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" %
+                    (start, end, start, end))
+        layouts = chain_layouts(groups, [key for _time, key in keys],
+                                center, height, width, max_height)
         chapter_events = []
         for index, (begin, group_name) in enumerate(keys):
             stop, next_name = keys[index + 1] if index + 1 < len(keys) else (end, group_name)
             left, right = layouts[group_name], layouts[next_name]
-            mode = ("matching_transport" if group_name == next_name or group_name in transport_sources
-                    else "shape_morph")
+            mode = "matching_transport" if group_name == next_name else "shape_morph"
             pairs = pair_glyphs(left, right, mode)
-            window = transition_window(begin, stop)
-            code.append("if(t>=%.3f && t<%.3f) { float u=smoothstep(%.3f,%.3f,t);" % (
-                begin, stop, window[0], window[1]))
+            window = transition_window(begin, stop, duration=.6)
+            code.append("if(t>=%.3f && t<%.3f) { float u=smoothstep(%.3f,%.3f,t);" %
+                        (begin, stop, window[0], window[1]))
             code.append(render_pairs(pairs, arc_strength=arc, color=color, morph=morph))
             code.append("}")
             if group_name != next_name:
                 chapter_events.append(event_record(name, begin, stop, group_name, next_name,
                                                     pairs, window, arc, review_bounds(right), mode))
-        finish_holds(chapter_events, end - 0.7 if fade_out else end)
+        finish_holds(chapter_events, end - .7)
         events.extend(chapter_events)
         code.append("}")
 
-    def label(key, begin, end, center, height, width=12, color="GOLD"):
+    def label(key, begin, end, center, height, width=12, color="WHITE"):
         glyphs = layout(groups[key], center, height, width)
-        code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" % (begin,end,begin,end))
-        code.append(render_pairs([(g,g) for g in glyphs], "0.0", color=color, arc_strength=0, morph=morph))
+        code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" %
+                    (begin, end, begin, end))
+        code.append(render_pairs([(g, g) for g in glyphs], "0.0", color=color,
+                                 arc_strength=0, morph=morph))
         code.append("}")
 
-    assembled = layout(groups["morph"], (0, 0.25), 1.42, 11.5)
-    scattered = deepcopy(assembled)
-    for index, glyph in enumerate(scattered):
-        angle = index * 2.399
-        glyph["center"] = [math.cos(angle) * 6.3, math.sin(angle) * 3.4]
-        glyph["size"] = [v * 0.035 for v in glyph["size"]]
-    code.append("if(t<2.4) { float u=smoothstep(0.2,1.0,t); float visibility=1.0;")
-    code.append(render_pairs(list(zip(scattered,assembled)), color="mix(WHITE,CYAN,0.13)", arc_strength=.35, morph=morph))
+    def chapter_title(key, begin, end):
+        height, width, left = .46, 6.8, -6.55
+        scale = min(height, width / groups[key]["width"])
+        center = (left + groups[key]["width"] * scale / 2, 3.57)
+        label(key, begin, end, center, height, width, "mix(WHITE,JADE,0.12)")
+
+    def grow(key, begin, full, stop, center, height, width, fade_end=True):
+        target = layout(groups[key], center, height, width)
+        source = deepcopy(target)
+        for glyph in source:
+            glyph["opacity"] = 0.0
+        # Birth contours expand at each glyph's own anchor: no flying fragments.
+        pairs = pair_glyphs(source, target, "matching_transport")
+        visibility = "smoothstep(%.3f,%.3f,t)" % (begin, begin + .65)
+        if fade_end:
+            visibility += "*(1.0-smoothstep(12.8,13.7,t))"
+        code.append("if(t>=%.3f && t<%.3f) { float visibility=%s; float u=smoothstep(%.3f,%.3f,t);" %
+                    (begin, stop, visibility, begin, full))
+        code.append(render_pairs(pairs, color="WHITE", arc_strength=0, morph=morph))
+        code.append("}")
+
+    # Deliberately offset Song lines leave the lower material line visible.
+    grow("c_open_line", .35, 2.2, 14.0, (-1.65, 1.12), 1.55, 9.8)
+    grow("c_open_infinity", 3.4, 5.4, 14.0, (1.05, -.82), 1.55, 11.2)
+    label("film_english", 6.1, 13.4, (0, -3.35), .25, 10.6, "JADE")
+
+    chapter_title("c_petal", 14.0, 34.0)
+    chain("geometry", 14, 34, [(14, "petal0"), (17.2, "petal0"), (22, "petal1"),
+                              (26.8, "petal2"), (31.6, "petal3")])
+    chapter_title("c_koch", 34.0, 54.0)
+    chain("koch", 34, 54, [(34, "koch0"), (37.2, "koch0"), (42, "koch1"),
+                          (46.8, "koch2"), (51.6, "koch3")])
+    chapter_title("c_wave", 54.0, 74.0)
+    chain("harmonics", 54, 74, [(54, "wave0"), (57.2, "wave0"), (62, "wave1"),
+                               (66.8, "wave2"), (71.6, "wave3")], height=.60)
+    chapter_title("c_sheet", 74.0, 96.0)
+    chain("surface", 74, 96, [(74, "sheet0"), (78.2, "sheet0"), (83.6, "sheet1"),
+                             (89, "sheet2"), (94.4, "sheet3")],
+          height=.59, width=12.6, max_height=.98)
+    chapter_title("c_star", 96.0, 112.0)
+    chain("fractal", 96, 112, [(96, "star0"), (98.6, "star0"), (104.1, "star1"),
+                              (109.3, "star2")], height=.61, max_height=1.02,
+          color="mix(WHITE,GOLD,0.12)")
+
+    # The seed is already fully grown at the handoff; title morph has no reset.
+    grow("c_close_seed", 112.15, 112.9, 113.0, (0, .55), 1.40, 12, fade_end=False)
+    a = layout(groups["c_close_seed"], (0, .55), 1.40, 12)
+    b = layout(groups["c_film_title"], (0, .55), 1.40, 12)
+    pairs = pair_glyphs(a, b, "shape_morph")
+    code.append("if(t>=113.0) { float visibility=1.0; float u=smoothstep(113.8,114.4,t);")
+    code.append(render_pairs(pairs, color="WHITE", arc_strength=.07, morph=morph))
     code.append("}")
-    chain("opening",2.4,12.0,[(2.4,"morph"),(5.3,"math"),(8.0,"magic"),(10.3,"c_thought")],
-          center=(0,.25),height=1.42,width=11.5,color="mix(WHITE,CYAN,0.13)",arc=.3,fade_in=False,
-          transport_sources=("math",))
-    label("title_en",0,12,(0,3.2),.22,color="CYAN")
-    label("opening",0,12,(0,-2.5),.20,color="WHITE")
-    label("geometry_label",12,28,(0,3.75),.22,color="GOLD")
-    # Small matrices sit outside the main morph's silhouette, not over it.
-    chain("matrix",12,28,[(12,"matrix0"),(18,"matrix1"),(24,"matrix0")],
-          center=(5.65,-2.8),height=.95,width=3.0,color="CYAN",arc=.06)
-    chain("algebra",28,48,[(28,"algebra0"),(32.4,"algebra1"),(37.0,"quadratic0"),
-                           (42.3,"quadratic1"),(46.8,"quadratic1")],
-          center=(0,2.0),height=1.25,width=11.5,arc=.08,max_height=1.65)
-    label("algebra_label",28,48,(0,3.45),.22)
-    chain("complex",48,66,[(48,"exp0"),(53.4,"exp1"),(59,"exp2"),(63.7,"exp0")],
-          center=(0,2.55),height=1.05,width=10.5,color="WHITE",arc=.06,max_height=1.7,
-          transport_sources=("exp2",))
-    label("complex_label",48,66,(0,3.75),.20,color="GOLD")
-    chain("calculus",66,84,[(66,"calculus0"),(71.2,"calculus1"),(77,"calculus2")],
-          center=(0,2.5),height=1.15,width=11,arc=.07,max_height=1.7)
-    label("calculus_label",66,84,(0,3.75),.20)
-    chain("harmonics",84,102,[(84,"fourier0"),(89,"fourier1"),(95,"fourier2"),(100,"fourier3")],
-          center=(0,2.55),height=1.35,width=12.5,arc=.05,max_height=1.7,
-          transport_sources=("fourier2",))
-    label("harmonics_label",84,102,(0,3.8),.20)
-    chain("finale",102,114,[(102,"c_thought"),(104.2,"c_shape"),(106.4,"c_formula"),
-                           (108.6,"c_universe"),(110.8,"final")],
-          center=(0,.1),height=1.1,width=6.4,color="mix(WHITE,GOLD,0.15)",arc=.25,fade_out=False)
-    label("finale_label",102,114,(0,3.65),.20,color="CYAN")
-    # Compatible formula glyphs change their outline into the closing Chinese title.
-    a=layout(groups["final"],(0,.1),1.1,6.4)
-    b=layout(groups["c_title"],(0,.15),1.0,11.8)
-    closing_pairs = pair_glyphs(a,b)
-    code.append("if(t>=114.0) { float u=smoothstep(114.0,115.0,t); float visibility=1.0;")
-    code.append(render_pairs(closing_pairs,color="mix(WHITE,GOLD,0.15)",arc_strength=.3,morph=morph))
+    label("film_english", 115.0, 122.0, (0, -2.82), .25, 11.0, "JADE")
     code.append("}")
-    label("brand",115.0,121.0,(0,-2.15),.22,color="CYAN")
-    label("title_en",115.0,121.0,(0,-1.05),.19,color="WHITE")
-    code.append("}")
-    closing = event_record("closing", 114, 120, "final", "c_title", closing_pairs,
-                           (114.0, 115.0), .3, review_bounds(b), "shape_morph")
+    closing = event_record("closing", 113, 120, "c_close_seed", "c_film_title",
+                           pairs, (113.8, 114.4), .07, review_bounds(b), "shape_morph")
     finish_holds([closing], 120.0)
     events.append(closing)
-    return "\n".join(code),events
+    return "\n".join(code), events
 
 
 def build(assets=None):
@@ -402,7 +407,7 @@ def build(assets=None):
     (folder / "type_data.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")
     config = ROOT / "behavior_pack/manim_ui/generated_scenes.py"
     scenes = [scene for scene in read_scenes(config) if scene["name"] != "client_showcase"]
-    scenes.append({"name":"client_showcase","duration":120.0,"title":"两分钟作品：万象变换",
+    scenes.append({"name":"client_showcase","duration":120.0,"title":"万象，始于一线",
                    "canvas_compatible":False,"material":"pmanim_client_showcase",
                    "post_name":"pmanim_client_showcase","texture":"textures/manim/client_showcase"})
     config.write_text("# -*- coding: utf-8 -*-\n# Generated by the scene and showcase builders.\nSCENES = "+
@@ -415,7 +420,8 @@ def build(assets=None):
         "samplerStates":[{"samplerIndex":i,"textureWrap":"Clamp","textureFilter":"Point"} for i in range(3)],
         "states":["DisableDepthTest"],"msaaSupport":"Both"}
     material_path.write_text(json.dumps(materials,indent=2)+"\n",encoding="utf-8",newline="\n")
-    report={"duration":120,"shader_sha256":hashlib.sha256(output.read_bytes()).hexdigest(),
+    report={"duration":120,"title":"万象，始于一线","edition":"V8 / From a Line to Infinity",
+            "shader_sha256":hashlib.sha256(output.read_bytes()).hexdigest(),
             "texture_sha256":metadata["sha256"],"shader_bytes":output.stat().st_size,
             "atlas_bytes":atlas.stat().st_size,"glyph_transitions":events,
             "vector_morph":morph.report(),
@@ -426,7 +432,10 @@ def build(assets=None):
             "typography_track_totals": {
                 kind: sum(event[kind + "_tracks"] for event in events)
                 for kind in ("shape_morph", "transport", "stationary", "birth", "death")},
-            "geometry_transitions":"Spectral curve ribbons and parameter knots; five-level triangular/petal inverse IFS; three-level Sierpinski carpets on area tiles; circle unrolls into sine; derivative and integral; harmonic braids merge; recursive chromatic finale",
+            "geometry_transitions":"0–14: two offset Song title lines and a growing material line; 14–34: drawn circle to translucent six-petal sheet to projected (2,3) torus knot; 34–54: four actual Koch substitutions, local camera push and reunion; 54–74: complex rotation unrolls into sine and odd-harmonic synthesis; 74–96: a curve opens into a folded translucent surface and crown; 96–112: seven-piece assembly and four-level ratio-1/3 hexaflake; 112–120: single cream line and large Song title",
+            "art_direction":{"primary":"warm cream","secondary":"jade","accents":["coral","gold"],
+                             "climax_only":"restrained violet","primary_stroke_world_units":[0.026,0.034],
+                             "auxiliary_stroke_world_units":0.01,"formula_morph_seconds":0.6},
             "background_continuity":"No rectangular text reading masks; background lines remain continuous outside glyph ink coverage",
             "rendering":"paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
             "game_validation":"Not run for this revision; prior review does not validate these resource hashes"}

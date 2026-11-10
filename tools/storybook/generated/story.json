@@ -1,14 +1,14 @@
 {
-  "schema": 3,
+  "schema": 4,
   "id": "story_showcase",
-  "title": "风借来的一颗星",
+  "title": "风的回信",
   "duration": 120.0,
   "fps": 60,
   "resolution": [
     1920,
     1080
   ],
-  "style": "纯抽象数学线条童话、深靛星空、金青发光风线、固定身份星光碎片、宋体轮廓短诗",
+  "style": "纯二维几何线条童话、明亮奶白主线、青绿风带、温金与少量珊瑚强调、局部半透明几何面、宋体轮廓短诗",
   "shader": "shaders/glsl/story_showcase.fragment",
   "texture": "textures/manim/story_showcase",
   "texture_slot": "TEXTURE_2",
@@ -35,28 +35,28 @@
     "padding": 24,
     "sdf_range": 24,
     "sample": "R; manual bilinear; positive inside; PNG top-left tiles; glyph UV Y flipped",
-    "glyphs": 61,
-    "sha256": "a040675401fc4ed0bdf606e665c94eb23f1a3e600b68a8fa801a8a74907412b4"
+    "glyphs": 53,
+    "sha256": "9d2c892b0f9f4124d81e1fd7870baa506e035ff4952911574d67262cbd3adfae"
   },
   "font": {
     "family": "Pyreact Manim Song",
     "file": "StorybookSong.ttf",
     "style": "serif",
     "weight": 400,
-    "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~一也了于们借光出名向回天奔字它家己归得循微成所把拖散方旋时星有来梦每涡漫灵片的相着瞬碎终自落藏认记起轻进远途都醒长颗风魂，",
-    "sha256": "4581129da9c83a3110b076fb2bb22f24f69b17819be16041ea8df0876792ac29",
-    "bytes": 45512,
+    "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~一了于们会住信光名听回在声处夜如字它归成托把散新方星是替有束条果每照片的相碎空落见认记起路还远途都重颗风，",
+    "sha256": "d9a86cd8f6ac76f5b94bf05a9ec3a142945ea200dd133b821e93ca4c1ec779da",
+    "bytes": 40952,
     "fonttools": "4.62.1",
     "source_sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
     "license": "SIL OFL 1.1"
   },
   "vector_morph": {
-    "schema": 1,
-    "method": "paired closed contours; equal-arc samples; nonzero winding",
-    "implementation_sha256": "0d5671737d211610c9ace8107aa249f6b4c301ef2c25b78a2e44a9f61e8a3b4d",
+    "schema": 2,
+    "method": "paired closed contours; component-local nonzero winding",
+    "implementation_sha256": "9445e02a8d07fc8b2fbf27b8c273957cf57c2642193d48ba9cd4b540a5c19c5a",
     "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
     "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
-    "packing": "two RGBA pixels per vertex (source/target); all-255 contour break",
+    "packing": "two RGBA pixels per vertex; all-255 source marks break, target x=0 outer or x=65535 hole",
     "data_region": [
       0,
       2048,
@@ -64,91 +64,115 @@
       2048
     ],
     "max_points_per_track": 256,
-    "unique_tracks": 109,
-    "packed_pixels": 54126,
+    "unique_tracks": 87,
+    "packed_pixels": 42880,
     "peak_track_points": 256,
-    "component_matching": "outer components first; holes only within matched parent; winding and cyclic phase aligned",
-    "birth_death": "zero-area contours grow from or contract to nearest boundary anchors; no opacity ramp",
+    "component_matching": "outer then parent-local holes; arc samples preserve sharp corners; cyclic phase favours fewer folds",
+    "birth_death": "interior point anchors; an unmatched component and its holes contract together; no opacity ramp",
+    "fill": "union of outer coverage clipped by its holes; no independent hole or degenerate-point AA",
     "endpoints": "original SDF; 2.5% endpoint interval reconciles polygon sampling and SDF AA",
     "limitations": "bounded polygon approximation, not native Manim curve topology or pixel-equivalent Transform"
   },
   "geometry": {
     "source": "tools/storybook/film.fragment",
-    "source_sha256": "eac7d1ff6ac8e5e5ad527ad76a459f7b11b9ba2a8c5788df8a958cae8a885dc0",
-    "provenance": "original parametric wind lines, orbital curves and persistent closed starlight contours",
+    "source_sha256": "00d90c98fcdd5c74174acf456dc05731e4698236de52a3f9757172cfbde81099",
+    "provenance": "original geometric star, shaped wind ribbons and 24 persistent filled contour fragments",
     "opening_star_anchor": [
-      -0.4,
-      0.2
+      -1.2,
+      0.45
     ],
     "main_star_anchor": [
       0,
-      0.2
+      0.45
     ],
+    "persistent_fragments": 24,
+    "reassembled_shape": "double-layer twelve-petal light crown",
+    "main_subject_height_fraction": [
+      0.45,
+      0.65
+    ],
+    "bounded_geometry": {
+      "fragment_vertices": 4,
+      "wind_ribbons": 3,
+      "segments_per_ribbon": 36,
+      "return_trails": 8,
+      "segments_per_return_trail": 12,
+      "meteor_strands": 3,
+      "segments_per_meteor_strand": 20,
+      "background_dots": 32
+    },
     "meteor_impact_seconds": 43.0,
     "reassembly_seconds": [
-      76.0,
-      96.0
+      78.0,
+      94.0
     ],
-    "caption_band_center_y": -2.72,
-    "transition": "continuous positions and corresponding closed contours across chapters"
+    "closing_title_seconds": 110.0,
+    "caption_band_center_y": -3.05,
+    "transition": "the same filled geometric fragments break from the whole star, travel continuously and return along arcs"
   },
   "chapters": [
     {
       "start": 0,
-      "end": 18,
-      "title": "风记得名字",
-      "action": "两行错位宋体先后缓慢展开，金青风线托住文字；第一句收拢为星核。"
+      "end": 16,
+      "title": "如果星光散落",
+      "action": "左上与右下两行大宋体先后淡入并展开轮廓，青金风带托住文字；第一句收拢为星核。"
     },
     {
-      "start": 18,
-      "end": 34,
-      "title": "星核初醒",
-      "action": "风线绕成轨道，同一束光在旋转的闭合曲线中醒来。"
+      "start": 16,
+      "end": 32,
+      "title": "一束风与一颗星",
+      "action": "有宽窄变化的风带托起清晰的大星核，双层几何瓣片构成可辨认的完整形。"
     },
     {
-      "start": 34,
-      "end": 54,
-      "title": "梦碎成微光",
-      "action": "流星拖曳长弧；43秒撞击后，同一批星光轮廓散成碎片。"
+      "start": 32,
+      "end": 44,
+      "title": "光碎了，名字还在",
+      "action": "明亮流星拖着长尾划过；43秒撞击，完整星核拆为24片有面积的几何碎片。"
     },
     {
-      "start": 54,
-      "end": 76,
-      "title": "名字在风里",
-      "action": "碎片沿风线和旋涡漂流，保持各自轮廓与连续运动。"
+      "start": 44,
+      "end": 64,
+      "title": "每一片都有归处",
+      "action": "同一批碎片分层散开，在横跨画面的风带中旋转漂流，保留各自轮廓与身份。"
     },
     {
-      "start": 76,
+      "start": 64,
+      "end": 78,
+      "title": "风听见回声",
+      "action": "风从乱流中找到旋转节拍，大片碎片进入不同半径的回旋轨道。"
+    },
+    {
+      "start": 78,
       "end": 96,
-      "title": "灵魂归来",
-      "action": "散落的轮廓沿弧线逐片重组，风与星光重新形成同一个核心。"
+      "title": "散落的光重新相认",
+      "action": "24片几何碎片逐片沿弧归位，94秒完成双层十二瓣光冠，并迎来明亮绽放。"
     },
     {
       "start": 96,
       "end": 110,
-      "title": "认出自己",
-      "action": "重组后的星核舒展为明亮星光，细线轨道逐渐安定。"
+      "title": "夜空有了回信",
+      "action": "大光冠舒展为开阔光翼，中央星核与左右长线保持完整的几何构图。"
     },
     {
       "start": 110,
       "end": 120,
-      "title": "风借来的一颗星",
-      "action": "末句轮廓展开成片名，结语从片名附近的光点生长，风线与星光陪伴停留。"
+      "title": "风的回信",
+      "action": "末句轮廓变成大标题，结语轮廓随之展开；安定的光翼与风带陪伴片名停留。"
     }
   ],
   "subtitles": [
     {
       "id": "opening_a",
-      "text": "风，记得每一颗星的名字",
+      "text": "如果星光散落",
       "start": 1.0,
       "end": 16.0,
       "center": [
         -2.0,
-        1.6
+        1.5
       ],
-      "height": 0.5,
-      "max_width": 9.0,
-      "reveal_end": 4.6,
+      "height": 0.65,
+      "max_width": 8.6,
+      "reveal_end": 4.4,
       "hold_until": 12.0,
       "transition": "staggered closed-contour growth from baseline points with opening-only alpha fade",
       "fade_in": {
@@ -159,8 +183,8 @@
         "start": 12.0,
         "end": 16.0,
         "anchor": [
-          -0.4,
-          0.2
+          -1.2,
+          0.45
         ],
         "opacity": 1.0,
         "transition": "closed contours contract to the star core; no alpha fade"
@@ -168,69 +192,69 @@
     },
     {
       "id": "opening_b",
-      "text": "也记得，它们回家的方向",
-      "start": 5.8,
-      "end": 18.0,
+      "text": "风会替它记住归途",
+      "start": 5.3,
+      "end": 16.0,
       "center": [
-        2.0,
-        -1.2
+        1.8,
+        -1.0
       ],
-      "height": 0.5,
-      "max_width": 9.0,
-      "reveal_end": 9.4,
-      "hold_until": 18.0,
+      "height": 0.65,
+      "max_width": 9.8,
+      "reveal_end": 8.7,
+      "hold_until": 16.0,
       "transition": "staggered closed-contour growth from baseline points with opening-only alpha fade",
       "fade_in": {
-        "start": 5.8,
-        "end": 7.8
+        "start": 5.3,
+        "end": 7.3
       }
     },
     {
       "id": "birth",
-      "text": "风轻轻一旋，一颗星醒了",
-      "start": 18.0,
-      "end": 34.0,
+      "text": "一束风，托起一颗星",
+      "start": 16.0,
+      "end": 32.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "opening_b",
       "transform_seconds": 1.15,
-      "transition_end": 19.15,
+      "transition_end": 17.15,
       "hold_until_next_transform": true,
       "opacity": 1.0,
       "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "meteor",
-      "text": "它奔向远方，拖着长长的梦",
-      "start": 34.0,
+      "text": "它把远方，照成一条路",
+      "start": 32.0,
       "end": 43.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "birth",
       "transform_seconds": 1.15,
-      "transition_end": 35.15,
+      "transition_end": 33.15,
       "hold_until_next_transform": true,
       "opacity": 1.0,
       "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "shatter",
-      "text": "一瞬，梦碎成了漫天微光",
+      "text": "光碎了，名字还在",
       "start": 43.0,
       "end": 54.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "meteor",
       "transform_seconds": 1.15,
@@ -241,14 +265,14 @@
     },
     {
       "id": "drift",
-      "text": "风把散落的名字，藏进旋涡",
+      "text": "每一片，都有归处",
       "start": 54.0,
-      "end": 76.0,
+      "end": 64.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "shatter",
       "transform_seconds": 1.15,
@@ -258,33 +282,51 @@
       "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
-      "id": "soul",
-      "text": "微光循风相认，灵魂一片片归来",
-      "start": 76.0,
-      "end": 96.0,
+      "id": "rhythm",
+      "text": "风听见了它们的回声",
+      "start": 64.0,
+      "end": 78.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "drift",
       "transform_seconds": 1.15,
-      "transition_end": 77.15,
+      "transition_end": 65.15,
+      "hold_until_next_transform": true,
+      "opacity": 1.0,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
+    },
+    {
+      "id": "soul",
+      "text": "散落的光，重新相认",
+      "start": 78.0,
+      "end": 96.0,
+      "center": [
+        0,
+        -3.05
+      ],
+      "height": 0.36,
+      "max_width": 12.6,
+      "source": "rhythm",
+      "transform_seconds": 1.15,
+      "transition_end": 79.15,
       "hold_until_next_transform": true,
       "opacity": 1.0,
       "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "return",
-      "text": "终于，所有微光都认出了自己",
+      "text": "于是，夜空有了回信",
       "start": 96.0,
-      "end": 110.2,
+      "end": 110.0,
       "center": [
         0,
-        -2.72
+        -3.05
       ],
-      "height": 0.34,
+      "height": 0.36,
       "max_width": 12.6,
       "source": "soul",
       "transform_seconds": 1.15,
@@ -295,36 +337,36 @@
     },
     {
       "id": "title",
-      "text": "风借来的一颗星",
-      "start": 110.2,
+      "text": "风的回信",
+      "start": 110.0,
       "end": 120,
       "center": [
         0,
-        0.5
+        0.55
       ],
-      "height": 0.78,
+      "height": 0.96,
       "max_width": 12.6,
       "source": "return",
       "transform_seconds": 1.15,
-      "transition_end": 111.35000000000001,
+      "transition_end": 111.15,
       "hold_until_next_transform": true,
       "opacity": 1.0,
       "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "motto",
-      "text": "风起时，灵魂记得归途",
-      "start": 113.5,
+      "text": "风会记住，每一束光",
+      "start": 113.4,
       "end": 120,
       "center": [
         0,
         -0.72
       ],
-      "height": 0.275,
+      "height": 0.34,
       "max_width": 12.6,
       "source": "title_anchor_points",
       "transform_seconds": 1.15,
-      "transition_end": 114.65,
+      "transition_end": 114.55000000000001,
       "hold_until_next_transform": true,
       "opacity": 1.0,
       "transition": "closed-contour point correspondence; no sentence alpha fade"
@@ -333,18 +375,18 @@
   "groups": {
     "opening_a": {
       "kind": "text",
-      "source": "风，记得每一颗星的名字",
-      "width": 10.57057057057057,
+      "source": "如果星光散落",
+      "width": 6.508474576271187,
       "height": 1.0,
       "raw_bounds": [
         0.0,
-        99,
-        3520.0,
-        432
+        100,
+        1920.0,
+        395
       ],
       "glyphs": [
         {
-          "id": "font_4581129da9c8_98ce",
+          "id": "font_d9a86cd8f6ac_5982",
           "tile": [
             0,
             0,
@@ -352,20 +394,20 @@
             192
           ],
           "center": [
-            -4.804804804804805,
-            0.04354354354354354
+            -2.711864406779661,
+            0.001694915254237288
           ],
           "size": [
-            1.2812812812812813,
-            1.1611611611611612
+            1.4463276836158192,
+            1.328813559322034
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8708708708708709
+            1.0847457627118644,
+            0.9966101694915255
           ]
         },
         {
-          "id": "font_4581129da9c8_ff0c",
+          "id": "font_d9a86cd8f6ac_679c",
           "tile": [
             192,
             0,
@@ -373,20 +415,20 @@
             192
           ],
           "center": [
-            -3.843843843843844,
-            -0.3483483483483483
+            -1.6271186440677967,
+            -0.010169491525423728
           ],
           "size": [
-            1.2812812812812813,
-            0.4044044044044044
+            1.4463276836158192,
+            1.3062146892655369
           ],
           "ink_size": [
-            0.960960960960961,
-            0.3033033033033033
+            1.0847457627118644,
+            0.9796610169491525
           ]
         },
         {
-          "id": "font_4581129da9c8_8bb0",
+          "id": "font_d9a86cd8f6ac_661f",
           "tile": [
             384,
             0,
@@ -394,20 +436,20 @@
             192
           ],
           "center": [
-            -2.8828828828828827,
-            0.06906906906906907
+            -0.5423728813559322,
+            0.003389830508474576
           ],
           "size": [
-            1.2812812812812813,
-            1.1331331331331331
+            1.4463276836158192,
+            1.2610169491525423
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8498498498498499
+            1.0847457627118644,
+            0.9457627118644067
           ]
         },
         {
-          "id": "font_4581129da9c8_5f97",
+          "id": "font_d9a86cd8f6ac_5149",
           "tile": [
             576,
             0,
@@ -415,20 +457,20 @@
             192
           ],
           "center": [
-            -1.921921921921922,
-            0.05405405405405406
+            0.5423728813559322,
+            0.001694915254237288
           ],
           "size": [
-            1.2812812812812813,
-            1.1811811811811812
+            1.4463276836158192,
+            1.328813559322034
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8858858858858859
+            1.0847457627118644,
+            0.9966101694915255
           ]
         },
         {
-          "id": "font_4581129da9c8_6bcf",
+          "id": "font_d9a86cd8f6ac_6563",
           "tile": [
             768,
             0,
@@ -436,20 +478,20 @@
             192
           ],
           "center": [
-            -0.960960960960961,
-            0.057057057057057055
+            1.6271186440677967,
+            -0.0
           ],
           "size": [
-            1.2812812812812813,
-            1.1811811811811812
+            1.4463276836158192,
+            1.3242937853107344
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8858858858858859
+            1.0847457627118644,
+            0.9932203389830508
           ]
         },
         {
-          "id": "font_4581129da9c8_4e00",
+          "id": "font_d9a86cd8f6ac_843d",
           "tile": [
             960,
             0,
@@ -457,20 +499,34 @@
             192
           ],
           "center": [
-            0.0,
-            -0.06306306306306306
+            2.711864406779661,
+            0.001694915254237288
           ],
           "size": [
-            1.2812812812812813,
-            0.6606606606606606
+            1.4463276836158192,
+            1.328813559322034
           ],
           "ink_size": [
-            0.960960960960961,
-            0.4954954954954955
+            1.0847457627118644,
+            0.9966101694915255
           ]
-        },
+        }
+      ]
+    },
+    "opening_b": {
+      "kind": "text",
+      "source": "风会替它记住归途",
+      "width": 8.61952861952862,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        99,
+        2560.0,
+        396
+      ],
+      "glyphs": [
         {
-          "id": "font_4581129da9c8_9897",
+          "id": "font_d9a86cd8f6ac_98ce",
           "tile": [
             1152,
             0,
@@ -478,20 +534,20 @@
             192
           ],
           "center": [
-            0.960960960960961,
-            0.05105105105105105
+            -3.771043771043771,
+            -0.011784511784511785
           ],
           "size": [
-            1.2812812812812813,
-            1.1731731731731732
+            1.4365881032547698,
+            1.301907968574635
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8798798798798799
+            1.0774410774410774,
+            0.9764309764309764
           ]
         },
         {
-          "id": "font_4581129da9c8_661f",
+          "id": "font_d9a86cd8f6ac_4f1a",
           "tile": [
             1344,
             0,
@@ -499,20 +555,20 @@
             192
           ],
           "center": [
-            1.921921921921922,
-            0.057057057057057055
+            -2.6936026936026938,
+            0.003367003367003367
           ],
           "size": [
-            1.2812812812812813,
-            1.1171171171171173
+            1.4365881032547698,
+            1.3243546576879912
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8378378378378378
+            1.0774410774410774,
+            0.9932659932659933
           ]
         },
         {
-          "id": "font_4581129da9c8_7684",
+          "id": "font_d9a86cd8f6ac_66ff",
           "tile": [
             1536,
             0,
@@ -520,20 +576,20 @@
             192
           ],
           "center": [
-            2.8828828828828827,
-            0.05555555555555555
+            -1.6161616161616161,
+            -0.0
           ],
           "size": [
-            1.2812812812812813,
-            1.169169169169169
+            1.4365881032547698,
+            1.3153759820426485
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8768768768768769
+            1.0774410774410774,
+            0.9865319865319865
           ]
         },
         {
-          "id": "font_4581129da9c8_540d",
+          "id": "font_d9a86cd8f6ac_5b83",
           "tile": [
             1728,
             0,
@@ -541,20 +597,20 @@
             192
           ],
           "center": [
-            3.843843843843844,
-            0.05405405405405406
+            -0.5387205387205387,
+            0.021885521885521887
           ],
           "size": [
-            1.2812812812812813,
-            1.1811811811811812
+            1.4365881032547698,
+            1.265993265993266
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8858858858858859
+            1.0774410774410774,
+            0.9494949494949495
           ]
         },
         {
-          "id": "font_4581129da9c8_5b57",
+          "id": "font_d9a86cd8f6ac_8bb0",
           "tile": [
             1920,
             0,
@@ -562,34 +618,20 @@
             192
           ],
           "center": [
-            4.804804804804805,
-            0.05555555555555555
+            0.5387205387205387,
+            0.016835016835016835
           ],
           "size": [
-            1.2812812812812813,
-            1.1771771771771773
+            1.4365881032547698,
+            1.2704826038159371
           ],
           "ink_size": [
-            0.960960960960961,
-            0.8828828828828829
+            1.0774410774410774,
+            0.9528619528619529
           ]
-        }
-      ]
-    },
-    "opening_b": {
-      "kind": "text",
-      "source": "也记得，它们回家的方向",
-      "width": 10.538922155688622,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        98,
-        3520.0,
-        432
-      ],
-      "glyphs": [
+        },
         {
-          "id": "font_4581129da9c8_4e5f",
+          "id": "font_d9a86cd8f6ac_4f4f",
           "tile": [
             2112,
             0,
@@ -597,83 +639,20 @@
             192
           ],
           "center": [
-            -4.790419161676646,
-            0.06437125748502993
+            1.6161616161616161,
+            0.0016835016835016834
           ],
           "size": [
-            1.2774451097804391,
-            1.1377245508982037
+            1.4365881032547698,
+            1.3198653198653199
           ],
           "ink_size": [
-            0.9580838323353293,
-            0.8532934131736527
+            1.0774410774410774,
+            0.98989898989899
           ]
         },
         {
-          "id": "font_4581129da9c8_8bb0",
-          "tile": [
-            384,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -3.8323353293413174,
-            0.06736526946107785
-          ],
-          "size": [
-            1.2774451097804391,
-            1.129740518962076
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8473053892215568
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5f97",
-          "tile": [
-            576,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -2.874251497005988,
-            0.05239520958083832
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1776447105788423
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8832335329341318
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -1.9161676646706587,
-            -0.34880239520958084
-          ],
-          "size": [
-            1.2774451097804391,
-            0.4031936127744511
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.3023952095808383
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5b83",
+          "id": "font_d9a86cd8f6ac_5f52",
           "tile": [
             2304,
             0,
@@ -681,20 +660,20 @@
             192
           ],
           "center": [
-            -0.9580838323353293,
-            0.0718562874251497
+            2.6936026936026938,
+            -0.003367003367003367
           ],
           "size": [
-            1.2774451097804391,
-            1.125748502994012
+            1.4365881032547698,
+            1.3243546576879912
           ],
           "ink_size": [
-            0.9580838323353293,
-            0.844311377245509
+            1.0774410774410774,
+            0.9932659932659933
           ]
         },
         {
-          "id": "font_4581129da9c8_4eec",
+          "id": "font_d9a86cd8f6ac_9014",
           "tile": [
             2496,
             0,
@@ -702,20 +681,34 @@
             192
           ],
           "center": [
-            0.0,
-            0.05089820359281437
+            3.771043771043771,
+            0.008417508417508417
           ],
           "size": [
-            1.2774451097804391,
-            1.1736526946107786
+            1.4365881032547698,
+            1.3108866442199776
           ],
           "ink_size": [
-            0.9580838323353293,
-            0.8802395209580839
+            1.0774410774410774,
+            0.9831649831649831
           ]
-        },
+        }
+      ]
+    },
+    "birth": {
+      "kind": "text",
+      "source": "一束风，托起一颗星",
+      "width": 8.674698795180722,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        100,
+        2880.0,
+        432
+      ],
+      "glyphs": [
         {
-          "id": "font_4581129da9c8_56de",
+          "id": "font_d9a86cd8f6ac_4e00",
           "tile": [
             2688,
             0,
@@ -723,20 +716,20 @@
             192
           ],
           "center": [
-            0.9580838323353293,
-            0.041916167664670656
+            -3.855421686746988,
+            -0.061746987951807226
           ],
           "size": [
-            1.2774451097804391,
-            1.13373253493014
+            1.285140562248996,
+            0.6626506024096386
           ],
           "ink_size": [
-            0.9580838323353293,
-            0.8502994011976048
+            0.963855421686747,
+            0.49698795180722893
           ]
         },
         {
-          "id": "font_4581129da9c8_5bb6",
+          "id": "font_d9a86cd8f6ac_675f",
           "tile": [
             2880,
             0,
@@ -744,105 +737,28 @@
             192
           ],
           "center": [
-            1.9161676646706587,
-            0.05389221556886228
+            -2.891566265060241,
+            0.0572289156626506
           ],
           "size": [
-            1.2774451097804391,
-            1.1816367265469063
+            1.285140562248996,
+            1.180722891566265
           ],
           "ink_size": [
-            0.9580838323353293,
-            0.8862275449101796
+            0.963855421686747,
+            0.8855421686746988
           ]
         },
         {
-          "id": "font_4581129da9c8_7684",
+          "id": "font_d9a86cd8f6ac_98ce",
           "tile": [
-            1536,
+            1152,
             0,
             192,
             192
           ],
           "center": [
-            2.874251497005988,
-            0.05389221556886228
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1656686626746506
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.874251497005988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_65b9",
-          "tile": [
-            3072,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            3.8323353293413174,
-            0.05389221556886228
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1896207584830338
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8922155688622755
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5411",
-          "tile": [
-            3264,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            4.790419161676646,
-            0.05239520958083832
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1696606786427146
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8772455089820359
-          ]
-        }
-      ]
-    },
-    "birth": {
-      "kind": "text",
-      "source": "风轻轻一旋，一颗星醒了",
-      "width": 10.602409638554217,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        100,
-        3520.0,
-        432
-      ],
-      "glyphs": [
-        {
-          "id": "font_4581129da9c8_98ce",
-          "tile": [
-            0,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -4.819277108433735,
+            -1.927710843373494,
             0.045180722891566265
           ],
           "size": [
@@ -855,99 +771,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_8f7b",
+          "id": "font_d9a86cd8f6ac_ff0c",
           "tile": [
-            3456,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -3.855421686746988,
-            0.05421686746987952
-          ],
-          "size": [
-            1.285140562248996,
-            1.1726907630522088
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8795180722891566
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8f7b",
-          "tile": [
-            3456,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -2.891566265060241,
-            0.05421686746987952
-          ],
-          "size": [
-            1.285140562248996,
-            1.1726907630522088
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8795180722891566
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e00",
-          "tile": [
-            960,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -1.927710843373494,
-            -0.061746987951807226
-          ],
-          "size": [
-            1.285140562248996,
-            0.6626506024096386
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.49698795180722893
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_65cb",
-          "tile": [
-            3648,
+            3072,
             0,
             192,
             192
           ],
           "center": [
             -0.963855421686747,
-            0.05271084337349398
-          ],
-          "size": [
-            1.285140562248996,
-            1.1927710843373494
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8945783132530121
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            0.0,
             -0.34789156626506024
           ],
           "size": [
@@ -960,15 +792,57 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_4e00",
+          "id": "font_d9a86cd8f6ac_6258",
           "tile": [
-            960,
+            3264,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            0.0,
+            0.0572289156626506
+          ],
+          "size": [
+            1.285140562248996,
+            1.180722891566265
+          ],
+          "ink_size": [
+            0.963855421686747,
+            0.8855421686746988
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_8d77",
+          "tile": [
+            3456,
             0,
             192,
             192
           ],
           "center": [
             0.963855421686747,
+            0.05421686746987952
+          ],
+          "size": [
+            1.285140562248996,
+            1.180722891566265
+          ],
+          "ink_size": [
+            0.963855421686747,
+            0.8855421686746988
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4e00",
+          "tile": [
+            2688,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            1.927710843373494,
             -0.061746987951807226
           ],
           "size": [
@@ -981,15 +855,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_9897",
+          "id": "font_d9a86cd8f6ac_9897",
           "tile": [
-            1152,
+            3648,
             0,
             192,
             192
           ],
           "center": [
-            1.927710843373494,
+            2.891566265060241,
             0.05271084337349398
           ],
           "size": [
@@ -1002,15 +876,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_661f",
+          "id": "font_d9a86cd8f6ac_661f",
           "tile": [
-            1344,
+            384,
             0,
             192,
             192
           ],
           "center": [
-            2.891566265060241,
+            3.855421686746988,
             0.058734939759036146
           ],
           "size": [
@@ -1021,73 +895,31 @@
             0.963855421686747,
             0.8403614457831325
           ]
-        },
-        {
-          "id": "font_4581129da9c8_9192",
-          "tile": [
-            3840,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            3.855421686746988,
-            0.05271084337349398
-          ],
-          "size": [
-            1.285140562248996,
-            1.1606425702811245
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8704819277108434
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e86",
-          "tile": [
-            0,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            4.819277108433735,
-            0.0391566265060241
-          ],
-          "size": [
-            1.285140562248996,
-            1.1325301204819278
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8493975903614458
-          ]
         }
       ]
     },
     "meteor": {
       "kind": "text",
-      "source": "它奔向远方，拖着长长的梦",
-      "width": 11.497005988023952,
+      "source": "它把远方，照成一条路",
+      "width": 9.580838323353293,
       "height": 1.0,
       "raw_bounds": [
         0.0,
         98,
-        3840.0,
+        3200.0,
         432
       ],
       "glyphs": [
         {
-          "id": "font_4581129da9c8_5b83",
+          "id": "font_d9a86cd8f6ac_5b83",
           "tile": [
-            2304,
+            1728,
             0,
             192,
             192
           ],
           "center": [
-            -5.269461077844311,
+            -4.311377245508982,
             0.0718562874251497
           ],
           "size": [
@@ -1100,51 +932,30 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_5954",
+          "id": "font_d9a86cd8f6ac_628a",
           "tile": [
-            192,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -4.311377245508982,
-            0.05688622754491018
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1816367265469063
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8862275449101796
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5411",
-          "tile": [
-            3264,
+            3840,
             0,
             192,
             192
           ],
           "center": [
             -3.3532934131736525,
-            0.05239520958083832
+            0.05089820359281437
           ],
           "size": [
             1.2774451097804391,
-            1.1696606786427146
+            1.1736526946107786
           ],
           "ink_size": [
             0.9580838323353293,
-            0.8772455089820359
+            0.8802395209580839
           ]
         },
         {
-          "id": "font_4581129da9c8_8fdc",
+          "id": "font_d9a86cd8f6ac_8fdc",
           "tile": [
-            384,
+            0,
             192,
             192,
             192
@@ -1163,10 +974,10 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_65b9",
+          "id": "font_d9a86cd8f6ac_65b9",
           "tile": [
-            3072,
-            0,
+            192,
+            192,
             192,
             192
           ],
@@ -1184,9 +995,9 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_ff0c",
+          "id": "font_d9a86cd8f6ac_ff0c",
           "tile": [
-            192,
+            3072,
             0,
             192,
             192
@@ -1205,7 +1016,28 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_62d6",
+          "id": "font_d9a86cd8f6ac_7167",
+          "tile": [
+            384,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            0.47904191616766467,
+            0.041916167664670656
+          ],
+          "size": [
+            1.2774451097804391,
+            1.1497005988023952
+          ],
+          "ink_size": [
+            0.9580838323353293,
+            0.8622754491017964
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_6210",
           "tile": [
             576,
             192,
@@ -1213,8 +1045,8 @@
             192
           ],
           "center": [
-            0.47904191616766467,
-            0.05239520958083832
+            1.437125748502994,
+            0.04940119760479042
           ],
           "size": [
             1.2774451097804391,
@@ -1226,7 +1058,28 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_7740",
+          "id": "font_d9a86cd8f6ac_4e00",
+          "tile": [
+            2688,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            2.395209580838323,
+            -0.06437125748502993
+          ],
+          "size": [
+            1.2774451097804391,
+            0.6586826347305389
+          ],
+          "ink_size": [
+            0.9580838323353293,
+            0.4940119760479042
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_6761",
           "tile": [
             768,
             192,
@@ -1234,190 +1087,64 @@
             192
           ],
           "center": [
-            1.437125748502994,
-            0.05239520958083832
-          ],
-          "size": [
-            1.2774451097804391,
-            1.18562874251497
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8892215568862275
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_957f",
-          "tile": [
-            960,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            2.395209580838323,
-            0.04640718562874251
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1696606786427146
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8772455089820359
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_957f",
-          "tile": [
-            960,
-            192,
-            192,
-            192
-          ],
-          "center": [
             3.3532934131736525,
-            0.04640718562874251
+            0.05688622754491018
           ],
           "size": [
             1.2774451097804391,
-            1.1696606786427146
+            1.1816367265469063
           ],
           "ink_size": [
             0.9580838323353293,
-            0.8772455089820359
+            0.8862275449101796
           ]
         },
         {
-          "id": "font_4581129da9c8_7684",
+          "id": "font_d9a86cd8f6ac_8def",
           "tile": [
-            1536,
-            0,
+            960,
+            192,
             192,
             192
           ],
           "center": [
             4.311377245508982,
-            0.05389221556886228
+            0.05239520958083832
           ],
           "size": [
             1.2774451097804391,
-            1.1656686626746506
+            1.1776447105788423
           ],
           "ink_size": [
             0.9580838323353293,
-            0.874251497005988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_68a6",
-          "tile": [
-            1152,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            5.269461077844311,
-            0.05688622754491018
-          ],
-          "size": [
-            1.2774451097804391,
-            1.1736526946107786
-          ],
-          "ink_size": [
-            0.9580838323353293,
-            0.8802395209580839
+            0.8832335329341318
           ]
         }
       ]
     },
     "shatter": {
       "kind": "text",
-      "source": "一瞬，梦碎成了漫天微光",
-      "width": 10.507462686567164,
+      "source": "光碎了，名字还在",
+      "width": 7.641791044776119,
       "height": 1.0,
       "raw_bounds": [
         0.0,
         97,
-        3520.0,
+        2560.0,
         432
       ],
       "glyphs": [
         {
-          "id": "font_4581129da9c8_4e00",
+          "id": "font_d9a86cd8f6ac_5149",
           "tile": [
-            960,
+            576,
             0,
             192,
             192
           ],
           "center": [
-            -4.776119402985074,
-            -0.06567164179104477
-          ],
-          "size": [
-            1.2736318407960199,
-            0.6567164179104478
-          ],
-          "ink_size": [
-            0.9552238805970149,
-            0.4925373134328358
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_77ac",
-          "tile": [
-            1344,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -3.8208955223880596,
-            0.04776119402985075
-          ],
-          "size": [
-            1.2736318407960199,
-            1.1661691542288557
-          ],
-          "ink_size": [
-            0.9552238805970149,
-            0.8746268656716418
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -2.8656716417910446,
-            -0.3492537313432836
-          ],
-          "size": [
-            1.2736318407960199,
-            0.4019900497512438
-          ],
-          "ink_size": [
-            0.9552238805970149,
-            0.30149253731343284
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_68a6",
-          "tile": [
-            1152,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -1.9104477611940298,
-            0.05522388059701493
+            -3.343283582089552,
+            0.05223880597014925
           ],
           "size": [
             1.2736318407960199,
@@ -1429,15 +1156,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_788e",
+          "id": "font_d9a86cd8f6ac_788e",
           "tile": [
-            1536,
+            1152,
             192,
             192,
             192
           ],
           "center": [
-            -0.9552238805970149,
+            -2.388059701492537,
             0.05522388059701493
           ],
           "size": [
@@ -1450,36 +1177,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_6210",
+          "id": "font_d9a86cd8f6ac_4e86",
           "tile": [
-            1728,
+            1344,
             192,
             192,
             192
           ],
           "center": [
-            0.0,
-            0.04776119402985075
-          ],
-          "size": [
-            1.2736318407960199,
-            1.1741293532338308
-          ],
-          "ink_size": [
-            0.9552238805970149,
-            0.8805970149253731
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e86",
-          "tile": [
-            0,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            0.9552238805970149,
+            -1.4328358208955223,
             0.034328358208955224
           ],
           "size": [
@@ -1492,57 +1198,36 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_6f2b",
+          "id": "font_d9a86cd8f6ac_ff0c",
           "tile": [
-            1920,
-            192,
+            3072,
+            0,
             192,
             192
           ],
           "center": [
-            1.9104477611940298,
-            0.04776119402985075
+            -0.47761194029850745,
+            -0.3492537313432836
           ],
           "size": [
             1.2736318407960199,
-            1.1661691542288557
+            0.4019900497512438
           ],
           "ink_size": [
             0.9552238805970149,
-            0.8746268656716418
+            0.30149253731343284
           ]
         },
         {
-          "id": "font_4581129da9c8_5929",
+          "id": "font_d9a86cd8f6ac_540d",
           "tile": [
-            2112,
+            1536,
             192,
             192,
             192
           ],
           "center": [
-            2.8656716417910446,
-            0.034328358208955224
-          ],
-          "size": [
-            1.2736318407960199,
-            1.1383084577114428
-          ],
-          "ink_size": [
-            0.9552238805970149,
-            0.8537313432835821
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5fae",
-          "tile": [
-            2304,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            3.8208955223880596,
+            0.47761194029850745,
             0.050746268656716415
           ],
           "size": [
@@ -1555,15 +1240,57 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_5149",
+          "id": "font_d9a86cd8f6ac_5b57",
           "tile": [
-            2496,
+            1728,
             192,
             192,
             192
           ],
           "center": [
-            4.776119402985074,
+            1.4328358208955223,
+            0.05223880597014925
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1701492537313432
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8776119402985074
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_8fd8",
+          "tile": [
+            1920,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            2.388059701492537,
+            0.04477611940298507
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1422885572139303
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8567164179104477
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_5728",
+          "tile": [
+            2112,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            3.343283582089552,
             0.05223880597014925
           ],
           "size": [
@@ -1579,284 +1306,18 @@
     },
     "drift": {
       "kind": "text",
-      "source": "风把散落的名字，藏进旋涡",
-      "width": 11.566265060240964,
+      "source": "每一片，都有归处",
+      "width": 7.687687687687688,
       "height": 1.0,
       "raw_bounds": [
         0.0,
-        100,
-        3840.0,
+        99,
+        2560.0,
         432
       ],
       "glyphs": [
         {
-          "id": "font_4581129da9c8_98ce",
-          "tile": [
-            0,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -5.301204819277109,
-            0.045180722891566265
-          ],
-          "size": [
-            1.285140562248996,
-            1.1646586345381524
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8734939759036144
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_628a",
-          "tile": [
-            2688,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -4.337349397590361,
-            0.05421686746987952
-          ],
-          "size": [
-            1.285140562248996,
-            1.180722891566265
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8855421686746988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6563",
-          "tile": [
-            2880,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -3.3734939759036147,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.176706827309237
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8825301204819277
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_843d",
-          "tile": [
-            3072,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -2.4096385542168677,
-            0.0572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.180722891566265
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8855421686746988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_7684",
-          "tile": [
-            1536,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -1.4457831325301205,
-            0.0572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.1726907630522088
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8795180722891566
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_540d",
-          "tile": [
-            1728,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -0.4819277108433735,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.184738955823293
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8885542168674698
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5b57",
-          "tile": [
-            1920,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            0.4819277108433735,
-            0.0572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.180722891566265
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8855421686746988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            1.4457831325301205,
-            -0.34789156626506024
-          ],
-          "size": [
-            1.285140562248996,
-            0.40562248995983935
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.3042168674698795
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_85cf",
-          "tile": [
-            3264,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            2.4096385542168677,
-            0.05421686746987952
-          ],
-          "size": [
-            1.285140562248996,
-            1.1887550200803212
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.891566265060241
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8fdb",
-          "tile": [
-            3456,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            3.3734939759036147,
-            0.058734939759036146
-          ],
-          "size": [
-            1.285140562248996,
-            1.1606425702811245
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8704819277108434
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_65cb",
-          "tile": [
-            3648,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            4.337349397590361,
-            0.05271084337349398
-          ],
-          "size": [
-            1.285140562248996,
-            1.1927710843373494
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8945783132530121
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6da1",
-          "tile": [
-            3648,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            5.301204819277109,
-            0.04819277108433735
-          ],
-          "size": [
-            1.285140562248996,
-            1.1646586345381524
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8734939759036144
-          ]
-        }
-      ]
-    },
-    "soul": {
-      "kind": "text",
-      "source": "微光循风相认，灵魂一片片归来",
-      "width": 13.493975903614459,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        100,
-        4480.0,
-        432
-      ],
-      "glyphs": [
-        {
-          "id": "font_4581129da9c8_5fae",
+          "id": "font_d9a86cd8f6ac_6bcf",
           "tile": [
             2304,
             192,
@@ -1864,20 +1325,41 @@
             192
           ],
           "center": [
-            -6.265060240963855,
-            0.05572289156626506
+            -3.3633633633633635,
+            0.057057057057057055
           ],
           "size": [
-            1.285140562248996,
-            1.184738955823293
+            1.2812812812812813,
+            1.1811811811811812
           ],
           "ink_size": [
-            0.963855421686747,
-            0.8885542168674698
+            0.960960960960961,
+            0.8858858858858859
           ]
         },
         {
-          "id": "font_4581129da9c8_5149",
+          "id": "font_d9a86cd8f6ac_4e00",
+          "tile": [
+            2688,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -2.4024024024024024,
+            -0.06306306306306306
+          ],
+          "size": [
+            1.2812812812812813,
+            0.6606606606606606
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.4954954954954955
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_7247",
           "tile": [
             2496,
             192,
@@ -1885,399 +1367,7 @@
             192
           ],
           "center": [
-            -5.301204819277109,
-            0.0572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.180722891566265
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8855421686746988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5faa",
-          "tile": [
-            3840,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -4.337349397590361,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.176706827309237
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8825301204819277
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_98ce",
-          "tile": [
-            0,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -3.3734939759036147,
-            0.045180722891566265
-          ],
-          "size": [
-            1.285140562248996,
-            1.1646586345381524
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8734939759036144
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_76f8",
-          "tile": [
-            0,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -2.4096385542168677,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.176706827309237
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8825301204819277
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8ba4",
-          "tile": [
-            192,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -1.4457831325301205,
-            0.05421686746987952
-          ],
-          "size": [
-            1.285140562248996,
-            1.1726907630522088
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8795180722891566
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -0.4819277108433735,
-            -0.34789156626506024
-          ],
-          "size": [
-            1.285140562248996,
-            0.40562248995983935
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.3042168674698795
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_7075",
-          "tile": [
-            384,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            0.4819277108433735,
-            0.04819277108433735
-          ],
-          "size": [
-            1.285140562248996,
-            1.1726907630522088
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8795180722891566
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_9b42",
-          "tile": [
-            576,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            1.4457831325301205,
-            0.0572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.180722891566265
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8855421686746988
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e00",
-          "tile": [
-            960,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            2.4096385542168677,
-            -0.061746987951807226
-          ],
-          "size": [
-            1.285140562248996,
-            0.6626506024096386
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.49698795180722893
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_7247",
-          "tile": [
-            768,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            3.3734939759036147,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.184738955823293
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8885542168674698
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_7247",
-          "tile": [
-            768,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            4.337349397590361,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.184738955823293
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8885542168674698
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5f52",
-          "tile": [
-            960,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            5.301204819277109,
-            0.05271084337349398
-          ],
-          "size": [
-            1.285140562248996,
-            1.184738955823293
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8885542168674698
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6765",
-          "tile": [
-            1152,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            6.265060240963855,
-            0.05572289156626506
-          ],
-          "size": [
-            1.285140562248996,
-            1.176706827309237
-          ],
-          "ink_size": [
-            0.963855421686747,
-            0.8825301204819277
-          ]
-        }
-      ]
-    },
-    "return": {
-      "kind": "text",
-      "source": "终于，所有微光都认出了自己",
-      "width": 12.492492492492492,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        99,
-        4160.0,
-        432
-      ],
-      "glyphs": [
-        {
-          "id": "font_4581129da9c8_7ec8",
-          "tile": [
-            1344,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -5.7657657657657655,
-            0.052552552552552555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1771771771771773
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8828828828828829
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e8e",
-          "tile": [
-            1536,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -4.804804804804805,
-            0.04504504504504504
-          ],
-          "size": [
-            1.2812812812812813,
-            1.149149149149149
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8618618618618619
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -3.843843843843844,
-            -0.3483483483483483
-          ],
-          "size": [
-            1.2812812812812813,
-            0.4044044044044044
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.3033033033033033
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6240",
-          "tile": [
-            1728,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -2.8828828828828827,
-            0.052552552552552555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1851851851851851
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8888888888888888
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6709",
-          "tile": [
-            1920,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -1.921921921921922,
-            0.05555555555555555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1851851851851851
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8888888888888888
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5fae",
-          "tile": [
-            2304,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            -0.960960960960961,
+            -1.4414414414414414,
             0.05405405405405406
           ],
           "size": [
@@ -2290,400 +1380,15 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_5149",
-          "tile": [
-            2496,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            0.0,
-            0.05555555555555555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1771771771771773
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8828828828828829
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_90fd",
-          "tile": [
-            2112,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            0.960960960960961,
-            0.052552552552552555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.169169169169169
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8768768768768769
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8ba4",
-          "tile": [
-            192,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            1.921921921921922,
-            0.052552552552552555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.169169169169169
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8768768768768769
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_51fa",
-          "tile": [
-            2304,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            2.8828828828828827,
-            0.057057057057057055
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1571571571571573
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8678678678678678
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e86",
-          "tile": [
-            0,
-            192,
-            192,
-            192
-          ],
-          "center": [
-            3.843843843843844,
-            0.03753753753753754
-          ],
-          "size": [
-            1.2812812812812813,
-            1.129129129129129
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8468468468468469
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_81ea",
-          "tile": [
-            2496,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            4.804804804804805,
-            0.05405405405405406
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1731731731731732
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8798798798798799
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_5df1",
-          "tile": [
-            2688,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            5.7657657657657655,
-            0.05555555555555555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.089089089089089
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8168168168168168
-          ]
-        }
-      ]
-    },
-    "title": {
-      "kind": "text",
-      "source": "风借来的一颗星",
-      "width": 7.593220338983051,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        101,
-        2240.0,
-        396
-      ],
-      "glyphs": [
-        {
-          "id": "font_4581129da9c8_98ce",
-          "tile": [
-            0,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -3.2542372881355934,
-            -0.00847457627118644
-          ],
-          "size": [
-            1.4463276836158192,
-            1.3107344632768363
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9830508474576272
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_501f",
-          "tile": [
-            2880,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -2.169491525423729,
-            0.003389830508474576
-          ],
-          "size": [
-            1.4463276836158192,
-            1.3242937853107344
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9932203389830508
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_6765",
-          "tile": [
-            1152,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -1.0847457627118644,
-            0.003389830508474576
-          ],
-          "size": [
-            1.4463276836158192,
-            1.3242937853107344
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9932203389830508
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_7684",
-          "tile": [
-            1536,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            0.0,
-            0.005084745762711864
-          ],
-          "size": [
-            1.4463276836158192,
-            1.3197740112994352
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9898305084745763
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_4e00",
-          "tile": [
-            960,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            1.0847457627118644,
-            -0.1288135593220339
-          ],
-          "size": [
-            1.4463276836158192,
-            0.7457627118644068
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.559322033898305
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_9897",
-          "tile": [
-            1152,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            2.169491525423729,
-            -0.0
-          ],
-          "size": [
-            1.4463276836158192,
-            1.3242937853107344
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9932203389830508
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_661f",
-          "tile": [
-            1344,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            3.2542372881355934,
-            0.006779661016949152
-          ],
-          "size": [
-            1.4463276836158192,
-            1.2610169491525423
-          ],
-          "ink_size": [
-            1.0847457627118644,
-            0.9457627118644067
-          ]
-        }
-      ]
-    },
-    "motto": {
-      "kind": "text",
-      "source": "风起时，灵魂记得归途",
-      "width": 9.60960960960961,
-      "height": 1.0,
-      "raw_bounds": [
-        0.0,
-        99,
-        3200.0,
-        432
-      ],
-      "glyphs": [
-        {
-          "id": "font_4581129da9c8_98ce",
-          "tile": [
-            0,
-            0,
-            192,
-            192
-          ],
-          "center": [
-            -4.324324324324325,
-            0.04354354354354354
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1611611611611612
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8708708708708709
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8d77",
+          "id": "font_d9a86cd8f6ac_ff0c",
           "tile": [
             3072,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -3.3633633633633635,
-            0.052552552552552555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1771771771771773
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8828828828828829
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_65f6",
-          "tile": [
-            3264,
-            384,
-            192,
-            192
-          ],
-          "center": [
-            -2.4024024024024024,
-            0.04954954954954955
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1611611611611612
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8708708708708709
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_ff0c",
-          "tile": [
-            192,
             0,
             192,
             192
           ],
           "center": [
-            -1.4414414414414414,
+            -0.4804804804804805,
             -0.3483483483483483
           ],
           "size": [
@@ -2696,16 +1401,16 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_7075",
+          "id": "font_d9a86cd8f6ac_90fd",
           "tile": [
-            384,
-            384,
+            2688,
+            192,
             192,
             192
           ],
           "center": [
-            -0.4804804804804805,
-            0.046546546546546545
+            0.4804804804804805,
+            0.052552552552552555
           ],
           "size": [
             1.2812812812812813,
@@ -2717,58 +1422,37 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_9b42",
+          "id": "font_d9a86cd8f6ac_6709",
           "tile": [
-            576,
-            384,
+            2880,
             192,
-            192
-          ],
-          "center": [
-            0.4804804804804805,
-            0.05555555555555555
-          ],
-          "size": [
-            1.2812812812812813,
-            1.1771771771771773
-          ],
-          "ink_size": [
-            0.960960960960961,
-            0.8828828828828829
-          ]
-        },
-        {
-          "id": "font_4581129da9c8_8bb0",
-          "tile": [
-            384,
-            0,
             192,
             192
           ],
           "center": [
             1.4414414414414414,
-            0.06906906906906907
+            0.05555555555555555
           ],
           "size": [
             1.2812812812812813,
-            1.1331331331331331
+            1.1851851851851851
           ],
           "ink_size": [
             0.960960960960961,
-            0.8498498498498499
+            0.8888888888888888
           ]
         },
         {
-          "id": "font_4581129da9c8_5f97",
+          "id": "font_d9a86cd8f6ac_5f52",
           "tile": [
-            576,
+            2304,
             0,
             192,
             192
           ],
           "center": [
             2.4024024024024024,
-            0.05405405405405406
+            0.05105105105105105
           ],
           "size": [
             1.2812812812812813,
@@ -2780,10 +1464,10 @@
           ]
         },
         {
-          "id": "font_4581129da9c8_5f52",
+          "id": "font_d9a86cd8f6ac_5904",
           "tile": [
-            960,
-            384,
+            3072,
+            192,
             192,
             192
           ],
@@ -2799,18 +1483,403 @@
             0.960960960960961,
             0.8858858858858859
           ]
+        }
+      ]
+    },
+    "rhythm": {
+      "kind": "text",
+      "source": "风听见了它们的回声",
+      "width": 9.72972972972973,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        100,
+        2880.0,
+        396
+      ],
+      "glyphs": [
+        {
+          "id": "font_d9a86cd8f6ac_98ce",
+          "tile": [
+            1152,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -4.324324324324325,
+            -0.010135135135135136
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3063063063063063
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9797297297297297
+          ]
         },
         {
-          "id": "font_4581129da9c8_9014",
+          "id": "font_d9a86cd8f6ac_542c",
+          "tile": [
+            3264,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            -3.2432432432432434,
+            0.0016891891891891893
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3198198198198199
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9898648648648649
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_89c1",
           "tile": [
             3456,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            -2.1621621621621623,
+            -0.005067567567567568
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3018018018018018
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9763513513513513
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4e86",
+          "tile": [
+            1344,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            -1.0810810810810811,
+            -0.016891891891891893
+          ],
+          "size": [
+            1.4414414414414416,
+            1.2702702702702704
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9527027027027027
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_5b83",
+          "tile": [
+            1728,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            0.0,
+            0.02364864864864865
+          ],
+          "size": [
+            1.4414414414414416,
+            1.2702702702702704
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9527027027027027
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4eec",
+          "tile": [
+            3648,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            1.0810810810810811,
+            -0.0
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3243243243243243
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9932432432432432
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_7684",
+          "tile": [
+            3840,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            2.1621621621621623,
+            0.0033783783783783786
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3153153153153154
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9864864864864865
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_56de",
+          "tile": [
+            0,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            3.2432432432432434,
+            -0.010135135135135136
+          ],
+          "size": [
+            1.4414414414414416,
+            1.279279279279279
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9594594594594594
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_58f0",
+          "tile": [
+            192,
             384,
             192,
             192
           ],
           "center": [
             4.324324324324325,
-            0.06156156156156156
+            -0.0
+          ],
+          "size": [
+            1.4414414414414416,
+            1.3243243243243243
+          ],
+          "ink_size": [
+            1.0810810810810811,
+            0.9932432432432432
+          ]
+        }
+      ]
+    },
+    "soul": {
+      "kind": "text",
+      "source": "散落的光，重新相认",
+      "width": 8.64864864864865,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        99,
+        2880.0,
+        432
+      ],
+      "glyphs": [
+        {
+          "id": "font_d9a86cd8f6ac_6563",
+          "tile": [
+            768,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -3.843843843843844,
+            0.05405405405405406
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1731731731731732
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8798798798798799
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_843d",
+          "tile": [
+            960,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -2.8828828828828827,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1771771771771773
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8828828828828829
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_7684",
+          "tile": [
+            3840,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            -1.921921921921922,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.169169169169169
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8768768768768769
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_5149",
+          "tile": [
+            576,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -0.960960960960961,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1771771771771773
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8828828828828829
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_ff0c",
+          "tile": [
+            3072,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            0.0,
+            -0.3483483483483483
+          ],
+          "size": [
+            1.2812812812812813,
+            0.4044044044044044
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.3033033033033033
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_91cd",
+          "tile": [
+            384,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            0.960960960960961,
+            0.07057057057057058
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1371371371371373
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8528528528528528
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_65b0",
+          "tile": [
+            576,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            1.921921921921922,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1851851851851851
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8888888888888888
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_76f8",
+          "tile": [
+            768,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            2.8828828828828827,
+            0.05405405405405406
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1731731731731732
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8798798798798799
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_8ba4",
+          "tile": [
+            960,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            3.843843843843844,
+            0.052552552552552555
           ],
           "size": [
             1.2812812812812813,
@@ -2822,11 +1891,515 @@
           ]
         }
       ]
+    },
+    "return": {
+      "kind": "text",
+      "source": "于是，夜空有了回信",
+      "width": 8.597014925373134,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        97,
+        2880.0,
+        432
+      ],
+      "glyphs": [
+        {
+          "id": "font_d9a86cd8f6ac_4e8e",
+          "tile": [
+            1152,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            -3.8208955223880596,
+            0.041791044776119404
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1422885572139303
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8567164179104477
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_662f",
+          "tile": [
+            1344,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            -2.8656716417910446,
+            0.04328358208955224
+          ],
+          "size": [
+            1.2736318407960199,
+            1.154228855721393
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8656716417910447
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_ff0c",
+          "tile": [
+            3072,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -1.9104477611940298,
+            -0.3492537313432836
+          ],
+          "size": [
+            1.2736318407960199,
+            0.4019900497512438
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.30149253731343284
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_591c",
+          "tile": [
+            1536,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            -0.9552238805970149,
+            0.05223880597014925
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1940298507462688
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8955223880597015
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_7a7a",
+          "tile": [
+            1728,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            0.0,
+            0.08059701492537313
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1184079601990051
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8388059701492537
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_6709",
+          "tile": [
+            2880,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            0.9552238805970149,
+            0.05223880597014925
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1781094527363183
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8835820895522388
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4e86",
+          "tile": [
+            1344,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            1.9104477611940298,
+            0.034328358208955224
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1223880597014926
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8417910447761194
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_56de",
+          "tile": [
+            0,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            2.8656716417910446,
+            0.04029850746268657
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1303482587064677
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8477611940298507
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4fe1",
+          "tile": [
+            1920,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            3.8208955223880596,
+            0.05522388059701493
+          ],
+          "size": [
+            1.2736318407960199,
+            1.1860696517412934
+          ],
+          "ink_size": [
+            0.9552238805970149,
+            0.8895522388059701
+          ]
+        }
+      ]
+    },
+    "title": {
+      "kind": "text",
+      "source": "风的回信",
+      "width": 4.280936454849498,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        97,
+        1280.0,
+        396
+      ],
+      "glyphs": [
+        {
+          "id": "font_d9a86cd8f6ac_98ce",
+          "tile": [
+            1152,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -1.605351170568562,
+            -0.015050167224080268
+          ],
+          "size": [
+            1.426978818283166,
+            1.2931995540691195
+          ],
+          "ink_size": [
+            1.0702341137123745,
+            0.9698996655518395
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_7684",
+          "tile": [
+            3840,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            -0.5351170568561873,
+            -0.0016722408026755853
+          ],
+          "size": [
+            1.426978818283166,
+            1.302118171683389
+          ],
+          "ink_size": [
+            1.0702341137123745,
+            0.9765886287625418
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_56de",
+          "tile": [
+            0,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            0.5351170568561873,
+            -0.015050167224080268
+          ],
+          "size": [
+            1.426978818283166,
+            1.26644370122631
+          ],
+          "ink_size": [
+            1.0702341137123745,
+            0.9498327759197325
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4fe1",
+          "tile": [
+            1920,
+            384,
+            192,
+            192
+          ],
+          "center": [
+            1.605351170568562,
+            0.0016722408026755853
+          ],
+          "size": [
+            1.426978818283166,
+            1.3288740245261985
+          ],
+          "ink_size": [
+            1.0702341137123745,
+            0.9966555183946488
+          ]
+        }
+      ]
+    },
+    "motto": {
+      "kind": "text",
+      "source": "风会记住，每一束光",
+      "width": 8.64864864864865,
+      "height": 1.0,
+      "raw_bounds": [
+        0.0,
+        99,
+        2880.0,
+        432
+      ],
+      "glyphs": [
+        {
+          "id": "font_d9a86cd8f6ac_98ce",
+          "tile": [
+            1152,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -3.843843843843844,
+            0.04354354354354354
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1611611611611612
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8708708708708709
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4f1a",
+          "tile": [
+            1344,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -2.8828828828828827,
+            0.057057057057057055
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1811811811811812
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8858858858858859
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_8bb0",
+          "tile": [
+            1920,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -1.921921921921922,
+            0.06906906906906907
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1331331331331331
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8498498498498499
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4f4f",
+          "tile": [
+            2112,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            -0.960960960960961,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1771771771771773
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8828828828828829
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_ff0c",
+          "tile": [
+            3072,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            0.0,
+            -0.3483483483483483
+          ],
+          "size": [
+            1.2812812812812813,
+            0.4044044044044044
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.3033033033033033
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_6bcf",
+          "tile": [
+            2304,
+            192,
+            192,
+            192
+          ],
+          "center": [
+            0.960960960960961,
+            0.057057057057057055
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1811811811811812
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8858858858858859
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_4e00",
+          "tile": [
+            2688,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            1.921921921921922,
+            -0.06306306306306306
+          ],
+          "size": [
+            1.2812812812812813,
+            0.6606606606606606
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.4954954954954955
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_675f",
+          "tile": [
+            2880,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            2.8828828828828827,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1771771771771773
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8828828828828829
+          ]
+        },
+        {
+          "id": "font_d9a86cd8f6ac_5149",
+          "tile": [
+            576,
+            0,
+            192,
+            192
+          ],
+          "center": [
+            3.843843843843844,
+            0.05555555555555555
+          ],
+          "size": [
+            1.2812812812812813,
+            1.1771771771771773
+          ],
+          "ink_size": [
+            0.960960960960961,
+            0.8828828828828829
+          ]
+        }
+      ]
     }
   },
-  "source_sha256": "eac7d1ff6ac8e5e5ad527ad76a459f7b11b9ba2a8c5788df8a958cae8a885dc0",
-  "builder_source_sha256": "dfd12cdec471fe9d9355c212b5f27e48564d1d5c86cb900d0bfbbfc0892f3fb2",
-  "shader_sha256": "55373d2df9c1ae19ac10eba3851c51e1444b25158e8dd022d04a7eeaf3ab9315",
+  "source_sha256": "00d90c98fcdd5c74174acf456dc05731e4698236de52a3f9757172cfbde81099",
+  "builder_source_sha256": "b4c77386652130987aaa12eef054cdf7f7a268d6d78b48badd5993c1c8805b81",
+  "shader_sha256": "a47f85adaef84cff0fa91857455d3eb84e977a4fdae59c0085963bef549d8c3a",
   "build": ".venv-reference/Scripts/python.exe -B -X utf8 tools/storybook/build_film.py",
   "verification": "resources generated; no test, render review, or game acceptance performed for this revision"
 }

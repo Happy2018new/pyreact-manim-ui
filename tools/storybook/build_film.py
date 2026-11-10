@@ -1,4 +1,4 @@
-"""Build the abstract wind-and-starlight film, Song typography and manifest.
+"""Build Wind's Reply, a geometric fairy tale with Song contour typography.
 
 Host Python only. Uses the already pinned Noto Serif SC source and the existing
 SDF text compiler; it never imports the game runtime or overwrites math assets.
@@ -24,44 +24,47 @@ from presentation.vector_morph import VectorMorphAtlas, render_pairs as render_v
 
 FONT_SHA256 = "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9"
 TEXT = {
-    "opening_a": "风，记得每一颗星的名字",
-    "opening_b": "也记得，它们回家的方向",
-    "birth": "风轻轻一旋，一颗星醒了",
-    "meteor": "它奔向远方，拖着长长的梦",
-    "shatter": "一瞬，梦碎成了漫天微光",
-    "drift": "风把散落的名字，藏进旋涡",
-    "soul": "微光循风相认，灵魂一片片归来",
-    "return": "终于，所有微光都认出了自己",
-    "title": "风借来的一颗星",
-    "motto": "风起时，灵魂记得归途",
+    "opening_a": "如果星光散落",
+    "opening_b": "风会替它记住归途",
+    "birth": "一束风，托起一颗星",
+    "meteor": "它把远方，照成一条路",
+    "shatter": "光碎了，名字还在",
+    "drift": "每一片，都有归处",
+    "rhythm": "风听见了它们的回声",
+    "soul": "散落的光，重新相认",
+    "return": "于是，夜空有了回信",
+    "title": "风的回信",
+    "motto": "风会记住，每一束光",
 }
 OPENING_LINES = [
-    {"id": "opening_a", "start": 1.0, "reveal_end": 4.6, "hold_until": 12.0,
-     "center": [-2.0, 1.6], "height": .50, "width": 9.0},
-    {"id": "opening_b", "start": 5.8, "reveal_end": 9.4, "hold_until": 18.0,
-     "center": [2.0, -1.2], "height": .50, "width": 9.0},
+    {"id": "opening_a", "start": 1.0, "reveal_end": 4.4, "hold_until": 12.0,
+     "center": [-2.0, 1.5], "height": .65, "width": 8.6},
+    {"id": "opening_b", "start": 5.3, "reveal_end": 8.7, "hold_until": 16.0,
+     "center": [1.8, -1.0], "height": .65, "width": 9.8},
 ]
-STAR_ANCHOR = (-.4, .2)
+STAR_ANCHOR = (-1.2, .45)
 OPENING_COLLAPSE = (12.0, 16.0)
 TRANSFORM_SECONDS = 1.15
 CUES = [
-    ("birth", 18.0, 34.0, .34, -2.72),
-    ("meteor", 34.0, 43.0, .34, -2.72),
-    ("shatter", 43.0, 54.0, .34, -2.72),
-    ("drift", 54.0, 76.0, .34, -2.72),
-    ("soul", 76.0, 96.0, .34, -2.72),
-    ("return", 96.0, 110.2, .34, -2.72),
-    ("title", 110.2, 120.5, .78, .50),
-    ("motto", 113.5, 120.5, .275, -.72),
+    ("birth", 16.0, 32.0, .36, -3.05),
+    ("meteor", 32.0, 43.0, .36, -3.05),
+    ("shatter", 43.0, 54.0, .36, -3.05),
+    ("drift", 54.0, 64.0, .36, -3.05),
+    ("rhythm", 64.0, 78.0, .36, -3.05),
+    ("soul", 78.0, 96.0, .36, -3.05),
+    ("return", 96.0, 110.0, .36, -3.05),
+    ("title", 110.0, 120.5, .96, .55),
+    ("motto", 113.4, 120.5, .34, -.72),
 ]
 CHAPTERS = [
-    (0, 18, "风记得名字", "两行错位宋体先后缓慢展开，金青风线托住文字；第一句收拢为星核。"),
-    (18, 34, "星核初醒", "风线绕成轨道，同一束光在旋转的闭合曲线中醒来。"),
-    (34, 54, "梦碎成微光", "流星拖曳长弧；43秒撞击后，同一批星光轮廓散成碎片。"),
-    (54, 76, "名字在风里", "碎片沿风线和旋涡漂流，保持各自轮廓与连续运动。"),
-    (76, 96, "灵魂归来", "散落的轮廓沿弧线逐片重组，风与星光重新形成同一个核心。"),
-    (96, 110, "认出自己", "重组后的星核舒展为明亮星光，细线轨道逐渐安定。"),
-    (110, 120, "风借来的一颗星", "末句轮廓展开成片名，结语从片名附近的光点生长，风线与星光陪伴停留。"),
+    (0, 16, "如果星光散落", "左上与右下两行大宋体先后淡入并展开轮廓，青金风带托住文字；第一句收拢为星核。"),
+    (16, 32, "一束风与一颗星", "有宽窄变化的风带托起清晰的大星核，双层几何瓣片构成可辨认的完整形。"),
+    (32, 44, "光碎了，名字还在", "明亮流星拖着长尾划过；43秒撞击，完整星核拆为24片有面积的几何碎片。"),
+    (44, 64, "每一片都有归处", "同一批碎片分层散开，在横跨画面的风带中旋转漂流，保留各自轮廓与身份。"),
+    (64, 78, "风听见回声", "风从乱流中找到旋转节拍，大片碎片进入不同半径的回旋轨道。"),
+    (78, 96, "散落的光重新相认", "24片几何碎片逐片沿弧归位，94秒完成双层十二瓣光冠，并迎来明亮绽放。"),
+    (96, 110, "夜空有了回信", "大光冠舒展为开阔光翼，中央星核与左右长线保持完整的几何构图。"),
+    (110, 120, "风的回信", "末句轮廓变成大标题，结语轮廓随之展开；安定的光翼与风带陪伴片名停留。"),
 ]
 
 
@@ -231,9 +234,9 @@ def build(output):
     shutil.copyfile(shader_path, production_shader)
     shutil.copyfile(atlas_path, production_atlas)
     manifest = {
-        "schema": 3, "id": "story_showcase", "title": TEXT["title"],
+        "schema": 4, "id": "story_showcase", "title": TEXT["title"],
         "duration": 120.0, "fps": 60, "resolution": [1920, 1080],
-        "style": "纯抽象数学线条童话、深靛星空、金青发光风线、固定身份星光碎片、宋体轮廓短诗",
+        "style": "纯二维几何线条童话、明亮奶白主线、青绿风带、温金与少量珊瑚强调、局部半透明几何面、宋体轮廓短诗",
         "shader": "shaders/glsl/story_showcase.fragment",
         "texture": "textures/manim/story_showcase", "texture_slot": "TEXTURE_2",
         "uniforms": {"EXTRA_VECTOR1": ["time_seconds", "physical_canvas_aspect", "physical_canvas_height", "opacity"],
@@ -244,11 +247,19 @@ def build(output):
         "font": dict(font_report, source_sha256=FONT_SHA256, license="SIL OFL 1.1"),
         "vector_morph": morph.report(),
         "geometry": {"source": "tools/storybook/film.fragment", "source_sha256": digest(source),
-                     "provenance": "original parametric wind lines, orbital curves and persistent closed starlight contours",
-                     "opening_star_anchor": list(STAR_ANCHOR), "main_star_anchor": [0, .2],
-                     "meteor_impact_seconds": 43.0, "reassembly_seconds": [76.0, 96.0],
-                     "caption_band_center_y": -2.72,
-                     "transition": "continuous positions and corresponding closed contours across chapters"},
+                     "provenance": "original geometric star, shaped wind ribbons and 24 persistent filled contour fragments",
+                     "opening_star_anchor": list(STAR_ANCHOR),
+                     "main_star_anchor": [0, .45],
+                     "persistent_fragments": 24, "reassembled_shape": "double-layer twelve-petal light crown",
+                     "main_subject_height_fraction": [.45, .65],
+                     "bounded_geometry": {"fragment_vertices": 4, "wind_ribbons": 3,
+                                          "segments_per_ribbon": 36, "return_trails": 8,
+                                          "segments_per_return_trail": 12,
+                                          "meteor_strands": 3, "segments_per_meteor_strand": 20,
+                                          "background_dots": 32},
+                     "meteor_impact_seconds": 43.0, "reassembly_seconds": [78.0, 94.0],
+                     "closing_title_seconds": 110.0, "caption_band_center_y": -3.05,
+                     "transition": "the same filled geometric fragments break from the whole star, travel continuously and return along arcs"},
         "chapters": [{"start": a, "end": b, "title": title, "action": action} for a, b, title, action in CHAPTERS],
         "subtitles": subtitle_manifest(),
         "groups": groups,

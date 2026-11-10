@@ -31,7 +31,8 @@ class ShowcaseTimelineTests(unittest.TestCase):
         cls.code, cls.events = film.make_type(cls.groups, cls.morph)
 
     def test_formula_motion_is_short_and_followed_by_readable_holds(self):
-        self.assertEqual(len(self.events), 21)
+        self.assertEqual({event["chapter"] for event in self.events},
+                         {"geometry", "koch", "harmonics", "surface", "fractal", "closing"})
         self.assertEqual(self.events[-1]["end"], 120)
         for event in self.events:
             with self.subTest(chapter=event["chapter"], source=event["source"]):
@@ -42,17 +43,11 @@ class ShowcaseTimelineTests(unittest.TestCase):
                 self.assertEqual(event["hold_until"], event["target_hold"]["end"])
                 self.assertAlmostEqual(event["hold"]["after"],
                                        event["hold_until"] - event["transition_end"])
-                if event["chapter"] == "closing":
-                    self.assertAlmostEqual(duration, 1.0)
-                elif event["chapter"] in ("opening", "finale"):
-                    self.assertGreaterEqual(duration, .7)
-                    self.assertLessEqual(duration, .9)
-                else:
-                    self.assertGreaterEqual(duration, .65)
-                    self.assertLessEqual(duration, .9)
-                    self.assertGreater(event["target_hold"]["duration"], 2.0)
-                    self.assertGreaterEqual(event["arc_strength"], .03)
-                    self.assertLessEqual(event["arc_strength"], .10)
+                self.assertAlmostEqual(duration, .6)
+                self.assertGreaterEqual(event["target_hold"]["duration"], 3.0)
+                self.assertLessEqual(event["target_hold"]["duration"], 6.0)
+                self.assertGreaterEqual(event["arc_strength"], .03)
+                self.assertLessEqual(event["arc_strength"], .10)
 
     def test_review_regions_fit_their_authored_typography_bands(self):
         for event in self.events:
@@ -60,12 +55,13 @@ class ShowcaseTimelineTests(unittest.TestCase):
             with self.subTest(chapter=event["chapter"], target=event["target"]):
                 self.assertLess(x0, x1)
                 self.assertLess(y0, y1)
-                if event["chapter"] in ("complex", "calculus", "harmonics"):
-                    self.assertGreaterEqual(y0, 1.5)
-                    self.assertLessEqual(y1, 3.5)
-                elif event["chapter"] == "algebra":
-                    self.assertLessEqual(x1 - x0, 11.5)
-                    self.assertLessEqual(y1 - y0, 3.0)
+                if event["chapter"] != "closing":
+                    self.assertGreaterEqual(y0, -4.22)
+                    self.assertLessEqual(y1, -2.85)
+                    self.assertLessEqual(x1 - x0, 12.7)
+                else:
+                    self.assertLessEqual(x1 - x0, 12.2)
+                    self.assertLessEqual(y1 - y0, 2.1)
 
     def test_integrals_and_fractions_preserve_body_scale_and_baseline(self):
         for names in (("calculus0", "calculus1", "calculus2"),
@@ -90,7 +86,8 @@ class ShowcaseTimelineTests(unittest.TestCase):
 
     def test_authored_modes_count_real_shape_changes_separately_from_transport(self):
         modes = Counter(event["transition_mode"] for event in self.events)
-        self.assertEqual(modes, {"shape_morph": 18, "matching_transport": 3})
+        self.assertEqual(set(modes), {"shape_morph"})
+        self.assertEqual(modes["shape_morph"], len(self.events))
         for event in self.events:
             with self.subTest(source=event["source"], target=event["target"]):
                 self.assertEqual(event["tracks"], sum(event[kind + "_tracks"] for kind in
@@ -190,8 +187,8 @@ class ShowcaseTimelineTests(unittest.TestCase):
 class ShowcaseHandoffRenderTests(unittest.TestCase):
     def test_opening_and_closing_have_no_visibility_or_geometry_reset(self):
         # Render only the real typography shader, excluding moving backgrounds.
-        # The old gates produced an empty frame at 2.4 and a blank-to-full jump
-        # at 114; endpoint geometry checks alone cannot detect those regressions.
+        # Probe a fully grown opening hold and the seed-to-title handoff;
+        # endpoint geometry checks alone cannot detect a visibility reset.
         sys.path.insert(0, str(ROOT / "tools/showcase"))
         from render_film import FilmRenderer
         groups = json.loads((ROOT / "tools/showcase_v2/type_data.json").read_text(
@@ -216,7 +213,7 @@ void main() {
             morph.image.save(atlas)
             renderer = FilmRenderer(shader, atlas, 640, 360)
             try:
-                for boundary in (2.4, 114.0):
+                for boundary in (3.0, 113.0):
                     with self.subTest(boundary=boundary):
                         frames = [renderer.frame(boundary + delta) for delta in (-.0001, 0, .0001)]
                         energy = sum(frames[1])

@@ -32,6 +32,26 @@ SDF_RANGE = 24.0
 NS = "{http://www.w3.org/2000/svg}"
 XLINK = "{http://www.w3.org/1999/xlink}"
 FORMULAS = {
+    # V8 score: each chapter keeps one shared TeX baseline and changes ink.
+    "petal0": r"x^2+y^2=r^2",
+    "petal1": r"r(\theta)=2+\cos6\theta",
+    "petal2": r"z(\theta)=r(\theta)e^{i\theta}",
+    "petal3": r"\gamma(t)=(2+\cos3t)e^{2it}",
+    "koch0": r"N_0=3,\quad L_0=3s",
+    "koch1": r"N_n=3\cdot4^n",
+    "koch2": r"\ell_n=s\,3^{-n}",
+    "koch3": r"D={\log4\over\log3}",
+    "wave0": r"e^{i\theta}=\cos\theta+i\sin\theta",
+    "wave1": r"y(t)=\Im e^{it}=\sin t",
+    "wave2": r"y(t)=\sin t+{1\over3}\sin3t",
+    "wave3": r"y(t)=\sum_{k=0}^{3}{\sin((2k+1)t)\over2k+1}",
+    "sheet0": r"\gamma(u)=(u,\sin u)",
+    "sheet1": r"S(u,v)=(u,v,\sin u\cos v)",
+    "sheet2": r"S(u,v)=((R+v)\cos u,(R+v)\sin u,v\sin5u)",
+    "sheet3": r"dA=|\partial_uS\times\partial_vS|\,du\,dv",
+    "star0": r"F_0=H",
+    "star1": r"F_{n+1}=\bigcup_{j=0}^{6}({1\over3}F_n+c_j)",
+    "star2": r"D={\log7\over\log3}",
     "algebra0": r"(a+b)^2",
     "algebra1": r"a^2+2ab+b^2",
     "quadratic0": r"ax^2+bx+c=0",
@@ -50,6 +70,11 @@ FORMULAS = {
     "matrix1": r"\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}",
 }
 TEXTS = {
+    "c_open_line": "从一条线", "c_open_infinity": "到无穷万象",
+    "c_petal": "圆，绽放成花", "c_koch": "有限，生长出无限",
+    "c_wave": "旋转，成为波动", "c_sheet": "曲线，折叠成曲面",
+    "c_star": "万象，汇入星海", "c_close_seed": "一线",
+    "c_film_title": "万象，始于一线", "film_english": "FROM A LINE TO INFINITY",
     "c_thought": "思想", "c_shape": "形状", "c_formula": "公式", "c_universe": "万象",
     "c_title": "让想法，成为可见", "morph": "MORPH", "math": "MATH", "magic": "MAGIC",
     "brand": "PYREACT / MANIM", "opening": "FROM A POINT TO INFINITY",

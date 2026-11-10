@@ -47,31 +47,62 @@ void vectorGlyph(inout vec3 c,vec2 p,vec2 a,vec2 sa,vec4 ta,
     if(min(q.x,q.y)<0.005 || max(q.x,q.y)>0.995) return;
     float distanceSquared=1e8;
     float winding=0.0;
+    float fanArea=0.0;
+    float coverage=0.0;
+    float componentOuter=0.0;
+    float componentHoles=0.0;
+    float edge=max(aa*0.55,0.00001);
     vec2 previous=vec2(0.0);
+    vec2 origin=vec2(0.0);
     bool connected=false;
     for(int i=0;i<256;i++) {
         if(float(i)>=data.y) break;
         float address=data.x+float(i)*2.0;
         vec2 first=vmReadPoint(address);
-        if(first.x>0.99) { connected=false; continue; }
         vec2 second=vmReadPoint(address+1.0);
+        if(first.x>0.99999 && first.y>0.99999) {
+            float signedDistance=sqrt(distanceSquared)*(abs(winding)>0.5?1.0:-1.0);
+            // Zero-area paths have no ink, including their AA footprint.
+            // Absolute triangle fan area also handles self-intersecting loops
+            // whose signed lobes would otherwise cancel and flash off.
+            float loopCoverage=smoothstep(-edge,edge,signedDistance)
+                *smoothstep(0.0,edge*edge,fanArea);
+            if(second.x<0.5) {
+                coverage=max(coverage,componentOuter*(1.0-componentHoles));
+                componentOuter=loopCoverage;
+                componentHoles=0.0;
+            } else {
+                componentHoles=max(componentHoles,loopCoverage);
+            }
+            distanceSquared=1e8;
+            winding=0.0;
+            fanArea=0.0;
+            connected=false;
+            continue;
+        }
         vec2 current=(mix(first,second,u)-0.5)*size;
         if(connected) {
-            vec2 edge=current-previous;
+            vec2 segment=current-previous;
             vec2 relative=local-previous;
-            float along=clamp(dot(relative,edge)/max(dot(edge,edge),1e-20),0.0,1.0);
-            vec2 delta=relative-along*edge;
-            distanceSquared=min(distanceSquared,dot(delta,delta));
-            float side=edge.x*relative.y-edge.y*relative.x;
-            if(previous.y<=local.y && current.y>local.y && side>0.0) winding+=1.0;
-            if(previous.y>local.y && current.y<=local.y && side<0.0) winding-=1.0;
+            float lengthSquared=dot(segment,segment);
+            if(lengthSquared>1e-16) {
+                float along=clamp(dot(relative,segment)/lengthSquared,0.0,1.0);
+                vec2 delta=relative-along*segment;
+                distanceSquared=min(distanceSquared,dot(delta,delta));
+                float side=segment.x*relative.y-segment.y*relative.x;
+                if(previous.y<=local.y && current.y>local.y && side>0.0) winding+=1.0;
+                if(previous.y>local.y && current.y<=local.y && side<0.0) winding-=1.0;
+                vec2 firstArm=previous-origin;
+                vec2 secondArm=current-origin;
+                fanArea+=0.5*abs(firstArm.x*secondArm.y-firstArm.y*secondArm.x);
+            }
+        } else {
+            origin=current;
         }
         previous=current;
         connected=true;
     }
-    float signedDistance=sqrt(distanceSquared)*(abs(winding)>0.5?1.0:-1.0);
-    float edge=max(aa*0.55,0.00001);
-    float coverage=smoothstep(-edge,edge,signedDistance);
+    coverage=max(coverage,componentOuter*(1.0-componentHoles));
     // Only endpoint AA is reconciled; unrelated glyph distance fields never mix.
     if(u<0.025 && present.x>0.5)
         coverage=mix(vmSdfCoverage(q,ta),coverage,smoothstep(0.0,0.025,u));

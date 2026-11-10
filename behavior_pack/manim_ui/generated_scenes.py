@@ -66,11 +66,11 @@ SCENES = [{'duration': 2.0,
   'name': 'client_showcase',
   'post_name': 'pmanim_client_showcase',
   'texture': 'textures/manim/client_showcase',
-  'title': '两分钟作品：万象变换'},
+  'title': '万象，始于一线'},
  {'canvas_compatible': False,
   'duration': 120.0,
   'material': 'pmanim_story_showcase',
   'name': 'story_showcase',
   'post_name': 'pmanim_story_showcase',
   'texture': 'textures/manim/story_showcase',
-  'title': '风之童话：风借来的一颗星'}]
+  'title': '风之童话：风的回信'}]

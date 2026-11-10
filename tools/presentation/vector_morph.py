@@ -129,20 +129,27 @@ def _pair_indices(left, right, source, target):
             [b for j, b in enumerate(right) if j not in columns])
 
 
-def _nearest(points, point):
+def _interior_point(points):
+    """Find an actual interior anchor, including for concave glyph strokes."""
+    center = points.mean(axis=0)
+    if _contains(points, center):
+        return center
+    # Between consecutive vertex heights, scanline intersections are paired
+    # interior intervals. Their midpoint cannot fall into a concave notch.
+    heights = np.unique(points[:, 1])
     following = np.roll(points, -1, axis=0)
-    delta = following - points
-    ratio = np.clip(np.sum((point - points) * delta, axis=1)
-                    / np.maximum(np.sum(delta * delta, axis=1), 1e-20), 0, 1)
-    projected = points + delta * ratio[:, None]
-    return projected[np.argmin(np.sum((projected - point) ** 2, axis=1))]
-
-
-def _anchor(loops, point):
-    if not loops:
-        return np.zeros(2)
-    choices = [_nearest(loop["points"], point) for loop in loops]
-    return min(choices, key=lambda candidate: float(np.sum((candidate - point) ** 2)))
+    best, width = None, -1.0
+    for y in (heights[:-1] + heights[1:]) * .5:
+        crossing = (points[:, 1] > y) != (following[:, 1] > y)
+        a, b = points[crossing], following[crossing]
+        xs = np.sort(a[:, 0] + (y - a[:, 1]) * (b[:, 0] - a[:, 0])
+                     / (b[:, 1] - a[:, 1]))
+        for left, right in zip(xs[::2], xs[1::2]):
+            if right - left > width:
+                best, width = np.array(((left + right) * .5, y)), right - left
+    if best is None:
+        raise ValueError("A nonzero glyph contour needs an interior anchor")
+    return best
 
 
 def _loop_pairs(source, target):
@@ -154,7 +161,8 @@ def _loop_pairs(source, target):
     def append_pair(a, b, anchor_a=None, anchor_b=None):
         left = source[a]["points"] if a is not None else np.array([anchor_a])
         right = target[b]["points"] if b is not None else np.array([anchor_b])
-        result.append((left, right))
+        hole = source[a]["hole"] if a is not None else target[b]["hole"]
+        result.append((left, right, hole))
 
     def holes(loops, parent):
         return [i for i, loop in enumerate(loops) if loop["hole"] and loop["parent"] == parent]
@@ -165,18 +173,18 @@ def _loop_pairs(source, target):
         for first, second in paired_holes:
             append_pair(first, second)
         for first in lost:
-            anchor = _nearest(target[b]["points"], source[first]["center"])
+            anchor = _interior_point(source[first]["points"])
             append_pair(first, None, anchor_b=anchor)
         for second in born:
-            anchor = _nearest(source[a]["points"], target[second]["center"])
+            anchor = _interior_point(target[second]["points"])
             append_pair(None, second, anchor_a=anchor)
     for a in missing_b:
-        anchor = _anchor(target, source[a]["center"])
+        anchor = _interior_point(source[a]["points"])
         append_pair(a, None, anchor_b=anchor)
         for first in holes(source, a):
             append_pair(first, None, anchor_b=anchor)
     for b in missing_a:
-        anchor = _anchor(source, target[b]["center"])
+        anchor = _interior_point(target[b]["points"])
         append_pair(None, b, anchor_a=anchor)
         for second in holes(target, b):
             append_pair(None, second, anchor_a=anchor)
@@ -190,9 +198,64 @@ def _resample(points, count):
     lengths = np.linalg.norm(np.diff(closed, axis=0), axis=1)
     accumulated = np.concatenate(([0.0], np.cumsum(lengths)))
     distances = np.arange(count) * accumulated[-1] / count
+    # Keep pronounced stroke corners when possible instead of consistently
+    # replacing their tips by chords. A short arc neighbourhood suppresses
+    # the small zigzags from the raster extraction before measuring the turn.
+    spacing = accumulated[-1] / count
+    span = spacing * .45
+    def at(values):
+        values = values % accumulated[-1]
+        return np.column_stack([np.interp(values, accumulated, closed[:, axis])
+                                for axis in range(2)])
+    before = points - at(accumulated[:-1] - span)
+    after = at(accumulated[:-1] + span) - points
+    turn = 1 - np.sum(before * after, axis=1) / np.maximum(
+        np.linalg.norm(before, axis=1) * np.linalg.norm(after, axis=1), 1e-20)
+    occupied = set()
+    for vertex in np.argsort(-turn, kind="stable"):
+        if turn[vertex] < .25 or len(occupied) >= max(1, count // 3):
+            break
+        index = int(math.floor(accumulated[vertex] / spacing + .5)) % count
+        if index in occupied:
+            continue
+        distances[index] = accumulated[vertex]
+        occupied.add(index)
+    distances.sort()
     indices = np.minimum(np.searchsorted(accumulated, distances, side="right") - 1, len(points) - 1)
     fractions = (distances - accumulated[indices]) / np.maximum(lengths[indices], 1e-20)
     return closed[indices] + np.diff(closed, axis=0)[indices] * fractions[:, None]
+
+
+def _crossings(points):
+    """Count proper crossings; adjacent edges and touching tips are excluded."""
+    a, b = np.triu_indices(len(points), 2)
+    keep = (a != 0) | (b != len(points) - 1)
+    a, b = a[keep], b[keep]
+    stop = np.roll(points, -1, axis=0)
+    first, second = stop[a] - points[a], stop[b] - points[b]
+    delta = points[b] - points[a]
+    def cross(x, y):
+        return x[:, 0] * y[:, 1] - x[:, 1] * y[:, 0]
+    side_a, side_b = cross(first, delta), cross(first, delta + second)
+    side_c, side_d = cross(second, -delta), cross(second, first - delta)
+    return int(np.count_nonzero((side_a * side_b < -1e-16)
+                                & (side_c * side_d < -1e-16)))
+
+
+def _align_samples(a, b):
+    costs = np.array([np.sum((a - np.roll(b, offset, axis=0)) ** 2)
+                      for offset in range(len(a))])
+    candidates = np.argsort(costs, kind="stable")[:8]
+    # Prefer a similarly short correspondence without intermediate folds.
+    # This is a bounded local choice, not a promise of arbitrary topology.
+    expected = 1 if _area(a) >= 0 else -1
+    def score(offset):
+        aligned = np.roll(b, int(offset), axis=0)
+        mixed = [a * (1 - u) + aligned * u for u in (.25, .5, .75)]
+        folds = sum(_crossings(points) for points in mixed)
+        folds += len(a) * sum(_area(points) * expected < 0 for points in mixed)
+        return folds, float(costs[offset])
+    return np.roll(b, int(min(candidates.tolist(), key=score)), axis=0)
 
 
 def _sample_pairs(pairs, maximum):
@@ -200,7 +263,7 @@ def _sample_pairs(pairs, maximum):
     minimum = 4
     if len(pairs) * (minimum + 2) > maximum:
         raise ValueError("Glyph needs more contours than the %d-point budget permits" % maximum)
-    weights = np.array([max(_length(a), _length(b), .025) for a, b in pairs])
+    weights = np.array([max(_length(a), _length(b), .025) for a, b, _hole in pairs])
     desired = max(64, int(math.ceil(weights.sum() * 52)), len(pairs) * (minimum + 2))
     available = min(maximum, desired) - len(pairs) * 2
     counts = np.full(len(pairs), minimum, dtype=int)
@@ -209,12 +272,11 @@ def _sample_pairs(pairs, maximum):
     remainder = available - int(counts.sum())
     counts[np.argsort(-(allocation - np.floor(allocation)), kind="stable")[:remainder]] += 1
     sampled = []
-    for (left, right), count in zip(pairs, counts.tolist()):
+    for (left, right, hole), count in zip(pairs, counts.tolist()):
         a, b = _resample(left, count), _resample(right, count)
         if len(left) > 1 and len(right) > 1:
-            costs = [float(np.sum((a - np.roll(b, offset, axis=0)) ** 2)) for offset in range(count)]
-            b = np.roll(b, int(np.argmin(costs)), axis=0)
-        sampled.append((np.vstack((a, a[:1])), np.vstack((b, b[:1]))))
+            b = _align_samples(a, b)
+        sampled.append((np.vstack((a, a[:1])), np.vstack((b, b[:1])), hole))
     return sampled
 
 
@@ -253,10 +315,10 @@ class VectorMorphAtlas:
             raise ValueError("A contour track must have at least one visible endpoint")
         loops = _sample_pairs(_loop_pairs(left, right), self.max_points)
         start = self._cursor
-        records = sum(len(a) + 1 for a, _b in loops)
+        records = sum(len(a) + 1 for a, _b, _hole in loops)
         if start + records * 2 > ATLAS_SIZE * ATLAS_SIZE:
             raise ValueError("Contour atlas capacity exceeded")
-        for a, b in loops:
+        for a, b, hole in loops:
             for first, second in zip(a, b):
                 for point in (first, second):
                     values = np.rint(np.clip(point + .5, 0, 1) * 65535).astype(np.uint16)
@@ -264,27 +326,32 @@ class VectorMorphAtlas:
                     self._pixels[self._cursor % ATLAS_SIZE, self._cursor // ATLAS_SIZE] = (
                         x >> 8, x & 255, y >> 8, y & 255)
                     self._cursor += 1
-            for _endpoint in range(2):
-                self._pixels[self._cursor % ATLAS_SIZE, self._cursor // ATLAS_SIZE] = (255, 255, 255, 255)
-                self._cursor += 1
+            self._pixels[self._cursor % ATLAS_SIZE, self._cursor // ATLAS_SIZE] = (255, 255, 255, 255)
+            self._cursor += 1
+            # The break's target pixel identifies a hole of the preceding
+            # outer component. The shader clips it to that component only.
+            self._pixels[self._cursor % ATLAS_SIZE, self._cursor // ATLAS_SIZE] = (
+                255 if hole else 0, 255 if hole else 0, 0, 0)
+            self._cursor += 1
         track = {"offset": start, "count": records, "contours": len(loops),
                  "source_present": not absent_a, "target_present": not absent_b}
         self._tracks[key] = track
         return track
 
     def report(self):
-        return {"schema": 1, "method": "paired closed contours; equal-arc samples; nonzero winding",
+        return {"schema": 2, "method": "paired closed contours; component-local nonzero winding",
                 "implementation_sha256": hashlib.sha256(Path(__file__).read_bytes()
                     + Path(__file__).with_suffix(".glsl").read_bytes()).hexdigest(),
                 "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
                 "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
-                "packing": "two RGBA pixels per vertex (source/target); all-255 contour break",
+                "packing": "two RGBA pixels per vertex; all-255 source marks break, target x=0 outer or x=65535 hole",
                 "data_region": [0, DATA_Y, ATLAS_SIZE, ATLAS_SIZE - DATA_Y],
                 "max_points_per_track": self.max_points, "unique_tracks": len(self._tracks),
                 "packed_pixels": self._cursor - DATA_Y * ATLAS_SIZE,
                 "peak_track_points": max((track["count"] for track in self._tracks.values()), default=0),
-                "component_matching": "outer components first; holes only within matched parent; winding and cyclic phase aligned",
-                "birth_death": "zero-area contours grow from or contract to nearest boundary anchors; no opacity ramp",
+                "component_matching": "outer then parent-local holes; arc samples preserve sharp corners; cyclic phase favours fewer folds",
+                "birth_death": "interior point anchors; an unmatched component and its holes contract together; no opacity ramp",
+                "fill": "union of outer coverage clipped by its holes; no independent hole or degenerate-point AA",
                 "endpoints": "original SDF; 2.5% endpoint interval reconciles polygon sampling and SDF AA",
                 "limitations": "bounded polygon approximation, not native Manim curve topology or pixel-equivalent Transform"}
 
