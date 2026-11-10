@@ -215,9 +215,9 @@ vec3 geoKoch(vec2 p,float t,float aa) {
     for(int j=0;j<12;j++) {
         float angle=float(j)*TAU/12.0+(t-34.0)*0.035;
         vec2 ray=vec2(cos(angle),sin(angle));
-        float active=smoothstep(37.0,41.0,t);
+        float rayVisibility=smoothstep(37.0,41.0,t);
         c+=glow(lineDistance(p,ray*vec2(1.62,1.0)*1.85,ray*vec2(1.62,1.0)*3.15),
-                0.004,geoPalette(float(j)/12.0-t*0.037),0.23*active,aa);
+                0.004,geoPalette(float(j)/12.0-t*0.037),0.23*rayVisibility,aa);
     }
     return c*geoLife(t,34.0,54.0);
 }

@@ -1,0 +1,89 @@
+{
+  "recorded_utc": "2026-11-10T15:32:23.544750+00:00",
+  "baseline_commit": "47a8a4c",
+  "root_cause": "sample was used as an index identifier; later GLSL reserves it",
+  "engine_first_error": "story_showcase.fragment: 0(271) C7537: OpenGL does not allow 'sample' after a type specifier",
+  "original_shader_compile": {
+    "story_showcase": {
+      "330": "pass",
+      "400": "fail: sample",
+      "450": "fail: sample"
+    },
+    "client_showcase": {
+      "330": "pass",
+      "400": "pass",
+      "450": "fail: active"
+    }
+  },
+  "fixed_shader_compile": {
+    "versions": [
+      330,
+      400,
+      450
+    ],
+    "fragment_count": 23,
+    "compile_link_checks_passed": 69,
+    "unittest_methods_passed": 3,
+    "test_seconds": 243.95,
+    "command": ".venv-reference/Scripts/python.exe -B -X utf8 -m unittest discover -s tests -p test_shader_dialects.py -v",
+    "renderer": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "driver": "616.64",
+    "gl_version": "4.5.0",
+    "draw_calls": 0
+  },
+  "source_and_atlas_equivalence": {
+    "tools/storybook/film.fragment": {
+      "only_identifier_rename": true,
+      "sha256": "cc16763aeaf442f6ebb398a525f352d71b90dad4c69ea0760ff509c5fd3f708c"
+    },
+    "resource_pack/shaders/glsl/story_showcase.fragment": {
+      "only_identifier_rename": true,
+      "sha256": "ecf3918e6442e8f675b9eb1d09724e864e25443e19b38fb355893b6403a753cf"
+    },
+    "tools/showcase_v2/geometry.glsl": {
+      "only_identifier_rename": true,
+      "sha256": "3a7ad9b3c5c8647c550d64aa75c35ac5e56bc7121322725fd98497f2091afdd3"
+    },
+    "resource_pack/shaders/glsl/client_showcase.fragment": {
+      "only_identifier_rename": true,
+      "sha256": "ecb2be67d66fab5f1ec34e52ac3b714e6845f9260017b30cc0771b265783e708"
+    },
+    "resource_pack/textures/manim/story_showcase.png": {
+      "unchanged": true,
+      "sha256": "9d2c892b0f9f4124d81e1fd7870baa506e035ff4952911574d67262cbd3adfae"
+    },
+    "resource_pack/textures/manim/client_showcase.png": {
+      "unchanged": true,
+      "sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2"
+    }
+  },
+  "existing_game_refresh": {
+    "game_version": "3.10.0.448891",
+    "api": "ReloadAllShaders",
+    "request_count": 1,
+    "request_return": "IPC timeout during synchronous reload; not replayed",
+    "later_runtime_query": "succeeded, but full reload log contained native pbr_cloth errors",
+    "compiler_error_shader_names": [
+      "shaders/glsl/pbr_cloth.fragment"
+    ],
+    "shader_error_lines": 30,
+    "resolution": "normally closed the owned instance and started a replacement with the guarded launcher"
+  },
+  "replacement_instance": {
+    "state": "ready",
+    "scene": "story_showcase",
+    "postprocess_registered": true,
+    "math_postprocess_registered": true,
+    "startup_shader_error_lines": 0,
+    "new_log_bytes": 193482,
+    "new_log_sha256": "87f154e04f45ec046b0e487cef76c3a6caf5997003c93169f2713884eb50143f",
+    "background_only": true,
+    "fps_cap": 60,
+    "visual_acceptance": "not performed",
+    "fps_measurement": "not performed"
+  },
+  "limits": [
+    "Desktop compile checks adapt engine includes; not all game backends are covered",
+    "Runtime checks cover recovery and new compile logs, not full film appearance or stable 60 FPS"
+  ]
+}

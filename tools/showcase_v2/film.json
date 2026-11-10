@@ -2,9 +2,9 @@
   "duration": 120,
   "title": "万象，始于一线",
   "edition": "V9 / Spectral Constructions",
-  "shader_sha256": "cc83a8f2e26be3c81e389925f67d0f7a64611f9913b17f0aba2cf490e0d83c54",
+  "shader_sha256": "ecb2be67d66fab5f1ec34e52ac3b714e6845f9260017b30cc0771b265783e708",
   "texture_sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
-  "shader_bytes": 191071,
+  "shader_bytes": 191085,
   "atlas_bytes": 1332032,
   "glyph_transitions": [
     {

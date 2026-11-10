@@ -230,12 +230,12 @@ void winds(inout vec3 c,vec2 p,float t,float aa) {
         vec2 blockEnd=previous;
         int skipThrough=0;
         for(int k=1;k<=52;k++) {
-            int sample=first+k-1;
-            if(sample>52 || (monotonic && previous.x>p.x+.50)) break;
-            if(sample<=skipThrough) continue;
-            int block=(sample-1)/4;
-            if(!monotonic && sample==block*4+1) {
-                blockEnd=windPoint(i,float(sample+3)/52.*draw,t);
+            int sampleIndex=first+k-1;
+            if(sampleIndex>52 || (monotonic && previous.x>p.x+.50)) break;
+            if(sampleIndex<=skipThrough) continue;
+            int block=(sampleIndex-1)/4;
+            if(!monotonic && sampleIndex==block*4+1) {
+                blockEnd=windPoint(i,float(sampleIndex+3)/52.*draw,t);
                 // |f''| <= (500, 270) for the orbit and both blended winds.
                 // The chord error on a four-segment interval is M*h*h/8;
                 // this box contains every original interior sample and its
@@ -243,11 +243,11 @@ void winds(inout vec3 c,vec2 p,float t,float aa) {
                 vec2 margin=vec2(.50)+vec2(500.,270.)*(draw*draw/1352.);
                 vec2 low=min(previous,blockEnd)-margin,high=max(previous,blockEnd)+margin;
                 if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) {
-                    previous=blockEnd; skipThrough=sample+3; continue;
+                    previous=blockEnd; skipThrough=sampleIndex+3; continue;
                 }
             }
-            float u=float(sample)/52.*draw;
-            vec2 current=(!monotonic && sample==block*4+4)?blockEnd:windPoint(i,u,t);
+            float u=float(sampleIndex)/52.*draw;
+            vec2 current=(!monotonic && sampleIndex==block*4+4)?blockEnd:windPoint(i,u,t);
             vec2 lo=min(previous,current)-.50,hi=max(previous,current)+.50;
             if(p.x>=lo.x && p.x<=hi.x && p.y>=lo.y && p.y<=hi.y) {
                 vec2 edge=current-previous; float len=max(length(edge),.00001);
@@ -255,7 +255,7 @@ void winds(inout vec3 c,vec2 p,float t,float aa) {
                 float candidate=length(delta);
                 if(candidate<distance) {
                     distance=candidate; signedDistance=(delta.x*edge.y-delta.y*edge.x)/len;
-                    nearest=(float(sample)-1.+along)/52.*draw;
+                    nearest=(float(sampleIndex)-1.+along)/52.*draw;
                 }
             }
             previous=current;

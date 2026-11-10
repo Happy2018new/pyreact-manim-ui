@@ -75,7 +75,7 @@
   },
   "geometry": {
     "source": "tools/storybook/film.fragment",
-    "source_sha256": "25a64926571a110129277cd139a5c967d8b3e44421332806a9666406b52cd4f2",
+    "source_sha256": "cc16763aeaf442f6ebb398a525f352d71b90dad4c69ea0760ff509c5fd3f708c",
     "provenance": "original harmonic petal curves, polar rose lace, orbital families and 24 persistent bundled curve fragments",
     "opening_star_anchor": [
       -1.2,
@@ -2406,9 +2406,9 @@
       ]
     }
   },
-  "source_sha256": "25a64926571a110129277cd139a5c967d8b3e44421332806a9666406b52cd4f2",
+  "source_sha256": "cc16763aeaf442f6ebb398a525f352d71b90dad4c69ea0760ff509c5fd3f708c",
   "builder_source_sha256": "a7a7b1cf925c0bfce6e9b3d714835c22364f44292ed17d4157cfa35e24b9187a",
-  "shader_sha256": "a013862901821d40abce8f462db692aa12f9579c5859d1cf7f0b7f906d54c1b7",
+  "shader_sha256": "ecf3918e6442e8f675b9eb1d09724e864e25443e19b38fb355893b6403a753cf",
   "build": ".venv-reference/Scripts/python.exe -B -X utf8 tools/storybook/build_film.py",
   "verification": "resources generated; no test, render review, or game acceptance performed for this revision"
 }
