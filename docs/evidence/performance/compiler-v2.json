@@ -1,0 +1,211 @@
+{
+  "date": "2026-11-10",
+  "scope": "Fullscreen performance: compiler and generated resources",
+  "requested_test_mode": "Source/static solution; do not open Minecraft",
+  "minecraft_launched_this_task": false,
+  "minecraft_fps_measured": false,
+  "game_60fps_verified": false,
+  "new_video_exported": false,
+  "compiler_generator_revision": 2,
+  "subagent_model": "gpt-6-astra",
+  "reasoning_effort": "ultra",
+  "final_static_tests": {
+    "kind": "source_unit_numeric_only",
+    "tests": 41,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": true,
+    "selectors": [
+      "test_vector_group_bounds",
+      "test_compiler_specialization",
+      "test_shader_marker_folding",
+      "test_build_canvas.CanvasBuildTests",
+      "test_showcase_timeline.ShowcaseTimelineTests",
+      "test_compiler.CompilerTests.test_scalar_roundtrip_bound_and_opaque_alpha",
+      "test_compiler.CompilerTests.test_emitted_atlas_recovers_every_coordinate_and_style",
+      "test_compiler.CompilerTests.test_time_sampling_clamps_and_interpolates_nonuniform_intervals",
+      "test_compiler.CompilerTests.test_topology_changes_are_rejected",
+      "test_compiler.CompilerTests.test_nonfinite_and_unsafe_resource_names_are_rejected",
+      "test_compiler.CompilerTests.test_nonmonotone_times_fail_before_writing",
+      "test_compiler_v2.CurveFanTests.test_schema_two_atlas_preserves_coordinates_styles_and_markers",
+      "test_compiler_v2.CurveFanTests.test_cjk_vertex_budget_accepts_2048_and_rejects_overflow",
+      "test_compiler_v2.CurveFanTests.test_event_times_colliding_in_gpu_float32_are_rejected"
+    ]
+  },
+  "generic_scenes": [
+    {
+      "name": "manimgl_o_to_b",
+      "source_sha256": "8013c05fce9a37fb5fa19e53745948ae6e58d3606658d468cdce0468553b4668",
+      "shader_sha256": "4eddd3ba7905ce3bdb7a34c8b1728fc99a540abe27060961b3b6552e249948b3",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_c_to_s",
+      "source_sha256": "d3b75f16c120ec2a388cb0b5004d9dc539a1e840f526dd7b08c0c02091e206ea",
+      "shader_sha256": "c9e927dd25353186ffc940d1011472d5197040fd8ad2400f44ad4380a374d588",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_8_to_1",
+      "source_sha256": "2fdf208e878e67d8d29289ce2291764003658b5b05a948de1060c8a50b9e4563",
+      "shader_sha256": "db3980628a97a6f89530b61ab6b9bd7018e3c2879ea03bb303a8cfc958f58640",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_ui_to_ux",
+      "source_sha256": "711dcf7f0e4ea8d73669abcadc40a2b86695896103e8f12d42772ba2cf533ffd",
+      "shader_sha256": "5345440ecab071a88a9557f86f56270cbca9e763d075b4a6b1d9be8793b14a1e",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_fraction_swap",
+      "source_sha256": "184ca857a3821cd12700b61a7be89b3e919c65b8c2f5ad7698349ee47a8140f2",
+      "shader_sha256": "5b082f98a2a3070838e5d015630085d1dc59758f81c612833a5c412f59be1866",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_power_to_root",
+      "source_sha256": "de5eb75a4d90419c517bf7fcedf58af3db74affe05248ce214da5108e9032739",
+      "shader_sha256": "5e1bed4c8e2c5bb929b4dbb9d063b479c9d6f8fa5f5e4ab869c626e536770f1c",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_chinese_change",
+      "source_sha256": "a1ca78da09df3cbb826c5e46bcdaeb5ee4a59ae011e55e9f6428ba9a8456d570",
+      "shader_sha256": "a36efb4d927ba0fee3bf4daf78b0f8d2c057eed8ffd976225b178c446eb3057f",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "manimgl_chinese_math",
+      "source_sha256": "79762b7fd81d634198d80bba8065888f97a846e9e6480bbce80e86b90c29eb84",
+      "shader_sha256": "71147da28aabb3a4f9c315af7f5bf5c3851e10a3483bb9e289944eb416bf2c4a",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "basic_geometry",
+      "source_sha256": "e79a25ffb32f64a7eae17207d548305250fa8f235b8e55322ec6d0d08e5ca1f5",
+      "shader_sha256": "c7d72b27874b7f672ef6f13107c40ec4d521ea1cf3240d66d9b326b12df518cb",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    },
+    {
+      "name": "axes_sine",
+      "source_sha256": "f7994a30282b7975fd0cfb09ff26d0eec5801c24543998ee5d4c534c966d69d3",
+      "shader_sha256": "46f5f9ec9956293426df7475caebd0141ef37965745406e1d218f81e11ae0e61",
+      "generator_revision": 2,
+      "atlas_unchanged": true
+    }
+  ],
+  "canvas": {
+    "scenes": [
+      "manimgl_o_to_b",
+      "manimgl_c_to_s",
+      "manimgl_8_to_1",
+      "manimgl_ui_to_ux",
+      "manimgl_fraction_swap",
+      "manimgl_power_to_root",
+      "manimgl_chinese_change",
+      "manimgl_chinese_math",
+      "basic_geometry",
+      "axes_sine",
+      "runtime_shapes"
+    ],
+    "entities": 22,
+    "stale_files_removed": 0
+  },
+  "films": [
+    {
+      "scene": "client_showcase",
+      "shader": "resource_pack/shaders/glsl/client_showcase.fragment",
+      "shader_sha256": "cc83a8f2e26be3c81e389925f67d0f7a64611f9913b17f0aba2cf490e0d83c54",
+      "atlas_sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
+      "atlas_unchanged": true
+    },
+    {
+      "scene": "story_showcase",
+      "shader": "resource_pack/shaders/glsl/story_showcase.fragment",
+      "shader_sha256": "a013862901821d40abce8f462db692aa12f9579c5859d1cf7f0b7f906d54c1b7",
+      "atlas_sha256": "9d2c892b0f9f4124d81e1fd7870baa506e035ff4952911574d67262cbd3adfae",
+      "atlas_unchanged": true
+    }
+  ],
+  "math_numeric_bounds": {
+    "petal": {
+      "dense_curve_points": 1028300,
+      "blocks": 15820,
+      "largest_box_violation": -1.999999999990898e-05,
+      "passed": true
+    },
+    "sheet": {
+      "dense_curve_points": 1057680,
+      "blocks": 16272,
+      "largest_box_violation": -1.999999999990898e-05,
+      "passed": true
+    },
+    "wave": {
+      "dense_curve_points": 822640,
+      "blocks": 12656,
+      "largest_box_violation": -1.999999999990898e-05,
+      "passed": true
+    }
+  },
+  "story_numeric_bounds": {
+    "mode": "CPU only; no OpenGL/game",
+    "source_sha256": "25a64926571a110129277cd139a5c967d8b3e44421332806a9666406b52cd4f2",
+    "wind_sample_points_checked": 23400,
+    "wind_block_minimum_slack_world_units": 0.10089661409156836,
+    "monotone_x_polynomial_max_error_double": 5.329070518200751e-15,
+    "orbit_component_second_derivative_upper_bounds": [
+      494.09535759774155,
+      257.40333275514325
+    ],
+    "declared_second_derivative_upper_bounds": [
+      500,
+      270
+    ],
+    "petal_float32_phase_max_error_32_steps": 1.3053494294467077e-06,
+    "trajectory_bounds_proof": [
+      "Pure drift interval stays in t>=50 and t<=64; |v| <= (0.66*(0.20+maxfade),0.34*(0.23+maxfade)); maxfade=1.5/7 until the whole tail is beyond57.",
+      "Orbit chord coordinate error <= radius*speed^2*duration^2/8, with y multiplied0.47; drift rectangle is burstTarget +/- (0.66,0.34). Taking both interval endpoints of the monotone blend weight encloses their affine combinations.",
+      "Gathering tail uses exact cubic subcurve controls B(a), B(a)+(b-a)*Bprime(a)/3, B(b)-(b-a)*Bprime(b)/3, B(b); convex hull bounds include every sampled position.",
+      "Every trajectory box expands by0.17, the existing final trail cutoff; meteor endpoints bound joined monotone cubics and expand by0.43, the existing segment box."
+    ]
+  },
+  "prior_typography_comparison": {
+    "client_showcase": {
+      "glyph_calls_identical": true,
+      "atlas_bytes_identical": true,
+      "corner_checks": 1012020,
+      "frame_count": 115,
+      "max_byte_difference": 0
+    },
+    "story_showcase": {
+      "glyph_calls_identical": true,
+      "atlas_bytes_identical": true,
+      "corner_checks": 204408,
+      "frame_count": 74,
+      "max_byte_difference": 0
+    }
+  },
+  "preserved": [
+    "Curve counts and samples",
+    "Glyph contours and holes",
+    "Original atlases",
+    "120-second timelines and music",
+    "Scene schemas and runtime uniform interfaces"
+  ],
+  "numerical_limits": [
+    "Very remote math glow is capped after at least1 world unit; original per-line contribution below2e-10",
+    "Floating-point reassociation can alter nearest-segment color at a few self-intersection pixels",
+    "No Minecraft shader backend or fullscreen FPS verification was performed"
+  ]
+}

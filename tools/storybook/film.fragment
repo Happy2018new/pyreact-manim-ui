@@ -89,23 +89,20 @@ vec2 pieceCenter(float i,float t) {
     }
     return mix(destination,lateCenter(i,t),wingAmount(i,t));
 }
-vec2 petalCurve(float u,float reunion) {
-    float a=u*TAU;
-    vec2 first=vec2(1.29*cos(a)+.10*cos(2.*a),.59*sin(a)-.22*sin(2.*a));
-    vec2 flower=vec2(1.35*cos(a)+.18*cos(3.*a),.58*sin(a)+.21*sin(2.*a));
-    return mix(first,flower,reunion);
-}
-vec2 wingCurve(float u,float side,vec2 root,vec2 tip,vec2 center) {
-    float travel=.5-.5*cos(TAU*u),sway=sin(TAU*u);
-    vec2 q=mix(root,tip,travel);
-    q+=vec2(side*.43*sway,.56*sway+.46*sin(PI*travel));
-    q.y+=.16*sin(TAU*travel)*sway;
-    return q-center;
-}
-vec2 transformedCurve(float u,mat2 turn,float size,float reunion,float wing,
-                      float side,vec2 root,vec2 tip,vec2 center) {
-    vec2 q=turn*petalCurve(u,reunion)*size;
-    if(wing>.001) q=mix(q,wingCurve(u,side,root,tip,center),wing);
+vec2 transformedCurve(vec2 phase,vec4 coefficients,float secondSine,mat2 turn,
+                      float wing,float side,vec2 span) {
+    // A single rotating unit vector supplies all three petal harmonics.
+    // Coefficients, scale and orientation are invariant across its 32 samples.
+    float twiceCos=2.*phase.x*phase.x-1.,twiceSin=2.*phase.x*phase.y;
+    float tripleCos=phase.x*(4.*phase.x*phase.x-3.);
+    vec2 q=turn*vec2(coefficients.x*phase.x+coefficients.y*twiceCos+coefficients.z*tripleCos,
+                     coefficients.w*phase.y+secondSine*twiceSin);
+    if(wing>.001) {
+        float travel=.5-.5*phase.x;
+        vec2 feather=-span*.5*phase.x+vec2(side*.43,.56)*phase.y;
+        feather.y+=.46*sin(PI*travel)+.16*sin(TAU*travel)*phase.y;
+        q=mix(q,feather,wing);
+    }
     return q;
 }
 void pieces(inout vec3 c,vec2 p,float t,float aa) {
@@ -116,10 +113,10 @@ void pieces(inout vec3 c,vec2 p,float t,float aa) {
         float loose=ease(43.,48.,t)*(1.-gather),size=mix(wholeScale(min(t,43.)),.32,loose)*unit*born;
         float spin=(min(t,gatherStart(i))-43.)*(.32+hash(i+6.)*.26)*ease(43.,45.,t);
         float angle=petalAngle(i)+(wholeAngle(min(t,43.))+spin)*(1.-gather);
-        vec2 at=pieceCenter(i,t),q=p-at,root=vec2(0.),tip=vec2(0.),center=vec2(0.);
+        vec2 at=pieceCenter(i,t),q=p-at,root=vec2(0.),tip=vec2(0.);
         float broad=1.62*size+.18;
         if(t>=94. && i<11.5) {
-            wingEnds(i,t,root,tip); center=mix(root,tip,.5);
+            wingEnds(i,t,root,tip);
             vec2 halfbox=abs(tip-root)*.5+vec2(.65,1.02);
             halfbox=mix(vec2(broad),halfbox,wing);
             if(abs(q.x)>halfbox.x || abs(q.y)>halfbox.y) continue;
@@ -128,14 +125,17 @@ void pieces(inout vec3 c,vec2 p,float t,float aa) {
             if(max(abs(q.x),abs(q.y))>broad) continue;
             wing=0.;
         }
-        mat2 turn=rotate(angle);
+        mat2 turn=rotate(angle)*size;
+        vec4 coefficients=vec4(mix(1.29,1.35,gather),.10*(1.-gather),.18*gather,mix(.59,.58,gather));
+        float secondSine=mix(-.22,.21,gather),side=i<6.?-1.:1.;
+        vec2 phase=vec2(1.,0.),span=tip-root;
         float distance=20.,nearest=0.;
-        vec2 previous=transformedCurve(0.,turn,size,gather,wing,i<6.?-1.:1.,root,tip,center);
+        vec2 previous=transformedCurve(phase,coefficients,secondSine,turn,wing,side,span);
         // Thirty-two segments per persistent curve; seven filaments share its
         // nearest coordinate. Bounds keep remote pieces out of this loop.
         for(int k=1;k<=32;k++) {
-            float u=float(k)/32.;
-            vec2 current=transformedCurve(u,turn,size,gather,wing,i<6.?-1.:1.,root,tip,center);
+            phase=mat2(.9807852804,.1950903220,-.1950903220,.9807852804)*phase;
+            vec2 current=transformedCurve(phase,coefficients,secondSine,turn,wing,side,span);
             vec2 lo=min(previous,current)-.16,hi=max(previous,current)+.16;
             if(q.x>=lo.x && q.x<=hi.x && q.y>=lo.y && q.y<=hi.y) {
                 vec2 edge=current-previous;
@@ -201,12 +201,53 @@ vec2 windPoint(float i,float u,float t) {
 }
 void winds(inout vec3 c,vec2 p,float t,float aa) {
     if(abs(p.y)>3.45) return;
+    // Outside the orbital chapter, every wind has the same strictly increasing
+    // cubic x coordinate. Locate the first possibly visible segment without
+    // evaluating fifty-two trigonometric curve points for every screen pixel.
+    bool monotonic=t<64. || t>=94.;
+    vec4 xPolynomial=vec4(-8.4,12.,11.4,-6.6);
+    if(t<20.) xPolynomial=mix(vec4(-8.4,15.6,-10.2,11.4),xPolynomial,ease(12.,20.,t));
+    else if(t<64.) xPolynomial=mix(xPolynomial,vec4(-8.5,17.,0.,0.),ease(42.,51.,t));
+    else if(t>=96.) xPolynomial=mix(xPolynomial,vec4(-8.4,12.,14.4,-9.6),ease(96.,110.,t));
     for(int j=0;j<3;j++) {
         float i=float(j),start=.6+i*.72,draw=ease(start,start+6.2,t);
         if(draw<.001) continue;
-        float distance=20.,signedDistance=20.,nearest=0.; vec2 previous=windPoint(i,0.,t);
+        int first=1;
+        if(monotonic) {
+            int low=1,high=52;
+            for(int search=0;search<6;search++) {
+                int middle=(low+high)/2;
+                float u=float(middle)/52.*draw;
+                float x=xPolynomial.x+u*(xPolynomial.y+u*(xPolynomial.z+u*xPolynomial.w));
+                // The extra millimeter covers reassociation of the polynomial;
+                // the original segment box below remains the final test.
+                if(x<p.x-.501) low=middle+1; else high=middle;
+            }
+            first=low;
+        }
+        float distance=20.,signedDistance=20.,nearest=0.;
+        vec2 previous=windPoint(i,float(first-1)/52.*draw,t);
+        vec2 blockEnd=previous;
+        int skipThrough=0;
         for(int k=1;k<=52;k++) {
-            float u=float(k)/52.*draw; vec2 current=windPoint(i,u,t);
+            int sample=first+k-1;
+            if(sample>52 || (monotonic && previous.x>p.x+.50)) break;
+            if(sample<=skipThrough) continue;
+            int block=(sample-1)/4;
+            if(!monotonic && sample==block*4+1) {
+                blockEnd=windPoint(i,float(sample+3)/52.*draw,t);
+                // |f''| <= (500, 270) for the orbit and both blended winds.
+                // The chord error on a four-segment interval is M*h*h/8;
+                // this box contains every original interior sample and its
+                // half-unit filament bounds, including during both morphs.
+                vec2 margin=vec2(.50)+vec2(500.,270.)*(draw*draw/1352.);
+                vec2 low=min(previous,blockEnd)-margin,high=max(previous,blockEnd)+margin;
+                if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) {
+                    previous=blockEnd; skipThrough=sample+3; continue;
+                }
+            }
+            float u=float(sample)/52.*draw;
+            vec2 current=(!monotonic && sample==block*4+4)?blockEnd:windPoint(i,u,t);
             vec2 lo=min(previous,current)-.50,hi=max(previous,current)+.50;
             if(p.x>=lo.x && p.x<=hi.x && p.y>=lo.y && p.y<=hi.y) {
                 vec2 edge=current-previous; float len=max(length(edge),.00001);
@@ -214,7 +255,7 @@ void winds(inout vec3 c,vec2 p,float t,float aa) {
                 float candidate=length(delta);
                 if(candidate<distance) {
                     distance=candidate; signedDistance=(delta.x*edge.y-delta.y*edge.x)/len;
-                    nearest=(float(k)-1.+along)/52.*draw;
+                    nearest=(float(sample)-1.+along)/52.*draw;
                 }
             }
             previous=current;
@@ -273,7 +314,11 @@ void meteor(inout vec3 c,vec2 p,float t,float aa) {
     if(t<32. || t>49.) return;
     vec2 head=meteorPosition(t),previous=head;
     float visible=1.-ease(46.5,49.,t),distance=20.,signedDistance=20.,nearest=0.;
-    for(int k=1;k<=28;k++) {
+    // Both joined Beziers are monotone in x and y, so the two tail endpoints
+    // enclose every sample, even when the tail crosses the impact at 43 s.
+    vec2 tail=meteorPosition(t-5.4),low=min(head,tail)-.43,high=max(head,tail)+.43;
+    if(p.x>=low.x && p.x<=high.x && p.y>=low.y && p.y<=high.y) {
+      for(int k=1;k<=28;k++) {
         float u=float(k)/28.; vec2 current=meteorPosition(t-u*5.4);
         vec2 lo=min(previous,current)-.43,hi=max(previous,current)+.43;
         if(p.x>=lo.x && p.x<=hi.x && p.y>=lo.y && p.y<=hi.y) {
@@ -286,6 +331,7 @@ void meteor(inout vec3 c,vec2 p,float t,float aa) {
             }
         }
         previous=current;
+      }
     }
     if(distance<.42) {
         float taper=pow(1.-nearest,1.1),spread=.018+.042*sin(PI*nearest);
@@ -323,9 +369,52 @@ void reunionTrails(inout vec3 c,vec2 p,float t,float aa) {
         if(t>arrival || (t>78. && t<start)) continue;
         vec2 head=pieceCenter(i,t),q=p-head;
         if(max(abs(q.x),abs(q.y))>2.7) continue;
+        // A drifting seed can move only this far during its 2.25-second tail.
+        // The fade-in derivative is at most 1.5/7; after it finishes the
+        // tighter velocity bound applies. The full 0.17 glow radius is kept.
+        if(t>=52.25 && t<=64.) {
+            float fadeSpeed=t<59.25?1.5/7.:0.;
+            vec2 reach=vec2(.66*(.20+fadeSpeed),.34*(.23+fadeSpeed))*2.25+.17;
+            if(abs(q.x)>reach.x || abs(q.y)>reach.y) continue;
+        }
+        vec2 gatherFrom=vec2(0.),gatherC1=vec2(0.),gatherC2=vec2(0.),destination=vec2(0.);
+        if(t>=start) {
+            // These control points depend on the piece and its scheduled
+            // departure, never on the ten samples along the current trail.
+            destination=vec2(0.,.45)+crownCenter(i);
+            gatherFrom=driftPosition(i,start);
+            float side=mod(i,2.)<.5?-1.:1.;
+            gatherC1=rotate(side*.75)*(gatherFrom-vec2(0.,.45))*.95+vec2(0.,.45);
+            gatherC2=destination+rotate(side*.82)*(destination-vec2(0.,.45))*1.12;
+        }
+        if(t>=66.25 && t<start) {
+            float speed=.17+hash(i+8.)*.055,radius=1.7+mod(i,8.)*.59;
+            float angle=i*2.399963+.30+(t-64.)*speed,tailAngle=angle-2.25*speed;
+            vec2 orbitHead=vec2(cos(angle),sin(angle)*.47)*radius+vec2(0.,.45);
+            vec2 orbitTail=vec2(cos(tailAngle),sin(tailAngle)*.47)*radius+vec2(0.,.45);
+            vec2 margin=vec2(1.,.47)*(radius*speed*speed*2.25*2.25/8.);
+            vec2 orbitLow=min(orbitHead,orbitTail)-margin,orbitHigh=max(orbitHead,orbitTail)+margin;
+            vec2 drift=burstTarget(i),driftLow=drift-vec2(.66,.34),driftHigh=drift+vec2(.66,.34);
+            float firstMix=ease(64.,73.,t-2.25),lastMix=ease(64.,73.,t);
+            vec2 low=min(mix(driftLow,orbitLow,firstMix),mix(driftLow,orbitLow,lastMix))-.17;
+            vec2 high=max(mix(driftHigh,orbitHigh,firstMix),mix(driftHigh,orbitHigh,lastMix))+.17;
+            if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) continue;
+        }
+        if(t>=start+2.25) {
+            float a=ease(start,arrival,t-2.25),b=ease(start,arrival,t),span=b-a;
+            vec2 tail=bezier(gatherFrom,gatherC1,gatherC2,destination,a);
+            vec2 first=tail+span*((1.-a)*(1.-a)*(gatherC1-gatherFrom)
+                +2.*(1.-a)*a*(gatherC2-gatherC1)+a*a*(destination-gatherC2));
+            vec2 last=head-span*((1.-b)*(1.-b)*(gatherC1-gatherFrom)
+                +2.*(1.-b)*b*(gatherC2-gatherC1)+b*b*(destination-gatherC2));
+            vec2 low=min(min(head,tail),min(first,last))-.17;
+            vec2 high=max(max(head,tail),max(first,last))+.17;
+            if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) continue;
+        }
         float distance=20.,nearest=0.; vec2 previous=head;
         for(int k=1;k<=10;k++) {
-            float u=float(k)/10.,past=max(43.,t-u*2.25); vec2 current=pieceCenter(i,past);
+            float u=float(k)/10.,past=max(43.,t-u*2.25);
+            vec2 current=past>=start?bezier(gatherFrom,gatherC1,gatherC2,destination,ease(start,arrival,past)):pieceCenter(i,past);
             float candidate=segment(p,previous,current);
             if(candidate<distance) { distance=candidate; nearest=u; }
             previous=current;
@@ -414,6 +503,9 @@ void main() {
     if(local.y<0. || local.y>1.) { gl_FragColor=original; return; }
     float aspect=max(EXTRA_VECTOR1.y,.1),narrow=max(1.,(16./9.)/aspect);
     vec2 p=vec2((local.x-.5)*aspect,.5-local.y)*9.*narrow;
+    if(abs(p.y)>=3.75) {
+        gl_FragColor=mix(original,vec4(0.,0.,0.,1.),clamp(EXTRA_VECTOR1.w,0.,1.)); return;
+    }
     float aa=9./max(EXTRA_VECTOR1.z,1.)*narrow,t=clamp(EXTRA_VECTOR1.x,0.,120.);
     vec3 c=space(p,t);
     depthThreads(c,p,t,aa); stardust(c,p,t,aa); winds(c,p,t,aa);

@@ -16778,7 +16778,7 @@
   "vector_morph": {
     "schema": 2,
     "method": "paired closed contours; component-local nonzero winding",
-    "implementation_sha256": "9445e02a8d07fc8b2fbf27b8c273957cf57c2642193d48ba9cd4b540a5c19c5a",
+    "implementation_sha256": "7447f61a203bf908dba47543fd00704164c2377890231e71dd8ffac3c2205260",
     "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
     "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
     "packing": "two RGBA pixels per vertex; all-255 source marks break, target x=0 outer or x=65535 hole",

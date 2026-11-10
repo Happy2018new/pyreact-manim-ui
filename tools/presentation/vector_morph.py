@@ -360,9 +360,28 @@ def _vec(values):
     return "vec%d(%s)" % (len(values), ",".join("%.6f" % value for value in values))
 
 
+def _pair_bounds(a, b, arc):
+    """Enclose the entire padded, rotated glyph for normalized progress."""
+    # Bound the emitted constants rather than the higher-precision layouts.
+    first = np.array([float("%.6f" % value) for value in a["center"]])
+    second = np.array([float("%.6f" % value) for value in b["center"]])
+    size = np.maximum([[float("%.6f" % value) for value in glyph["size"]]
+                       for glyph in (a, b)], .00001).max(axis=0)
+    arc = abs(float("%.6f" % arc))
+    # |cos(theta)| <= 1 and |sin(theta)| <= |theta|, including the
+    # maximum arc tilt. Linear size/center interpolation stays in these hulls.
+    extent = size * .5 + size[::-1] * (arc * .08)
+    extent += np.array((.21, 1.0)) * arc
+    margin = .00001 * (1 + max(float(np.abs(first).max()),
+                              float(np.abs(second).max()), float(size.max())))
+    return np.minimum(first, second) - extent - margin, np.maximum(first, second) + extent + margin
+
+
 def render_pairs(atlas, pairs, amount="u", opacity="visibility", arc_strength=.08, color="WHITE"):
     """Compile existing layout pairs; alpha-zero endpoints mean geometric growth."""
     lines = []
+    bounds = []
+    dynamic = False
     for index, (a, b) in enumerate(pairs):
         present_a, present_b = a.get("opacity", 1) > 0, b.get("opacity", 1) > 0
         if not present_a and not present_b:
@@ -372,6 +391,8 @@ def render_pairs(atlas, pairs, amount="u", opacity="visibility", arc_strength=.0
         u = amount
         if same and all(_vec(a[key]) == _vec(b[key]) for key in ("center", "size")):
             u, arc = "0.0", 0.0
+        dynamic = dynamic or u != "0.0"
+        bounds.append(_pair_bounds(a, b, arc))
         arguments = "%s,%s,%s,%s,%s,%s,%s,%.6f,%s,%s,aa" % (
             _vec(a["center"]), _vec(a["size"]), _vec(a["tile"]),
             _vec(b["center"]), _vec(b["size"]), _vec(b["tile"]), u, arc, color, opacity)
@@ -382,7 +403,18 @@ def render_pairs(atlas, pairs, amount="u", opacity="visibility", arc_strength=.0
             lines.append("vectorGlyph(c,p,%s,%s,%s);" % (
                 arguments, _vec([track["offset"], track["count"]]),
                 _vec([float(present_a), float(present_b)])))
-    return "\n".join(lines)
+    if not lines:
+        return ""
+    low = np.min([bound[0] for bound in bounds], axis=0)
+    high = np.max([bound[1] for bound in bounds], axis=0)
+    condition = "p.x>=%.6f && p.y>=%.6f && p.x<=%.6f && p.y<=%.6f" % (*low, *high)
+    if dynamic:
+        # Preserve extrapolation for callers that do not normalize progress.
+        condition = "(%s) || (%s)<0.0 || (%s)>1.0" % (condition, amount, amount)
+    # Time branches alone still run every glyph's transform for every screen
+    # pixel. Reject the whole caption/formula before any per-glyph work; the
+    # existing local bounds, contour reads, hole fill and AA remain untouched.
+    return "if(%s) {\n%s\n}" % (condition, "\n".join(lines))
 
 
 def shader_source(composite="add"):

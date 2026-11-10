@@ -28,6 +28,17 @@ vec2 samplePoint(float index, vec3 frames) {
     return POSITION_MIN + normalized * POSITION_SPAN;
 }
 
+// Invariant paths still use the exact atlas decode, with one frame's reads.
+vec2 staticPoint(float index) {
+    vec2 normalized = vec2(readScalar(index * 2.0), readScalar(index * 2.0 + 1.0));
+    return POSITION_MIN + normalized * POSITION_SPAN;
+}
+
+vec4 staticColor(float index) {
+    return vec4(readScalar(index), readScalar(index + 1.0),
+                readScalar(index + 2.0), readScalar(index + 3.0));
+}
+
 vec4 sampleColor(float index, vec3 frames) {
     return vec4(sampleScalar(index, frames), sampleScalar(index + 1.0, frames),
                 sampleScalar(index + 2.0, frames), sampleScalar(index + 3.0, frames));
@@ -762,7 +773,7 @@ void main() {
     // Path 0; conservative bounds cover every reference keyframe.
     {
         float styleOffset = 388.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
+        float width = readScalar(styleOffset + 8.0) * STROKE_SCALE;
         float margin = width * 0.5 + aa * 2.0;
         if (all(greaterThanEqual(p, vec2(-5.0, -0.1) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(5.0, 0.1) + vec2(margin)))) {
@@ -770,9 +781,9 @@ void main() {
             float distanceToPath = 1.0e20;
             float nearestSide = 1.0;
             {
-                vec2 a = samplePoint(6.0, frames);
+                vec2 a = staticPoint(6.0);
                 for (int i = 0; i < 7; ++i) {
-                    vec2 b = samplePoint(0.0 + float(i), frames);
+                    vec2 b = staticPoint(0.0 + float(i));
                     edge(p, a, b, winding, distanceToPath, nearestSide);
                     a = b;
                 }
@@ -780,11 +791,11 @@ void main() {
             // Antialias the winding transition, not every internal contour edge.
             float edgeCoverage = 1.0 - smoothstep(-aa, aa, distanceToPath);
             float fillCoverage = clamp(abs(winding - nearestSide * edgeCoverage), 0.0, 1.0);
-            vec4 fill = sampleColor(styleOffset, frames);
+            vec4 fill = staticColor(styleOffset);
             color = mix(color, fill.rgb, fill.a * fillCoverage);
             if (width > 0.0) {
                 float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);
-                vec4 stroke = sampleColor(styleOffset + 4.0, frames);
+                vec4 stroke = staticColor(styleOffset + 4.0);
                 color = mix(color, stroke.rgb, stroke.a * strokeCoverage);
             }
         }
@@ -792,7 +803,7 @@ void main() {
     // Path 1; conservative bounds cover every reference keyframe.
     {
         float styleOffset = 397.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
+        float width = readScalar(styleOffset + 8.0) * STROKE_SCALE;
         float margin = width * 0.5 + aa * 2.0;
         if (all(greaterThanEqual(p, vec2(-0.1, -2.0) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(0.1, 2.0) + vec2(margin)))) {
@@ -800,9 +811,9 @@ void main() {
             float distanceToPath = 1.0e20;
             float nearestSide = 1.0;
             {
-                vec2 a = samplePoint(13.0, frames);
+                vec2 a = staticPoint(13.0);
                 for (int i = 0; i < 7; ++i) {
-                    vec2 b = samplePoint(7.0 + float(i), frames);
+                    vec2 b = staticPoint(7.0 + float(i));
                     edge(p, a, b, winding, distanceToPath, nearestSide);
                     a = b;
                 }
@@ -810,11 +821,11 @@ void main() {
             // Antialias the winding transition, not every internal contour edge.
             float edgeCoverage = 1.0 - smoothstep(-aa, aa, distanceToPath);
             float fillCoverage = clamp(abs(winding - nearestSide * edgeCoverage), 0.0, 1.0);
-            vec4 fill = sampleColor(styleOffset, frames);
+            vec4 fill = staticColor(styleOffset);
             color = mix(color, fill.rgb, fill.a * fillCoverage);
             if (width > 0.0) {
                 float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);
-                vec4 stroke = sampleColor(styleOffset + 4.0, frames);
+                vec4 stroke = staticColor(styleOffset + 4.0);
                 color = mix(color, stroke.rgb, stroke.a * strokeCoverage);
             }
         }
@@ -822,7 +833,7 @@ void main() {
     // Path 2; conservative bounds cover every reference keyframe.
     {
         float styleOffset = 406.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
+        float width = readScalar(styleOffset + 8.0) * STROKE_SCALE;
         float margin = width * 0.5 + aa * 2.0;
         if (all(greaterThanEqual(p, vec2(-4.506425671, -1.024488399) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(4.506425671, 1.024488399) + vec2(margin)))) {
@@ -840,11 +851,11 @@ void main() {
             // Antialias the winding transition, not every internal contour edge.
             float edgeCoverage = 1.0 - smoothstep(-aa, aa, distanceToPath);
             float fillCoverage = clamp(abs(winding - nearestSide * edgeCoverage), 0.0, 1.0);
-            vec4 fill = sampleColor(styleOffset, frames);
+            vec4 fill = staticColor(styleOffset);
             color = mix(color, fill.rgb, fill.a * fillCoverage);
             if (width > 0.0) {
                 float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);
-                vec4 stroke = sampleColor(styleOffset + 4.0, frames);
+                vec4 stroke = staticColor(styleOffset + 4.0);
                 color = mix(color, stroke.rgb, stroke.a * strokeCoverage);
             }
         }
@@ -852,7 +863,7 @@ void main() {
     // Path 3; conservative bounds cover every reference keyframe.
     {
         float styleOffset = 415.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
+        float width = readScalar(styleOffset + 8.0) * STROKE_SCALE;
         float margin = width * 0.5 + aa * 2.0;
         if (all(greaterThanEqual(p, vec2(-4.59, -1.089573603) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(4.59, 1.089573603) + vec2(margin)))) {
@@ -874,7 +885,7 @@ void main() {
             color = mix(color, fill.rgb, fill.a * fillCoverage);
             if (width > 0.0) {
                 float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);
-                vec4 stroke = sampleColor(styleOffset + 4.0, frames);
+                vec4 stroke = staticColor(styleOffset + 4.0);
                 color = mix(color, stroke.rgb, stroke.a * strokeCoverage);
             }
         }

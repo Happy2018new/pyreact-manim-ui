@@ -28,6 +28,17 @@ vec2 samplePoint(float index, vec3 frames) {
     return POSITION_MIN + normalized * POSITION_SPAN;
 }
 
+// Invariant paths still use the exact atlas decode, with one frame's reads.
+vec2 staticPoint(float index) {
+    vec2 normalized = vec2(readScalar(index * 2.0), readScalar(index * 2.0 + 1.0));
+    return POSITION_MIN + normalized * POSITION_SPAN;
+}
+
+vec4 staticColor(float index) {
+    return vec4(readScalar(index), readScalar(index + 1.0),
+                readScalar(index + 2.0), readScalar(index + 3.0));
+}
+
 vec4 sampleColor(float index, vec3 frames) {
     return vec4(sampleScalar(index, frames), sampleScalar(index + 1.0, frames),
                 sampleScalar(index + 2.0, frames), sampleScalar(index + 3.0, frames));
@@ -343,7 +354,11 @@ void main() {
         vec4 winding = vec4(0.0);
         vec4 distanceToCurve = vec4(1.0e20);
         vec2 base = samplePoint(0.0, frames);
+        float fanMargin = borderHalfWidth + borderHalfAA + pixelSize * 0.25;
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.9929239597, 0.4235371654) + vec2(fanMargin)))) {
             vec2 a = samplePoint(1.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -353,8 +368,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.200799986, 1.000683666) + vec2(fanMargin)))) {
             vec2 a = samplePoint(7.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -364,8 +383,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.200799986, 1.416113139) + vec2(fanMargin)))) {
             vec2 a = samplePoint(13.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -375,8 +398,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.120708033, 1.732768894) + vec2(fanMargin)))) {
             vec2 a = samplePoint(17.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -386,8 +413,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(21.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -397,8 +428,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(28.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -408,8 +443,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.120708033, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.732768894) + vec2(fanMargin)))) {
             vec2 a = samplePoint(35.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -419,8 +458,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.200799986, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.416113139) + vec2(fanMargin)))) {
             vec2 a = samplePoint(39.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -430,8 +473,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.200799986, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(43.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -441,8 +488,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.9929239597, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(49.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -452,8 +503,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.082013771, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(55.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -463,8 +518,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.327333256, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.689511776) + vec2(fanMargin)))) {
             vec2 a = samplePoint(61.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -474,8 +533,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.327333256, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.378985525) + vec2(fanMargin)))) {
             vec2 a = samplePoint(67.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -485,8 +548,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.241148635, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(71.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -496,8 +563,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.9825947132, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(75.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -507,8 +578,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.9838859286, 0.730301321) + vec2(fanMargin)))) {
             vec2 a = samplePoint(82.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 7; ++i) {
@@ -518,8 +593,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.241431042, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(89.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -529,8 +608,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.327333256, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(93.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -540,8 +623,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.327333256, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(97.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -551,8 +638,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.082013771, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(103.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 6; ++i) {
@@ -562,8 +653,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(120.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -573,8 +668,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(123.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -584,8 +683,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(126.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -595,8 +698,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.5771719065, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(129.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -606,8 +713,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(133.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -617,8 +728,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(137.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -628,8 +743,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.378985525) + vec2(fanMargin)))) {
             vec2 a = samplePoint(141.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -639,8 +758,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(145.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -650,8 +773,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(148.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -661,8 +788,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(151.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -672,8 +803,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(154.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -683,8 +818,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(157.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -694,8 +833,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(160.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -705,8 +848,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(163.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -716,8 +863,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(167.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -727,8 +878,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.378985525) + vec2(fanMargin)))) {
             vec2 a = samplePoint(170.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -738,8 +893,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(173.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -749,8 +908,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(176.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -760,8 +923,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.5771719065, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(179.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -771,8 +938,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(183.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -782,8 +953,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(186.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -793,8 +968,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.1278625433) + vec2(fanMargin)))) {
             vec2 a = samplePoint(189.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -804,8 +983,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 1.000683666) + vec2(fanMargin)))) {
             vec2 a = samplePoint(206.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -815,8 +998,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.7822632198) + vec2(fanMargin)))) {
             vec2 a = samplePoint(209.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -826,8 +1013,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 0.5989191537) + vec2(fanMargin)))) {
             vec2 a = samplePoint(212.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -837,8 +1028,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.4984113719, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(215.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -848,8 +1043,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(219.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -859,8 +1058,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(222.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -870,8 +1073,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.378985525) + vec2(fanMargin)))) {
             vec2 a = samplePoint(225.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -881,8 +1088,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(229.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -892,8 +1103,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.547406555) + vec2(fanMargin)))) {
             vec2 a = samplePoint(233.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -903,8 +1118,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 0.7821848993) + vec2(fanMargin)))) {
             vec2 a = samplePoint(236.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -914,8 +1133,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.000683666) + vec2(fanMargin)))) {
             vec2 a = samplePoint(239.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -925,8 +1148,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.217747927) + vec2(fanMargin)))) {
             vec2 a = samplePoint(242.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -936,8 +1163,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.400231243) + vec2(fanMargin)))) {
             vec2 a = samplePoint(245.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -947,8 +1178,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.548133731) + vec2(fanMargin)))) {
             vec2 a = samplePoint(248.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -958,8 +1193,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.695285082) + vec2(fanMargin)))) {
             vec2 a = samplePoint(251.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -969,8 +1208,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 1.744389296) + vec2(fanMargin)))) {
             vec2 a = samplePoint(255.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -980,8 +1223,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-1.002656981, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(259.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -991,8 +1238,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.3977012482, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(262.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -1002,8 +1253,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(0.4984113719, 2.000038147) + vec2(fanMargin)))) {
             vec2 a = samplePoint(265.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 4; ++i) {
@@ -1013,8 +1268,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 1.548133731) + vec2(fanMargin)))) {
             vec2 a = samplePoint(269.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -1024,8 +1283,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 1.400152922) + vec2(fanMargin)))) {
             vec2 a = samplePoint(272.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -1035,8 +1298,12 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
         {
+            // Cull the complete fan including its base, border and subpixel samples.
+            if (all(greaterThanEqual(p, vec2(-0.8947622027, -2.000038147) - vec2(fanMargin))) &&
+                all(lessThanEqual(p, vec2(1.002656981, 1.217669607) + vec2(fanMargin)))) {
             vec2 a = samplePoint(275.0, frames);
             fanEdge(px, py, base, a, winding);
             for (int i = 1; i < 3; ++i) {
@@ -1046,8 +1313,9 @@ void main() {
                 a = b;
             }
             fanEdge(px, py, a, base, winding);
+            }
         }
-        vec4 fill = sampleColor(556.0, frames);
+        vec4 fill = staticColor(556.0);
         // Native signed alpha is accumulated in the 2x fill canvas before filtering.
         // Bound the exponent, not winding: faint overlapping shapes must still accumulate.
         vec4 signedExponent = log(1.0 - 0.95 * fill.a) * winding * 1.0;

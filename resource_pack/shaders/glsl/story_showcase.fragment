@@ -89,23 +89,20 @@ vec2 pieceCenter(float i,float t) {
     }
     return mix(destination,lateCenter(i,t),wingAmount(i,t));
 }
-vec2 petalCurve(float u,float reunion) {
-    float a=u*TAU;
-    vec2 first=vec2(1.29*cos(a)+.10*cos(2.*a),.59*sin(a)-.22*sin(2.*a));
-    vec2 flower=vec2(1.35*cos(a)+.18*cos(3.*a),.58*sin(a)+.21*sin(2.*a));
-    return mix(first,flower,reunion);
-}
-vec2 wingCurve(float u,float side,vec2 root,vec2 tip,vec2 center) {
-    float travel=.5-.5*cos(TAU*u),sway=sin(TAU*u);
-    vec2 q=mix(root,tip,travel);
-    q+=vec2(side*.43*sway,.56*sway+.46*sin(PI*travel));
-    q.y+=.16*sin(TAU*travel)*sway;
-    return q-center;
-}
-vec2 transformedCurve(float u,mat2 turn,float size,float reunion,float wing,
-                      float side,vec2 root,vec2 tip,vec2 center) {
-    vec2 q=turn*petalCurve(u,reunion)*size;
-    if(wing>.001) q=mix(q,wingCurve(u,side,root,tip,center),wing);
+vec2 transformedCurve(vec2 phase,vec4 coefficients,float secondSine,mat2 turn,
+                      float wing,float side,vec2 span) {
+    // A single rotating unit vector supplies all three petal harmonics.
+    // Coefficients, scale and orientation are invariant across its 32 samples.
+    float twiceCos=2.*phase.x*phase.x-1.,twiceSin=2.*phase.x*phase.y;
+    float tripleCos=phase.x*(4.*phase.x*phase.x-3.);
+    vec2 q=turn*vec2(coefficients.x*phase.x+coefficients.y*twiceCos+coefficients.z*tripleCos,
+                     coefficients.w*phase.y+secondSine*twiceSin);
+    if(wing>.001) {
+        float travel=.5-.5*phase.x;
+        vec2 feather=-span*.5*phase.x+vec2(side*.43,.56)*phase.y;
+        feather.y+=.46*sin(PI*travel)+.16*sin(TAU*travel)*phase.y;
+        q=mix(q,feather,wing);
+    }
     return q;
 }
 void pieces(inout vec3 c,vec2 p,float t,float aa) {
@@ -116,10 +113,10 @@ void pieces(inout vec3 c,vec2 p,float t,float aa) {
         float loose=ease(43.,48.,t)*(1.-gather),size=mix(wholeScale(min(t,43.)),.32,loose)*unit*born;
         float spin=(min(t,gatherStart(i))-43.)*(.32+hash(i+6.)*.26)*ease(43.,45.,t);
         float angle=petalAngle(i)+(wholeAngle(min(t,43.))+spin)*(1.-gather);
-        vec2 at=pieceCenter(i,t),q=p-at,root=vec2(0.),tip=vec2(0.),center=vec2(0.);
+        vec2 at=pieceCenter(i,t),q=p-at,root=vec2(0.),tip=vec2(0.);
         float broad=1.62*size+.18;
         if(t>=94. && i<11.5) {
-            wingEnds(i,t,root,tip); center=mix(root,tip,.5);
+            wingEnds(i,t,root,tip);
             vec2 halfbox=abs(tip-root)*.5+vec2(.65,1.02);
             halfbox=mix(vec2(broad),halfbox,wing);
             if(abs(q.x)>halfbox.x || abs(q.y)>halfbox.y) continue;
@@ -128,14 +125,17 @@ void pieces(inout vec3 c,vec2 p,float t,float aa) {
             if(max(abs(q.x),abs(q.y))>broad) continue;
             wing=0.;
         }
-        mat2 turn=rotate(angle);
+        mat2 turn=rotate(angle)*size;
+        vec4 coefficients=vec4(mix(1.29,1.35,gather),.10*(1.-gather),.18*gather,mix(.59,.58,gather));
+        float secondSine=mix(-.22,.21,gather),side=i<6.?-1.:1.;
+        vec2 phase=vec2(1.,0.),span=tip-root;
         float distance=20.,nearest=0.;
-        vec2 previous=transformedCurve(0.,turn,size,gather,wing,i<6.?-1.:1.,root,tip,center);
+        vec2 previous=transformedCurve(phase,coefficients,secondSine,turn,wing,side,span);
         // Thirty-two segments per persistent curve; seven filaments share its
         // nearest coordinate. Bounds keep remote pieces out of this loop.
         for(int k=1;k<=32;k++) {
-            float u=float(k)/32.;
-            vec2 current=transformedCurve(u,turn,size,gather,wing,i<6.?-1.:1.,root,tip,center);
+            phase=mat2(.9807852804,.1950903220,-.1950903220,.9807852804)*phase;
+            vec2 current=transformedCurve(phase,coefficients,secondSine,turn,wing,side,span);
             vec2 lo=min(previous,current)-.16,hi=max(previous,current)+.16;
             if(q.x>=lo.x && q.x<=hi.x && q.y>=lo.y && q.y<=hi.y) {
                 vec2 edge=current-previous;
@@ -201,12 +201,53 @@ vec2 windPoint(float i,float u,float t) {
 }
 void winds(inout vec3 c,vec2 p,float t,float aa) {
     if(abs(p.y)>3.45) return;
+    // Outside the orbital chapter, every wind has the same strictly increasing
+    // cubic x coordinate. Locate the first possibly visible segment without
+    // evaluating fifty-two trigonometric curve points for every screen pixel.
+    bool monotonic=t<64. || t>=94.;
+    vec4 xPolynomial=vec4(-8.4,12.,11.4,-6.6);
+    if(t<20.) xPolynomial=mix(vec4(-8.4,15.6,-10.2,11.4),xPolynomial,ease(12.,20.,t));
+    else if(t<64.) xPolynomial=mix(xPolynomial,vec4(-8.5,17.,0.,0.),ease(42.,51.,t));
+    else if(t>=96.) xPolynomial=mix(xPolynomial,vec4(-8.4,12.,14.4,-9.6),ease(96.,110.,t));
     for(int j=0;j<3;j++) {
         float i=float(j),start=.6+i*.72,draw=ease(start,start+6.2,t);
         if(draw<.001) continue;
-        float distance=20.,signedDistance=20.,nearest=0.; vec2 previous=windPoint(i,0.,t);
+        int first=1;
+        if(monotonic) {
+            int low=1,high=52;
+            for(int search=0;search<6;search++) {
+                int middle=(low+high)/2;
+                float u=float(middle)/52.*draw;
+                float x=xPolynomial.x+u*(xPolynomial.y+u*(xPolynomial.z+u*xPolynomial.w));
+                // The extra millimeter covers reassociation of the polynomial;
+                // the original segment box below remains the final test.
+                if(x<p.x-.501) low=middle+1; else high=middle;
+            }
+            first=low;
+        }
+        float distance=20.,signedDistance=20.,nearest=0.;
+        vec2 previous=windPoint(i,float(first-1)/52.*draw,t);
+        vec2 blockEnd=previous;
+        int skipThrough=0;
         for(int k=1;k<=52;k++) {
-            float u=float(k)/52.*draw; vec2 current=windPoint(i,u,t);
+            int sample=first+k-1;
+            if(sample>52 || (monotonic && previous.x>p.x+.50)) break;
+            if(sample<=skipThrough) continue;
+            int block=(sample-1)/4;
+            if(!monotonic && sample==block*4+1) {
+                blockEnd=windPoint(i,float(sample+3)/52.*draw,t);
+                // |f''| <= (500, 270) for the orbit and both blended winds.
+                // The chord error on a four-segment interval is M*h*h/8;
+                // this box contains every original interior sample and its
+                // half-unit filament bounds, including during both morphs.
+                vec2 margin=vec2(.50)+vec2(500.,270.)*(draw*draw/1352.);
+                vec2 low=min(previous,blockEnd)-margin,high=max(previous,blockEnd)+margin;
+                if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) {
+                    previous=blockEnd; skipThrough=sample+3; continue;
+                }
+            }
+            float u=float(sample)/52.*draw;
+            vec2 current=(!monotonic && sample==block*4+4)?blockEnd:windPoint(i,u,t);
             vec2 lo=min(previous,current)-.50,hi=max(previous,current)+.50;
             if(p.x>=lo.x && p.x<=hi.x && p.y>=lo.y && p.y<=hi.y) {
                 vec2 edge=current-previous; float len=max(length(edge),.00001);
@@ -214,7 +255,7 @@ void winds(inout vec3 c,vec2 p,float t,float aa) {
                 float candidate=length(delta);
                 if(candidate<distance) {
                     distance=candidate; signedDistance=(delta.x*edge.y-delta.y*edge.x)/len;
-                    nearest=(float(k)-1.+along)/52.*draw;
+                    nearest=(float(sample)-1.+along)/52.*draw;
                 }
             }
             previous=current;
@@ -273,7 +314,11 @@ void meteor(inout vec3 c,vec2 p,float t,float aa) {
     if(t<32. || t>49.) return;
     vec2 head=meteorPosition(t),previous=head;
     float visible=1.-ease(46.5,49.,t),distance=20.,signedDistance=20.,nearest=0.;
-    for(int k=1;k<=28;k++) {
+    // Both joined Beziers are monotone in x and y, so the two tail endpoints
+    // enclose every sample, even when the tail crosses the impact at 43 s.
+    vec2 tail=meteorPosition(t-5.4),low=min(head,tail)-.43,high=max(head,tail)+.43;
+    if(p.x>=low.x && p.x<=high.x && p.y>=low.y && p.y<=high.y) {
+      for(int k=1;k<=28;k++) {
         float u=float(k)/28.; vec2 current=meteorPosition(t-u*5.4);
         vec2 lo=min(previous,current)-.43,hi=max(previous,current)+.43;
         if(p.x>=lo.x && p.x<=hi.x && p.y>=lo.y && p.y<=hi.y) {
@@ -286,6 +331,7 @@ void meteor(inout vec3 c,vec2 p,float t,float aa) {
             }
         }
         previous=current;
+      }
     }
     if(distance<.42) {
         float taper=pow(1.-nearest,1.1),spread=.018+.042*sin(PI*nearest);
@@ -323,9 +369,52 @@ void reunionTrails(inout vec3 c,vec2 p,float t,float aa) {
         if(t>arrival || (t>78. && t<start)) continue;
         vec2 head=pieceCenter(i,t),q=p-head;
         if(max(abs(q.x),abs(q.y))>2.7) continue;
+        // A drifting seed can move only this far during its 2.25-second tail.
+        // The fade-in derivative is at most 1.5/7; after it finishes the
+        // tighter velocity bound applies. The full 0.17 glow radius is kept.
+        if(t>=52.25 && t<=64.) {
+            float fadeSpeed=t<59.25?1.5/7.:0.;
+            vec2 reach=vec2(.66*(.20+fadeSpeed),.34*(.23+fadeSpeed))*2.25+.17;
+            if(abs(q.x)>reach.x || abs(q.y)>reach.y) continue;
+        }
+        vec2 gatherFrom=vec2(0.),gatherC1=vec2(0.),gatherC2=vec2(0.),destination=vec2(0.);
+        if(t>=start) {
+            // These control points depend on the piece and its scheduled
+            // departure, never on the ten samples along the current trail.
+            destination=vec2(0.,.45)+crownCenter(i);
+            gatherFrom=driftPosition(i,start);
+            float side=mod(i,2.)<.5?-1.:1.;
+            gatherC1=rotate(side*.75)*(gatherFrom-vec2(0.,.45))*.95+vec2(0.,.45);
+            gatherC2=destination+rotate(side*.82)*(destination-vec2(0.,.45))*1.12;
+        }
+        if(t>=66.25 && t<start) {
+            float speed=.17+hash(i+8.)*.055,radius=1.7+mod(i,8.)*.59;
+            float angle=i*2.399963+.30+(t-64.)*speed,tailAngle=angle-2.25*speed;
+            vec2 orbitHead=vec2(cos(angle),sin(angle)*.47)*radius+vec2(0.,.45);
+            vec2 orbitTail=vec2(cos(tailAngle),sin(tailAngle)*.47)*radius+vec2(0.,.45);
+            vec2 margin=vec2(1.,.47)*(radius*speed*speed*2.25*2.25/8.);
+            vec2 orbitLow=min(orbitHead,orbitTail)-margin,orbitHigh=max(orbitHead,orbitTail)+margin;
+            vec2 drift=burstTarget(i),driftLow=drift-vec2(.66,.34),driftHigh=drift+vec2(.66,.34);
+            float firstMix=ease(64.,73.,t-2.25),lastMix=ease(64.,73.,t);
+            vec2 low=min(mix(driftLow,orbitLow,firstMix),mix(driftLow,orbitLow,lastMix))-.17;
+            vec2 high=max(mix(driftHigh,orbitHigh,firstMix),mix(driftHigh,orbitHigh,lastMix))+.17;
+            if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) continue;
+        }
+        if(t>=start+2.25) {
+            float a=ease(start,arrival,t-2.25),b=ease(start,arrival,t),span=b-a;
+            vec2 tail=bezier(gatherFrom,gatherC1,gatherC2,destination,a);
+            vec2 first=tail+span*((1.-a)*(1.-a)*(gatherC1-gatherFrom)
+                +2.*(1.-a)*a*(gatherC2-gatherC1)+a*a*(destination-gatherC2));
+            vec2 last=head-span*((1.-b)*(1.-b)*(gatherC1-gatherFrom)
+                +2.*(1.-b)*b*(gatherC2-gatherC1)+b*b*(destination-gatherC2));
+            vec2 low=min(min(head,tail),min(first,last))-.17;
+            vec2 high=max(max(head,tail),max(first,last))+.17;
+            if(p.x<low.x || p.x>high.x || p.y<low.y || p.y>high.y) continue;
+        }
         float distance=20.,nearest=0.; vec2 previous=head;
         for(int k=1;k<=10;k++) {
-            float u=float(k)/10.,past=max(43.,t-u*2.25); vec2 current=pieceCenter(i,past);
+            float u=float(k)/10.,past=max(43.,t-u*2.25);
+            vec2 current=past>=start?bezier(gatherFrom,gatherC1,gatherC2,destination,ease(start,arrival,past)):pieceCenter(i,past);
             float candidate=segment(p,previous,current);
             if(candidate<distance) { distance=candidate; nearest=u; }
             previous=current;
@@ -519,24 +608,53 @@ void vectorGlyph(inout vec3 c,vec2 p,vec2 a,vec2 sa,vec4 ta,
 
 void typography(inout vec3 c,vec2 p,float t,float aa) {
 if(t>=1.000 && t<12.000) {
+if((p.x>=-4.232816 && p.y>=0.828088 && p.x<=-3.292608 && p.y<=1.933014) || (smoothstep(1.0000,2.9720,t))<0.0 || (smoothstep(1.0000,2.9720,t))>1.0) {
 vectorGlyph(c,p,vec2(-3.762712,1.260000),vec2(0.940113,0.863729),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-3.762712,1.501102),vec2(0.940113,0.863729),vec4(0.000000,0.000000,192.000000,192.000000),smoothstep(1.0000,2.9720,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8388608.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-3.527724 && p.y>=0.835439 && p.x<=-2.587530 && p.y<=1.917951) || (smoothstep(1.2856,3.2576,t))<0.0 || (smoothstep(1.2856,3.2576,t))>1.0) {
 vectorGlyph(c,p,vec2(-3.057627,1.260000),vec2(0.940113,0.849040),vec4(192.000000,0.000000,192.000000,192.000000),vec2(-3.057627,1.493390),vec2(0.940113,0.849040),vec4(192.000000,0.000000,192.000000,192.000000),smoothstep(1.2856,3.2576,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8389120.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-2.822632 && p.y>=0.850136 && p.x<=-1.882452 && p.y<=1.912067) || (smoothstep(1.5712,3.5432,t))<0.0 || (smoothstep(1.5712,3.5432,t))>1.0) {
 vectorGlyph(c,p,vec2(-2.352542,1.260000),vec2(0.940113,0.819661),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-2.352542,1.502203),vec2(0.940113,0.819661),vec4(384.000000,0.000000,192.000000,192.000000),smoothstep(1.5712,3.5432,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8389632.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-2.117541 && p.y>=0.828109 && p.x<=-1.177375 && p.y<=1.932993) || (smoothstep(1.8568,3.8288,t))<0.0 || (smoothstep(1.8568,3.8288,t))>1.0) {
 vectorGlyph(c,p,vec2(-1.647458,1.260000),vec2(0.940113,0.863729),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.647458,1.501102),vec2(0.940113,0.863729),vec4(576.000000,0.000000,192.000000,192.000000),smoothstep(1.8568,3.8288,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8390144.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-1.412454 && p.y>=0.829580 && p.x<=-0.472292 && p.y<=1.930420) || (smoothstep(2.1424,4.1144,t))<0.0 || (smoothstep(2.1424,4.1144,t))>1.0) {
 vectorGlyph(c,p,vec2(-0.942373,1.260000),vec2(0.940113,0.860791),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-0.942373,1.500000),vec2(0.940113,0.860791),vec4(768.000000,0.000000,192.000000,192.000000),smoothstep(2.1424,4.1144,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8390656.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-0.707370 && p.y>=0.828110 && p.x<=0.232794 && p.y<=1.932992) || (smoothstep(2.4280,4.4000,t))<0.0 || (smoothstep(2.4280,4.4000,t))>1.0) {
 vectorGlyph(c,p,vec2(-0.237288,1.260000),vec2(0.940113,0.863729),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-0.237288,1.501102),vec2(0.940113,0.863729),vec4(960.000000,0.000000,192.000000,192.000000),smoothstep(2.4280,4.4000,t),0.000000,PAPER,smoothstep(1.0000,3.0000,t),aa,vec2(8391168.000000,256.000000),vec2(0.000000,1.000000));
 }
+}
 if(t>=5.300 && t<16.000) {
+if((p.x>=-1.118091 && p.y>=-1.663142 && p.x<=-0.184265 && p.y<=-0.584518) || (smoothstep(5.3000,7.2720,t))<0.0 || (smoothstep(5.3000,7.2720,t))>1.0) {
 vectorGlyph(c,p,vec2(-0.651178,-1.240000),vec2(0.933782,0.846240),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(-0.651178,-1.007660),vec2(0.933782,0.846240),vec4(1152.000000,0.000000,192.000000,192.000000),smoothstep(5.3000,7.2720,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8391680.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=-0.417755 && p.y>=-1.670438 && p.x<=0.516071 && p.y<=-0.567373) || (smoothstep(5.5040,7.4760,t))<0.0 || (smoothstep(5.5040,7.4760,t))>1.0) {
 vectorGlyph(c,p,vec2(0.049158,-1.240000),vec2(0.933782,0.860831),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(0.049158,-0.997811),vec2(0.933782,0.860831),vec4(1344.000000,0.000000,192.000000,192.000000),smoothstep(5.5040,7.4760,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8392192.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=0.282582 && p.y>=-1.667519 && p.x<=1.216408 && p.y<=-0.572481) || (smoothstep(5.7080,7.6800,t))<0.0 || (smoothstep(5.7080,7.6800,t))>1.0) {
 vectorGlyph(c,p,vec2(0.749495,-1.240000),vec2(0.933782,0.854994),vec4(1536.000000,0.000000,192.000000,192.000000),vec2(0.749495,-1.000000),vec2(0.933782,0.854994),vec4(1536.000000,0.000000,192.000000,192.000000),smoothstep(5.7080,7.6800,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8392704.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=0.982917 && p.y>=-1.651472 && p.x<=1.916747 && p.y<=-0.574302) || (smoothstep(5.9120,7.8840,t))<0.0 || (smoothstep(5.9120,7.8840,t))>1.0) {
 vectorGlyph(c,p,vec2(1.449832,-1.240000),vec2(0.933782,0.822896),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(1.449832,-0.985774),vec2(0.933782,0.822896),vec4(1728.000000,0.000000,192.000000,192.000000),smoothstep(5.9120,7.8840,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8393216.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=1.683245 && p.y>=-1.652939 && p.x<=2.617091 && p.y<=-0.576118) || (smoothstep(6.1160,8.0880,t))<0.0 || (smoothstep(6.1160,8.0880,t))>1.0) {
 vectorGlyph(c,p,vec2(2.150168,-1.240000),vec2(0.933782,0.825814),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.150168,-0.989057),vec2(0.933782,0.825814),vec4(1920.000000,0.000000,192.000000,192.000000),smoothstep(6.1160,8.0880,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8393728.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=2.383575 && p.y>=-1.668995 && p.x<=3.317435 && p.y<=-0.569911) || (smoothstep(6.3200,8.2920,t))<0.0 || (smoothstep(6.3200,8.2920,t))>1.0) {
 vectorGlyph(c,p,vec2(2.850505,-1.240000),vec2(0.933782,0.857912),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(2.850505,-0.998906),vec2(0.933782,0.857912),vec4(2112.000000,0.000000,192.000000,192.000000),smoothstep(6.3200,8.2920,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8394240.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=3.083905 && p.y>=-1.670461 && p.x<=4.017779 && p.y<=-0.571728) || (smoothstep(6.5240,8.4960,t))<0.0 || (smoothstep(6.5240,8.4960,t))>1.0) {
 vectorGlyph(c,p,vec2(3.550842,-1.240000),vec2(0.933782,0.860831),vec4(2304.000000,0.000000,192.000000,192.000000),vec2(3.550842,-1.002189),vec2(0.933782,0.860831),vec4(2304.000000,0.000000,192.000000,192.000000),smoothstep(6.5240,8.4960,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8394752.000000,256.000000),vec2(0.000000,1.000000));
+}
+if((p.x>=3.784234 && p.y>=-1.666091 && p.x<=4.718122 && p.y<=-0.568438) || (smoothstep(6.7280,8.7000,t))<0.0 || (smoothstep(6.7280,8.7000,t))>1.0) {
 vectorGlyph(c,p,vec2(4.251178,-1.240000),vec2(0.933782,0.852076),vec4(2496.000000,0.000000,192.000000,192.000000),vec2(4.251178,-0.994529),vec2(0.933782,0.852076),vec4(2496.000000,0.000000,192.000000,192.000000),smoothstep(6.7280,8.7000,t),0.000000,PAPER,smoothstep(5.3000,7.3000,t),aa,vec2(8395264.000000,256.000000),vec2(0.000000,1.000000));
 }
+}
 if(t>=12.000 && t<16.000) { float u=smoothstep(12.000,16.000,t);
+if((p.x>=-4.232816 && p.y>=0.018088 && p.x<=0.232794 && p.y<=1.933014) || (u)<0.0 || (u)>1.0) {
 vectorGlyph(c,p,vec2(-3.762712,1.501102),vec2(0.940113,0.863729),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-1.200000,0.450000),vec2(0.940113,0.863729),vec4(0.000000,0.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8395776.000000,256.000000),vec2(1.000000,0.000000));
 vectorGlyph(c,p,vec2(-3.057627,1.493390),vec2(0.940113,0.849040),vec4(192.000000,0.000000,192.000000,192.000000),vec2(-1.200000,0.450000),vec2(0.940113,0.849040),vec4(192.000000,0.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8396288.000000,256.000000),vec2(1.000000,0.000000));
 vectorGlyph(c,p,vec2(-2.352542,1.502203),vec2(0.940113,0.819661),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-1.200000,0.450000),vec2(0.940113,0.819661),vec4(384.000000,0.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8396800.000000,256.000000),vec2(1.000000,0.000000));
@@ -544,8 +662,10 @@ vectorGlyph(c,p,vec2(-1.647458,1.501102),vec2(0.940113,0.863729),vec4(576.000000
 vectorGlyph(c,p,vec2(-0.942373,1.500000),vec2(0.940113,0.860791),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-1.200000,0.450000),vec2(0.940113,0.860791),vec4(768.000000,0.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8397824.000000,256.000000),vec2(1.000000,0.000000));
 vectorGlyph(c,p,vec2(-0.237288,1.501102),vec2(0.940113,0.863729),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-1.200000,0.450000),vec2(0.940113,0.863729),vec4(960.000000,0.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8398336.000000,256.000000),vec2(1.000000,0.000000));
 }
+}
 if(t>=16.000 && t<32.000) {
 float u=smoothstep(16.0000,17.1500,t);
+if((p.x>=-1.859238 && p.y>=-3.655728 && p.x<=4.736200 && p.y<=-0.498590) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(-0.651178,-1.007660),vec2(0.933782,0.846240),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(-0.693976,-3.033735),vec2(0.462651,0.419277),vec4(1152.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(0.049158,-0.997811),vec2(0.933782,0.860831),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-1.387952,-3.072229),vec2(0.462651,0.238554),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8398848.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(0.749495,-1.000000),vec2(0.933782,0.854994),vec4(1536.000000,0.000000,192.000000,192.000000),vec2(-1.040964,-3.029398),vec2(0.462651,0.425060),vec4(2880.000000,0.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8399360.000000,256.000000),vec2(1.000000,1.000000));
@@ -556,8 +676,10 @@ vectorGlyph(c,p,vec2(3.550842,-1.002189),vec2(0.933782,0.860831),vec4(2304.00000
 vectorGlyph(c,p,vec2(4.251178,-0.994529),vec2(0.933782,0.852076),vec4(2496.000000,0.000000,192.000000,192.000000),vec2(1.040964,-3.031024),vec2(0.462651,0.423614),vec4(3648.000000,0.000000,192.000000,192.000000),u,-0.064993,PAPER,1.0,aa,vec2(8401920.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.449832,-0.985774),vec2(0.462651,0.403373),vec4(384.000000,0.000000,192.000000,192.000000),vec2(1.387952,-3.028855),vec2(0.462651,0.403373),vec4(384.000000,0.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8389632.000000,256.000000),vec2(0.000000,1.000000));
 }
+}
 if(t>=32.000 && t<43.000) {
 float u=smoothstep(32.0000,33.1500,t);
+if((p.x>=-1.796679 && p.y>=-3.328221 && p.x<=1.782076 && p.y<=-2.751609) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(-1.387952,-3.072229),vec2(0.462651,0.238554),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(0.862275,-3.073174),vec2(0.459880,0.237126),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorStaticGlyph(c,p,vec2(-0.346988,-3.175241),vec2(0.462651,0.146024),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.172455,-3.175569),vec2(0.459880,0.145150),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(-1.040964,-3.029398),vec2(0.462651,0.425060),vec4(2880.000000,0.000000,192.000000,192.000000),vec2(-1.552096,-3.024132),vec2(0.459880,0.405269),vec4(1728.000000,0.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8402432.000000,256.000000),vec2(1.000000,1.000000));
@@ -569,8 +691,10 @@ vectorGlyph(c,p,vec2(1.040964,-3.031024),vec2(0.462651,0.423614),vec4(3648.00000
 vectorGlyph(c,p,vec2(1.387952,-3.028855),vec2(0.462651,0.403373),vec4(384.000000,0.000000,192.000000,192.000000),vec2(1.207186,-3.029521),vec2(0.459880,0.425389),vec4(768.000000,192.000000,192.000000,192.000000),u,0.048508,PAPER,1.0,aa,vec2(8405504.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.387952,-3.028855),vec2(0.459880,0.423952),vec4(960.000000,192.000000,192.000000,192.000000),vec2(1.552096,-3.031138),vec2(0.459880,0.423952),vec4(960.000000,192.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8406016.000000,256.000000),vec2(0.000000,1.000000));
 }
+}
 if(t>=43.000 && t<54.000) {
 float u=smoothstep(43.0000,44.1500,t);
+if((p.x>=-1.785881 && p.y>=-3.351226 && p.x<=1.782076 && p.y<=-2.753142) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(-0.172455,-3.175569),vec2(0.459880,0.145150),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.171940,-3.175731),vec2(0.458507,0.144716),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(-1.552096,-3.024132),vec2(0.459880,0.405269),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(-1.203582,-3.031194),vec2(0.458507,0.421254),vec4(576.000000,0.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8406528.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-1.207186,-3.031677),vec2(0.459880,0.422515),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(-0.859701,-3.030119),vec2(0.458507,0.426985),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8407040.000000,256.000000),vec2(1.000000,1.000000));
@@ -582,8 +706,10 @@ vectorGlyph(c,p,vec2(0.862275,-3.073174),vec2(0.459880,0.237126),vec4(2688.00000
 vectorGlyph(c,p,vec2(1.207186,-3.029521),vec2(0.459880,0.425389),vec4(768.000000,192.000000,192.000000,192.000000),vec2(1.203582,-3.031194),vec2(0.459880,0.425389),vec4(768.000000,192.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8410112.000000,256.000000),vec2(1.000000,0.000000));
 vectorGlyph(c,p,vec2(1.552096,-3.031138),vec2(0.459880,0.423952),vec4(960.000000,192.000000,192.000000,192.000000),vec2(1.203582,-3.031194),vec2(0.459880,0.423952),vec4(960.000000,192.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8410624.000000,256.000000),vec2(1.000000,0.000000));
 }
+}
 if(t>=54.000 && t<64.000) {
 float u=smoothstep(54.0000,55.1500,t);
+if((p.x>=-1.445292 && p.y>=-3.342404 && p.x<=1.457341 && p.y<=-2.751150) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(-0.171940,-3.175731),vec2(0.458507,0.144716),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.172973,-3.175405),vec2(0.461261,0.145586),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(-1.203582,-3.031194),vec2(0.458507,0.421254),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.210811,-3.029459),vec2(0.461261,0.425225),vec4(2304.000000,192.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8411136.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-0.859701,-3.030119),vec2(0.458507,0.426985),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(-0.864865,-3.072703),vec2(0.461261,0.237838),vec4(2688.000000,0.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8411648.000000,256.000000),vec2(1.000000,1.000000));
@@ -593,8 +719,10 @@ vectorGlyph(c,p,vec2(0.515821,-3.031194),vec2(0.458507,0.421254),vec4(1728.00000
 vectorGlyph(c,p,vec2(0.859701,-3.033881),vec2(0.458507,0.411224),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(0.864865,-3.031622),vec2(0.461261,0.425225),vec4(2304.000000,0.000000,192.000000,192.000000),u,0.047256,PAPER,1.0,aa,vec2(8413644.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.203582,-3.031194),vec2(0.458507,0.421254),vec4(2112.000000,192.000000,192.000000,192.000000),vec2(1.210811,-3.031622),vec2(0.461261,0.425225),vec4(3072.000000,192.000000,192.000000,192.000000),u,-0.064993,PAPER,1.0,aa,vec2(8414156.000000,256.000000),vec2(1.000000,1.000000));
 }
+}
 if(t>=64.000 && t<78.000) {
 float u=smoothstep(64.0000,65.1500,t);
+if((p.x>=-1.823974 && p.y>=-3.470961 && p.x<=1.816257 && p.y<=-2.733620) || (u)<0.0 || (u)>1.0) {
 vectorGlyph(c,p,vec2(-1.210811,-3.029459),vec2(0.461261,0.425225),vec4(2304.000000,192.000000,192.000000,192.000000),vec2(-1.556757,-3.053649),vec2(0.518919,0.470270),vec4(1152.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa,vec2(8414668.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-0.864865,-3.072703),vec2(0.461261,0.237838),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(-1.167568,-3.049392),vec2(0.518919,0.475135),vec4(3264.000000,192.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8415180.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-0.518919,-3.030541),vec2(0.461261,0.425225),vec4(2496.000000,192.000000,192.000000,192.000000),vec2(-0.778378,-3.051824),vec2(0.518919,0.468649),vec4(3456.000000,192.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8415692.000000,256.000000),vec2(1.000000,1.000000));
@@ -605,8 +733,10 @@ vectorGlyph(c,p,vec2(0.864865,-3.031622),vec2(0.461261,0.425225),vec4(2304.00000
 vectorGlyph(c,p,vec2(1.210811,-3.031622),vec2(0.461261,0.425225),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(1.167568,-3.053649),vec2(0.518919,0.460541),vec4(0.000000,384.000000,192.000000,192.000000),u,-0.064993,PAPER,1.0,aa,vec2(8418062.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.210811,-3.031622),vec2(0.518919,0.476757),vec4(192.000000,384.000000,192.000000,192.000000),vec2(1.556757,-3.050000),vec2(0.518919,0.476757),vec4(192.000000,384.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8418574.000000,256.000000),vec2(0.000000,1.000000));
 }
+}
 if(t>=78.000 && t<96.000) {
 float u=smoothstep(78.0000,79.1500,t);
+if((p.x>=-1.820123 && p.y>=-3.446199 && p.x<=1.828294 && p.y<=-2.728769) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(0.778378,-3.048784),vec2(0.518919,0.473514),vec4(3840.000000,192.000000,192.000000,192.000000),vec2(-0.691892,-3.030000),vec2(0.461261,0.420901),vec4(3840.000000,192.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(-1.556757,-3.053649),vec2(0.518919,0.470270),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(-1.383784,-3.030541),vec2(0.461261,0.422342),vec4(768.000000,0.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8419086.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-1.167568,-3.049392),vec2(0.518919,0.475135),vec4(3264.000000,192.000000,192.000000,192.000000),vec2(-1.037838,-3.030000),vec2(0.461261,0.423784),vec4(960.000000,0.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8419598.000000,256.000000),vec2(1.000000,1.000000));
@@ -617,8 +747,10 @@ vectorGlyph(c,p,vec2(0.389189,-3.050000),vec2(0.518919,0.476757),vec4(3648.00000
 vectorGlyph(c,p,vec2(1.167568,-3.053649),vec2(0.518919,0.460541),vec4(0.000000,384.000000,192.000000,192.000000),vec2(1.037838,-3.030541),vec2(0.461261,0.422342),vec4(768.000000,384.000000,192.000000,192.000000),u,-0.064993,PAPER,1.0,aa,vec2(8421968.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.556757,-3.050000),vec2(0.518919,0.476757),vec4(192.000000,384.000000,192.000000,192.000000),vec2(1.383784,-3.031081),vec2(0.461261,0.420901),vec4(960.000000,384.000000,192.000000,192.000000),u,0.048508,PAPER,1.0,aa,vec2(8422480.000000,256.000000),vec2(1.000000,1.000000));
 }
+}
 if(t>=96.000 && t<110.000) {
 float u=smoothstep(96.0000,97.1500,t);
+if((p.x>=-1.618261 && p.y>=-3.314096 && p.x<=1.626298 && p.y<=-2.748464) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(0.000000,-3.175405),vec2(0.461261,0.145586),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.687761,-3.175731),vec2(0.458507,0.144716),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.031163,PAPER,1.0,aa);
 vectorGlyph(c,p,vec2(-1.383784,-3.030541),vec2(0.461261,0.422342),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-1.375522,-3.034955),vec2(0.458507,0.411224),vec4(1152.000000,384.000000,192.000000,192.000000),u,0.015614,PAPER,1.0,aa,vec2(8422992.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(-1.037838,-3.030000),vec2(0.461261,0.423784),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-1.031642,-3.034418),vec2(0.458507,0.415522),vec4(1344.000000,384.000000,192.000000,192.000000),u,-0.054169,PAPER,1.0,aa,vec2(8423504.000000,256.000000),vec2(1.000000,1.000000));
@@ -629,8 +761,10 @@ vectorGlyph(c,p,vec2(0.691892,-3.030000),vec2(0.461261,0.426667),vec4(576.000000
 vectorGlyph(c,p,vec2(1.037838,-3.030541),vec2(0.461261,0.422342),vec4(768.000000,384.000000,192.000000,192.000000),vec2(1.031642,-3.035493),vec2(0.458507,0.406925),vec4(0.000000,384.000000,192.000000,192.000000),u,-0.064993,PAPER,1.0,aa,vec2(8426064.000000,256.000000),vec2(1.000000,1.000000));
 vectorGlyph(c,p,vec2(1.383784,-3.031081),vec2(0.461261,0.420901),vec4(960.000000,384.000000,192.000000,192.000000),vec2(1.375522,-3.030119),vec2(0.458507,0.426985),vec4(1920.000000,384.000000,192.000000,192.000000),u,0.048508,PAPER,1.0,aa,vec2(8426576.000000,256.000000),vec2(1.000000,1.000000));
 }
+}
 if(t>=110.000 && t<120.500) {
 float u=smoothstep(110.0000,111.1500,t);
+if((p.x>=-2.290572 && p.y>=-3.933462 && p.x<=2.244868 && p.y<=1.447439) || (u)<0.0 || (u)>1.0) {
 vectorStaticGlyph(c,p,vec2(1.031642,-3.035493),vec2(0.458507,0.406925),vec4(0.000000,384.000000,192.000000,192.000000),vec2(0.513712,0.535552),vec2(1.369900,1.215786),vec4(0.000000,384.000000,192.000000,192.000000),u,0.119856,mix(PAPER,GOLD,u),1.0,aa);
 vectorStaticGlyph(c,p,vec2(1.375522,-3.030119),vec2(0.458507,0.426985),vec4(1920.000000,384.000000,192.000000,192.000000),vec2(1.541137,0.551605),vec2(1.369900,1.275719),vec4(1920.000000,384.000000,192.000000,192.000000),u,0.060055,mix(PAPER,GOLD,u),1.0,aa);
 vectorGlyph(c,p,vec2(-1.375522,-3.034955),vec2(0.458507,0.411224),vec4(1152.000000,384.000000,192.000000,192.000000),vec2(-1.541137,0.535552),vec2(1.369900,1.241472),vec4(1152.000000,0.000000,192.000000,192.000000),u,-0.208344,mix(PAPER,GOLD,u),1.0,aa,vec2(8427088.000000,256.000000),vec2(1.000000,1.000000));
@@ -641,8 +775,10 @@ vectorGlyph(c,p,vec2(0.000000,-3.020985),vec2(0.458507,0.402627),vec4(1728.00000
 vectorGlyph(c,p,vec2(0.343881,-3.031194),vec2(0.458507,0.424119),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(0.513712,0.535552),vec2(0.458507,0.424119),vec4(2880.000000,192.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8429300.000000,256.000000),vec2(1.000000,0.000000));
 vectorGlyph(c,p,vec2(0.687761,-3.037642),vec2(0.458507,0.404060),vec4(1344.000000,192.000000,192.000000,192.000000),vec2(0.513712,0.535552),vec2(0.458507,0.404060),vec4(1344.000000,192.000000,192.000000,192.000000),u,0.000000,mix(PAPER,GOLD,u),1.0,aa,vec2(8429812.000000,161.000000),vec2(1.000000,0.000000));
 }
+}
 if(t>=113.400 && t<120.500) {
 float u=smoothstep(113.4000,114.5500,t);
+if((p.x>=-1.758980 && p.y>=-0.907205 && p.x<=1.758980 && p.y<=0.751750) || (u)<0.0 || (u)>1.0) {
 vectorGlyph(c,p,vec2(-1.541137,0.535552),vec2(0.435636,0.394795),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(-1.306907,-0.705195),vec2(0.435636,0.394795),vec4(1152.000000,0.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8391680.000000,256.000000),vec2(0.000000,1.000000));
 vectorGlyph(c,p,vec2(-0.513712,0.548395),vec2(0.435636,0.401602),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-0.980180,-0.700601),vec2(0.435636,0.401602),vec4(1344.000000,0.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8392192.000000,256.000000),vec2(0.000000,1.000000));
 vectorGlyph(c,p,vec2(-0.513712,0.548395),vec2(0.435636,0.385265),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(-0.653453,-0.696517),vec2(0.435636,0.385265),vec4(1920.000000,0.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8393728.000000,256.000000),vec2(0.000000,1.000000));
@@ -654,6 +790,7 @@ vectorGlyph(c,p,vec2(0.513712,0.535552),vec2(0.435636,0.400240),vec4(2880.000000
 vectorGlyph(c,p,vec2(1.541137,0.551605),vec2(0.435636,0.400240),vec4(576.000000,0.000000,192.000000,192.000000),vec2(1.306907,-0.701111),vec2(0.435636,0.400240),vec4(576.000000,0.000000,192.000000,192.000000),u,0.000000,PAPER,1.0,aa,vec2(8390144.000000,256.000000),vec2(0.000000,1.000000));
 }
 }
+}
 
 void main() {
     vec2 v=uv; if(EXTRA_VECTOR2.x>.5) v.y=1.-v.y;
@@ -662,6 +799,9 @@ void main() {
     if(local.y<0. || local.y>1.) { gl_FragColor=original; return; }
     float aspect=max(EXTRA_VECTOR1.y,.1),narrow=max(1.,(16./9.)/aspect);
     vec2 p=vec2((local.x-.5)*aspect,.5-local.y)*9.*narrow;
+    if(abs(p.y)>=3.75) {
+        gl_FragColor=mix(original,vec4(0.,0.,0.,1.),clamp(EXTRA_VECTOR1.w,0.,1.)); return;
+    }
     float aa=9./max(EXTRA_VECTOR1.z,1.)*narrow,t=clamp(EXTRA_VECTOR1.x,0.,120.);
     vec3 c=space(p,t);
     depthThreads(c,p,t,aa); stardust(c,p,t,aa); winds(c,p,t,aa);

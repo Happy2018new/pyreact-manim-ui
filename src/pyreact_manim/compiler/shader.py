@@ -1,5 +1,7 @@
 """Generate a small fixed-topology polygon renderer for Minecraft GLSL ES."""
 
+from .codec import path_points
+
 
 def _float(value):
     result = format(float(value), ".10g")
@@ -23,12 +25,32 @@ def _frame_branch(times, start, end, indent="    "):
             _frame_branch(times, middle + 1, end, indent + "    ") + "\n" + indent + "}")
 
 
-def _path_code(index, path, layout):
+def _path_invariants(scene, path_index):
+    """Only specialize values equal at every keyframe, including the interior."""
+    paths = [frame["paths"][path_index] for frame in scene["frames"]]
+    points = list(path_points(paths[0]))
+    return {"geometry": all(list(path_points(path)) == points for path in paths[1:]),
+            **{key: all(path[key] == paths[0][key] for path in paths[1:])
+               for key in ("fill", "stroke", "stroke_width")}}
+
+
+def _point_sample(index, invariants):
+    return ("staticPoint(%s)" % index if invariants["geometry"]
+            else "samplePoint(%s, frames)" % index)
+
+
+def _style_sample(index, key, invariants):
+    if key == "stroke_width":
+        return "readScalar(%s)" % index if invariants[key] else "sampleScalar(%s, frames)" % index
+    return "staticColor(%s)" % index if invariants[key] else "sampleColor(%s, frames)" % index
+
+
+def _path_code(index, path, layout, invariants):
     bounds = path["bounds"]
     style = layout["style_offset"] + index * 9
     lines = ["    // Path %d; conservative bounds cover every reference keyframe." % index,
              "    {", "        float styleOffset = %s;" % _float(style),
-             "        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;",
+             "        float width = %s * STROKE_SCALE;" % _style_sample("styleOffset + 8.0", "stroke_width", invariants),
              "        float margin = width * 0.5 + aa * 2.0;",
              "        if (all(greaterThanEqual(p, %s - vec2(margin))) &&" % _vec(bounds["min"]),
              "            all(lessThanEqual(p, %s + vec2(margin)))) {" % _vec(bounds["max"]),
@@ -37,19 +59,19 @@ def _path_code(index, path, layout):
              "            float nearestSide = 1.0;"]
     for contour in path["contours"]:
         start, count = contour["start"], contour["count"]
-        lines += ["            {", "                vec2 a = samplePoint(%s, frames);" % _float(start + count - 1),
+        lines += ["            {", "                vec2 a = %s;" % _point_sample(_float(start + count - 1), invariants),
                   "                for (int i = 0; i < %d; ++i) {" % count,
-                  "                    vec2 b = samplePoint(%s + float(i), frames);" % _float(start),
+                  "                    vec2 b = %s;" % _point_sample(_float(start) + " + float(i)", invariants),
                   "                    edge(p, a, b, winding, distanceToPath, nearestSide);",
                   "                    a = b;", "                }", "            }"]
     lines += ["            // Antialias the winding transition, not every internal contour edge.",
               "            float edgeCoverage = 1.0 - smoothstep(-aa, aa, distanceToPath);",
               "            float fillCoverage = clamp(abs(winding - nearestSide * edgeCoverage), 0.0, 1.0);",
-              "            vec4 fill = sampleColor(styleOffset, frames);",
+              "            vec4 fill = %s;" % _style_sample("styleOffset", "fill", invariants),
               "            color = mix(color, fill.rgb, fill.a * fillCoverage);",
               "            if (width > 0.0) {",
               "                float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);",
-              "                vec4 stroke = sampleColor(styleOffset + 4.0, frames);",
+              "                vec4 stroke = %s;" % _style_sample("styleOffset + 4.0", "stroke", invariants),
               "                color = mix(color, stroke.rgb, stroke.a * strokeCoverage);",
               "            }", "        }", "    }"]
     return "\n".join(lines)
@@ -101,7 +123,34 @@ def _curve_activity(scene, path_index):
     return activity
 
 
-def _fan_path_code(index, path, layout, activity):
+def _curve_bounds(scene, path_index, curve_index, layout):
+    """Enclose a complete directed fan, never just its real curve chain.
+
+    A closed fan has zero winding outside its convex hull even if its open
+    chain or its base spokes would individually cross the sample's ray.
+    Linear interpolation stays in the union hull of all keyframe points.
+    """
+    points = []
+    for frame in scene["frames"]:
+        path = frame["paths"][path_index]
+        points.append(path["base"])
+        points.extend(path["curves"][curve_index]["points"])
+    lower = [min(point[axis] for point in points) for axis in (0, 1)]
+    upper = [max(point[axis] for point in points) for axis in (0, 1)]
+    # Include RG16 rounding and highp float32 decode/interpolation arithmetic.
+    # Use the whole coordinate domain: a tiny local fan may decode by adding
+    # a large POSITION_MIN to a nearly cancelling POSITION_SPAN product.
+    for axis in (0, 1):
+        domain = layout["coordinate_bounds"]
+        scale = max(1.0, abs(domain["min"][axis]), abs(domain["max"][axis]),
+                    domain["max"][axis] - domain["min"][axis])
+        padding = layout["coordinate_error_bound"][axis] + scale * 2.0 ** -19
+        lower[axis] -= padding
+        upper[axis] += padding
+    return {"min": lower, "max": upper}
+
+
+def _fan_path_code(index, path, layout, activity, curve_bounds, invariants):
     style = layout["style_offset"] + index * 9
     lines = ["    // Native fixed curve slots; shared-base fans accumulate as one glyph.",
              "    {",
@@ -115,22 +164,26 @@ def _fan_path_code(index, path, layout, activity):
              "        vec4 py = vec4(p.y) + pixelSize * vec4(-0.25, -0.25, 0.25, 0.25);",
              "        vec4 winding = vec4(0.0);",
              "        vec4 distanceToCurve = vec4(1.0e20);",
-             "        vec2 base = samplePoint(%s, frames);" % _float(path["base_point"])]
-    for curve, active in zip(path["curves"], activity):
+             "        vec2 base = %s;" % _point_sample(_float(path["base_point"]), invariants),
+             "        float fanMargin = borderHalfWidth + borderHalfAA + pixelSize * 0.25;"]
+    for curve, active, bounds in zip(path["curves"], activity, curve_bounds):
         if active is False:
             continue
         guard = ("        if (sampleScalar(%s, frames) > 0.0) {" % _float(curve["active_offset"])
                  if active is None else "        {")
         lines += [guard,
-                  "            vec2 a = samplePoint(%s, frames);" % _float(curve["start"]),
+                  "            // Cull the complete fan including its base, border and subpixel samples.",
+                  "            if (all(greaterThanEqual(p, %s - vec2(fanMargin))) &&" % _vec(bounds["min"]),
+                  "                all(lessThanEqual(p, %s + vec2(fanMargin)))) {" % _vec(bounds["max"]),
+                  "            vec2 a = %s;" % _point_sample(_float(curve["start"]), invariants),
                   "            fanEdge(px, py, base, a, winding);",
                   "            for (int i = 1; i < %d; ++i) {" % curve["count"],
-                  "                vec2 b = samplePoint(%s + float(i), frames);" % _float(curve["start"]),
+                  "                vec2 b = %s;" % _point_sample(_float(curve["start"]) + " + float(i)", invariants),
                   "                fanEdge(px, py, a, b, winding);",
                   "                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));",
                   "                a = b;",
-                  "            }", "            fanEdge(px, py, a, base, winding);", "        }"]
-    lines += ["        vec4 fill = sampleColor(%s, frames);" % _float(style),
+                  "            }", "            fanEdge(px, py, a, base, winding);", "            }", "        }"]
+    lines += ["        vec4 fill = %s;" % _style_sample(_float(style), "fill", invariants),
               "        // Native signed alpha is accumulated in the 2x fill canvas before filtering.",
               "        // Bound the exponent, not winding: faint overlapping shapes must still accumulate.",
               "        vec4 signedExponent = log(1.0 - 0.95 * fill.a) * winding * %s;" % _float(path.get("fill_orientation", 1)),
@@ -189,6 +242,17 @@ vec2 samplePoint(float index, vec3 frames) {
     return POSITION_MIN + normalized * POSITION_SPAN;
 }
 
+// Invariant paths still use the exact atlas decode, with one frame's reads.
+vec2 staticPoint(float index) {
+    vec2 normalized = vec2(readScalar(index * 2.0), readScalar(index * 2.0 + 1.0));
+    return POSITION_MIN + normalized * POSITION_SPAN;
+}
+
+vec4 staticColor(float index) {
+    return vec4(readScalar(index), readScalar(index + 1.0),
+                readScalar(index + 2.0), readScalar(index + 3.0));
+}
+
 vec4 sampleColor(float index, vec3 frames) {
     return vec4(sampleScalar(index, frames), sampleScalar(index + 1.0, frames),
                 sampleScalar(index + 2.0, frames), sampleScalar(index + 3.0, frames));
@@ -234,10 +298,13 @@ void main() {
     if (screenUV.y >= 0.0 && screenUV.y <= 1.0) {
 """ % constants
     if scene["schema_version"] == 2:
-        paths = "\n".join(_fan_path_code(i, path, layout, _curve_activity(scene, i))
+        paths = "\n".join(_fan_path_code(i, path, layout, _curve_activity(scene, i),
+                          [_curve_bounds(scene, i, j, layout) for j in range(len(path["curves"]))],
+                          _path_invariants(scene, i))
                           for i, path in enumerate(layout["paths"]))
     else:
-        paths = "\n".join(_path_code(i, path, layout) for i, path in enumerate(layout["paths"]))
+        paths = "\n".join(_path_code(i, path, layout, _path_invariants(scene, i))
+                          for i, path in enumerate(layout["paths"]))
     footer = """
     }
     vec4 original = texture2D(TEXTURE_0, uv);

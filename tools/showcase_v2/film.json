@@ -2,9 +2,9 @@
   "duration": 120,
   "title": "万象，始于一线",
   "edition": "V9 / Spectral Constructions",
-  "shader_sha256": "29f4f0419d10f12fda61fe009d910f48988547da233fcb645e593089c951aa2d",
+  "shader_sha256": "cc83a8f2e26be3c81e389925f67d0f7a64611f9913b17f0aba2cf490e0d83c54",
   "texture_sha256": "b62ed9f8d2a0286b744989839f28b6506992d0522491cab6d48b253cdcb826b2",
-  "shader_bytes": 181475,
+  "shader_bytes": 191071,
   "atlas_bytes": 1332032,
   "glyph_transitions": [
     {
@@ -596,7 +596,7 @@
   "vector_morph": {
     "schema": 2,
     "method": "paired closed contours; component-local nonzero winding",
-    "implementation_sha256": "9445e02a8d07fc8b2fbf27b8c273957cf57c2642193d48ba9cd4b540a5c19c5a",
+    "implementation_sha256": "7447f61a203bf908dba47543fd00704164c2377890231e71dd8ffac3c2205260",
     "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
     "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
     "packing": "two RGBA pixels per vertex; all-255 source marks break, target x=0 outer or x=65535 hole",

@@ -47,6 +47,10 @@ def compile_scene(scene, output_dir):
         "shader": {
             "path": shader_relative,
             "sha256": hashlib.sha256(shader.encode("utf-8")).hexdigest(),
+            "generator_revision": 2,
+            "optimizations": ["invariant geometry and styles sample one atlas frame"] + (
+                ["constant curve-marker folding", "complete curve-fan bounds with quantization and AA margins"]
+                if normalized["schema_version"] == 2 else []),
             "uniforms": {
                 "EXTRA_VECTOR1": ["time_seconds", "viewport_aspect", "pixel_height", "opacity"],
                 "EXTRA_VECTOR2": ["flip_y", "canvas_top_ratio", "canvas_height_ratio", "reserved"],

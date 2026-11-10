@@ -27,6 +27,17 @@ vec2 samplePoint(float index, vec3 frames) {
     return POSITION_MIN + normalized * POSITION_SPAN;
 }
 
+// Invariant paths still use the exact atlas decode, with one frame's reads.
+vec2 staticPoint(float index) {
+    vec2 normalized = vec2(readScalar(index * 2.0), readScalar(index * 2.0 + 1.0));
+    return POSITION_MIN + normalized * POSITION_SPAN;
+}
+
+vec4 staticColor(float index) {
+    return vec4(readScalar(index), readScalar(index + 1.0),
+                readScalar(index + 2.0), readScalar(index + 3.0));
+}
+
 vec4 sampleColor(float index, vec3 frames) {
     return vec4(sampleScalar(index, frames), sampleScalar(index + 1.0, frames),
                 sampleScalar(index + 2.0, frames), sampleScalar(index + 3.0, frames));
@@ -767,7 +778,7 @@ void main() {
     // Path 0; conservative bounds cover every reference keyframe.
     {
         float styleOffset = 134.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
+        float width = readScalar(styleOffset + 8.0) * STROKE_SCALE;
         float margin = width * 0.5 + aa * 2.0;
         if (all(greaterThanEqual(p, vec2(-3.555634919, -1.1) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(-0.4443650814, 2.205634919) + vec2(margin)))) {

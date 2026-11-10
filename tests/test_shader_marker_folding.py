@@ -78,7 +78,7 @@ class MarkerFoldingTests(unittest.TestCase):
             self.assertEqual(optimized_code.count("for (int i = 1;"), 3)
             self.assertEqual(baseline_code.count("for (int i = 1;"), 4)
             curves = manifests[0]["paths"][0]["curves"]
-            self.assertNotIn("vec2 a = samplePoint(%s.0, frames);" % curves[1]["start"], optimized_code)
+            self.assertNotIn("vec2 a = staticPoint(%s.0);" % curves[1]["start"], optimized_code)
             self.assertIn("if (sampleScalar(%s.0, frames) > 0.0)" % curves[2]["active_offset"], optimized_code)
             # Coordinate math, time selection, signed-alpha accumulation and
             # border blending remain byte-identical outside curve emission.
@@ -102,8 +102,8 @@ class MarkerFoldingTests(unittest.TestCase):
         code = generate_shader(normalized, layout)
         active_start = layout["paths"][0]["curves"][0]["start"]
         skipped_start = layout["paths"][1]["curves"][0]["start"]
-        self.assertIn("vec2 a = samplePoint(%s.0, frames);" % active_start, code)
-        self.assertNotIn("vec2 a = samplePoint(%s.0, frames);" % skipped_start, code)
+        self.assertIn("vec2 a = staticPoint(%s.0);" % active_start, code)
+        self.assertNotIn("vec2 a = staticPoint(%s.0);" % skipped_start, code)
         self.assertEqual(code.count("for (int i = 1;"), 7)
 
     def test_all_skipped_curves_emit_no_loops_without_mutating_layout(self):
