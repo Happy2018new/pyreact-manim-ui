@@ -1,0 +1,2322 @@
+{
+  "kind": "native_manimgl_vs_generated_shader",
+  "native_reference": "ManimGL 1.7.2, commit f427fc67df75513be0cd3f3329e327a9a19401c3",
+  "method": "Unchanged compare_reference metrics, five native Camera frames per scene at normalized times 0, 0.25, 0.5, 0.75, 1.",
+  "text_one_to_one_accepted": false,
+  "minecraft_verified": false,
+  "limitations": [
+    "This artifact verifies desktop OpenGL rendering, not Minecraft integration.",
+    "Only five supplied keyframes per scene are compared, not all intermediate times.",
+    "Curve chains and distance-based borders approximate native analytic fills and strip geometry.",
+    "Float32 signed alpha approximates ordered native FP16 blending.",
+    "Known narrow native skip-marker windows may differ between keyframes.",
+    "Chinese coverage is limited to the bundled Song font subset and these two scenes.",
+    "LaTeX coverage is limited to the two explicit supported examples and the pinned toolchain."
+  ],
+  "scenes": {
+    "manimgl_o_to_b": {
+      "source": "O",
+      "target": "B",
+      "input_kind": "text",
+      "font_family": "DejaVu Serif",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9929511509833884,
+        0.9980449267845031
+      ],
+      "foreground_mean_error_255_range": [
+        0.44053415220509506,
+        1.8375560703899048
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 356,
+      "path_count": 1,
+      "texture_dimensions": [
+        256,
+        256
+      ],
+      "shader_bytes": 48002,
+      "texture_bytes": 102966,
+      "shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "native_scene_sha256": "5862d22fa124f7eeabf5ea293528a70d01f5c8c482b1ffa2c954c600b49adac4",
+      "native_reference_report_sha256": "a1def3fdc8e584fb952bd6238c4e47867fb6ce149641551d8cdd0c897fdfd240",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.5
+    },
+    "manimgl_c_to_s": {
+      "source": "C",
+      "target": "S",
+      "input_kind": "text",
+      "font_family": "DejaVu Serif",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9958613554061045,
+        0.997509436899249
+      ],
+      "foreground_mean_error_255_range": [
+        0.5933377437054909,
+        1.0559586631486368
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 189,
+      "path_count": 1,
+      "texture_dimensions": [
+        256,
+        128
+      ],
+      "shader_bytes": 35442,
+      "texture_bytes": 53571,
+      "shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "native_scene_sha256": "3007d129e2ab738aec15ab6142cd3c515a57e7fb4af6874dfbf551ab70cd2561",
+      "native_reference_report_sha256": "f017d32fa8ea017ef9f45051c698bb8f894701fe30b630b56cec27196aacc427",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 1.5
+    },
+    "manimgl_8_to_1": {
+      "source": "8",
+      "target": "1",
+      "input_kind": "text",
+      "font_family": "DejaVu Serif",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9927348582937707,
+        0.9999154834347532
+      ],
+      "foreground_mean_error_255_range": [
+        0.029200473292765382,
+        1.7886994677024888
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 278,
+      "path_count": 1,
+      "texture_dimensions": [
+        256,
+        256
+      ],
+      "shader_bytes": 49450,
+      "texture_bytes": 77887,
+      "shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "native_scene_sha256": "18097281a975f312a8dde3a94952903e98c57b4094f2a195cf553a504ecec741",
+      "native_reference_report_sha256": "2bf179452b1fbf00277261a142ebb5bf807feb5dc6acf17740fb88a658f2d5cb",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.5
+    },
+    "manimgl_ui_to_ux": {
+      "source": "UI",
+      "target": "UX",
+      "input_kind": "text",
+      "font_family": "DejaVu Serif",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9917520402847717,
+        0.9984596426370919
+      ],
+      "foreground_mean_error_255_range": [
+        0.3722114877920253,
+        0.4913179371418649
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 152,
+      "path_count": 2,
+      "texture_dimensions": [
+        256,
+        128
+      ],
+      "shader_bytes": 45597,
+      "texture_bytes": 24533,
+      "shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "native_scene_sha256": "225b6d89d0d01456b9fc45dc132078932e370ef3f7ad4aa853fd6ca55cc13cf2",
+      "native_reference_report_sha256": "c8536c2c949f57a1e84b603bf55050de2eca41134c8723938122f7239e8060b4",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.0
+    },
+    "manimgl_fraction_swap": {
+      "source": "\\frac{a}{b}",
+      "target": "\\frac{b}{a}",
+      "input_kind": "latex",
+      "font_family": null,
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9904166666666666,
+        0.9939353099730458
+      ],
+      "foreground_mean_error_255_range": [
+        0.956199460916442,
+        2.6370833333333334
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 340,
+      "path_count": 3,
+      "texture_dimensions": [
+        256,
+        256
+      ],
+      "shader_bytes": 70701,
+      "texture_bytes": 93687,
+      "shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "native_scene_sha256": "6fb4ff493404411cb62789a069d14d9be0349170050bc00ce23acda43e4e5e7b",
+      "native_reference_report_sha256": "6569281ae5f0e8d5830eed9da548b5eaa264d6c9dcd87e82997ac287ea296571",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.0
+    },
+    "manimgl_power_to_root": {
+      "source": "x^2",
+      "target": "\\sqrt{x}",
+      "input_kind": "latex",
+      "font_family": null,
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.9911289763670386,
+        0.9983325922632281
+      ],
+      "foreground_mean_error_255_range": [
+        1.2576048671149536,
+        2.4447532236549576
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 652,
+      "path_count": 3,
+      "texture_dimensions": [
+        512,
+        256
+      ],
+      "shader_bytes": 104170,
+      "texture_bytes": 181020,
+      "shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "native_scene_sha256": "c8858779885e5212e0959cbb8a5285954449d12ab4236cc287b416d27593e01f",
+      "native_reference_report_sha256": "9ab772c4b0b2e1df602f5ae5cfc0750706391ada470d1c2ba3a1fc0cf65e37b6",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.5
+    },
+    "manimgl_chinese_change": {
+      "source": "中文",
+      "target": "变换",
+      "input_kind": "text",
+      "font_family": "Pyreact Manim Song",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.8227947134594429,
+        0.995312359145407
+      ],
+      "foreground_mean_error_255_range": [
+        1.1231403067063401,
+        5.175696443041158
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 1546,
+      "path_count": 2,
+      "texture_dimensions": [
+        512,
+        512
+      ],
+      "shader_bytes": 209452,
+      "texture_bytes": 436274,
+      "shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "native_scene_sha256": "22f47a9cff0085fdcd6d8e2311fc85eb2c3060f08db6e76309862adab79501bc",
+      "native_reference_report_sha256": "4f70f1b446096b1895beeed120272d4c3aa0a216d6e49513362cbcc8a5655235",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 0.0
+    },
+    "manimgl_chinese_math": {
+      "source": "数学",
+      "target": "中文",
+      "input_kind": "text",
+      "font_family": "Pyreact Manim Song",
+      "schema": 2,
+      "duration": 2.0,
+      "reference_frame_count": 5,
+      "foreground_iou_range": [
+        0.6906649105063857,
+        0.9948028549650059
+      ],
+      "foreground_mean_error_255_range": [
+        1.2319774559397594,
+        8.726062516170003
+      ],
+      "pixel_exact_frames": 0,
+      "vertex_count": 1706,
+      "path_count": 2,
+      "texture_dimensions": [
+        512,
+        512
+      ],
+      "shader_bytes": 245340,
+      "texture_bytes": 479857,
+      "shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "native_scene_sha256": "9f8005d3ab7ec3fddc0d6a147b32a44638cc900595d85c2a557bb23d4573965e",
+      "native_reference_report_sha256": "6469d564b8ae8d32d603cf3b07da6b4b571c51b49c8c6d9ae5f3083ca139a2e0",
+      "marker_probe_mismatch_count": 0,
+      "lowest_iou_frame_time": 2.0
+    }
+  },
+  "frames": [
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 77,
+      "mean_channel_error_255": 0.12496419270833334,
+      "foreground_mean_channel_error_255": 1.359077507370946,
+      "foreground_iou": 0.9945030233371646,
+      "foreground_union_pixels": 40022,
+      "reference_bounds": [
+        471,
+        179,
+        809,
+        541
+      ],
+      "compiled_bounds": [
+        471,
+        179,
+        809,
+        541
+      ],
+      "differing_pixels": 61342,
+      "reference_sha256": "6d3923bf9693a3f6af0bcc477ee2992bcd72d3f1d320613a8ccf71cde5557661",
+      "compiled_manifest_sha256": "c35f56cc62be756793d14eda4f92355f6a45cc194cdfd01c4c5cfbefb190b3ed",
+      "compiled_shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "compiled_texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_o_to_b"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 75,
+      "mean_channel_error_255": 0.1420920138888889,
+      "foreground_mean_channel_error_255": 1.8375560703899048,
+      "foreground_iou": 0.9929511509833884,
+      "foreground_union_pixels": 40574,
+      "reference_bounds": [
+        472,
+        182,
+        807,
+        541
+      ],
+      "compiled_bounds": [
+        472,
+        182,
+        807,
+        541
+      ],
+      "differing_pixels": 57485,
+      "reference_sha256": "64b28b9fc1ccb96ce4c476996464eba3791aac5e7e25c44bb089a16cadb9b461",
+      "compiled_manifest_sha256": "c35f56cc62be756793d14eda4f92355f6a45cc194cdfd01c4c5cfbefb190b3ed",
+      "compiled_shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "compiled_texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_o_to_b"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 219,
+      "mean_channel_error_255": 0.09082682291666666,
+      "foreground_mean_channel_error_255": 0.8913310363945982,
+      "foreground_iou": 0.9972278325610867,
+      "foreground_union_pixels": 50502,
+      "reference_bounds": [
+        478,
+        192,
+        800,
+        541
+      ],
+      "compiled_bounds": [
+        478,
+        192,
+        800,
+        541
+      ],
+      "differing_pixels": 34836,
+      "reference_sha256": "8ad3545a1d0a3bb7ee9cfbb703123a1af7d9b29f21c723e87646bf450db0cb8a",
+      "compiled_manifest_sha256": "c35f56cc62be756793d14eda4f92355f6a45cc194cdfd01c4c5cfbefb190b3ed",
+      "compiled_shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "compiled_texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_o_to_b"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 67,
+      "mean_channel_error_255": 0.07485785590277778,
+      "foreground_mean_channel_error_255": 0.44053415220509506,
+      "foreground_iou": 0.9979191498818158,
+      "foreground_union_pixels": 49499,
+      "reference_bounds": [
+        485,
+        193,
+        795,
+        541
+      ],
+      "compiled_bounds": [
+        485,
+        194,
+        795,
+        541
+      ],
+      "differing_pixels": 45331,
+      "reference_sha256": "1779fee7975ab087be1f4ea677608db03567282544f1c5b2a9f4585f05771c74",
+      "compiled_manifest_sha256": "c35f56cc62be756793d14eda4f92355f6a45cc194cdfd01c4c5cfbefb190b3ed",
+      "compiled_shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "compiled_texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_o_to_b"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 71,
+      "mean_channel_error_255": 0.08471137152777777,
+      "foreground_mean_channel_error_255": 0.441627099708734,
+      "foreground_iou": 0.9980449267845031,
+      "foreground_union_pixels": 50126,
+      "reference_bounds": [
+        486,
+        179,
+        794,
+        541
+      ],
+      "compiled_bounds": [
+        486,
+        179,
+        794,
+        541
+      ],
+      "differing_pixels": 53419,
+      "reference_sha256": "8e54dd334153663ff967c52f77fb71cccc526e77d76846830d7e8c456909dc84",
+      "compiled_manifest_sha256": "c35f56cc62be756793d14eda4f92355f6a45cc194cdfd01c4c5cfbefb190b3ed",
+      "compiled_shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "compiled_texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_o_to_b"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 73,
+      "mean_channel_error_255": 0.10354817708333333,
+      "foreground_mean_channel_error_255": 1.000978103110999,
+      "foreground_iou": 0.9962137944090365,
+      "foreground_union_pixels": 31694,
+      "reference_bounds": [
+        485,
+        179,
+        795,
+        541
+      ],
+      "compiled_bounds": [
+        485,
+        179,
+        795,
+        541
+      ],
+      "differing_pixels": 64577,
+      "reference_sha256": "78c7a6c4e15618958169291176db8908fece1c00b470b40a0e76109c6b63d15f",
+      "compiled_manifest_sha256": "b13a5b32ac2b86f1e5153faba328c8b29ccded2752f06d0a81f5d806631f68bc",
+      "compiled_shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "compiled_texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_c_to_s"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 71,
+      "mean_channel_error_255": 0.08761176215277777,
+      "foreground_mean_channel_error_255": 0.8859845227858986,
+      "foreground_iou": 0.9959759243336199,
+      "foreground_union_pixels": 29075,
+      "reference_bounds": [
+        501,
+        179,
+        782,
+        537
+      ],
+      "compiled_bounds": [
+        501,
+        179,
+        782,
+        537
+      ],
+      "differing_pixels": 55596,
+      "reference_sha256": "6e6ab8a3eccd09ba77926aa5e8f9320dcedafc4ed3ab6af299bcdaa0609458ef",
+      "compiled_manifest_sha256": "b13a5b32ac2b86f1e5153faba328c8b29ccded2752f06d0a81f5d806631f68bc",
+      "compiled_shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "compiled_texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_c_to_s"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 177,
+      "mean_channel_error_255": 0.04240451388888889,
+      "foreground_mean_channel_error_255": 0.5933377437054909,
+      "foreground_iou": 0.997509436899249,
+      "foreground_union_pixels": 25697,
+      "reference_bounds": [
+        518,
+        179,
+        767,
+        525
+      ],
+      "compiled_bounds": [
+        518,
+        179,
+        767,
+        525
+      ],
+      "differing_pixels": 24661,
+      "reference_sha256": "49e6f9f93726d4af163f405c1b652e7fe63cd42da362b2bdb38d487fe62bdb40",
+      "compiled_manifest_sha256": "b13a5b32ac2b86f1e5153faba328c8b29ccded2752f06d0a81f5d806631f68bc",
+      "compiled_shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "compiled_texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_c_to_s"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 73,
+      "mean_channel_error_255": 0.07596137152777778,
+      "foreground_mean_channel_error_255": 0.9965308420315876,
+      "foreground_iou": 0.9958613554061045,
+      "foreground_union_pixels": 32861,
+      "reference_bounds": [
+        515,
+        179,
+        753,
+        537
+      ],
+      "compiled_bounds": [
+        515,
+        179,
+        753,
+        536
+      ],
+      "differing_pixels": 37868,
+      "reference_sha256": "de76d01e5bb23db07af2c5f9f6b038c656e47e6420d376b72707b8f21644821b",
+      "compiled_manifest_sha256": "b13a5b32ac2b86f1e5153faba328c8b29ccded2752f06d0a81f5d806631f68bc",
+      "compiled_shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "compiled_texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_c_to_s"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 77,
+      "mean_channel_error_255": 0.08802734375,
+      "foreground_mean_channel_error_255": 1.0559586631486368,
+      "foreground_iou": 0.995877308707124,
+      "foreground_union_pixels": 36384,
+      "reference_bounds": [
+        513,
+        179,
+        767,
+        541
+      ],
+      "compiled_bounds": [
+        514,
+        179,
+        766,
+        541
+      ],
+      "differing_pixels": 43269,
+      "reference_sha256": "e976ddca091a3830d18c45cb58bf15e6de522596642d0924ccba896d4de21a94",
+      "compiled_manifest_sha256": "b13a5b32ac2b86f1e5153faba328c8b29ccded2752f06d0a81f5d806631f68bc",
+      "compiled_shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "compiled_texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_c_to_s"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 80,
+      "mean_channel_error_255": 0.10091471354166667,
+      "foreground_mean_channel_error_255": 1.5453536682924311,
+      "foreground_iou": 0.9939098345849139,
+      "foreground_union_pixels": 38751,
+      "reference_bounds": [
+        520,
+        179,
+        760,
+        541
+      ],
+      "compiled_bounds": [
+        520,
+        179,
+        760,
+        541
+      ],
+      "differing_pixels": 33691,
+      "reference_sha256": "8a930dad08a5558201d33df1dc60bfe2cbdd7846add52efd403501a5cd9c1ead",
+      "compiled_manifest_sha256": "aa00786b4ac67cfbfc606f11cc9114f9c94753ad795948ae377bfb6b9542c902",
+      "compiled_shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "compiled_texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_8_to_1"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 208,
+      "mean_channel_error_255": 0.083798828125,
+      "foreground_mean_channel_error_255": 1.7886994677024888,
+      "foreground_iou": 0.9927348582937707,
+      "foreground_union_pixels": 27804,
+      "reference_bounds": [
+        523,
+        201,
+        746,
+        516
+      ],
+      "compiled_bounds": [
+        523,
+        201,
+        746,
+        516
+      ],
+      "differing_pixels": 28236,
+      "reference_sha256": "1919b31147c0d47d67d0cf291f34ec3e21ff504dd263feacf315ade779477ade",
+      "compiled_manifest_sha256": "aa00786b4ac67cfbfc606f11cc9114f9c94753ad795948ae377bfb6b9542c902",
+      "compiled_shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "compiled_texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_8_to_1"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 236,
+      "mean_channel_error_255": 0.051704644097222224,
+      "foreground_mean_channel_error_255": 1.3462493974563388,
+      "foreground_iou": 0.9964403574474396,
+      "foreground_union_pixels": 26969,
+      "reference_bounds": [
+        534,
+        191,
+        736,
+        507
+      ],
+      "compiled_bounds": [
+        534,
+        191,
+        736,
+        507
+      ],
+      "differing_pixels": 12432,
+      "reference_sha256": "a999b1c128873485e35936061e36b92d25e48aad9f2ce66b86fd42e7ad2dd075",
+      "compiled_manifest_sha256": "aa00786b4ac67cfbfc606f11cc9114f9c94753ad795948ae377bfb6b9542c902",
+      "compiled_shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "compiled_texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_8_to_1"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 216,
+      "mean_channel_error_255": 0.033534071180555555,
+      "foreground_mean_channel_error_255": 0.4853359540681736,
+      "foreground_iou": 0.9979827238400663,
+      "foreground_union_pixels": 19333,
+      "reference_bounds": [
+        546,
+        182,
+        732,
+        533
+      ],
+      "compiled_bounds": [
+        546,
+        182,
+        732,
+        533
+      ],
+      "differing_pixels": 24591,
+      "reference_sha256": "335fe990c67ffa61146a6e32e5faacc74838e19bde0187dc5eee99e8db9588da",
+      "compiled_manifest_sha256": "aa00786b4ac67cfbfc606f11cc9114f9c94753ad795948ae377bfb6b9542c902",
+      "compiled_shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "compiled_texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_8_to_1"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 28,
+      "mean_channel_error_255": 0.020044487847222223,
+      "foreground_mean_channel_error_255": 0.029200473292765382,
+      "foreground_iou": 0.9999154834347532,
+      "foreground_union_pixels": 23664,
+      "reference_bounds": [
+        549,
+        179,
+        731,
+        541
+      ],
+      "compiled_bounds": [
+        549,
+        179,
+        731,
+        541
+      ],
+      "differing_pixels": 18199,
+      "reference_sha256": "2e6c51d6d3a4287b7107b891ed43846b34d3b9684e6dac0e9d62c89aedc07bd5",
+      "compiled_manifest_sha256": "aa00786b4ac67cfbfc606f11cc9114f9c94753ad795948ae377bfb6b9542c902",
+      "compiled_shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "compiled_texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_8_to_1"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 67,
+      "mean_channel_error_255": 0.05975477430555556,
+      "foreground_mean_channel_error_255": 0.4913179371418649,
+      "foreground_iou": 0.9917520402847717,
+      "foreground_union_pixels": 34554,
+      "reference_bounds": [
+        433,
+        224,
+        847,
+        496
+      ],
+      "compiled_bounds": [
+        433,
+        224,
+        847,
+        496
+      ],
+      "differing_pixels": 40219,
+      "reference_sha256": "a1bc099db4a8dac833f4823a0cb1cb90c96e5b29cd70d0a03dc985ea2ec963d4",
+      "compiled_manifest_sha256": "9fefde10ad37fb17dfd0ead3ae99f5ea8914fa4a0d4ec7971d90d19fd21bdcee",
+      "compiled_shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "compiled_texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_ui_to_ux"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 64,
+      "mean_channel_error_255": 0.057559678819444446,
+      "foreground_mean_channel_error_255": 0.4498860429780768,
+      "foreground_iou": 0.9982363794226178,
+      "foreground_union_pixels": 36856,
+      "reference_bounds": [
+        426,
+        224,
+        853,
+        496
+      ],
+      "compiled_bounds": [
+        426,
+        224,
+        853,
+        496
+      ],
+      "differing_pixels": 37639,
+      "reference_sha256": "563ffd46b741a9fd5f898fb918ec2a7b3b76e05cf2b50c7ef64c53e2f4ed1ccd",
+      "compiled_manifest_sha256": "9fefde10ad37fb17dfd0ead3ae99f5ea8914fa4a0d4ec7971d90d19fd21bdcee",
+      "compiled_shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "compiled_texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_ui_to_ux"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 62,
+      "mean_channel_error_255": 0.05764539930555555,
+      "foreground_mean_channel_error_255": 0.39385545783994647,
+      "foreground_iou": 0.9982457355215475,
+      "foreground_union_pixels": 43323,
+      "reference_bounds": [
+        399,
+        224,
+        875,
+        496
+      ],
+      "compiled_bounds": [
+        399,
+        224,
+        874,
+        496
+      ],
+      "differing_pixels": 37666,
+      "reference_sha256": "721dcf2790a6b7441d767b48e238a5d7f91cfbdd0a4d5aae8e996876d0d64149",
+      "compiled_manifest_sha256": "9fefde10ad37fb17dfd0ead3ae99f5ea8914fa4a0d4ec7971d90d19fd21bdcee",
+      "compiled_shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "compiled_texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_ui_to_ux"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 59,
+      "mean_channel_error_255": 0.06221028645833333,
+      "foreground_mean_channel_error_255": 0.3722114877920253,
+      "foreground_iou": 0.9956525557702441,
+      "foreground_union_pixels": 45544,
+      "reference_bounds": [
+        373,
+        224,
+        904,
+        496
+      ],
+      "compiled_bounds": [
+        373,
+        224,
+        904,
+        496
+      ],
+      "differing_pixels": 42260,
+      "reference_sha256": "c56f05a4805270e7234548d9bf45a9ef16125f2a53092bcdc27bab943d906d65",
+      "compiled_manifest_sha256": "9fefde10ad37fb17dfd0ead3ae99f5ea8914fa4a0d4ec7971d90d19fd21bdcee",
+      "compiled_shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "compiled_texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_ui_to_ux"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 68,
+      "mean_channel_error_255": 0.06574544270833334,
+      "foreground_mean_channel_error_255": 0.3872678461403046,
+      "foreground_iou": 0.9984596426370919,
+      "foreground_union_pixels": 45444,
+      "reference_bounds": [
+        366,
+        224,
+        914,
+        496
+      ],
+      "compiled_bounds": [
+        366,
+        224,
+        914,
+        496
+      ],
+      "differing_pixels": 45098,
+      "reference_sha256": "19018c85970f81bc749e9230cd888b2e865aa673aa687970fda2dfe6108aa6ea",
+      "compiled_manifest_sha256": "9fefde10ad37fb17dfd0ead3ae99f5ea8914fa4a0d4ec7971d90d19fd21bdcee",
+      "compiled_shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "compiled_texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_ui_to_ux"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 67,
+      "mean_channel_error_255": 0.018092447916666667,
+      "foreground_mean_channel_error_255": 2.6370833333333334,
+      "foreground_iou": 0.9904166666666666,
+      "foreground_union_pixels": 4800,
+      "reference_bounds": [
+        600,
+        224,
+        680,
+        496
+      ],
+      "compiled_bounds": [
+        600,
+        224,
+        680,
+        496
+      ],
+      "differing_pixels": 4577,
+      "reference_sha256": "54d30335f6e2e82cb54777cb614053681ba2f3cfeea4e0469c68f91e90e495a3",
+      "compiled_manifest_sha256": "c9f017c7adc64d374f600f6b6ad88b3b8d5216bff684d0443f38bface5217748",
+      "compiled_shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "compiled_texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_fraction_swap"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 175,
+      "mean_channel_error_255": 0.012623697916666666,
+      "foreground_mean_channel_error_255": 1.8423534235342354,
+      "foreground_iou": 0.991389913899139,
+      "foreground_union_pixels": 4878,
+      "reference_bounds": [
+        600,
+        224,
+        680,
+        495
+      ],
+      "compiled_bounds": [
+        600,
+        224,
+        680,
+        495
+      ],
+      "differing_pixels": 3139,
+      "reference_sha256": "e2d72bd7a99dfbfa2478ff2f8caa1f458bc13342c0529edb1f4777751286b543",
+      "compiled_manifest_sha256": "c9f017c7adc64d374f600f6b6ad88b3b8d5216bff684d0443f38bface5217748",
+      "compiled_shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "compiled_texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_fraction_swap"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 52,
+      "mean_channel_error_255": 0.005115017361111111,
+      "foreground_mean_channel_error_255": 0.956199460916442,
+      "foreground_iou": 0.9939353099730458,
+      "foreground_union_pixels": 4452,
+      "reference_bounds": [
+        602,
+        224,
+        678,
+        494
+      ],
+      "compiled_bounds": [
+        602,
+        224,
+        678,
+        494
+      ],
+      "differing_pixels": 822,
+      "reference_sha256": "e9bff39e4607b136ca9ebb9522cee77ecfb67edf05f2095f5bc987304f1205eb",
+      "compiled_manifest_sha256": "c9f017c7adc64d374f600f6b6ad88b3b8d5216bff684d0443f38bface5217748",
+      "compiled_shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "compiled_texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_fraction_swap"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 100,
+      "mean_channel_error_255": 0.009014756944444445,
+      "foreground_mean_channel_error_255": 1.5886246629075753,
+      "foreground_iou": 0.991909781809267,
+      "foreground_union_pixels": 4079,
+      "reference_bounds": [
+        604,
+        224,
+        676,
+        493
+      ],
+      "compiled_bounds": [
+        604,
+        224,
+        676,
+        493
+      ],
+      "differing_pixels": 2263,
+      "reference_sha256": "1ddbbe0bf4b7fa3d04b4c5741895d7d98ac8b51b8bfbea328f915d1e3fbb2cfc",
+      "compiled_manifest_sha256": "c9f017c7adc64d374f600f6b6ad88b3b8d5216bff684d0443f38bface5217748",
+      "compiled_shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "compiled_texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_fraction_swap"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 63,
+      "mean_channel_error_255": 0.012731119791666667,
+      "foreground_mean_channel_error_255": 2.2922954725972993,
+      "foreground_iou": 0.9923219486364839,
+      "foreground_union_pixels": 3777,
+      "reference_bounds": [
+        605,
+        224,
+        675,
+        496
+      ],
+      "compiled_bounds": [
+        605,
+        224,
+        675,
+        496
+      ],
+      "differing_pixels": 3486,
+      "reference_sha256": "0b65c875e4a99974a8ef70b51b20abeffd433c84a780f4decb0297428c526c8f",
+      "compiled_manifest_sha256": "c9f017c7adc64d374f600f6b6ad88b3b8d5216bff684d0443f38bface5217748",
+      "compiled_shader_sha256": "4d7f80780beab677af10dde34d9e8c5610fd4cbdff15c9ab8d7a4b89b55cf356",
+      "compiled_texture_sha256": "d5291d1f6e332bae7fc9bd15d178337dd0b44512c8ee8aec799789abaf65ee3e",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_fraction_swap"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 71,
+      "mean_channel_error_255": 0.044287109375,
+      "foreground_mean_channel_error_255": 2.261754563041467,
+      "foreground_iou": 0.9914206409285895,
+      "foreground_union_pixels": 11889,
+      "reference_bounds": [
+        503,
+        224,
+        777,
+        496
+      ],
+      "compiled_bounds": [
+        503,
+        224,
+        777,
+        496
+      ],
+      "differing_pixels": 13837,
+      "reference_sha256": "a6a07a7481e9dcd1839999ac7bb7ddbd8eba3eb6410662b87c40af1177b25b1c",
+      "compiled_manifest_sha256": "4070fdc6602e97d8c40e085c51384668c16fd0749d1c8a0089dfcd3d5f181fe3",
+      "compiled_shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "compiled_texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_power_to_root"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 250,
+      "mean_channel_error_255": 0.042724609375,
+      "foreground_mean_channel_error_255": 2.161965486173678,
+      "foreground_iou": 0.9911289763670386,
+      "foreground_union_pixels": 14429,
+      "reference_bounds": [
+        509,
+        239,
+        775,
+        487
+      ],
+      "compiled_bounds": [
+        509,
+        239,
+        775,
+        487
+      ],
+      "differing_pixels": 10522,
+      "reference_sha256": "80a7b9e9b25eb9bb14659fbbf18a1e8fdda3a349167d9b4bc3d1022f31506b72",
+      "compiled_manifest_sha256": "4070fdc6602e97d8c40e085c51384668c16fd0749d1c8a0089dfcd3d5f181fe3",
+      "compiled_shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "compiled_texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_power_to_root"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 235,
+      "mean_channel_error_255": 0.048845486111111114,
+      "foreground_mean_channel_error_255": 2.4447532236549576,
+      "foreground_iou": 0.9983325922632281,
+      "foreground_union_pixels": 17992,
+      "reference_bounds": [
+        493,
+        286,
+        776,
+        485
+      ],
+      "compiled_bounds": [
+        494,
+        286,
+        776,
+        485
+      ],
+      "differing_pixels": 2738,
+      "reference_sha256": "f6c68371c58416a5db080a3dd1d1f7d6678616299332bf34df8b7f34864b262c",
+      "compiled_manifest_sha256": "4070fdc6602e97d8c40e085c51384668c16fd0749d1c8a0089dfcd3d5f181fe3",
+      "compiled_shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "compiled_texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_power_to_root"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 65,
+      "mean_channel_error_255": 0.022470703125,
+      "foreground_mean_channel_error_255": 1.2576048671149536,
+      "foreground_iou": 0.9959173871277618,
+      "foreground_union_pixels": 12492,
+      "reference_bounds": [
+        474,
+        238,
+        801,
+        489
+      ],
+      "compiled_bounds": [
+        474,
+        238,
+        801,
+        489
+      ],
+      "differing_pixels": 5901,
+      "reference_sha256": "d05c897042f8d3ec4fc6e5e1654cf45d93e216bc3f3220b4eb43877d5bf593bb",
+      "compiled_manifest_sha256": "4070fdc6602e97d8c40e085c51384668c16fd0749d1c8a0089dfcd3d5f181fe3",
+      "compiled_shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "compiled_texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_power_to_root"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 71,
+      "mean_channel_error_255": 0.029009331597222222,
+      "foreground_mean_channel_error_255": 1.4016551330527216,
+      "foreground_iou": 0.9944353285296426,
+      "foreground_union_pixels": 14017,
+      "reference_bounds": [
+        459,
+        224,
+        821,
+        496
+      ],
+      "compiled_bounds": [
+        459,
+        224,
+        821,
+        496
+      ],
+      "differing_pixels": 7952,
+      "reference_sha256": "ab8e4804737fdb32c46dce4451c9f694d324c5fbddf1c939f535387238b5711b",
+      "compiled_manifest_sha256": "4070fdc6602e97d8c40e085c51384668c16fd0749d1c8a0089dfcd3d5f181fe3",
+      "compiled_shader_sha256": "6fc468d8ba94f272663e310044a8fee525b2dc75943304d9fc5f9744e0664cbb",
+      "compiled_texture_sha256": "3edf2efeb4b0c286454580dc0408a490d24a8dd3dcce92c1c1160c406370d30f",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_power_to_root"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 72,
+      "mean_channel_error_255": 0.35519205729166664,
+      "foreground_mean_channel_error_255": 5.175696443041158,
+      "foreground_iou": 0.8227947134594429,
+      "foreground_union_pixels": 35789,
+      "reference_bounds": [
+        365,
+        224,
+        915,
+        496
+      ],
+      "compiled_bounds": [
+        365,
+        224,
+        915,
+        496
+      ],
+      "differing_pixels": 44662,
+      "reference_sha256": "9db09fc12edc671fb621bb76149a455be24a4923a6fdfac119f5dfa39809448d",
+      "compiled_manifest_sha256": "d6f4af3c7e15780bb81f27ecc7893c371bac61946e9502919f78a7a8978fac31",
+      "compiled_shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "compiled_texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_change"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 229,
+      "mean_channel_error_255": 0.2967654079861111,
+      "foreground_mean_channel_error_255": 4.3226742024243325,
+      "foreground_iou": 0.9079596440346049,
+      "foreground_union_pixels": 40341,
+      "reference_bounds": [
+        365,
+        228,
+        912,
+        494
+      ],
+      "compiled_bounds": [
+        365,
+        229,
+        912,
+        494
+      ],
+      "differing_pixels": 38311,
+      "reference_sha256": "e9bea74b1e06c5a95ce1b394c82ab2a2bad71237c1aa7cb4977b3c47d0d5ead5",
+      "compiled_manifest_sha256": "d6f4af3c7e15780bb81f27ecc7893c371bac61946e9502919f78a7a8978fac31",
+      "compiled_shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "compiled_texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_change"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 228,
+      "mean_channel_error_255": 0.146357421875,
+      "foreground_mean_channel_error_255": 2.07024773587618,
+      "foreground_iou": 0.9773587617997987,
+      "foreground_union_pixels": 41738,
+      "reference_bounds": [
+        362,
+        238,
+        916,
+        487
+      ],
+      "compiled_bounds": [
+        362,
+        238,
+        916,
+        487
+      ],
+      "differing_pixels": 26169,
+      "reference_sha256": "13aa9d13ee701b2e8a3f2d670577875c5f0733e90bb369ed91f45470383073b1",
+      "compiled_manifest_sha256": "d6f4af3c7e15780bb81f27ecc7893c371bac61946e9502919f78a7a8978fac31",
+      "compiled_shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "compiled_texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_change"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 226,
+      "mean_channel_error_255": 0.14399305555555555,
+      "foreground_mean_channel_error_255": 1.1231403067063401,
+      "foreground_iou": 0.9949645227740902,
+      "foreground_union_pixels": 43690,
+      "reference_bounds": [
+        359,
+        233,
+        921,
+        494
+      ],
+      "compiled_bounds": [
+        359,
+        233,
+        921,
+        494
+      ],
+      "differing_pixels": 43795,
+      "reference_sha256": "c6635e73601833111070edf6b425d2789d4ea086dd5a06467a6490acf2a25450",
+      "compiled_manifest_sha256": "d6f4af3c7e15780bb81f27ecc7893c371bac61946e9502919f78a7a8978fac31",
+      "compiled_shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "compiled_texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_change"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 225,
+      "mean_channel_error_255": 0.16627495659722222,
+      "foreground_mean_channel_error_255": 1.2853150635535924,
+      "foreground_iou": 0.995312359145407,
+      "foreground_union_pixels": 44372,
+      "reference_bounds": [
+        356,
+        224,
+        923,
+        496
+      ],
+      "compiled_bounds": [
+        357,
+        224,
+        923,
+        496
+      ],
+      "differing_pixels": 54795,
+      "reference_sha256": "20ca9df6840b342cd917d818baf45a6cd82e3db272e6567e3c7bbb0862a413a0",
+      "compiled_manifest_sha256": "d6f4af3c7e15780bb81f27ecc7893c371bac61946e9502919f78a7a8978fac31",
+      "compiled_shader_sha256": "34ae364049ac3d564c75eeca903a8540c5132d1b079c078888bfae4661f2feb0",
+      "compiled_texture_sha256": "3d87a6f5d47bf8489c84bd9c5837e5e648c5da917af7c9263a05a18e8999a011",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_change"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 73,
+      "mean_channel_error_255": 0.14265842013888888,
+      "foreground_mean_channel_error_255": 1.2319774559397594,
+      "foreground_iou": 0.9948028549650059,
+      "foreground_union_pixels": 43293,
+      "reference_bounds": [
+        355,
+        224,
+        924,
+        496
+      ],
+      "compiled_bounds": [
+        355,
+        224,
+        924,
+        496
+      ],
+      "differing_pixels": 56092,
+      "reference_sha256": "f2e533a9e1ba6c823a1049978eaf3c00740d013fe022a43df552402a54561aba",
+      "compiled_manifest_sha256": "6a60f3653bd4d068320a7b56f8a6caec8b28371c569cad7398827602b0d30579",
+      "compiled_shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "compiled_texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_math"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 0.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 213,
+      "mean_channel_error_255": 0.13220594618055556,
+      "foreground_mean_channel_error_255": 1.2472273121805382,
+      "foreground_iou": 0.9942376314012923,
+      "foreground_union_pixels": 41476,
+      "reference_bounds": [
+        359,
+        231,
+        919,
+        495
+      ],
+      "compiled_bounds": [
+        359,
+        231,
+        919,
+        495
+      ],
+      "differing_pixels": 44962,
+      "reference_sha256": "b627f4e2d0126949de705ba8d197c065b2bbd3cc7424db4ea017881efe09a9af",
+      "compiled_manifest_sha256": "6a60f3653bd4d068320a7b56f8a6caec8b28371c569cad7398827602b0d30579",
+      "compiled_shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "compiled_texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_math"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 238,
+      "mean_channel_error_255": 0.17502821180555556,
+      "foreground_mean_channel_error_255": 2.263360583744342,
+      "foreground_iou": 0.9923879017183523,
+      "foreground_union_pixels": 44403,
+      "reference_bounds": [
+        368,
+        255,
+        913,
+        495
+      ],
+      "compiled_bounds": [
+        368,
+        255,
+        913,
+        494
+      ],
+      "differing_pixels": 29235,
+      "reference_sha256": "b54201caa33d78bdf792bc5ca127407bb36bd93dae9b6547b4bd024353c2edd9",
+      "compiled_manifest_sha256": "6a60f3653bd4d068320a7b56f8a6caec8b28371c569cad7398827602b0d30579",
+      "compiled_shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "compiled_texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_math"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 1.5,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 210,
+      "mean_channel_error_255": 0.3496495225694444,
+      "foreground_mean_channel_error_255": 6.222001170275014,
+      "foreground_iou": 0.8506026916325337,
+      "foreground_union_pixels": 42725,
+      "reference_bounds": [
+        368,
+        233,
+        911,
+        494
+      ],
+      "compiled_bounds": [
+        368,
+        233,
+        911,
+        494
+      ],
+      "differing_pixels": 40313,
+      "reference_sha256": "51bbd93ec058467e9acaad0f6622f1715edcdfc36311b5a4ec69633396a4eeb7",
+      "compiled_manifest_sha256": "6a60f3653bd4d068320a7b56f8a6caec8b28371c569cad7398827602b0d30579",
+      "compiled_shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "compiled_texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_math"
+    },
+    {
+      "scope": "supplied reference PNG versus desktop GLSL adaptation of compiled MC shader",
+      "reference_kind": "manim",
+      "minecraft_verified": false,
+      "pixel_exact": false,
+      "time": 2.0,
+      "size": [
+        1280,
+        720
+      ],
+      "driver": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 616.64"
+      },
+      "maximum_channel_error_255": 78,
+      "mean_channel_error_255": 0.4434982638888889,
+      "foreground_mean_channel_error_255": 8.726062516170003,
+      "foreground_iou": 0.6906649105063857,
+      "foreground_union_pixels": 42517,
+      "reference_bounds": [
+        365,
+        224,
+        915,
+        496
+      ],
+      "compiled_bounds": [
+        365,
+        224,
+        915,
+        496
+      ],
+      "differing_pixels": 44679,
+      "reference_sha256": "c67ed58f4bd59a24c44521914c043d44848669cd25cf75416e38331b42750441",
+      "compiled_manifest_sha256": "6a60f3653bd4d068320a7b56f8a6caec8b28371c569cad7398827602b0d30579",
+      "compiled_shader_sha256": "a3e2fb6c6a176fe37d6f766cb859d5587d5396f4572882eb70572628819cd0da",
+      "compiled_texture_sha256": "25704bb6c2eeebb58e534c4e7ba1dd53874c013aa6f7b07266f2f4ca2fa966be",
+      "compiled_coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery",
+      "compiled_fill_approximations": [
+        "curve chains and round segment caps replace native analytic fill and stroke strips",
+        "float32 signed alpha replaces ordered native FP16 blending",
+        "signed-alpha exponent beyond +/-80 is saturated for float32 safety"
+      ],
+      "limitations": [
+        "Different antialiasing rules may cause edge discrepancies.",
+        "Curves were sampled into closed polylines or shared-base directed fans by the exporter.",
+        "Intermediate times linearly interpolate exported samples.",
+        "This diagnostic does not declare the text 1:1 acceptance complete."
+      ],
+      "scene": "manimgl_chinese_math"
+    }
+  ],
+  "observations": [
+    "The largest Chinese foreground-mask differences occur at the Chinese-text endpoint: t=0 for chinese_change and t=2 for chinese_math.",
+    "A midpoint-only thumbnail does not represent the worst Chinese frame; chinese-lowest-iou-comparison.png supplies those endpoint comparisons.",
+    "No renderer changes or threshold tuning were made during final delivery verification.",
+    "Visual inspection of the lowest-IoU endpoint crops shows faint triangular gray regions in native ManimGL counter spaces and beside strokes; compiled endpoints keep these spaces black. The principal white Chinese strokes are present in both. The underlying native artifact cause was not experimentally isolated in this delivery check."
+  ]
+}

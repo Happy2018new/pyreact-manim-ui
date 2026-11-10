@@ -34,7 +34,7 @@ def main():
     before_guard = require_background_session(session)
     args.output.mkdir(parents=True)
     report = {"kind": "live_player_api_and_capture", "mouse_input_verified": False,
-              "pixel_parity_verified": False, "frames": [], "fps": [], "checks": [],
+              "pixel_parity_verified": False, "frames": [], "fps": [], "playback_samples": [], "checks": [],
               "background_only": True, "background_before": before_guard}
 
     with Client() as client:
@@ -52,6 +52,7 @@ def main():
         report["viewport"] = execute(
             "_result = json.dumps({'logical': player.game.GetScreenSize(), "
             "'physical': player.game.GetScreenViewInfo(), 'used': player.viewport, 'canvas': player.canvas})")
+        assert list(report["viewport"]["used"]) == list(report["viewport"]["physical"][:2]), report["viewport"]
         scenes = execute("_result = json.dumps(player.scenes)")
         for index, scene in enumerate(scenes):
             state("assert player.select_scene(%d)" % index)
@@ -60,7 +61,7 @@ def main():
                 assert current["visible"] and not current["error"] and current["flip_y"]
                 assert current["position"] == timestamp and not current["playing"]
                 time.sleep(0.3)
-                frame = {"state": current}
+                frame = {"state": current, "fps": execute("_result = player.game.GetFps()")}
                 if args.capture_helper:
                     output = args.output / ("scene_%d_step_%d.png" % (index, step))
                     capture = subprocess.run([
@@ -74,6 +75,16 @@ def main():
                     frame["capture"] = str(output)
                 report["frames"].append(frame)
         report["checks"].append("all scenes: install, seek start/midpoint/endpoint, visible, paused, no reported error")
+        for index, scene in enumerate(scenes):
+            state("assert player.select_scene(%d)\nplayer.seek(0.0)\nplayer.toggle_play()" % index)
+            time.sleep(0.3)
+            current = state("player.toggle_play()")
+            fps = execute("_result = player.game.GetFps()")
+            assert not current["playing"] and not current["error"]
+            assert 0.0 < current["position"] < scene["duration"], current
+            assert 0.0 < fps <= 61.0, fps
+            report["playback_samples"].append({"state": current, "fps": fps})
+        report["checks"].append("all scenes advance during playback and pause without reported errors; FPS samples respect cap")
         state("player.select_scene(0)\nplayer.seek(0.0)\nplayer.toggle_play()")
         time.sleep(0.65)
         paused = state("player.toggle_play()")

@@ -72,10 +72,14 @@ void fanEdge(vec4 px, vec4 py, vec2 a, vec2 b, inout vec4 winding) {
     winding += direction * crossing * sign(max(side, vec4(0.0)));
 }
 
-float segmentDistance(vec2 p, vec2 a, vec2 b) {
+vec4 fanSegmentDistance(vec4 px, vec4 py, vec2 a, vec2 b) {
     vec2 direction = b - a;
-    float ratio = clamp(dot(p - a, direction) / max(dot(direction, direction), 1.0e-20), 0.0, 1.0);
-    return length(p - a - ratio * direction);
+    vec4 dx = px - vec4(a.x);
+    vec4 dy = py - vec4(a.y);
+    vec4 ratio = clamp((dx * direction.x + dy * direction.y) / max(dot(direction, direction), 1.0e-20), 0.0, 1.0);
+    dx -= ratio * direction.x;
+    dy -= ratio * direction.y;
+    return sqrt(dx * dx + dy * dy);
 }
 """
 
@@ -93,7 +97,7 @@ def _fan_path_code(index, path, layout):
              "        vec4 px = vec4(p.x) + pixelSize * vec4(-0.25, 0.25, -0.25, 0.25);",
              "        vec4 py = vec4(p.y) + pixelSize * vec4(-0.25, -0.25, 0.25, 0.25);",
              "        vec4 winding = vec4(0.0);",
-             "        float distanceToCurve = 1.0e20;",
+             "        vec4 distanceToCurve = vec4(1.0e20);",
              "        vec2 base = samplePoint(%s, frames);" % _float(path["base_point"])]
     for curve in path["curves"]:
         lines += ["        if (sampleScalar(%s, frames) > 0.0) {" % _float(curve["active_offset"]),
@@ -102,17 +106,24 @@ def _fan_path_code(index, path, layout):
                   "            for (int i = 1; i < %d; ++i) {" % curve["count"],
                   "                vec2 b = samplePoint(%s + float(i), frames);" % _float(curve["start"]),
                   "                fanEdge(px, py, a, b, winding);",
-                  "                distanceToCurve = min(distanceToCurve, segmentDistance(p, a, b));",
+                  "                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));",
                   "                a = b;",
                   "            }", "            fanEdge(px, py, a, base, winding);", "        }"]
-    lines += ["        float coverage = dot(step(vec4(0.5), abs(winding)), vec4(0.25));",
+    lines += ["        vec4 fill = sampleColor(%s, frames);" % _float(style),
+              "        // Native signed alpha is accumulated in the 2x fill canvas before filtering.",
+              "        // Bound the exponent, not winding: faint overlapping shapes must still accumulate.",
+              "        vec4 signedExponent = log(1.0 - 0.95 * fill.a) * winding * %s;" % _float(path.get("fill_orientation", 1)),
+              "        vec4 coverageSamples = vec4(1.0) - exp(clamp(signedExponent, -80.0, 80.0));",
               "        if (borderHalfWidth > 0.0) {",
               "            // Native fill-border uses real curves only, never the artificial fan edges.",
-              "            float borderCoverage = 1.0 - smoothstep(borderHalfWidth - borderHalfAA, borderHalfWidth + borderHalfAA, distanceToCurve);",
-              "            coverage = max(coverage, clamp(borderCoverage * (0.95 * 1.06), 0.0, 1.0));",
+              "            vec4 borderCoverage = 1.0 - smoothstep(borderHalfWidth - borderHalfAA, borderHalfWidth + borderHalfAA, distanceToCurve);",
+              "            // MAX applies only where border geometry exists: zero must not erase negative fill elsewhere.",
+              "            vec4 borderPresent = vec4(1.0) - step(vec4(borderHalfWidth + borderHalfAA), distanceToCurve);",
+              "            coverageSamples = mix(coverageSamples, max(coverageSamples, borderCoverage * (0.95 * fill.a)), borderPresent);",
               "        }",
-              "        vec4 fill = sampleColor(%s, frames);" % _float(style),
-              "        color = mix(color, fill.rgb, fill.a * coverage);", "        }", "    }"]
+              "        float coverage = dot(coverageSamples, vec4(0.25));",
+              "        if (coverage < 0.0) coverage = -coverage / (1.0 - coverage);",
+              "        color = mix(color, fill.rgb, coverage * 1.06);", "        }", "    }"]
     return "\n".join(lines)
 
 

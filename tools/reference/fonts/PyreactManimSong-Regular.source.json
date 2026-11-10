@@ -1,0 +1,20 @@
+{
+  "family": "Pyreact Manim Song",
+  "file": "PyreactManimSong-Regular.ttf",
+  "style": "serif",
+  "weight": 400,
+  "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~世中你例公函动動变圆好子字学學式形换換数數文汉测画界畫示试轉量",
+  "sha256": "230390ac718f0bddccce9666a1aeb71611cb86bdd77851f9af0d4b8287de6585",
+  "bytes": 35068,
+  "fonttools": "4.62.1",
+  "source": {
+    "repository": "https://github.com/google/fonts",
+    "commit": "8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5",
+    "url": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notoserifsc/NotoSerifSC%5Bwght%5D.ttf",
+    "sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
+    "bytes": 25125512,
+    "license": "SIL Open Font License 1.1",
+    "license_url": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notoserifsc/OFL.txt",
+    "license_sha256": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  }
+}

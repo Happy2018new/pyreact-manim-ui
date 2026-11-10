@@ -1,0 +1,401 @@
+{
+  "date": "2026-11-10",
+  "timezone": "America/New_York",
+  "version": "0.2.0-preview",
+  "kind": "background_minecraft_acceptance",
+  "passed": true,
+  "tests_passed": 121,
+  "capture_count": 30,
+  "scene_count": 10,
+  "fps_cap": 60,
+  "viewport": {
+    "canvas": [
+      0.1527777777777778,
+      0.5277777777777778
+    ],
+    "used": [
+      1280.0,
+      720.0
+    ],
+    "logical": [
+      640.0,
+      360.0
+    ],
+    "physical": [
+      1280.0,
+      720.0,
+      0.0,
+      0.0
+    ]
+  },
+  "checks": [
+    "all scenes: install, seek start/midpoint/endpoint, visible, paused, no reported error",
+    "all scenes advance during playback and pause without reported errors; FPS samples respect cap",
+    "play advances; pause keeps the same position",
+    "play at endpoint restarts at the beginning",
+    "hide stops playback; navigator pop cleans subscriptions; synthetic F8 release on actual HUD reopens with one subscription",
+    "four FPS samples at or below the configured 60 FPS cap (1 FPS rounding tolerance)"
+  ],
+  "capture_fps_range": [
+    28.625951766967773,
+    61.14398193359375
+  ],
+  "playback_fps_range": [
+    60.0775146484375,
+    60.0775146484375
+  ],
+  "final_fps_samples": [
+    59.76095199584961,
+    59.96131134033203,
+    60.0775146484375,
+    60.0775146484375
+  ],
+  "background_only": true,
+  "foreground_activation_allowed": false,
+  "background_before_safe": true,
+  "background_after_safe": true,
+  "mouse_input_verified": false,
+  "synthetic_key_event_verified": true,
+  "frames": [
+    {
+      "scene": "manimgl_o_to_b",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "f03c52190a3aaa1a15955cbcf24cccdc8883687dfd2aba5061bbc8ba789abbc3"
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "position": 1.0,
+      "fps": 28.625951766967773,
+      "capture_sha256": "dd1417ce4e6ee23ebdec015e6636f8a3c311735b867288a48b06c1501c377f48"
+    },
+    {
+      "scene": "manimgl_o_to_b",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "a20fac68558e6eb47b32047d11b06d9e9c6d0303223ff0e2c28951990232ddea"
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "94c8add23c8e75d4af401d99e7d2ec20aaf7d484562e1a55e328c3e098e01150"
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "9174ddea6eb39ec020cfdca063eaa2bab100e6c362ecc46fa999cc0d5fb3094f"
+    },
+    {
+      "scene": "manimgl_c_to_s",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "8c31c9e7610dc2e8f28d0628225b4a646413576167f10722a85206f60ad5c111"
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "7d5f0d4542f5ff8d5194a388cabfd4ba2cbe7b8df7fbdb2ef792e5396c99cb86"
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "664f2607c6cd19f53cd8e57916452bcca6705e8f30a971fd1bfe1997e7cd0392"
+    },
+    {
+      "scene": "manimgl_8_to_1",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "419d73854cde85e6140f69310573c54954cc3518e474c6a877b199bfb7e6b52a"
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "3db5149ece1c4aa2763caaf6afe349aac22d158d37f845754761791a0ee0279b"
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "65908e9b315a6c65d8de195c1804f6409c4199599476e7e330e6e40c88e8c22f"
+    },
+    {
+      "scene": "manimgl_ui_to_ux",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "3ebec461ae21054e64ea739edf8d5870c11f3b7c6ca60ef9ba3edc0b593356d0"
+    },
+    {
+      "scene": "manimgl_fraction_swap",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "f51c247d96e660cd50fc9d22f67e3b7fc28cb7377e0d4cf0a3ad52f1b6b170b0"
+    },
+    {
+      "scene": "manimgl_fraction_swap",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "84e14efc8d1865d248c92c12cb27d0cf4b4041a44fd42dd2ab723d0a96ec3e38"
+    },
+    {
+      "scene": "manimgl_fraction_swap",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "85ae4a5f603af5050e199f14ef121e4449339008d6132de2c18ae7e360f54326"
+    },
+    {
+      "scene": "manimgl_power_to_root",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "9dcbe5bd364ed5299bfec6b14c13311cd25959182b7b36d4d2a3252087a3c787"
+    },
+    {
+      "scene": "manimgl_power_to_root",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "a3a38a43a7bc1e962f882346f261e95aa2ab56b2037d0547b5a3d6aa61a1b5d7"
+    },
+    {
+      "scene": "manimgl_power_to_root",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "2fa2320b6eaad1e5f261f3082280b00b0fdf17149c00fdfa881f56e7753c46af"
+    },
+    {
+      "scene": "manimgl_chinese_change",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "e8d9e04ef7251591641b10320c86b8178e84a0f43842a41a5813b44aaef71750"
+    },
+    {
+      "scene": "manimgl_chinese_change",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "1229fa5524c2b685b38413632b4f01d18ad8eea04652f7c8808e76541997213c"
+    },
+    {
+      "scene": "manimgl_chinese_change",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "5b88a1bad29a25cfd8b75f45f06370d9a7e8f32690519603eff70d9283bdd4c9"
+    },
+    {
+      "scene": "manimgl_chinese_math",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "fc517de7ed67c72ee9bcb14b218fd3b98da583d0b9d2e8c9399b8634cc4983ad"
+    },
+    {
+      "scene": "manimgl_chinese_math",
+      "position": 1.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "092ef8f32abba6568c9d570d1df1d473ae6c98637d116a0c03e5f9c1e3359829"
+    },
+    {
+      "scene": "manimgl_chinese_math",
+      "position": 2.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "1ecd005477c700fcd000014c7c344b8d13d45af5e12764d847fcd198444906f9"
+    },
+    {
+      "scene": "basic_geometry",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "dc917ceeb825b0295d0918a3cfe0bcb58d218197dfe55968efd24f86d3afa71b"
+    },
+    {
+      "scene": "basic_geometry",
+      "position": 2.8499999999999996,
+      "fps": 61.14398193359375,
+      "capture_sha256": "3c560fe00e393149cf667f40de6527b871bd8fc11978cde0d8839f12546e9824"
+    },
+    {
+      "scene": "basic_geometry",
+      "position": 5.699999999999999,
+      "fps": 60.0775146484375,
+      "capture_sha256": "04eb3e11637bc7367e3242b2c58293bd27cc3f9b1ad7605ec4f50279a0e91ae4"
+    },
+    {
+      "scene": "axes_sine",
+      "position": 0.0,
+      "fps": 60.0775146484375,
+      "capture_sha256": "b62f77926cee3138b470545bdf1618ab90576738a8abf9875a39f1b3c03674b1"
+    },
+    {
+      "scene": "axes_sine",
+      "position": 2.9,
+      "fps": 60.0775146484375,
+      "capture_sha256": "e1e7aa5fb192c5935043e48c4f7f51658a7dbf9f3327fabb362252534161cf50"
+    },
+    {
+      "scene": "axes_sine",
+      "position": 5.8,
+      "fps": 60.0775146484375,
+      "capture_sha256": "e5b74630c7eb08c70da27563efd5298a570662f67bddab546d790ecb5a6526a8"
+    }
+  ],
+  "playback_samples": [
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "字形变换：O → B",
+        "duration": 2.0,
+        "position": 0.5988297999999759,
+        "error": "",
+        "scene": "manimgl_o_to_b",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "字形变换：C → S",
+        "duration": 2.0,
+        "position": 0.5989435999999841,
+        "error": "",
+        "scene": "manimgl_c_to_s",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "多轮廓预览：8 → 1",
+        "duration": 2.0,
+        "position": 0.5490643000000546,
+        "error": "",
+        "scene": "manimgl_8_to_1",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "多字符预览：UI → UX",
+        "duration": 2.0,
+        "position": 0.5993149000000813,
+        "error": "",
+        "scene": "manimgl_ui_to_ux",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "LaTeX 分式：a/b → b/a",
+        "duration": 2.0,
+        "position": 0.5502981000000773,
+        "error": "",
+        "scene": "manimgl_fraction_swap",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "LaTeX 上标与根号：x² → √x",
+        "duration": 2.0,
+        "position": 0.49937390000002324,
+        "error": "",
+        "scene": "manimgl_power_to_root",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "宋体中文：中文 → 变换",
+        "duration": 2.0,
+        "position": 0.5506455999999389,
+        "error": "",
+        "scene": "manimgl_chinese_change",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "宋体中文：数学 → 中文",
+        "duration": 2.0,
+        "position": 0.5502393000000438,
+        "error": "",
+        "scene": "manimgl_chinese_math",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "二维图形：变形、旋转与缩放",
+        "duration": 5.699999999999999,
+        "position": 0.5999614999999494,
+        "error": "",
+        "scene": "basic_geometry",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    },
+    {
+      "state": {
+        "visible": true,
+        "flip_y": true,
+        "ui_scale": 1.0,
+        "title": "坐标轴：绘制曲线与沿路径运动",
+        "duration": 5.8,
+        "position": 0.550038000000086,
+        "error": "",
+        "scene": "axes_sine",
+        "playing": false
+      },
+      "fps": 60.0775146484375
+    }
+  ],
+  "resize_verified": [
+    [
+      960,
+      540
+    ],
+    [
+      1280,
+      720
+    ]
+  ],
+  "limitations": [
+    "Only this Windows NetEase client and GPU were exercised.",
+    "Two first-time Chinese shader installations exceeded the IPC timeout; read-only state then confirmed completed installation. Exact cold compilation duration was not measured.",
+    "Captured FPS samples include scene transitions and compilation; ten warmed playback samples were separately measured.",
+    "Addon reload produced transient Pyreact navigator teardown and shader-parameter errors before reinitialization; final player checks passed. No claim of error-free addon hot reload.",
+    "No hardware mouse/keyboard input was sent. Close/reopen uses SDK and synthetic event callbacks.",
+    "Strict native Manim pixel parity remains unaccepted; FP32 diagnostic references are labelled separately."
+  ]
+}

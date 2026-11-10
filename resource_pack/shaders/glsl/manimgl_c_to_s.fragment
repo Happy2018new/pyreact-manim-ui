@@ -7,7 +7,7 @@ uniform sampler2D TEXTURE_2;
 uniform vec4 EXTRA_VECTOR1; // time_seconds, viewport_aspect, pixel_height, opacity
 uniform vec4 EXTRA_VECTOR2; // flip_y, canvas_top_ratio, canvas_height_ratio (<=0 means full), reserved
 const vec2 ATLAS_SIZE = vec2(256.0, 128.0);
-const float FRAME_STRIDE = 311.0;
+const float FRAME_STRIDE = 424.0;
 const vec2 POSITION_MIN = vec2(-1.715945721, -2.0);
 const vec2 POSITION_SPAN = vec2(3.431891441, 4.0);
 const float STROKE_SCALE = 1.0;
@@ -46,6 +46,33 @@ void edge(vec2 p, vec2 a, vec2 b, inout float winding, inout float nearest, inou
     }
     if (a.y <= p.y && b.y > p.y && side > 0.0) winding += 1.0;
     if (a.y > p.y && b.y <= p.y && side < 0.0) winding -= 1.0;
+}
+
+
+// Four true subpixel winding tests avoid antialiasing artificial fan edges.
+void fanEdge(vec4 px, vec4 py, vec2 a, vec2 b, inout vec4 winding) {
+    // Canonical endpoint order makes shared reverse fan edges evaluate the
+    // same operations, avoiding cancellation seams from floating contraction.
+    float direction = 1.0;
+    if (a.y > b.y) {
+        vec2 temporary = a;
+        a = b;
+        b = temporary;
+        direction = -1.0;
+    }
+    vec4 side = (b.x - a.x) * (py - vec4(a.y)) - (b.y - a.y) * (px - vec4(a.x));
+    vec4 crossing = step(vec4(a.y), py) * (vec4(1.0) - step(vec4(b.y), py));
+    winding += direction * crossing * sign(max(side, vec4(0.0)));
+}
+
+vec4 fanSegmentDistance(vec4 px, vec4 py, vec2 a, vec2 b) {
+    vec2 direction = b - a;
+    vec4 dx = px - vec4(a.x);
+    vec4 dy = py - vec4(a.y);
+    vec4 ratio = clamp((dx * direction.x + dy * direction.y) / max(dot(direction, direction), 1.0e-20), 0.0, 1.0);
+    dx -= ratio * direction.x;
+    dy -= ratio * direction.y;
+    return sqrt(dx * dx + dy * dy);
 }
 
 vec3 selectFrames(float t) {
@@ -303,34 +330,441 @@ void main() {
     vec3 frames = selectFrames(EXTRA_VECTOR1.x);
     vec3 color = vec3(0.0, 0.0, 0.0);
     if (screenUV.y >= 0.0 && screenUV.y <= 1.0) {
-    // Path 0; conservative bounds cover every reference keyframe.
+    // Native fixed curve slots; shared-base fans accumulate as one glyph.
     {
-        float styleOffset = 302.0;
-        float width = sampleScalar(styleOffset + 8.0, frames) * STROKE_SCALE;
-        float margin = width * 0.5 + aa * 2.0;
+        float pixelSize = visibleHeight / viewportHeight;
+        float borderHalfWidth = 0.0025;
+        float borderHalfAA = pixelSize * 0.75;
+        float margin = max(aa * 2.0, borderHalfWidth + borderHalfAA);
         if (all(greaterThanEqual(p, vec2(-1.715945721, -2.0) - vec2(margin))) &&
             all(lessThanEqual(p, vec2(1.715945721, 2.0) + vec2(margin)))) {
-            float winding = 0.0;
-            float distanceToPath = 1.0e20;
-            float nearestSide = 1.0;
-            {
-                vec2 a = samplePoint(150.0, frames);
-                for (int i = 0; i < 151; ++i) {
-                    vec2 b = samplePoint(0.0 + float(i), frames);
-                    edge(p, a, b, winding, distanceToPath, nearestSide);
-                    a = b;
-                }
+        vec4 px = vec4(p.x) + pixelSize * vec4(-0.25, 0.25, -0.25, 0.25);
+        vec4 py = vec4(p.y) + pixelSize * vec4(-0.25, -0.25, 0.25, 0.25);
+        vec4 winding = vec4(0.0);
+        vec4 distanceToCurve = vec4(1.0e20);
+        vec2 base = samplePoint(0.0, frames);
+        if (sampleScalar(387.0, frames) > 0.0) {
+            vec2 a = samplePoint(1.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(1.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
             }
-            // Antialias the winding transition, not every internal contour edge.
-            float edgeCoverage = 1.0 - smoothstep(-aa, aa, distanceToPath);
-            float fillCoverage = clamp(abs(winding - nearestSide * edgeCoverage), 0.0, 1.0);
-            vec4 fill = sampleColor(styleOffset, frames);
-            color = mix(color, fill.rgb, fill.a * fillCoverage);
-            if (width > 0.0) {
-                float strokeCoverage = 1.0 - smoothstep(width * 0.5 - aa, width * 0.5 + aa, distanceToPath);
-                vec4 stroke = sampleColor(styleOffset + 4.0, frames);
-                color = mix(color, stroke.rgb, stroke.a * strokeCoverage);
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(388.0, frames) > 0.0) {
+            vec2 a = samplePoint(5.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(5.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
             }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(389.0, frames) > 0.0) {
+            vec2 a = samplePoint(11.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 8; ++i) {
+                vec2 b = samplePoint(11.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(390.0, frames) > 0.0) {
+            vec2 a = samplePoint(19.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(19.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(391.0, frames) > 0.0) {
+            vec2 a = samplePoint(24.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(24.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(392.0, frames) > 0.0) {
+            vec2 a = samplePoint(29.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(29.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(393.0, frames) > 0.0) {
+            vec2 a = samplePoint(35.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(35.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(394.0, frames) > 0.0) {
+            vec2 a = samplePoint(42.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(42.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(395.0, frames) > 0.0) {
+            vec2 a = samplePoint(47.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(47.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(396.0, frames) > 0.0) {
+            vec2 a = samplePoint(54.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(54.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(397.0, frames) > 0.0) {
+            vec2 a = samplePoint(59.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(59.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(398.0, frames) > 0.0) {
+            vec2 a = samplePoint(64.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(64.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(399.0, frames) > 0.0) {
+            vec2 a = samplePoint(68.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(68.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(400.0, frames) > 0.0) {
+            vec2 a = samplePoint(72.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(72.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(401.0, frames) > 0.0) {
+            vec2 a = samplePoint(78.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(78.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(402.0, frames) > 0.0) {
+            vec2 a = samplePoint(85.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(85.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(403.0, frames) > 0.0) {
+            vec2 a = samplePoint(89.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(89.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(404.0, frames) > 0.0) {
+            vec2 a = samplePoint(93.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 2; ++i) {
+                vec2 b = samplePoint(93.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(405.0, frames) > 0.0) {
+            vec2 a = samplePoint(95.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 3; ++i) {
+                vec2 b = samplePoint(95.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(406.0, frames) > 0.0) {
+            vec2 a = samplePoint(98.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(98.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(407.0, frames) > 0.0) {
+            vec2 a = samplePoint(102.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(102.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(408.0, frames) > 0.0) {
+            vec2 a = samplePoint(106.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(106.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(409.0, frames) > 0.0) {
+            vec2 a = samplePoint(113.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(113.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(410.0, frames) > 0.0) {
+            vec2 a = samplePoint(117.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 5; ++i) {
+                vec2 b = samplePoint(117.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(411.0, frames) > 0.0) {
+            vec2 a = samplePoint(122.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(122.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(412.0, frames) > 0.0) {
+            vec2 a = samplePoint(128.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(128.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(413.0, frames) > 0.0) {
+            vec2 a = samplePoint(135.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(135.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(414.0, frames) > 0.0) {
+            vec2 a = samplePoint(139.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(139.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(415.0, frames) > 0.0) {
+            vec2 a = samplePoint(146.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(146.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(416.0, frames) > 0.0) {
+            vec2 a = samplePoint(152.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(152.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(417.0, frames) > 0.0) {
+            vec2 a = samplePoint(156.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(156.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(418.0, frames) > 0.0) {
+            vec2 a = samplePoint(160.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 6; ++i) {
+                vec2 b = samplePoint(160.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(419.0, frames) > 0.0) {
+            vec2 a = samplePoint(166.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 7; ++i) {
+                vec2 b = samplePoint(166.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(420.0, frames) > 0.0) {
+            vec2 a = samplePoint(173.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(173.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(421.0, frames) > 0.0) {
+            vec2 a = samplePoint(177.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(177.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(422.0, frames) > 0.0) {
+            vec2 a = samplePoint(181.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(181.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        if (sampleScalar(423.0, frames) > 0.0) {
+            vec2 a = samplePoint(185.0, frames);
+            fanEdge(px, py, base, a, winding);
+            for (int i = 1; i < 4; ++i) {
+                vec2 b = samplePoint(185.0 + float(i), frames);
+                fanEdge(px, py, a, b, winding);
+                distanceToCurve = min(distanceToCurve, fanSegmentDistance(px, py, a, b));
+                a = b;
+            }
+            fanEdge(px, py, a, base, winding);
+        }
+        vec4 fill = sampleColor(378.0, frames);
+        // Native signed alpha is accumulated in the 2x fill canvas before filtering.
+        // Bound the exponent, not winding: faint overlapping shapes must still accumulate.
+        vec4 signedExponent = log(1.0 - 0.95 * fill.a) * winding * 1.0;
+        vec4 coverageSamples = vec4(1.0) - exp(clamp(signedExponent, -80.0, 80.0));
+        if (borderHalfWidth > 0.0) {
+            // Native fill-border uses real curves only, never the artificial fan edges.
+            vec4 borderCoverage = 1.0 - smoothstep(borderHalfWidth - borderHalfAA, borderHalfWidth + borderHalfAA, distanceToCurve);
+            // MAX applies only where border geometry exists: zero must not erase negative fill elsewhere.
+            vec4 borderPresent = vec4(1.0) - step(vec4(borderHalfWidth + borderHalfAA), distanceToCurve);
+            coverageSamples = mix(coverageSamples, max(coverageSamples, borderCoverage * (0.95 * fill.a)), borderPresent);
+        }
+        float coverage = dot(coverageSamples, vec4(0.25));
+        if (coverage < 0.0) coverage = -coverage / (1.0 - coverage);
+        color = mix(color, fill.rgb, coverage * 1.06);
         }
     }
     }

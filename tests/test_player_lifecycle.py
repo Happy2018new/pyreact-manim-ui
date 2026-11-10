@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 import types
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 RUNTIME = Path(__file__).resolve().parents[1] / "behavior_pack/manim_ui"
@@ -80,8 +80,8 @@ class PlayerLifecycleTests(unittest.TestCase):
         self.logical_screen_size = (640, 360)
         self.physical_viewport = (1920, 1080)
         self.game = types.SimpleNamespace(
-            GetScreenSize=lambda: self.logical_screen_size,
-            GetScreenViewInfo=lambda: self.physical_viewport + (0, 0),
+            GetScreenSize=Mock(side_effect=lambda: self.logical_screen_size),
+            GetScreenViewInfo=Mock(side_effect=lambda: self.physical_viewport + (0, 0)),
         )
         factory = types.SimpleNamespace(
             CreatePostProcess=lambda _level: self.post,
@@ -305,6 +305,61 @@ class PlayerLifecycleTests(unittest.TestCase):
         self.assertAlmostEqual(options[1], 55 / 360)
         self.assertAlmostEqual(options[2], 190 / 360)
         self.assertEqual(self.player.snapshot()["ui_scale"], 1)
+
+    def test_resize_waits_for_new_physical_size_and_coalesces_event_bursts(self):
+        self.logical_screen_size = (320, 180)
+        self.physical_viewport = (640, 360)
+        self.player.on_ui_ready()
+        old_reads = self.game.GetScreenViewInfo.call_count
+        old_logical_reads = self.game.GetScreenSize.call_count
+
+        # Native APIs still expose the previous dimensions inside this event.
+        event = {"beforeX": 320, "beforeY": 180, "afterX": 640, "afterY": 360}
+        self.player.on_resize(event)
+        self.player.on_resize(event)
+        # Synchronous control updates in the same event turn are not a native
+        # render tick and must not consume the pending viewport refresh.
+        self.player.seek(0.5)
+        self.player.show()
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, old_reads)
+        self.assertEqual(self.game.GetScreenSize.call_count, old_logical_reads)
+        self.assertEqual(self.player.viewport, (640, 360))
+
+        self.logical_screen_size = (640, 360)
+        self.physical_viewport = (1280, 720)
+        self.player.on_frame()
+        self.assertEqual(self.player.viewport, (1280, 720))
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, old_reads + 1)
+        self.assertEqual(self.game.GetScreenSize.call_count, old_logical_reads + 1)
+        playback = self.post.parameters[("first_post", "playback")]
+        self.assertAlmostEqual(playback[2], 720 * 190 / 360)
+        self.assertAlmostEqual(playback[1], 1280 / playback[2])
+        for _ in range(5):
+            self.player.on_frame()
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, old_reads + 1)
+        self.assertEqual(self.game.GetScreenSize.call_count, old_logical_reads + 1)
+
+    def test_resize_refreshes_while_closed_and_reopen_uses_the_new_viewport(self):
+        self.player.on_ui_ready()
+        self.player.hide()
+        self.navigation_pages.clear()
+        previous_parameters = dict(self.post.parameters)
+        old_reads = self.game.GetScreenViewInfo.call_count
+        self.player.on_resize({})
+        self.physical_viewport = (640, 360)
+        self.logical_screen_size = (320, 180)
+        self.player.on_frame()
+        self.assertFalse(self.player.visible)
+        self.assertEqual(self.player.viewport, (640, 360))
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, old_reads + 1)
+        self.assertEqual(self.post.parameters, previous_parameters)
+        self.assertEqual(self.post.enabled, set())
+
+        self.player.show()
+        playback = self.post.parameters[("first_post", "playback")]
+        self.assertAlmostEqual(playback[2], 360 * 0.35)
+        self.assertAlmostEqual(playback[1], 640 / (360 * 0.35))
+        self.assertEqual(self.game.GetScreenViewInfo.call_count, old_reads + 1)
 
     def test_orientation_change_is_uploaded_while_the_timeline_is_paused(self):
         self.player.on_ui_ready()

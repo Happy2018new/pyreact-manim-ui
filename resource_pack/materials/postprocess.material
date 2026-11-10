@@ -131,6 +131,138 @@
     ],
     "msaaSupport": "Both"
   },
+  "pmanim_manimgl_fraction_swap": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_fraction_swap.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_power_to_root": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_power_to_root.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_chinese_change": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_chinese_change.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
+  "pmanim_manimgl_chinese_math": {
+    "vertexShader": "shaders/uv_fullscreen.vertex",
+    "fragmentShader": "shaders/manimgl_chinese_math.fragment",
+    "vertexFields": [
+      {
+        "field": "Position"
+      },
+      {
+        "field": "UV0"
+      }
+    ],
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 1,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      },
+      {
+        "samplerIndex": 2,
+        "textureWrap": "Clamp",
+        "textureFilter": "Point"
+      }
+    ],
+    "states": [
+      "DisableDepthTest"
+    ],
+    "msaaSupport": "Both"
+  },
   "pmanim_basic_geometry": {
     "vertexShader": "shaders/uv_fullscreen.vertex",
     "fragmentShader": "shaders/basic_geometry.fragment",

@@ -50,6 +50,7 @@ def build_atlas(scene):
         if version == 2:
             topology["fill_border_width"] = path["fill_border_width"]
             topology["anti_alias_width"] = path["anti_alias_width"]
+            topology["fill_orientation"] = path["fill_orientation"]
             topology["base_point"] = point_count
             point_count += 1
             topology["curves"] = []

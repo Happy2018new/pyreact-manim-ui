@@ -1,0 +1,110 @@
+{
+  "kind": "historical_latin_fidelity_before_after",
+  "scope": "Four Latin scenes, five fixed native reference frames each; O/B and C/S changed from schema 1 to schema 2.",
+  "text_one_to_one_accepted": false,
+  "baseline_source": "docs/evidence/first-version-text/native-comparison-summary.json",
+  "current_delivery_source": "native-comparison-summary.json",
+  "historical_revision_note": "These after figures are from the isolated fidelity validation before the final unified rebuild. Use current_delivery_source for final artifacts and hashes.",
+  "scenes": {
+    "manimgl_o_to_b": {
+      "schema": 2,
+      "previous_schema": 1,
+      "foreground_iou_range": [
+        0.9929511509833884,
+        0.9980449267845031
+      ],
+      "foreground_mean_error_255_range": [
+        0.44053415220509506,
+        1.8375560703899048
+      ],
+      "previous_iou_range": [
+        0.9739730090464185,
+        0.9814878438188396
+      ],
+      "previous_foreground_mean_error_255_range": [
+        3.640892463773974,
+        5.28424539028128
+      ],
+      "vertex_count": 356,
+      "shader_bytes": 48002,
+      "texture_bytes": 102966,
+      "shader_sha256": "c294a57a2d243276ed09bf26088891a728d41f372e54c193484814b29a00f95a",
+      "texture_sha256": "bdd5447328b9c75dec4a8f83e9eb69c99af8ff8319fc4b45ee235e2b60a5aaa4"
+    },
+    "manimgl_c_to_s": {
+      "schema": 2,
+      "previous_schema": 1,
+      "foreground_iou_range": [
+        0.9958613554061045,
+        0.997509436899249
+      ],
+      "foreground_mean_error_255_range": [
+        0.5933377437054909,
+        1.0559586631486368
+      ],
+      "previous_iou_range": [
+        0.9768044495006952,
+        0.9822170837118397
+      ],
+      "previous_foreground_mean_error_255_range": [
+        3.728048305414881,
+        3.9973454683352294
+      ],
+      "vertex_count": 189,
+      "shader_bytes": 35442,
+      "texture_bytes": 53571,
+      "shader_sha256": "55ef936aafe37e688fda2566f35b7bbbaf87f17f4cbb98fe976689e1ce216398",
+      "texture_sha256": "ed2b4ce8bcbba5c6b1736a4aaaf1007540a73821c931bb691d701bc81a04c208"
+    },
+    "manimgl_8_to_1": {
+      "schema": 2,
+      "previous_schema": 2,
+      "foreground_iou_range": [
+        0.9927348582937707,
+        0.9999154834347532
+      ],
+      "foreground_mean_error_255_range": [
+        0.029200473292765382,
+        1.7886994677024888
+      ],
+      "previous_iou_range": [
+        0.9731352554480046,
+        0.9903296703296703
+      ],
+      "previous_foreground_mean_error_255_range": [
+        1.5318627450980393,
+        9.358662162663796
+      ],
+      "vertex_count": 278,
+      "shader_bytes": 49450,
+      "texture_bytes": 77887,
+      "shader_sha256": "b12e850f853da152d25b49e5e2be4c91429ec47241e476f12f572ef12b30d3c7",
+      "texture_sha256": "0105e91e7e096ad4de6b65ad410fc35a0464075a2bea3170bea168bb4c4c9237"
+    },
+    "manimgl_ui_to_ux": {
+      "schema": 2,
+      "previous_schema": 2,
+      "foreground_iou_range": [
+        0.9917520402847717,
+        0.9984596426370919
+      ],
+      "foreground_mean_error_255_range": [
+        0.3722114877920253,
+        0.4913179371418649
+      ],
+      "previous_iou_range": [
+        0.9871848508202136,
+        0.9944563786293397
+      ],
+      "previous_foreground_mean_error_255_range": [
+        1.3244866375626545,
+        2.0196631069030055
+      ],
+      "vertex_count": 152,
+      "shader_bytes": 45597,
+      "texture_bytes": 24533,
+      "shader_sha256": "ec3af6b5342573014426a6ebf6af8c39df6e3ec0d97bf6e0d2ed6cdb192514ef",
+      "texture_sha256": "a2ff07bdfb59ff0d779881c743d22d63f95877707cc0622090f14a256ed7a856"
+    }
+  }
+}

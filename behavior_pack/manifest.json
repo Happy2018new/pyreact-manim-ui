@@ -4,8 +4,8 @@
     "name": "Pyreact Manim UI - Text Transform Lab",
     "description": "Reference-driven text animation player",
     "uuid": "82b4b9a0-7fac-47c3-bbbd-6cf5b334e290",
-    "version": [0, 1, 0],
+    "version": [0, 2, 0],
     "min_engine_version": [1, 18, 0]
   },
-  "modules": [{"type": "data", "uuid": "79b8a044-51e4-4803-8e5e-b9067f72bc77", "version": [0, 1, 0]}]
+  "modules": [{"type": "data", "uuid": "79b8a044-51e4-4803-8e5e-b9067f72bc77", "version": [0, 2, 0]}]
 }

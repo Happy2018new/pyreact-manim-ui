@@ -4,8 +4,8 @@
     "name": "Pyreact Manim UI - Shader Resources",
     "description": "Compiled vector animation resources",
     "uuid": "d41f25ac-a058-4e98-90fa-f02c25c30a16",
-    "version": [0, 1, 0],
+    "version": [0, 2, 0],
     "min_engine_version": [1, 18, 0]
   },
-  "modules": [{"type": "resources", "uuid": "a8397e4e-53be-426b-9022-e7acb9c35e82", "version": [0, 1, 0]}]
+  "modules": [{"type": "resources", "uuid": "a8397e4e-53be-426b-9022-e7acb9c35e82", "version": [0, 2, 0]}]
 }

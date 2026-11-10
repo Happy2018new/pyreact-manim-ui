@@ -1,9 +1,14 @@
 # 固定 ManimGL 参考导出
 
-这个工具实际调用官方 **ManimGL 1.7.2** 的 `Text`、`Transform.begin()` 和
+这个工具实际调用官方 **ManimGL 1.7.2** 的 `Text`/`Tex`、`Transform.begin()` 和
 `Transform.interpolate()`。字符对象、轮廓对齐、退化轮廓与 `smooth` 时间函数
 来自上游。我们只将最终的二次 Bézier 轮廓采样为固定顶点数的多边形，交给
 项目编译器。它不是任意 Manim Python 脚本的转译器。
+
+真实 LaTeX 公式、分数、上标及根号的构建方法和主机兼容记录见
+[LATEX.md](LATEX.md)。中文字体、宋体子集及缺字检查见
+[FONTS.md](FONTS.md)。通过 `--font SimSun` 可选择已安装
+系统字体，不需复制系统字体文件到仓库；显式 `--font-file` 仍可选用指定文件。
 
 ## 安装与运行
 
@@ -43,9 +48,11 @@ commit 和字体哈希见 [upstream.json](upstream.json)，MIT 许可副本见
 | --- | --- | --- |
 | `--output` | 必填 | 输出目录 |
 | `--source` / `--target` | `O` / `B` | 起始／目标文字 |
+| `--input-kind` | `text` | `text` 调用原生 Text；`latex` 调用真实 TeX 排版的原生 Tex |
+| `--tex-template` | `basic` | 当前支持的固定上游 LaTeX 模板 |
 | `--name` | `manimgl_o_to_b` | 场景 ID；使用小写字母开头的字母、数字与下划线，最多 48 字符 |
 | `--font` | `DejaVu Serif` | 与字体文件对应的 Pango 字体家族名 |
-| `--font-file` | 仓库内 `tools/reference/fonts/DejaVuSerif.ttf` | 临时注册的字体；换字体时与 `--font` 一起修改 |
+| `--font-file` | 未指定 | 默认 DejaVu 使用仓库字体；其他 `--font` 按系统已安装字体名解析；指定文件时严格核对家族和字符覆盖 |
 | `--frames` | `61` | 导出帧数，范围 2–256 |
 | `--duration` | `2.0` | 动画秒数 |
 | `--tolerance` | `0.003` | 已导出帧中二次曲线与弦段的最大距离容差，单位同场景 |
@@ -113,8 +120,9 @@ schema 2 同时保留原生文字的细边层：上游默认 `fill_border_width=
 
 ## 已声明的边界
 
-目前只接收平面、封闭、纯填充、每字形统一样式的 `Text` 与 `Transform`。
-描边单位换算、颜色渐变、公式/LaTeX、中文覆盖、3D 和任意脚本未验证。自交
+目前接收平面、封闭、纯填充、每字形统一样式的 `Text`/`Tex` 与 `Transform`。
+0.2.0 已加入宋体中文和真正 LaTeX 分式、上标、根号示例；范围见各自说明和验收记录。
+任意描边、颜色渐变、3D 和任意脚本未验证。自交
 中间态必须与原生 Camera 单独对照；GPU nonzero 填充和上游有向 fan／混合可能不同，
 数值坐标一致不能代替像素验收。
 

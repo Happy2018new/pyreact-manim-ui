@@ -4,7 +4,7 @@ This is deliberately an adapter for one supported scene, not a reimplementation
 of glyph matching, contour alignment, or Manim's interpolation semantics.
 """
 
-from contextlib import contextmanager, nullcontext
+from contextlib import contextmanager
 from dataclasses import dataclass
 import hashlib
 from importlib import metadata
@@ -42,6 +42,8 @@ class ExportSettings:
     reference_resolution: tuple[int, int] = (1280, 720)
     geometry_mode: str = "contours"
     allow_marker_approximation: bool = False
+    input_kind: str = "text"
+    tex_template: str = "basic"
 
 
 def _sha256(path):
@@ -73,6 +75,7 @@ def _reference_environment():
     root = Path(manimlib.__file__).resolve().parent
     source_files = ["animation/animation.py", "animation/transform.py", "mobject/mobject.py",
                     "mobject/types/vectorized_mobject.py", "mobject/svg/text_mobject.py", "mobject/svg/string_mobject.py",
+                    "mobject/svg/tex_mobject.py", "utils/tex_file_writing.py", "tex_templates.yml",
                     "camera/camera.py", "shader_wrapper.py", "utils/rate_functions.py", "utils/paths.py",
                     "shaders/quadratic_bezier/fill/geom.glsl", "shaders/quadratic_bezier/fill/frag.glsl"]
     packages = ["manimgl", "ManimPango", "numpy", "Pillow", "moderngl", "glcontext",
@@ -134,7 +137,8 @@ def _snapshot(mobject, topology):
                       "fill": mob.data["fill_rgba"][0].tolist(),
                       "stroke": mob.data["stroke_rgba"][0].tolist(), "stroke_width": width,
                       "native_fill_border_width": float(mob.data["fill_border_width"][0][0]),
-                      "native_anti_alias_width": float(mob.uniforms["anti_alias_width"])})
+                      "native_anti_alias_width": float(mob.uniforms["anti_alias_width"]),
+                      "native_unit_normal": mob.get_unit_normal().tolist()})
     return paths
 
 
@@ -159,18 +163,14 @@ def export_text_transform(output, settings=ExportSettings()):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     environment = _reference_environment()
-    from manimlib import Text, Transform
+    from manimlib import Transform
     from manimlib.config import manim_config
-    from manimlib.mobject.svg.text_mobject import register_font
+    from .mobject_source import create_source_pair
 
     cache = output.parent / "manim-cache"
     cache.mkdir(parents=True, exist_ok=True)
     manim_config.directories.cache = str(cache)
-    font_file = Path(settings.font_file).resolve() if settings.font_file else None
-    context = register_font(font_file) if font_file else nullcontext()
-    with context:
-        source = Text(settings.source, font=settings.font, font_size=48).set_height(settings.glyph_height)
-        target = Text(settings.target, font=settings.font, font_size=48).set_height(settings.glyph_height)
+    with create_source_pair(settings, output) as (source, target, source_metadata):
         animation = Transform(source, target, run_time=settings.duration)
         animation.begin()
         start_members = animation.starting_mobject.family_members_with_points()
@@ -246,12 +246,10 @@ def export_text_transform(output, settings=ExportSettings()):
 
         report = {
             "schema_version": 1, "environment": environment,
-            "input": {"source": settings.source, "target": settings.target, "font": settings.font,
-                      "font_file": font_file.name if font_file else None,
-                      "font_sha256": _sha256(font_file) if font_file else None,
-                      "font_size": 48, "per_text_height": settings.glyph_height,
+            "input": {"source": settings.source, "target": settings.target, **source_metadata,
+                      "per_text_height": settings.glyph_height,
                       "duration": settings.duration, "canvas": [settings.width, settings.height]},
-            "upstream_execution": {"classes": ["manimlib.Text", "manimlib.Transform"],
+            "upstream_execution": {"classes": [source_metadata["mobject_class"], "manimlib.Transform"],
                                    "calls": ["Transform.begin", "Transform.interpolate"],
                                    "rate_func": animation.rate_func.__module__ + "." + animation.rate_func.__name__,
                                    "path_func": animation.path_func.__module__ + "." + animation.path_func.__name__,
@@ -273,7 +271,7 @@ def export_text_transform(output, settings=ExportSettings()):
                              "minecraft_pixel_parity_verified": False,
                              "notes": ["Polygon sampling is an approximation to upstream quadratic curves.",
                                        "Time interpolation error is measured at probes; it is not a continuous-time bound.",
-                                       "This adapter supports fill-only planar Text and Transform, not arbitrary Manim scripts."]},
+                                       "This adapter supports fill-only planar Text/Tex and Transform, not arbitrary Manim scripts."]},
         }
         _write_json(output / "reference_report.json", report)
         if settings.render_reference:

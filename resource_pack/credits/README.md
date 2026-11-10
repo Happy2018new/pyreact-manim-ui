@@ -8,6 +8,10 @@
 
 资源包包含从该字体生成的字形轮廓与数值纹理，不包含字体文件本身。完整字体许可及 Bitstream、DejaVu、Arev 归属文本见 [LICENSE_DEJAVU](LICENSE_DEJAVU)。字体许可与本项目原创代码的许可分别适用。
 
+中文示例使用 **Noto Serif SC** 的 weight 400 子集，构建字体改名为 **Pyreact Manim Song**。来源为 google/fonts commit `8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5`；Copyright 2012 Google Inc.，完整 SIL OFL 1.1 见 [LICENSE_NOTO_SERIF_SC.txt](LICENSE_NOTO_SERIF_SC.txt)。游戏包不包含字体文件，也不包含本机系统宋体文件。
+
+LaTeX 公式使用 AMSFonts 所提供的 **Computer Modern Type 1：CMMI10、CMR7、CMSY10**。Copyright (c) 1997, 2009 American Mathematical Society；许可和保留字体名见 [LICENSE_COMPUTER_MODERN.txt](LICENSE_COMPUTER_MODERN.txt)。游戏包只包含生成的几何，不含 MiKTeX、dvisvgm 或 PFB 字体。
+
 ## ManimGL 参考与离线构建
 
 文字变换离线执行官方 [3b1b/manim](https://github.com/3b1b/manim) 的 **ManimGL 1.7.2**，commit `f427fc67df75513be0cd3f3329e327a9a19401c3`。其 `Text`、`Transform` 和 `Camera` 用于产生参考几何、动画数据及核验画面；玩家端不包含或执行桌面 ManimGL 运行时。
@@ -22,6 +26,6 @@ ManimGL 的 MIT 许可副本见 [LICENSE_MANIMGL.md](LICENSE_MANIMGL.md)。本�
 
 ## 预览范围
 
-包内有 O → B、C → S、8 → 1、UI → UX 四组文字，以及二维基础图形和坐标轴曲线示例。**所有文字仍未通过严格 Manim 1:1 验收。** 8 → 1 与 UI → UX 明确启用了原生曲线分隔标记的近似模式；极短时间窗内的浮点相等条件、曲线采样、抗锯齿及填充细边合成仍可能与原生不同。
+包内有 O → B、C → S、8 → 1、UI → UX 四组西文，中文 → 变换、数学 → 中文两组宋体中文，分式换位、上标转根号两组真实 LaTeX，以及二维基础图形和坐标轴曲线，共十例。**所有文字仍未通过严格 Manim 1:1 验收。** 默认文字与公式启用了原生曲线分隔标记的近似模式；已修正子像素与填充细边的合成顺序，仍保留曲线采样、浮点和时间插值误差。
 
-当前画布使用全屏后处理，为播放控件预留空间；不等同于支持任意页面内独立裁剪、多实例的 UI 组件。二维基础图形使用本项目的多边形动画接口，未声称完整 Manim API、3D、中文字体或公式排版兼容。
+当前画布使用全屏后处理，为播放控件预留空间；不等同于支持任意页面内独立裁剪、多实例的 UI 组件。二维基础图形使用本项目的多边形动画接口，未声称完整 Manim API、任意公式和字体、游戏内即时排版或 3D 兼容。

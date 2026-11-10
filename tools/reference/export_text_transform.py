@@ -1,4 +1,4 @@
-"""Export real upstream ManimGL Text-to-Text Transform without launching Minecraft."""
+"""Export real upstream ManimGL Text/Tex Transform without launching Minecraft."""
 
 import argparse
 from pathlib import Path
@@ -16,11 +16,15 @@ def main():
                         help="Output directory for scene, raw controls and report")
     parser.add_argument("--source", default="O", help="Starting visible text")
     parser.add_argument("--target", default="B", help="Ending visible text")
+    parser.add_argument("--input-kind", choices=("text", "latex"), default="text",
+                        help="Real ManimGL Text or LaTeX-backed Tex; never render formulas as ordinary text")
+    parser.add_argument("--tex-template", choices=("basic",), default="basic",
+                        help="Pinned upstream template used by --input-kind latex")
     parser.add_argument("--name", default="manimgl_o_to_b",
                         help="Scene ID matching [a-z][a-z0-9_]{0,47}")
     parser.add_argument("--font", default="DejaVu Serif", help="Pango family matching --font-file")
-    parser.add_argument("--font-file", type=Path, default=ExportSettings.font_file,
-                        help="Font file temporarily registered with upstream ManimPango")
+    parser.add_argument("--font-file", type=Path, default=None,
+                        help="Explicit font file; otherwise use bundled DejaVu or resolve --font from installed system fonts")
     parser.add_argument("--frames", type=int, default=61, help="Number of sampled frames, 2..256")
     parser.add_argument("--duration", type=float, default=2.0, help="Animation duration in seconds")
     parser.add_argument("--tolerance", type=float, default=0.003,
@@ -35,11 +39,13 @@ def main():
                         help="Explicitly permit schema 2 previews with reported narrow native float32 skip-window differences")
     args = parser.parse_args()
     settings = ExportSettings(source=args.source, target=args.target, name=args.name,
-                              font=args.font, font_file=args.font_file,
+                              font=args.font, font_file=(args.font_file or
+                                  (ExportSettings.font_file if args.font == "DejaVu Serif" else None)),
                               frame_count=args.frames, duration=args.duration,
                               glyph_height=args.glyph_height, tolerance=args.tolerance,
                               render_reference=args.render_reference, geometry_mode=args.geometry,
-                              allow_marker_approximation=args.allow_marker_approximation)
+                              allow_marker_approximation=args.allow_marker_approximation,
+                              input_kind=args.input_kind, tex_template=args.tex_template)
     result = export_text_transform(args.output, settings)
     print(result["scene"])
     print(result["report"])

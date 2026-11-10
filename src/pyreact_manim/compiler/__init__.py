@@ -59,7 +59,12 @@ def compile_scene(scene, output_dir):
             "fill_rule": "nonzero",
             "marker_rule": "at keyframe use native active flag; between keys active when either endpoint is active"
                            if normalized["schema_version"] == 2 else None,
-            "coverage": "2x2 subpixel winding" if normalized["schema_version"] == 2 else "nearest edge winding coverage",
+            "coverage": "2x2 signed native alpha, per-sample border MAX, filtered negative recovery"
+                        if normalized["schema_version"] == 2 else "nearest edge winding coverage",
+            "native_fill_approximations": ["curve chains and round segment caps replace native analytic fill and stroke strips",
+                                            "float32 signed alpha replaces ordered native FP16 blending",
+                                            "signed-alpha exponent beyond +/-80 is saturated for float32 safety"]
+                                           if normalized["schema_version"] == 2 else None,
             "reference_pixel_parity_verified": False,
         },
         "source_sha256": hashlib.sha256(json.dumps(normalized, sort_keys=True, separators=(",", ":"),

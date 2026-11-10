@@ -6,10 +6,10 @@
 
 1. 点击“播放”，观看当前示例；再次点击暂停。
 2. 拖动进度条检查中间形状。拖动和“起点 / 中间态 / 终点”按钮都会暂停在选定位置。
-3. 用“上一例 / 下一例”浏览四组文字、二维图形和坐标轴曲线，共六例。切换后从新示例起点开始。
+3. 用“上一例 / 下一例”浏览四组西文、两组 LaTeX、两组宋体中文、二维图形和坐标轴曲线，共十例。切换后从新示例起点开始。
 4. 按 Esc 关闭播放器并暂停效果；回到正常游戏画面后按 F8 重开。场景和暂停位置会保留。
 
-“8 → 1”和“UI → UX”标题带有“预览”。它们显式使用轮廓 marker 近似，不能作为字形 1:1 已完成的证据。其他文字也尚未关闭严格 1:1 验收。
+默认文字和公式示例均显式允许轮廓 marker 近似。已保留测得有效的画面修正；按用户要求不再为微小像素差异延迟交付，但也不称为严格 1:1。
 
 画面上下为标题和按钮留空，中间保持场景宽高比。当前仍由全屏后处理绘制，并非可以随意拖入其他页面的独立 UI 控件。
 
@@ -39,13 +39,17 @@ python -B -X utf8 tools/start_dev.py --owner manim-demo
 
 其中 `python` 应指向用于构建的 Python 3.13；也可通过 `-Python` 传入实际解释器路径。脚本将环境放在 `.venv-reference/`，下载缓存和安装报告放在 `.runtime/reference/`，不修改全局 Python 包。
 
-全部六例构建、原生文字参考帧生成与本仓库部署：
+默认示例另需本机 LaTeX 与 dvisvgm，见 [LaTeX 构建说明](../tools/reference/LATEX.md)。宋体小子集已经随构建工具提供；扩充中文内容和选择系统字体见 [字体说明](../tools/reference/FONTS.md)。
+
+全部十例构建、原生文字参考帧生成与本仓库部署：
 
 ```powershell
 .\.venv-reference\Scripts\python.exe -B -X utf8 tools/build_demo.py --render-reference
 ```
 
-文字输入在 [examples/text_transforms.py](../examples/text_transforms.py)。每条记录声明 `name`、`source`、`target`、`duration` 等导出参数。例如更改 `duration` 会改变该文字动画的时长。`geometry_mode="curve_slots"` 与 `allow_marker_approximation=True` 是预览选择，不应为了让任意输入“构建成功”而默认开启；导出报告中的近似说明必须保留。新字符也需确认字体覆盖，当前默认字体与样例不代表中文支持。
+文字输入在 [examples/text_transforms.py](../examples/text_transforms.py)。每条记录声明 `name`、`source`、`target`、`duration` 等导出参数。默认演示使用 `geometry_mode="curve_slots"` 与 `allow_marker_approximation=True`，导出报告保留近似说明。公式使用 `input_kind="latex"`；源码建议使用 Python 原始字符串，例如 `r"\frac{a}{b}"`。
+
+中文可选已安装的宋体等字体，或传入 `font_file` 与匹配的 `font` 名称。构建端检查实际字形覆盖，不存在的字体、缺字或超出每帧 2048 顶点预算会明确报错。默认开源宋体小子集只涵盖示例字符；增加文字前按字体说明扩充子集或改用完整系统字体。目标机器只播放轮廓，不需要安装相同字体；当前没有游戏内动态排版接口。
 
 二维内容在 [examples/basic_2d.py](../examples/basic_2d.py)。`build_scenes()` 返回要构建的场景，默认包括图形与坐标轴两例。简单的编排方式：
 
@@ -82,7 +86,7 @@ scene.wait(0.5)
 .\.venv-reference\Scripts\python.exe -B -X utf8 -m unittest discover -s tests
 ```
 
-构建成功和测试通过后，还需在 MC 中检查实际画面、控制操作和小窗口布局。现有六例已完成 [后台实机复验](INITIAL_ACCEPTANCE.md)；严格字形 1:1、真实公式、中文、语义字符匹配和独立 UI 多实例仍未完成。示例输入改变后需重新验证。
+构建成功和测试通过后，还需在 MC 中检查实际画面、控制操作和布局。0.1.0 历史记录见 [初版验收](INITIAL_ACCEPTANCE.md)，当前十例见 [中文与公式验收](TEXT_FORMULA_ACCEPTANCE.md)。严格字形 1:1、语义字符/公式片段匹配和独立 UI 多实例尚未完成。示例输入改变后需重新验证。
 
 ## 打包本地预览
 
@@ -92,4 +96,4 @@ scene.wait(0.5)
 python -B -X utf8 tools/package_demo.py
 ```
 
-输出为 `dist/pyreact-manim-ui-0.1.0-preview.mcaddon`，仅包含游戏行为包、资源包和随包许可。宿主环境、参考工具、私有会话信息和截图不进入预览包。该包面向网易 Windows ModSDK 开发环境；国际基岩版不提供这里使用的 Python ModSDK，不能将此包描述为国际版通用 addon。
+输出为 `dist/pyreact-manim-ui-0.2.0-preview.mcaddon`，仅包含游戏行为包、资源包和随包许可。宿主环境、参考工具、私有会话信息和截图不进入预览包。该包面向网易 Windows ModSDK 开发环境；国际基岩版不提供这里使用的 Python ModSDK，不能将此包描述为国际版通用 addon。

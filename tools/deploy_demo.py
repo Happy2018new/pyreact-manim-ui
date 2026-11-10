@@ -17,6 +17,10 @@ TITLES = {
     "manimgl_ai_to_ui": "单词变换：AI → UI",
     "manimgl_hello_to_world": "单词变换：HELLO → WORLD",
     "manimgl_code_to_math": "单词变换：CODE → MATH",
+    "manimgl_chinese_change": "宋体中文：中文 → 变换",
+    "manimgl_chinese_math": "宋体中文：数学 → 中文",
+    "manimgl_fraction_swap": "LaTeX 分式：a/b → b/a",
+    "manimgl_power_to_root": "LaTeX 上标与根号：x² → √x",
     "basic_geometry": "二维图形：变形、旋转与缩放",
     "axes_sine": "坐标轴：绘制曲线与沿路径运动",
 }

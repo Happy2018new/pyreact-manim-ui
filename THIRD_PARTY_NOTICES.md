@@ -2,7 +2,7 @@
 
 本文件记录实际迁入的开发技能、游戏运行时、字体，以及宿主构建依赖的来源与许可。第三方内容分别遵循随附许可；本文件不为新项目原创内容指定许可。
 
-独立演示包通过 [resource_pack/credits/README.md](resource_pack/credits/README.md) 保留简短来源、预览范围及 DejaVu / ManimGL 完整许可副本；PyreactMC 完整许可继续随行为包框架提供。构建字体本体与宿主依赖环境不随游戏包分发。
+独立演示包通过 [resource_pack/credits/README.md](resource_pack/credits/README.md) 保留简短来源、预览范围及 DejaVu、Noto Serif SC、Computer Modern、ManimGL 许可；PyreactMC 完整许可继续随行为包框架提供。构建字体本体与宿主依赖环境不随游戏包分发。
 
 ## mcdk-assistant 技能
 
@@ -33,10 +33,23 @@
 - 许可：保留完整 [LICENSE_DEJAVU](tools/reference/fonts/LICENSE_DEJAVU)，包括 Bitstream Vera 字体许可、DejaVu 变更的公有领域声明以及适用的 Arev 归属文本。字体文件未修改、未重命名；不将其误标为 MIT 或 SIL OFL。
 - 字体和参考版本的结构化来源记录见 [upstream.json](tools/reference/upstream.json)。
 
+## 宋体中文与系统字体
+
+- 默认中文轮廓来自 **Noto Serif SC**（宋体风格），来源为 [google/fonts](https://github.com/google/fonts)，固定 commit `8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5`。完整来源、URL、源字体哈希及子集字符见 [结构化记录](tools/reference/fonts/PyreactManimSong-Regular.source.json)。
+- 工具将可变字体固定为 weight 400，并提取示例字符，改名为 **Pyreact Manim Song**。随构建工具分发的小字体为 35,068 字节，SHA-256 `230390ac718f0bddccce9666a1aeb71611cb86bdd77851f9af0d4b8287de6585`；25 MB 的完整源字体仅下载至忽略目录。
+- 许可为 SIL OFL 1.1，Copyright 2012 Google Inc.；完整 [许可](tools/reference/fonts/LICENSE_NOTO_SERIF_SC.txt) 随构建字体保留，游戏资源包另有副本。重建工具为 [setup_cjk.py](tools/reference/setup_cjk.py)。
+- 系统 `SimSun`／`宋体` 的字体查找、TTC 字体集合与原生轮廓导出已在本机验证；系统字体文件不复制、不提交，也不放入预览包。开发者自选字体时，来源与许可由实际字体决定。
+
+## LaTeX 与公式字体
+
+- 公式由本机 MiKTeX 的 `latex` 和 `dvisvgm` 生成 SVG，然后交给真实 ManimGL `Tex`。这些工具及其依赖不随源码或游戏包分发。
+- 当前两组公式使用 Computer Modern Type 1 的 **CMMI10、CMR7、CMSY10**，来源为 MiKTeX 的 AMSFonts。实际 DVI 和 PFB 头已经核验，具体文件哈希见 [LaTeX 说明](tools/reference/LATEX.md)。
+- 字体版权为 Copyright (c) 1997, 2009 American Mathematical Society，许可为 SIL OFL 1.1；随包 [许可与字体声明](resource_pack/credits/LICENSE_COMPUTER_MODERN.txt) 保留实际使用字体的 Reserved Font Names。游戏只包含衍生轮廓和数值纹理，不包含 PFB 文件。
+
 ## ManimGL 宿主参考与构建依赖
 
 - 来源：[3b1b/manim](https://github.com/3b1b/manim)，官方 **ManimGL 1.7.2**，tag `v1.7.2` 对应 commit `f427fc67df75513be0cd3f3329e327a9a19401c3`。此处不是 Manim Community Edition。
-- 使用范围：离线执行上游 `Text`、`Transform`、`Camera` 来构建轮廓和原生参考画面；源码和二进制安装在忽略的 `.venv-reference/`，不复制进游戏运行时，也没有整份 vendoring 上游源码。
+- 使用范围：离线执行上游 `Text`、`Tex`、`Transform`、`Camera` 来构建轮廓和原生参考画面；源码和二进制安装在忽略的 `.venv-reference/`，不复制进游戏运行时，也没有整份 vendoring 上游源码。MiKTeX 命令参数的局部兼容调整见 LaTeX 说明，不修改已安装的上游文件。
 - 许可：MIT，Copyright (c) 2020–2023 3Blue1Brown LLC；完整许可副本见 [LICENSE_MANIMGL.md](tools/reference/LICENSE_MANIMGL.md)。官方 wheel URL、精确 SHA-256 和源码 commit 见 [upstream.json](tools/reference/upstream.json)，实际执行的关键源码哈希记录在每次导出的 `reference_report.json`。
 - 安装入口：[setup_reference.ps1](tools/reference/setup_reference.ps1) 和 [requirements.txt](tools/reference/requirements.txt)。宿主环境与下载缓存不进入 Git；下面这些依赖在本次参考运行中使用，各自 wheel 内保留完整许可及其依赖的归属，不因列在此处而改变许可。
 

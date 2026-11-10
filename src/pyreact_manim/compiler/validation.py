@@ -5,7 +5,7 @@ import re
 import struct
 
 
-MAX_VERTICES = 1024
+MAX_VERTICES = 2048
 MAX_PATHS = 32
 MAX_FRAMES = 256
 
@@ -87,13 +87,17 @@ def _curve_path(raw, label):
     antialias = _number(raw.get("anti_alias_width", 1.5), label + ".anti_alias_width")
     if not 0 <= border <= 1e6 or not 0 < antialias <= 64:
         raise SceneError("Fill border width must be in [0, 1e6]; anti_alias_width must be in (0, 64]")
+    orientation = _number(raw.get("fill_orientation", 1), label + ".fill_orientation")
+    if orientation not in (-1, 1):
+        raise SceneError("Schema 2 fill_orientation must be +1 or -1 for a planar native unit normal")
     coordinates = base + [value for curve in normalized for point in curve["points"] for value in point]
     if any(abs(value) > 1e6 for value in coordinates):
         raise SceneError("Coordinates must fit the prototype's +/-1e6 range")
     return {"id": path_id, "base": base, "curves": normalized,
             "fill": _vector(raw.get("fill", [1, 1, 1, 1]), 4, label + ".fill", True),
             "stroke": _vector(raw.get("stroke", [0, 0, 0, 0]), 4, label + ".stroke", True),
-            "stroke_width": 0.0, "fill_border_width": border, "anti_alias_width": antialias}
+            "stroke_width": 0.0, "fill_border_width": border, "anti_alias_width": antialias,
+            "fill_orientation": orientation}
 
 
 def validate_scene(raw):
@@ -141,9 +145,9 @@ def validate_scene(raw):
         if topology is not None and current != topology:
             raise SceneError("Path order and contour topology must remain fixed across frames")
         if version == 2:
-            current_borders = [(p["fill_border_width"], p["anti_alias_width"]) for p in paths]
+            current_borders = [(p["fill_border_width"], p["anti_alias_width"], p["fill_orientation"]) for p in paths]
             if border_styles is not None and current_borders != border_styles:
-                raise SceneError("Schema 2 fill border and anti-alias widths must remain fixed across frames")
+                raise SceneError("Schema 2 fill border, anti-alias widths and orientation must remain fixed across frames")
             border_styles = current_borders
         point_count = sum(sum(sizes) for _, sizes in current) + (len(paths) if version == 2 else 0)
         if point_count > MAX_VERTICES:

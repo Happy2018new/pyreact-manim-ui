@@ -3,7 +3,7 @@
 ## 数据流与边界
 
 ```text
-examples/text_transforms.py → 固定 ManimGL Text/Transform → 参考与文字 IR
+examples/text_transforms.py → 固定 ManimGL Text/Tex/Transform → 参考与文字 IR
 examples/basic_2d.py        → 本项目 Scene/Shape/Animation → 二维 IR
                                       ↓
                      验证 → 数据纹理 + shader + manifest
@@ -21,7 +21,7 @@ examples/basic_2d.py        → 本项目 Scene/Shape/Animation → 二维 IR
 
 | 路径 | 职责 |
 | --- | --- |
-| `examples/text_transforms.py` | 四组文字构建输入；显式标注近似预览 |
+| `examples/text_transforms.py` | 四组西文、两组宋体中文、两组真实 LaTeX；显式标注近似预览 |
 | `examples/basic_2d.py` | 二维图形与坐标轴曲线的静态 Python 场景 |
 | `src/pyreact_manim/reference/` | 固定 ManimGL 执行、轮廓导出、原生参考、来源及误差报告 |
 | `src/pyreact_manim/{geometry,animation,scene}.py` | 二维对象、动画求值、顺序/并行时间轴与导出 |
@@ -38,7 +38,17 @@ examples/basic_2d.py        → 本项目 Scene/Shape/Animation → 二维 IR
 
 **Schema 2：有向曲线扇形数据（directed curve fans）。** 保留固定曲线槽位、有效标记及有方向的曲线采样，用于轮廓分隔变化的文字路径；多个扇形按字形累积填充，避免把内部辅助边当作真实字形边。当前 8 → 1、UI → UX 需要显式开启 marker 近似，导出报告必须保留这项限制。该路径已实现并不意味着原生填充语义或像素一致性已验收。
 
-两种格式都经过版本、时间顺序、路径顺序、拓扑、有限数值和资源预算校验。当前上限为每帧 32 路径、1024 顶点、每场景 256 帧；超限明确失败，不能静默裁掉几何。静态数据编码为 RG16 UNORM 纹理，使用 Point 采样，manifest 记录坐标范围、误差界限和资源哈希。
+两种格式都经过版本、时间顺序、路径顺序、拓扑、有限数值和资源预算校验。当前上限为每帧 32 路径、2048 顶点、每场景 256 帧；纹理边长上限 2048。超限明确失败，不能静默裁掉几何。静态数据编码为 RG16 UNORM 纹理，使用 Point 采样，manifest 记录坐标范围、误差界限和资源哈希。
+
+0.2.0 的全部文字和公式示例使用 Schema 2。每个子像素先累积有符号透明度，再叠加原生字形细边、平均和恢复负透明度，修正旧版先平均再加边的差异。折线采样、纹理量化、时间插值与浮点 marker 时间窗仍有近似；按用户要求，本轮不继续追逐逐像素差异。
+
+## 字体与公式的构建边界
+
+文字由宿主 ManimPango 使用指定字体排版。支持显式字体文件，以及按构建电脑已安装的字体名称解析字体；校验实际字体家族、字符覆盖并记录来源。默认中文演示使用从 Noto Serif SC 提取并改名的开源宋体小子集；系统 SimSun/宋体仅在本机验证，不把系统字体复制进仓库或游戏包。
+
+目标机器播放的是已经生成的轮廓和 shader，因此不必重复安装构建字体。游戏运行时查询系统字体、临时输入新文字和即时生成字形，尚不是当前播放器的能力。字体存在也不自动代表涵盖输入字符或满足本场景资源预算。
+
+公式使用真正的 `manimlib.Tex`，经过本机 LaTeX → DVI → dvisvgm → SVG → VMobject，再执行原生 `Transform`。MiKTeX 命令兼容仅限定在该构建调用中，不修改全局安装配置，也不自动安装缺失宏包。公式源码与实际生成 SVG 的哈希进入参考记录；播放器不携带 TeX 引擎。
 
 ## 二维场景与动画
 

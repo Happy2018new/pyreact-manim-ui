@@ -2,7 +2,7 @@
 
 在网易版 Minecraft 中播放 Manim 风格的文字转换与二维数学动画。宿主 Python 离线生成几何、时间数据和 shader，游戏 Python 2 负责播放、暂停与进度控制；玩家端无需安装 Manim、LaTeX 或额外计算服务。
 
-当前优先交付**可操作、可修改的初版演示**。整体不追求完整 Manim 功能；文字转换仍以固定 ManimGL 参考的 1:1 为目标，**尚未通过严格 1:1 验收**。真实上游导出、离线测试通过与 MC 画面一致是不同的验证结果。
+当前版本为 **0.2.0 预览版**，优先提供可操作、可修改的文字、中文和公式变换。按用户最新要求，保留已验证的画面修正，停止继续追逐微小像素差异，以快速交付为主。**尚未通过严格 1:1 验收**；本版本不以逐像素一致为交付门槛。
 
 ## 初版内容
 
@@ -12,6 +12,10 @@
 | C → S | 开口字形的连续转换 | 固定参考样例，严格一致性待验证 |
 | 8 → 1 | 多轮廓变化 | 明确启用 marker 近似的预览，不是 1:1 通过项 |
 | UI → UX | 多字符转换 | 明确启用 marker 近似的预览，不代表语义字符匹配已完成 |
+| 中文 → 变换 | 宋体中文轮廓连续变换 | 使用可分发的 Noto Serif SC 宋体子集；可改用系统宋体 |
+| 数学 → 中文 | 更复杂的中文笔画和孔洞 | 明确检查字体覆盖；不代表所有复杂度的长句均可播放 |
+| `\frac{a}{b}` → `\frac{b}{a}` | 真正 LaTeX 分式变换 | 原生 ManimGL Tex 排版；不是把公式源码当作普通文字 |
+| `x^2` → `\sqrt{x}` | 上标与根号之间的转换 | 保留原生 Transform；尚未实现语义公式片段匹配 |
 | `basic_geometry` | 圆变矩形、旋转、缩放、平移与淡入淡出 | 二维多边形近似 |
 | `axes_sine` | 坐标轴、正弦曲线逐段绘制、点沿曲线移动 | 静态 Python 生成的确定性场景 |
 
@@ -19,13 +23,13 @@ Pyreact 播放器已集成，支持播放/暂停、拖动进度、起点/中间�
 
 当前画布仍由**全屏后处理**绘制，上下为控制面板预留空间；这不等于已实现可嵌入任意页面、独立裁剪的 UI 组件。首版运行环境为 Windows 网易开发客户端，手机计时与输入尚未适配。
 
-六例已完成后台实机复验：18 个定点画面、播放状态、关闭重开路径及 640×360 小窗口布局。96 项离线测试通过，60 FPS 上限下四次采样约为 60.08 FPS。证据和边界见 [初版验收记录](docs/INITIAL_ACCEPTANCE.md)；这些测量不扩张为其他设备的性能保证。
+0.1.0 的六例、18 帧及小窗口测量作为历史记录保留在 [初版验收记录](docs/INITIAL_ACCEPTANCE.md)。0.2.0 增加的中文、公式与渲染修正另见 [本版验收记录](docs/TEXT_FORMULA_ACCEPTANCE.md)，不把旧版测试数量沿用为新版结果。
 
 ## 开始使用
 
 先阅读 [快速入门](docs/QUICKSTART.md)：前半部分介绍游戏内演示操作，后半部分介绍修改静态 Python 和重新构建。
 
-已配置开发环境时，构建全部六例并部署到本仓库行为包、资源包：
+已配置开发环境和 LaTeX 工具链时，构建全部十例并部署到本仓库行为包、资源包：
 
 ```powershell
 .\.venv-reference\Scripts\python.exe -B -X utf8 tools/build_demo.py --render-reference
@@ -44,6 +48,8 @@ python -B -X utf8 tools/start_dev.py --owner manim-demo
 - [开发路线](docs/DEVELOPMENT_PLAN.md)：初版范围、后续文字一致性和 UI 里程碑。
 - [实现架构](docs/ARCHITECTURE.md)：宿主/游戏边界、两种数据格式、shader 与时间轴。
 - [验收标准](docs/ACCEPTANCE.md)：如何区分实现、离线验证、实机验证与 1:1。
+- [字体与宋体](tools/reference/FONTS.md)：按系统字体名称选择、显式字体文件和缺字处理。
+- [LaTeX 构建](tools/reference/LATEX.md)：本机 TeX 工具链与当前支持范围。
 - [迁移记录](docs/MIGRATION.md)：skills、agent 约定、调试脚本与共享 MCP。
 - [开发约定](AGENTS.md) 与 [第三方来源](THIRD_PARTY_NOTICES.md)：字体、ManimGL、PyreactMC 的版本和许可。
 

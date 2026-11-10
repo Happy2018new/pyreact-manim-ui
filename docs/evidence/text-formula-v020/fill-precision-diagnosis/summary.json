@@ -1,0 +1,616 @@
+{
+  "kind": "controlled_native_fill_precision_diagnostic",
+  "canonical_reference_replaced": false,
+  "pixel_exact_acceptance_claimed": false,
+  "f4_reference_kind": "modified upstream precision diagnostic; not canonical native ManimGL",
+  "tool": "tools/reference/diagnose_fill.py",
+  "tool_sha256": "75c27d9a8675b5832a55c7d42158f9c62902e7869edc154abc1f020c8f80fb94",
+  "controlled_change": "Only the native shared fill framebuffer color attachment dtype changes from f2 to f4 in memory; the original quad, depth buffer, shaders and geometry are reused. Factory and global settings are restored in finally.",
+  "upstream": {
+    "distribution": "manimgl",
+    "version": "1.7.2",
+    "repository": "https://github.com/3b1b/manim",
+    "tag": "v1.7.2",
+    "commit": "f427fc67df75513be0cd3f3329e327a9a19401c3",
+    "wheel_sha256": "e2644c93cffd93ea56ddded9c9752b9371f7d2d19e99da5693dd03b2e0d658e4",
+    "source_sha256": {
+      "animation/animation.py": "47aea11f2b960b1050dce6aa7f34c5efe3f860ef1cf06268e832b21fb66643d9",
+      "animation/transform.py": "74decaf75007af5af53686c4b3523643c59808499b50f9293160d4b015c10326",
+      "mobject/mobject.py": "ed6627a01098e24f4dcdec1db8bdfa80ee105963b75bcc23171a12d47eae92c6",
+      "mobject/types/vectorized_mobject.py": "f61d2a69782155534734e7aa025d980fbbda0e9cbc96d6f4f0f84563b9902641",
+      "mobject/svg/text_mobject.py": "5babde97dcefb77e6c54152a278408e1b50d7872712d200fb8ce604d390bf5df",
+      "mobject/svg/string_mobject.py": "23c218658c4a22afc9e74c0abbe2757add7afdf295a7795f3ed9510eeb48cff2",
+      "mobject/svg/tex_mobject.py": "8656c1fa6d2807ad16f46b0749416737a90199772385218ac46902d52959be3e",
+      "utils/tex_file_writing.py": "6a2fd9568419d1754b09876e74c556c4c40b4515635eb87fcaee7b8c33448d33",
+      "tex_templates.yml": "659fee61d9971006e2d4a16c9a3165e201c77acb5fb79c3bdaf7bf40e4e81ca5",
+      "camera/camera.py": "ed4573aea3374058ba09b95adfca2272bddc2f16479fc554bd8119c9a0cc05dd",
+      "shader_wrapper.py": "6f9bb207284c13bdc61c72d1b2454d00c550367bf9232feb4ba9b3b968c31780",
+      "utils/rate_functions.py": "08e1cb99d97efe53820507adfcdd7fb7501af0c9eee9a9c28ac68f9a7edb2b4c",
+      "utils/paths.py": "3ee75999f5e7ed75fbe8bb2a3c4cf8237f30d0b84fe8917440d6c05b5525d55d",
+      "shaders/quadratic_bezier/fill/geom.glsl": "2251c26711de2b85d36ca1ceca3d41bb5d810120023ae4842eb8bf1f2a406b90",
+      "shaders/quadratic_bezier/fill/frag.glsl": "94e55b7ead00d173b7220a45e2d43d46f8e568ce23114d0955029d6c1fe6aa7f"
+    }
+  },
+  "root_cause": "Finite-precision cancellation in native FP16 signed-alpha fill accumulation. Transform alignment adds curve subdivisions, amplifying residual coverage; the same glyph rendered in FP32 loses the triangular residuals without changing geometry.",
+  "excluded_causes": [
+    "Missing Chinese font outlines: identical point buffers and main white strokes remain in both precision modes.",
+    "Canonical exporter capture order or camera residue: fresh-process first captures of aligned endpoints exactly match the existing canonical endpoint images; three repeated captures are byte-identical."
+  ],
+  "minecraft_impact": "The game renderer exports geometry and computes signed coverage in fragment float32; it does not import native Camera pixels or use the native per-triangle FP16 fill buffer. This experiment does not change game behavior.",
+  "recommendation": "Keep original canonical native references, retain this separately labelled FP32 diagnostic, and do not reproduce the FP16 gray residuals in the game renderer. Replacing the official benchmark would be an explicit future reference-policy change.",
+  "cases": {
+    "direct": {
+      "scene": "direct Text Chinese",
+      "identical_geometry_across_precision_modes": true,
+      "native_glyph_point_counts": [
+        81,
+        95
+      ],
+      "native_glyph_skip_counts": [
+        3,
+        3
+      ],
+      "native_glyph_points_sha256": [
+        "85dcb021cc2bd751e8980b1695440b9054f8561096853b74a633fcbf3bcf4831",
+        "4d7aaa4e816441c0cdb0ff3129d207a4a98c96486382f09f760b8b47d8358a33"
+      ],
+      "native_fp16_png_sha256": "5e9d4f64bc6264371b20237e75693aca4e67e95707213db9af1a007a1f36e4d8",
+      "modified_fp32_png_sha256": "c132f0f9415c259efcfcec1f77d6ac3193e789262c9adc16b70a817a8931804d",
+      "repeated_capture_unique_images_fp16": 1,
+      "repeated_capture_unique_images_fp32": 1,
+      "native_gray_pixels_above_16_where_fp32_is_at_most_1": 0,
+      "gray_max_channel_255": null,
+      "gray_mean_channel_255": null,
+      "fp16_alpha_frequent_small_nonzero_values": [
+        [
+          -0.00390625,
+          113572
+        ],
+        [
+          -0.0078125,
+          37825
+        ],
+        [
+          -0.0050048828125,
+          15027
+        ],
+        [
+          -0.01953125,
+          1631
+        ],
+        [
+          -0.01171875,
+          1615
+        ],
+        [
+          -0.0147705078125,
+          669
+        ],
+        [
+          0.0009002685546875,
+          501
+        ],
+        [
+          0.00855255126953125,
+          444
+        ],
+        [
+          0.03582763671875,
+          426
+        ],
+        [
+          -0.0245361328125,
+          327
+        ],
+        [
+          0.00080108642578125,
+          322
+        ],
+        [
+          0.0240936279296875,
+          288
+        ],
+        [
+          0.02471923828125,
+          250
+        ],
+        [
+          0.1806640625,
+          216
+        ],
+        [
+          0.11370849609375,
+          213
+        ],
+        [
+          0.0015325546264648438,
+          199
+        ],
+        [
+          0.024078369140625,
+          170
+        ],
+        [
+          0.0097808837890625,
+          169
+        ],
+        [
+          0.11376953125,
+          121
+        ],
+        [
+          0.0247344970703125,
+          84
+        ]
+      ],
+      "fp32_alpha_frequent_small_nonzero_values": [
+        [
+          4.470348358154297e-08,
+          16023
+        ],
+        [
+          0.0008015470812097192,
+          188
+        ],
+        [
+          0.0008015527273528278,
+          117
+        ],
+        [
+          0.0009004615130834281,
+          77
+        ],
+        [
+          0.0009004555176943541,
+          69
+        ],
+        [
+          0.0009004675084725022,
+          67
+        ],
+        [
+          0.0009004733874462545,
+          67
+        ],
+        [
+          0.0009004793828353286,
+          61
+        ],
+        [
+          0.00090044952230528,
+          48
+        ],
+        [
+          0.008559709414839745,
+          45
+        ],
+        [
+          0.008559727109968662,
+          44
+        ],
+        [
+          0.00855970848351717,
+          42
+        ],
+        [
+          0.008559728041291237,
+          42
+        ],
+        [
+          0.008559745736420155,
+          41
+        ],
+        [
+          0.00855974480509758,
+          40
+        ],
+        [
+          0.008559691719710827,
+          39
+        ],
+        [
+          0.008559762500226498,
+          36
+        ],
+        [
+          0.008559674955904484,
+          29
+        ],
+        [
+          0.008559690788388252,
+          29
+        ],
+        [
+          0.0009004763560369611,
+          24
+        ]
+      ]
+    },
+    "change": {
+      "scene": "Chinese to change, start endpoint",
+      "identical_geometry_across_precision_modes": true,
+      "native_glyph_point_counts": [
+        327,
+        459
+      ],
+      "native_glyph_skip_counts": [
+        8,
+        12
+      ],
+      "native_glyph_points_sha256": [
+        "ec76cecb80a53bddef50747baf8b6a0f5229a7cb9f9b3264bf3bb14ec7b2df4f",
+        "b77a8c44ae42ac6d807f8e1716133eef474c184b13270664ccde48ad69906e0c"
+      ],
+      "native_fp16_png_sha256": "9db09fc12edc671fb621bb76149a455be24a4923a6fdfac119f5dfa39809448d",
+      "modified_fp32_png_sha256": "7126d13a03c5faab4a7e1d7eca75e87fc95935d76fb080270293009ed0a11031",
+      "repeated_capture_unique_images_fp16": 1,
+      "repeated_capture_unique_images_fp32": 1,
+      "native_gray_pixels_above_16_where_fp32_is_at_most_1": 6153,
+      "gray_max_channel_255": 42,
+      "gray_mean_channel_255": 24.046318868844466,
+      "fp16_alpha_frequent_small_nonzero_values": [
+        [
+          -0.0050048828125,
+          67672
+        ],
+        [
+          -0.00390625,
+          38073
+        ],
+        [
+          -0.04296875,
+          18808
+        ],
+        [
+          -0.07421875,
+          17243
+        ],
+        [
+          -0.046875,
+          13151
+        ],
+        [
+          -0.0078125,
+          7571
+        ],
+        [
+          -0.0546875,
+          1797
+        ],
+        [
+          -0.05078125,
+          696
+        ],
+        [
+          -0.01171875,
+          666
+        ],
+        [
+          0.00855255126953125,
+          444
+        ],
+        [
+          -0.18359375,
+          438
+        ],
+        [
+          0.03582763671875,
+          426
+        ],
+        [
+          0.00080108642578125,
+          322
+        ],
+        [
+          0.0240936279296875,
+          288
+        ],
+        [
+          0.02471923828125,
+          274
+        ],
+        [
+          0.0009007453918457031,
+          273
+        ],
+        [
+          0.0009002685546875,
+          228
+        ],
+        [
+          0.1806640625,
+          217
+        ],
+        [
+          0.11376953125,
+          207
+        ],
+        [
+          -0.0147705078125,
+          203
+        ]
+      ],
+      "fp32_alpha_frequent_small_nonzero_values": [
+        [
+          4.470348358154297e-08,
+          67875
+        ],
+        [
+          0.02473282814025879,
+          209
+        ],
+        [
+          0.0008015470812097192,
+          188
+        ],
+        [
+          0.11382771283388138,
+          150
+        ],
+        [
+          0.0008015527273528278,
+          117
+        ],
+        [
+          0.008559709414839745,
+          45
+        ],
+        [
+          0.008559727109968662,
+          44
+        ],
+        [
+          0.00855970848351717,
+          42
+        ],
+        [
+          0.008559728041291237,
+          42
+        ],
+        [
+          0.008559745736420155,
+          41
+        ],
+        [
+          0.00855974480509758,
+          40
+        ],
+        [
+          0.008559691719710827,
+          39
+        ],
+        [
+          0.008559762500226498,
+          36
+        ],
+        [
+          0.008559674955904484,
+          29
+        ],
+        [
+          0.008559690788388252,
+          29
+        ],
+        [
+          0.00855967402458191,
+          22
+        ],
+        [
+          0.008559763431549072,
+          20
+        ],
+        [
+          0.11382780224084854,
+          18
+        ],
+        [
+          0.0008015414932742715,
+          15
+        ],
+        [
+          0.0009008195484057069,
+          9
+        ]
+      ],
+      "canonical_scene": "manimgl_chinese_change",
+      "canonical_frame_part": 0,
+      "fresh_fp16_first_capture_equals_canonical_pixels": true,
+      "existing_canonical_png_sha256": "9db09fc12edc671fb621bb76149a455be24a4923a6fdfac119f5dfa39809448d",
+      "compiled_vs_unmodified_fp16_iou": 0.8227947134594429,
+      "compiled_vs_modified_fp32_iou": 0.9950697328875832
+    },
+    "math": {
+      "scene": "math to Chinese, final endpoint",
+      "identical_geometry_across_precision_modes": true,
+      "native_glyph_point_counts": [
+        555,
+        379
+      ],
+      "native_glyph_skip_counts": [
+        13,
+        10
+      ],
+      "native_glyph_points_sha256": [
+        "2a5d3d1e81c09cf42b87a75d7ba181e737bd04ca846dbcdfd7929fd98fc529cb",
+        "2741367dd6b8d9911229a026a87d0d66a5f78188c4a76fd05c14317a12ea4e0f"
+      ],
+      "native_fp16_png_sha256": "c67ed58f4bd59a24c44521914c043d44848669cd25cf75416e38331b42750441",
+      "modified_fp32_png_sha256": "5975d6847984a0ba15777e31ab40f925e3efc54a793dca95ccd438a0e3c83485",
+      "repeated_capture_unique_images_fp16": 1,
+      "repeated_capture_unique_images_fp32": 1,
+      "native_gray_pixels_above_16_where_fp32_is_at_most_1": 12920,
+      "gray_max_channel_255": 34,
+      "gray_mean_channel_255": 26.174148606811144,
+      "fp16_alpha_frequent_small_nonzero_values": [
+        [
+          -0.0050048828125,
+          67670
+        ],
+        [
+          -0.00390625,
+          38073
+        ],
+        [
+          -0.08203125,
+          18808
+        ],
+        [
+          -0.05859375,
+          17248
+        ],
+        [
+          -0.0859375,
+          13350
+        ],
+        [
+          -0.0078125,
+          7571
+        ],
+        [
+          -0.09375,
+          1797
+        ],
+        [
+          -0.08984375,
+          696
+        ],
+        [
+          -0.01171875,
+          666
+        ],
+        [
+          0.0009002685546875,
+          501
+        ],
+        [
+          0.00855255126953125,
+          444
+        ],
+        [
+          -0.15234375,
+          442
+        ],
+        [
+          0.03582763671875,
+          426
+        ],
+        [
+          0.00080108642578125,
+          322
+        ],
+        [
+          0.0240936279296875,
+          288
+        ],
+        [
+          0.02471923828125,
+          275
+        ],
+        [
+          0.1806640625,
+          216
+        ],
+        [
+          0.11376953125,
+          208
+        ],
+        [
+          -0.0147705078125,
+          203
+        ],
+        [
+          0.0015325546264648438,
+          199
+        ]
+      ],
+      "fp32_alpha_frequent_small_nonzero_values": [
+        [
+          4.470348358154297e-08,
+          67873
+        ],
+        [
+          0.02473282814025879,
+          209
+        ],
+        [
+          0.0008015470812097192,
+          188
+        ],
+        [
+          0.11382771283388138,
+          150
+        ],
+        [
+          0.0008015527273528278,
+          117
+        ],
+        [
+          0.0009004615130834281,
+          77
+        ],
+        [
+          0.0009004555176943541,
+          69
+        ],
+        [
+          0.0009004675084725022,
+          67
+        ],
+        [
+          0.0009004733874462545,
+          67
+        ],
+        [
+          0.0009004793828353286,
+          61
+        ],
+        [
+          0.00090044952230528,
+          48
+        ],
+        [
+          0.008559709414839745,
+          45
+        ],
+        [
+          0.008559727109968662,
+          44
+        ],
+        [
+          0.00855970848351717,
+          42
+        ],
+        [
+          0.008559728041291237,
+          42
+        ],
+        [
+          0.008559745736420155,
+          41
+        ],
+        [
+          0.00855974480509758,
+          40
+        ],
+        [
+          0.008559691719710827,
+          39
+        ],
+        [
+          0.008559762500226498,
+          36
+        ],
+        [
+          0.008559674955904484,
+          29
+        ]
+      ],
+      "canonical_scene": "manimgl_chinese_math",
+      "canonical_frame_part": 100,
+      "fresh_fp16_first_capture_equals_canonical_pixels": true,
+      "existing_canonical_png_sha256": "c67ed58f4bd59a24c44521914c043d44848669cd25cf75416e38331b42750441",
+      "compiled_vs_unmodified_fp16_iou": 0.6906649105063857,
+      "compiled_vs_modified_fp32_iou": 0.9962155769555668
+    }
+  }
+}

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path,
-                        default=ROOT / "dist/pyreact-manim-ui-0.1.0-preview.mcaddon")
+                        default=ROOT / "dist/pyreact-manim-ui-0.2.0-preview.mcaddon")
     args = parser.parse_args()
     files = []
     for pack in ("behavior_pack", "resource_pack"):

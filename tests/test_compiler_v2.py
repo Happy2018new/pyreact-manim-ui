@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from pyreact_manim.compiler import SceneError, compile_scene, validate_scene
 from pyreact_manim.compiler.codec import path_points
 from pyreact_manim.compiler.preview import decode_frame, render_preview, sample_frame
+from pyreact_manim.compiler.validation import MAX_VERTICES
 
 
 def fan_scene():
@@ -63,6 +64,59 @@ class CurveFanTests(unittest.TestCase):
                                for c in path["curves"]]
         self.assertEqual(render_preview(scene, 1, 128, 128).getbbox(), None)
 
+    def test_native_transparent_overlap_accumulates_before_alpha_recovery(self):
+        scene = fan_scene()
+        for frame in scene["frames"]:
+            path = frame["paths"][0]
+            path["fill"] = [1, 1, 1, 0.5]
+            path["curves"] += copy.deepcopy(path["curves"])
+        # Two native 0.95-scaled half-opacity contributions followed by 1.06 adjustment.
+        expected = round((1 - (1 - 0.95 * 0.5) ** 2) * 1.06 * 255)
+        self.assertEqual(render_preview(scene, 1, 64, 64).getpixel((32, 32)), (expected,) * 3)
+
+    def test_reversed_curve_orientation_and_native_normal_preserve_fill(self):
+        scene = fan_scene()
+        for frame in scene["frames"]:
+            path = frame["paths"][0]
+            path["fill"] = [1, 1, 1, 0.5]
+        before = render_preview(scene, 1, 64, 64)
+        for frame in scene["frames"]:
+            path = frame["paths"][0]
+            path["fill_orientation"] = -1
+            for curve in path["curves"]:
+                curve["points"].reverse()
+        self.assertEqual(before.tobytes(), render_preview(scene, 1, 64, 64).tobytes())
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest_path = compile_scene(scene, temporary)
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            with Image.open(Path(temporary) / manifest["texture"]["path"]) as image:
+                self.assertEqual(decode_frame(manifest, image, 0)["paths"][0]["fill_orientation"], -1)
+
+    def test_faint_multiple_windings_do_not_saturate_prematurely(self):
+        scene = fan_scene()
+        for frame in scene["frames"]:
+            path = frame["paths"][0]
+            path["fill"] = [1, 1, 1, 0.01]
+            path["curves"] = path["curves"] * 20
+        expected = round((1 - (1 - 0.95 * 0.01) ** 20) * 1.06 * 255)
+        self.assertEqual(render_preview(scene, 1, 32, 32).getpixel((16, 16)), (expected,) * 3)
+
+    def test_cjk_vertex_budget_accepts_2048_and_rejects_overflow(self):
+        self.assertEqual(MAX_VERTICES, 2048)
+        scene = fan_scene()
+        for frame in scene["frames"]:
+            frame["paths"][0]["curves"] = [
+                {"points": [[0, 0], [1, 0]] * 1023 + [[0, 0]], "skip_marker": False}]
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest_path = compile_scene(scene, temporary)
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["vertex_count"], 2048)
+            self.assertLessEqual(max(manifest["texture"]["width"], manifest["texture"]["height"]), 2048)
+        for frame in scene["frames"]:
+            frame["paths"][0]["curves"][0]["points"].append([1, 0])
+        with self.assertRaisesRegex(SceneError, "2048 vertex"):
+            validate_scene(scene)
+
     def test_native_fill_border_draws_real_curves_but_no_shared_base_spokes(self):
         scene = fan_scene()
         for frame in scene["frames"]:
@@ -95,6 +149,8 @@ class CurveFanTests(unittest.TestCase):
         for mutation in (lambda path: path.update(stroke_width=1),
                          lambda path: path.update(fill_border_width=0.1),
                          lambda path: path.update(anti_alias_width=-1),
+                         lambda path: path.update(fill_orientation=0),
+                         lambda path: path.update(fill_orientation=-1),
                          lambda path: path["curves"][0].update(skip_marker=0),
                          lambda path: path["curves"][0]["points"].append([0, 0])):
             scene = fan_scene()

@@ -1,6 +1,5 @@
 """Schema 2: preserve native independent curve slots and explicit skip markers."""
 
-from contextlib import nullcontext
 import math
 from pathlib import Path
 import struct
@@ -78,17 +77,14 @@ def export_curve_text_transform(output, settings):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
     environment = _reference_environment()
-    from manimlib import Text, Transform
+    from manimlib import Transform
     from manimlib.config import manim_config
-    from manimlib.mobject.svg.text_mobject import register_font
+    from .mobject_source import create_source_pair
 
     cache = output.parent / "manim-cache"
     cache.mkdir(parents=True, exist_ok=True)
     manim_config.directories.cache = str(cache)
-    font_file = Path(settings.font_file).resolve() if settings.font_file else None
-    with register_font(font_file) if font_file else nullcontext():
-        source = Text(settings.source, font=settings.font, font_size=48).set_height(settings.glyph_height)
-        target = Text(settings.target, font=settings.font, font_size=48).set_height(settings.glyph_height)
+    with create_source_pair(settings, output) as (source, target, source_metadata):
         animation = Transform(source, target, run_time=settings.duration)
         animation.begin()
         if animation.path_func.__name__ != "straight_path" or animation.rate_func.__name__ != "smooth":
@@ -169,16 +165,25 @@ def export_curve_text_transform(output, settings):
                     error_bound = max(error_bound, chord_error_bound(curve, count))
             all_counts.append(counts)
         frames = []
+        orientations = None
         for raw in raw_frames:
             paths = []
             for pi, path in enumerate(raw["paths"]):
+                normal = path["native_unit_normal"]
+                if abs(abs(normal[2]) - 1.0) > 1e-5 or max(abs(normal[0]), abs(normal[1])) > 1e-5:
+                    raise ValueError("Only planar native fill normals are supported")
                 curves = [{"points": sample_curve(curve, count), "skip_marker": skipped}
                           for curve, count, skipped in zip(contour_curves(path["points"]), all_counts[pi],
                                                            path["skip_markers"])]
                 paths.append({"id": path["id"], "base": path["points"][0][:2], "curves": curves,
                               "fill": path["fill"], "stroke": path["stroke"], "stroke_width": 0.0,
                               "fill_border_width": path["native_fill_border_width"] * 0.01 * settings.height / 8.0,
-                              "anti_alias_width": path["native_anti_alias_width"]})
+                              "anti_alias_width": path["native_anti_alias_width"],
+                              "fill_orientation": 1 if normal[2] > 0 else -1})
+            current_orientations = [path["fill_orientation"] for path in paths]
+            if orientations is not None and current_orientations != orientations:
+                raise ValueError("Native fill orientation changes across frames; a fixed-style scene cannot represent this")
+            orientations = current_orientations
             frames.append({"time": raw["time"], "paths": paths})
         scene = {"schema_version": 2, "name": settings.name, "duration": settings.duration,
                  "width": settings.width, "height": settings.height, "background": [0, 0, 0], "frames": frames}
@@ -189,13 +194,11 @@ def export_curve_text_transform(output, settings):
                               "topology": topology, "frames": raw_frames})
         report = {
             "schema_version": 2, "environment": environment,
-            "input": {"source": settings.source, "target": settings.target, "font": settings.font,
-                      "font_file": font_file.name if font_file else None,
-                      "font_sha256": _sha256(font_file) if font_file else None,
-                      "font_size": 48, "per_text_height": settings.glyph_height, "duration": settings.duration,
+            "input": {"source": settings.source, "target": settings.target, **source_metadata,
+                      "per_text_height": settings.glyph_height, "duration": settings.duration,
                       "canvas": [settings.width, settings.height], "geometry_mode": "curve_slots",
                       "allow_marker_approximation": settings.allow_marker_approximation},
-            "upstream_execution": {"classes": ["manimlib.Text", "manimlib.Transform"],
+            "upstream_execution": {"classes": [source_metadata["mobject_class"], "manimlib.Transform"],
                                    "rate_func": "manimlib.utils.rate_functions.smooth",
                                    "path_func": "manimlib.utils.paths.straight_path",
                                    "native_fill_border": {"source": "StringMobject.fill_border_width default=0.5",

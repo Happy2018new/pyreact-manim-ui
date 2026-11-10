@@ -23,6 +23,7 @@ class ManimClient(ClientSystem):
         # NetEase 3.10 postprocess UV origin is bottom-left, unlike atlas rows.
         self.flip_y = True
         self.viewport = (1280.0, 720.0)
+        self._viewport_dirty = False
         self.canvas = (0.0, 1.0)
         self.ui_scale = 1.0
         self.error = ""
@@ -75,7 +76,9 @@ class ManimClient(ClientSystem):
         print("[manim-ui] " + self.error)
 
     def on_resize(self, args):
-        self.update_viewport()
+        # The event may precede the engine's physical viewport update. Read
+        # the new values on the next render frame, coalescing resize bursts.
+        self._viewport_dirty = True
 
     def update_viewport(self):
         self.viewport = self.game.GetScreenViewInfo()[:2]
@@ -143,7 +146,7 @@ class ManimClient(ClientSystem):
             self.error = "Unable to enable shader: " + name
             print("[manim-ui] " + self.error)
         self._last_parameters = None
-        self.on_frame()
+        self._update_frame()
         return self.visible
 
     def hide(self):
@@ -168,10 +171,16 @@ class ManimClient(ClientSystem):
         now = self._clock()
         self.timeline.pause(now)
         self.timeline.seek(seconds, now)
-        self.on_frame()
+        self._update_frame()
         self.notify()
 
     def on_frame(self, _args=None):
+        if self._viewport_dirty:
+            self._viewport_dirty = False
+            self.update_viewport()
+        self._update_frame()
+
+    def _update_frame(self):
         if not self.visible or self.timeline is None:
             return
         now = self._clock()
