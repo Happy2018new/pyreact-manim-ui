@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-10",
+  "revision": {
+    "math": 6,
+    "story": 2
+  },
+  "subagent_model": "gpt-6-astra",
+  "subagent_reasoning_effort": "ultra",
+  "acceptance": "Not performed, per user request; delivered for user review.",
+  "films": [
+    {
+      "scene": "client_showcase",
+      "video": {
+        "path": "dist/client-showcase-v6/metamorphosis-curve-choreography-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 26653213,
+        "sha256": "1655b9756567a3038fc52e50538425d662cbdc77ec42bd6ba80153f3b0c4f404",
+        "render_seconds": 116.374
+      },
+      "shader_sha256": "d7e94963958e54ee901ed46d4bdf1cbe04aa24daa88557591072366ffaffb013",
+      "texture_sha256": "76d29e390a1ff444e593ea3c7f8c79d0a38de20b95f23890082fb4243a669e8e",
+      "audio_master_sha256": "8bd4ded84328fc6f8ace3af70615fc4ea5f7f5473bee6e6c59c4c684e02acf4e",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    },
+    {
+      "scene": "story_showcase",
+      "video": {
+        "path": "dist/storybook-wind-v2/the-star-borrowed-by-the-wind-curves-120s.mp4",
+        "frames": 7200,
+        "fps": 60,
+        "duration": 120.0,
+        "width": 1920,
+        "height": 1080,
+        "bytes": 24545656,
+        "sha256": "91c9fa6ac898cc39a542d4e1ebdc2ff59c15f5629bc283c737f672247e7ab329",
+        "render_seconds": 85.86
+      },
+      "shader_sha256": "283d3f65f081053a49b49cdf340ccd33a7c8c7bad088dd9578dc0c8eaa8c0fbf",
+      "texture_sha256": "32487778d04850d6aa36bd734cb26ec073589fcf8e08cd4f55c7d071e353e822",
+      "audio_master_sha256": "0914f73a0679750da83f2e29d4d1aac86dc326a95e47a1c017f315dbeb8babfb",
+      "kind": "offline_desktop_gl_shader_export",
+      "game_capture": false
+    }
+  ],
+  "typography": {
+    "english": "Native LaTeX Computer Modern Roman through ManimGL Tex/basic and dvisvgm",
+    "chinese": "Noto Serif SC Song, weight 400",
+    "morph": "Matched closed contours and holes, equal-arc correspondence, bounded 256-point tracks",
+    "story_subtitles": "Previous sentence remains; 1.15-second outline transformation; no sentence opacity fades",
+    "limitation": "Bounded polygon approximation; not native Manim curve topology or strict 1:1"
+  },
+  "game_preparation": {
+    "owned_instance_started": true,
+    "owner": "manim-dual-presentation",
+    "ready": true,
+    "fps_cap": 60,
+    "background_noactivation": true,
+    "left_running": true,
+    "visual_or_listening_acceptance": false,
+    "runtime_error_at_handoff": ""
+  },
+  "game_audio": {
+    "original_synthesis": true,
+    "external_samples": false,
+    "sample_rate": 48000,
+    "channels": 2,
+    "ogg_files": 240,
+    "bytes": 9373793,
+    "segment_seconds": 5,
+    "resume_quantization_seconds": 1,
+    "timing_limit": "Resume selects the preceding whole-second tail; decoding and game scheduling add latency. No sample-accurate synchronization claim."
+  }
+}

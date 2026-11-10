@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "id": "story_showcase",
   "title": "风借来的一颗星",
   "duration": 120.0,
@@ -8,7 +8,7 @@
     1920,
     1080
   ],
-  "style": "原创剪纸童话、电影宽幅、风驱动轮廓、连续种子叙事、宋体字幕",
+  "style": "原创曲线插画、深靛与青绿层景、珊瑚斗篷、金色细线、宋体真实轮廓字幕变换",
   "shader": "shaders/glsl/story_showcase.fragment",
   "texture": "textures/manim/story_showcase",
   "texture_slot": "TEXTURE_2",
@@ -36,7 +36,7 @@
     "sdf_range": 24,
     "sample": "R; manual bilinear; positive inside; PNG top-left tiles; glyph UV Y flipped",
     "glyphs": 67,
-    "sha256": "9cacf41e64da1d054ddbd480cb677114cf4346a27937c92c20693386dc930567"
+    "sha256": "32487778d04850d6aa36bd734cb26ec073589fcf8e08cd4f55c7d071e353e822"
   },
   "font": {
     "family": "Pyreact Manim Song",
@@ -50,98 +50,153 @@
     "source_sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
     "license": "SIL OFL 1.1"
   },
+  "vector_morph": {
+    "schema": 1,
+    "method": "paired closed contours; equal-arc samples; nonzero winding",
+    "implementation_sha256": "0d5671737d211610c9ace8107aa249f6b4c301ef2c25b78a2e44a9f61e8a3b4d",
+    "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
+    "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
+    "packing": "two RGBA pixels per vertex (source/target); all-255 contour break",
+    "data_region": [
+      0,
+      2048,
+      4096,
+      2048
+    ],
+    "max_points_per_track": 256,
+    "unique_tracks": 101,
+    "packed_pixels": 50116,
+    "peak_track_points": 256,
+    "component_matching": "outer components first; holes only within matched parent; winding and cyclic phase aligned",
+    "birth_death": "zero-area contours grow from or contract to nearest boundary anchors; no opacity ramp",
+    "endpoints": "original SDF; 2.5% endpoint interval reconciles polygon sampling and SDF AA",
+    "limitations": "bounded polygon approximation, not native Manim curve topology or pixel-equivalent Transform"
+  },
+  "illustration": {
+    "source": "tools/storybook/build_art.py",
+    "source_sha256": "7de7a328c14a803ca9cfbbee1d345607cc05a6321d7253c3aaf404cc35093b44",
+    "provenance": "original hand-authored cubic Bezier paths; no external image assets",
+    "figure": "six-head curved profile; bent hands; flowing hair, cloak and skirt",
+    "persistent_curve_tracks": 18,
+    "leaf_bird_star_contour_points": 64,
+    "transition": "corresponding Bezier controls and resampled closed contours; no full-scene crossfade"
+  },
   "chapters": [
     {
       "start": 0,
       "end": 16,
       "title": "失星的村落",
-      "action": "风在屋檐、丝带云和少女发间流动；最后一颗星落下。"
+      "action": "弧顶村屋依坡地分层，风线绕过月牙与屋檐；最后一颗星落下。"
     },
     {
       "start": 16,
       "end": 34,
       "title": "掌心的种子",
-      "action": "同一位红斗篷少女伸手，接住风送来的金色种子。"
+      "action": "六头身侧脸少女用弯曲的双臂接住种子，斗篷、发丝与风线连续流动。"
     },
     {
       "start": 34,
       "end": 54,
       "title": "没有地图的天空",
-      "action": "纸船载着少女和种子，穿过有前中后景的云海，船的轮廓化成云。"
+      "action": "同一组风曲线重构为弧形帆船和云卷，青绿云海分层展开。"
     },
     {
       "start": 54,
       "end": 76,
       "title": "风也会迷路",
-      "action": "逆风弯曲森林、斗篷与发丝；少女护住种子的光。"
+      "action": "船与波浪的对应控制点抬升成弯曲枝干，少女护住种子的光。"
     },
     {
       "start": 76,
       "end": 96,
       "title": "星光生根",
-      "action": "种子连续拉长成树干，分枝依生长次序展开，光叶长出。"
+      "action": "森林曲线收束为不对称光树，种子落地拉长成树干，侧枝与光叶生长。"
     },
     {
       "start": 96,
       "end": 110,
       "title": "回家的方向",
-      "action": "光叶的同一轮廓展开为鸟翼，鸟群飞回星空。"
+      "action": "叶、燕、星使用同一组64点闭合轮廓连续变换；树枝重构为鸟翼。"
     },
     {
       "start": 110,
       "end": 120,
       "title": "风借来的一颗星",
-      "action": "村落重见星海，宋体片名和结语停留。"
+      "action": "鸟翼继续重构成星图，前句宋体字幕重构为片名，结语从片名字形派生展开。"
     }
   ],
   "subtitles": [
     {
       "id": "lost",
       "start": 3.4,
-      "end": 13.5,
-      "text": "很久以前，星星忘了回家的路。"
+      "end": 18.5,
+      "text": "很久以前，星星忘了回家的路。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "gift",
       "start": 18.5,
-      "end": 30.8,
-      "text": "直到风，把一颗种子交给了她。"
+      "end": 36.8,
+      "text": "直到风，把一颗种子交给了她。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "voyage",
       "start": 36.8,
-      "end": 49.8,
-      "text": "她折一叶纸船，驶向没有地图的天空。"
+      "end": 57.0,
+      "text": "她折一叶纸船，驶向没有地图的天空。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "storm",
       "start": 57.0,
-      "end": 70.5,
-      "text": "风也会迷路。勇敢的人，会替它点灯。"
+      "end": 81.3,
+      "text": "风也会迷路。勇敢的人，会替它点灯。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "tree",
       "start": 81.3,
-      "end": 93.1,
-      "text": "于是，一颗小小的星，长成了一整片夜空。"
+      "end": 99.0,
+      "text": "于是，一颗小小的星，长成了一整片夜空。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "return",
       "start": 99.0,
-      "end": 108.7,
-      "text": "那些曾被吹散的，都有了回家的方向。"
+      "end": 110.2,
+      "text": "那些曾被吹散的，都有了回家的方向。",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "title",
       "start": 110.2,
       "end": 120,
-      "text": "风借来的一颗星"
+      "text": "风借来的一颗星",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     },
     {
       "id": "motto",
       "start": 113.5,
       "end": 120,
-      "text": "每一次风起，都是星星回家的路"
+      "text": "每一次风起，都是星星回家的路",
+      "transform_seconds": 1.15,
+      "hold_until_next_transform": true,
+      "transition": "closed-contour point correspondence; no sentence alpha fade"
     }
   ],
   "groups": {
@@ -2757,8 +2812,8 @@
       ]
     }
   },
-  "source_sha256": "9997f6aafa82f3b25215a5c7b79e71c79f43410541279d180489b1eea6f9d7a1",
-  "shader_sha256": "a62132742d097d9dd87c6ef9ee8c4e1deeb828ee03b21f16d09fa35a126a04fe",
+  "source_sha256": "5745439c5d96edf9fde0d2111f79eee918d80ed757100e09bb3a2de6e2992935",
+  "shader_sha256": "283d3f65f081053a49b49cdf340ccd33a7c8c7bad088dd9578dc0c8eaa8c0fbf",
   "build": ".venv-reference/Scripts/python.exe -B -X utf8 tools/storybook/build_film.py",
   "verification": "built; no game acceptance requested"
 }

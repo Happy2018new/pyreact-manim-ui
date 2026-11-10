@@ -1,9 +1,9 @@
 {
   "duration": 120,
-  "shader_sha256": "8e9d965337c5c73ea00c6204f55611d4388c216971750c28be1bf3adb7c3c641",
-  "texture_sha256": "b66d0f249034fd863cf9e6b7a5ffd42c5c8278a739f9ab0b9444f198ae9760d7",
-  "shader_bytes": 145993,
-  "atlas_bytes": 541266,
+  "shader_sha256": "d7e94963958e54ee901ed46d4bdf1cbe04aa24daa88557591072366ffaffb013",
+  "texture_sha256": "76d29e390a1ff444e593ea3c7f8c79d0a38de20b95f23890082fb4243a669e8e",
+  "shader_bytes": 158974,
+  "atlas_bytes": 781212,
   "glyph_transitions": [
     {
       "chapter": "opening",
@@ -22,9 +22,9 @@
       "death_tracks": 1,
       "arc_strength": 0.3,
       "review_bounds": [
-        -3.5957796852646635,
+        -3.297865158237833,
         -0.7566666666666666,
-        3.546008583690987,
+        3.2453092825850773,
         1.2566666666666666
       ],
       "source_hold": {
@@ -61,10 +61,10 @@
       "death_tracks": 2,
       "arc_strength": 0.3,
       "review_bounds": [
-        -3.844718792866941,
-        -0.7566666666666666,
-        3.7638820301783262,
-        1.2566666666666666
+        -3.6132660802662806,
+        -0.7531391158585075,
+        3.5385461170105965,
+        1.249611565050348
       ],
       "source_hold": {
         "start": 5.3,
@@ -217,10 +217,10 @@
       "death_tracks": 2,
       "arc_strength": 0.08,
       "review_bounds": [
-        -3.021718592085357,
-        -0.4806150843752803,
-        2.996314127728173,
-        0.8181374037395002
+        -1.8176047964381137,
+        1.5420296148285202,
+        1.8025287495360043,
+        2.3615494923956692
       ],
       "source_hold": {
         "start": 28,
@@ -256,10 +256,10 @@
       "death_tracks": 1,
       "arc_strength": 0.08,
       "review_bounds": [
-        -3.8207166477173997,
-        -0.4806150843752803,
-        3.8143911686445664,
-        0.8181374037395002
+        -2.291762881097607,
+        1.5420296148285202,
+        2.288009083424901,
+        2.3615494923956692
       ],
       "source_hold": {
         "start": 32.4,
@@ -295,10 +295,10 @@
       "death_tracks": 1,
       "arc_strength": 0.08,
       "review_bounds": [
-        -4.668545240320087,
-        -1.099092250736285,
-        5.749999999999999,
-        1.5990922507362852
+        -2.7948990010848345,
+        1.175,
+        3.436678432062408,
+        2.825
       ],
       "source_hold": {
         "start": 37.0,
@@ -825,6 +825,33 @@
       }
     }
   ],
+  "vector_morph": {
+    "schema": 1,
+    "method": "paired closed contours; equal-arc samples; nonzero winding",
+    "implementation_sha256": "0d5671737d211610c9ace8107aa249f6b4c301ef2c25b78a2e44a9f61e8a3b4d",
+    "extraction": "marching squares at SDF byte threshold 127.5; bilinear crossings; cell-mean saddle choice",
+    "coordinates": "local glyph coordinates in [-0.5,0.5], Y up; 16-bit unsigned xy",
+    "packing": "two RGBA pixels per vertex (source/target); all-255 contour break",
+    "data_region": [
+      0,
+      2048,
+      4096,
+      2048
+    ],
+    "max_points_per_track": 256,
+    "unique_tracks": 129,
+    "packed_pixels": 60504,
+    "peak_track_points": 256,
+    "component_matching": "outer components first; holes only within matched parent; winding and cyclic phase aligned",
+    "birth_death": "zero-area contours grow from or contract to nearest boundary anchors; no opacity ramp",
+    "endpoints": "original SDF; 2.5% endpoint interval reconciles polygon sampling and SDF AA",
+    "limitations": "bounded polygon approximation, not native Manim curve topology or pixel-equivalent Transform"
+  },
+  "font_provenance": {
+    "formulas": "ManimGL 1.7.2 Tex / native LaTeX + dvisvgm; per-use layout preserved",
+    "song": "Noto Serif SC OFL-1.1 derived 400-weight subset",
+    "latin": "Computer Modern Roman; native LaTeX text via ManimGL Tex/basic + dvisvgm"
+  },
   "typography_transition_modes": {
     "shape_morph": 18,
     "matching_transport": 3
@@ -836,7 +863,7 @@
     "birth": 79,
     "death": 41
   },
-  "geometry_transitions": "six opening shape transitions, ellipse, calculus, four harmonic levels, finale loop",
-  "rendering": "authored shape morphs with constrained glyph pairing; selected identity transport; parametric geometry interpolation",
-  "game_validation": "Recorded separately against these resource hashes in docs/SHOWCASE_REVIEW.md"
+  "geometry_transitions": "Bezier fan; corresponding-control circle/square/triangle/petals; area dissection and completing the square; circle unrolls into sine; derivative and integral; four harmonics merge; folded curves become closing wings",
+  "rendering": "paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
+  "game_validation": "Not run for this revision; prior review does not validate these resource hashes"
 }

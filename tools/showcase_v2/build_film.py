@@ -8,13 +8,15 @@ import json
 import math
 from pathlib import Path
 import pprint
-import shutil
 import statistics
 import sys
+
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from build_canvas import read_scenes
+from presentation.vector_morph import VectorMorphAtlas, render_pairs as render_vector_pairs, shader_source
 
 
 def vector(values):
@@ -171,6 +173,7 @@ def pair_glyphs(source, target, mode="shape_morph"):
     if mode not in TRANSITION_MODES:
         raise ValueError("Unknown typography transition mode: " + mode)
     source, target = deepcopy(source), deepcopy(target)
+    original_source, original_target = list(source), list(target)
     pairs = []
     if mode == "shape_morph" and source and target:
         def span(glyphs):
@@ -219,36 +222,27 @@ def pair_glyphs(source, target, mode="shape_morph"):
             target.remove(b)
     for a in source:
         b = deepcopy(a)
-        b["size"] = [value * 0.84 for value in b["size"]]
+        if original_target:
+            closest = min(original_target, key=lambda glyph: sum(
+                (glyph["center"][axis] - a["center"][axis]) ** 2 for axis in range(2)))
+            b["center"] = list(closest["center"])
         b["opacity"] = 0.0
         pairs.append((a, b))
     for b in target:
         a = deepcopy(b)
-        a["size"] = [value * 0.84 for value in a["size"]]
+        if original_source:
+            closest = min(original_source, key=lambda glyph: sum(
+                (glyph["center"][axis] - b["center"][axis]) ** 2 for axis in range(2)))
+            a["center"] = list(closest["center"])
         a["opacity"] = 0.0
         pairs.append((a, b))
     return pairs
 
 
-def render_pairs(pairs, amount="u", opacity="visibility", arc_strength=0.32, color="WHITE"):
-    lines = []
-    for index, (a, b) in enumerate(pairs):
-        arc = math.sin(index * 2.399 + 0.5) * arc_strength
-        actual_amount = amount
-        if (all(vector(a[key]) == vector(b[key]) for key in ("center", "size", "tile"))
-                and a["opacity"] == b["opacity"]):
-            actual_amount = "0.0"
-            arc = 0.0
-        elif a["opacity"] == 0.0 or b["opacity"] == 0.0:
-            arc = 0.0
-        coverage = opacity
-        if a["opacity"] != b["opacity"]:
-            coverage = "(%s)*mix(%.1f,%.1f,%s)" % (opacity, a["opacity"], b["opacity"], amount)
-        lines.append("glyph(c,p,%s,%s,%s,%s,%s,%s,%s,%.6f,%s,%s,aa);" % (
-            vector(a["center"]), vector(a["size"]), vector(a["tile"]),
-            vector(b["center"]), vector(b["size"]), vector(b["tile"]),
-            actual_amount, arc, color, coverage))
-    return "\n".join(lines)
+def render_pairs(pairs, amount="u", opacity="visibility", arc_strength=0.32, color="WHITE", morph=None):
+    if morph is None:
+        raise ValueError("Glyph rendering requires the atlas used for contour correspondence")
+    return render_vector_pairs(morph, pairs, amount, opacity, arc_strength, color)
 
 
 def transition_window(begin, stop, duration=0.8):
@@ -288,7 +282,7 @@ def finish_holds(events, until):
                          "after": event["target_hold"]["duration"]}
 
 
-def make_type(groups):
+def make_type(groups, morph):
     code = ["void typography(inout vec3 c,vec2 p,float t,float aa) {"]
     events = []
 
@@ -312,7 +306,7 @@ def make_type(groups):
             window = transition_window(begin, stop)
             code.append("if(t>=%.3f && t<%.3f) { float u=smoothstep(%.3f,%.3f,t);" % (
                 begin, stop, window[0], window[1]))
-            code.append(render_pairs(pairs, arc_strength=arc, color=color))
+            code.append(render_pairs(pairs, arc_strength=arc, color=color, morph=morph))
             code.append("}")
             if group_name != next_name:
                 chapter_events.append(event_record(name, begin, stop, group_name, next_name,
@@ -324,7 +318,7 @@ def make_type(groups):
     def label(key, begin, end, center, height, width=12, color="GOLD"):
         glyphs = layout(groups[key], center, height, width)
         code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" % (begin,end,begin,end))
-        code.append(render_pairs([(g,g) for g in glyphs], "0.0", color=color, arc_strength=0))
+        code.append(render_pairs([(g,g) for g in glyphs], "0.0", color=color, arc_strength=0, morph=morph))
         code.append("}")
 
     assembled = layout(groups["morph"], (0, 0.25), 1.42, 11.5)
@@ -334,7 +328,7 @@ def make_type(groups):
         glyph["center"] = [math.cos(angle) * 6.3, math.sin(angle) * 3.4]
         glyph["size"] = [v * 0.035 for v in glyph["size"]]
     code.append("if(t<2.4) { float u=smoothstep(0.2,1.0,t); float visibility=1.0;")
-    code.append(render_pairs(list(zip(scattered,assembled)), color="mix(WHITE,CYAN,0.13)", arc_strength=.35))
+    code.append(render_pairs(list(zip(scattered,assembled)), color="mix(WHITE,CYAN,0.13)", arc_strength=.35, morph=morph))
     code.append("}")
     chain("opening",2.4,12.0,[(2.4,"morph"),(5.3,"math"),(8.0,"magic"),(10.3,"c_thought")],
           center=(0,.25),height=1.42,width=11.5,color="mix(WHITE,CYAN,0.13)",arc=.3,fade_in=False,
@@ -347,7 +341,7 @@ def make_type(groups):
           center=(5.65,-2.8),height=.95,width=3.0,color="CYAN",arc=.06)
     chain("algebra",28,48,[(28,"algebra0"),(32.4,"algebra1"),(37.0,"quadratic0"),
                            (42.3,"quadratic1"),(46.8,"quadratic1")],
-          center=(0,.25),height=1.7,width=11.5,arc=.08,max_height=3.0)
+          center=(0,2.0),height=1.25,width=11.5,arc=.08,max_height=1.65)
     label("algebra_label",28,48,(0,3.45),.22)
     chain("complex",48,66,[(48,"exp0"),(53.4,"exp1"),(59,"exp2"),(63.7,"exp0")],
           center=(0,2.55),height=1.05,width=10.5,color="WHITE",arc=.06,max_height=1.7,
@@ -369,7 +363,7 @@ def make_type(groups):
     b=layout(groups["c_title"],(0,.15),1.0,11.8)
     closing_pairs = pair_glyphs(a,b)
     code.append("if(t>=114.0) { float u=smoothstep(114.0,115.0,t); float visibility=1.0;")
-    code.append(render_pairs(closing_pairs,color="mix(WHITE,GOLD,0.15)",arc_strength=.3))
+    code.append(render_pairs(closing_pairs,color="mix(WHITE,GOLD,0.15)",arc_strength=.3,morph=morph))
     code.append("}")
     label("brand",115.0,121.0,(0,-2.15),.22,color="CYAN")
     label("title_en",115.0,121.0,(0,-1.05),.19,color="WHITE")
@@ -389,17 +383,22 @@ def build(assets=None):
         source_atlas = ROOT / "resource_pack/textures/manim/client_showcase.png"
     if hashlib.sha256(source_atlas.read_bytes()).hexdigest() != metadata["sha256"]:
         raise ValueError("V2 SDF atlas checksum mismatch")
-    type_code, events = make_type(metadata["groups"])
+    # Repack from a cleared data region on every build. This also supports
+    # rebuilding directly from the already packed production atlas.
+    with Image.open(source_atlas) as image:
+        morph = VectorMorphAtlas(image.convert("RGBA"))
+    type_code, events = make_type(metadata["groups"], morph)
+    metadata["vector_morph"] = morph.report()
     folder = ROOT / "tools/showcase_v2"
     shader=(folder / "film.fragment").read_text(encoding="utf-8")
     shader=shader.replace("// __GEOMETRY__",(folder / "geometry.glsl").read_text(encoding="utf-8"))
-    shader=shader.replace("// __TYPE_FUNCTIONS__",type_code)
+    shader=shader.replace("// __TYPE_FUNCTIONS__",shader_source()+"\n"+type_code)
     resource = ROOT / "resource_pack"
     output = resource / "shaders/glsl/client_showcase.fragment"
     output.write_bytes(shader.encode("utf-8"))
     atlas = resource / "textures/manim/client_showcase.png"
-    if source_atlas.resolve() != atlas.resolve():
-        shutil.copyfile(source_atlas,atlas)
+    morph.image.save(atlas, optimize=True)
+    metadata["sha256"] = hashlib.sha256(atlas.read_bytes()).hexdigest()
     (folder / "type_data.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")
     config = ROOT / "behavior_pack/manim_ui/generated_scenes.py"
     scenes = [scene for scene in read_scenes(config) if scene["name"] != "client_showcase"]
@@ -419,15 +418,17 @@ def build(assets=None):
     report={"duration":120,"shader_sha256":hashlib.sha256(output.read_bytes()).hexdigest(),
             "texture_sha256":metadata["sha256"],"shader_bytes":output.stat().st_size,
             "atlas_bytes":atlas.stat().st_size,"glyph_transitions":events,
+            "vector_morph":morph.report(),
+            "font_provenance":metadata["provenance"],
             "typography_transition_modes": {
                 mode: sum(event["transition_mode"] == mode for event in events)
                 for mode in TRANSITION_MODES},
             "typography_track_totals": {
                 kind: sum(event[kind + "_tracks"] for event in events)
                 for kind in ("shape_morph", "transport", "stationary", "birth", "death")},
-            "geometry_transitions":"six opening shape transitions, ellipse, calculus, four harmonic levels, finale loop",
-            "rendering":"authored shape morphs with constrained glyph pairing; selected identity transport; parametric geometry interpolation",
-            "game_validation":"Recorded separately against these resource hashes in docs/SHOWCASE_REVIEW.md"}
+            "geometry_transitions":"Bezier fan; corresponding-control circle/square/triangle/petals; area dissection and completing the square; circle unrolls into sine; derivative and integral; four harmonics merge; folded curves become closing wings",
+            "rendering":"paired closed contours and nonzero winding during shape changes; exact SDF endpoints; selected identity transport; parametric geometry interpolation",
+            "game_validation":"Not run for this revision; prior review does not validate these resource hashes"}
     (folder / "film.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")
     print(json.dumps({k:v for k,v in report.items() if k!="glyph_transitions"},ensure_ascii=False,indent=2))
     return report

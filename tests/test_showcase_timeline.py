@@ -8,10 +8,13 @@ import sys
 import tempfile
 import unittest
 
+from PIL import Image
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from showcase_v2 import build_film as film
+from presentation.vector_morph import VectorMorphAtlas, shader_source
 
 
 def glyph_signature(glyph):
@@ -23,7 +26,9 @@ class ShowcaseTimelineTests(unittest.TestCase):
     def setUpClass(cls):
         cls.groups = json.loads((ROOT / "tools/showcase_v2/type_data.json").read_text(
             encoding="utf-8"))["groups"]
-        cls.code, cls.events = film.make_type(cls.groups)
+        with Image.open(ROOT / "resource_pack/textures/manim/client_showcase.png") as image:
+            cls.morph = VectorMorphAtlas(image.convert("RGBA"))
+        cls.code, cls.events = film.make_type(cls.groups, cls.morph)
 
     def test_formula_motion_is_short_and_followed_by_readable_holds(self):
         self.assertEqual(len(self.events), 21)
@@ -108,10 +113,12 @@ class ShowcaseTimelineTests(unittest.TestCase):
                 for a, b in pairs:
                     if a["opacity"] == 0 or b["opacity"] == 0:
                         self.assertEqual(a["id"], b["id"])
-                        self.assertEqual(a["center"], b["center"])
                         visible, hidden = (a, b) if a["opacity"] else (b, a)
-                        for full, small in zip(visible["size"], hidden["size"]):
-                            self.assertAlmostEqual(small, full * .84)
+                        neighbors = target if a["opacity"] else source
+                        closest = min(neighbors, key=lambda glyph: sum(
+                            (glyph["center"][axis] - visible["center"][axis]) ** 2 for axis in range(2)))
+                        self.assertEqual(hidden["center"], closest["center"])
+                        self.assertEqual(visible["size"], hidden["size"])
                     elif film.pair_kind(a, b) == "shape_morph":
                         self.assertEqual(event["transition_mode"], "shape_morph")
                         self.assertNotEqual(a["id"], b["id"])
@@ -163,7 +170,7 @@ class ShowcaseTimelineTests(unittest.TestCase):
         a = film.layout(self.groups["calculus0"])[0]
         b = deepcopy(a)
         b["center"][0] += 1e-10
-        code = film.render_pairs([(a, b)], amount="progress", arc_strength=.08)
+        code = film.render_pairs([(a, b)], amount="progress", arc_strength=.08, morph=self.morph)
         self.assertIn(",0.0,0.000000,WHITE,visibility,aa);", code)
         self.assertNotIn("progress", code)
 
@@ -189,7 +196,9 @@ class ShowcaseHandoffRenderTests(unittest.TestCase):
         from render_film import FilmRenderer
         groups = json.loads((ROOT / "tools/showcase_v2/type_data.json").read_text(
             encoding="utf-8"))["groups"]
-        code, _events = film.make_type(groups)
+        with Image.open(ROOT / "resource_pack/textures/manim/client_showcase.png") as image:
+            morph = VectorMorphAtlas(image.convert("RGBA"))
+        code, _events = film.make_type(groups, morph)
         prefix = (ROOT / "tools/showcase_v2/film.fragment").read_text(
             encoding="utf-8").split("// __GEOMETRY__")[0]
         main = """
@@ -202,9 +211,10 @@ void main() {
 """
         with tempfile.TemporaryDirectory() as temporary:
             shader = Path(temporary) / "typography.fragment"
-            shader.write_text(prefix + code + main, encoding="utf-8")
-            renderer = FilmRenderer(shader, ROOT / "resource_pack/textures/manim/client_showcase.png",
-                                    640, 360)
+            shader.write_text(prefix + shader_source() + code + main, encoding="utf-8")
+            atlas = Path(temporary) / "typography.png"
+            morph.image.save(atlas)
+            renderer = FilmRenderer(shader, atlas, 640, 360)
             try:
                 for boundary in (2.4, 114.0):
                     with self.subTest(boundary=boundary):

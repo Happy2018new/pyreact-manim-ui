@@ -1,8 +1,8 @@
 """Compile actual LaTeX glyph layout and Chinese/Latin text to a reusable SDF atlas.
 
 Every glyph retains its individual position and natural aspect. Independent SDF
-tiles let the film move matching symbols and interpolate different glyph shapes;
-they are not point clouds or pre-rendered movie frames.
+tiles supply exact endpoints and contour extraction for corresponding curve
+transitions; the atlas' lower half is reserved for packed contour coordinates.
 """
 from __future__ import annotations
 
@@ -88,7 +88,7 @@ class Atlas:
         index = len(self.entries)
         columns = ATLAS_SIZE // TILE_SIZE
         x, y = (index % columns) * TILE_SIZE, (index // columns) * TILE_SIZE
-        if y + TILE_SIZE > ATLAS_SIZE:
+        if y + TILE_SIZE > ATLAS_SIZE // 2:
             raise ValueError("SDF atlas capacity exceeded")
         # Independent normalization axes preserve thin TeX rules. World size
         # below restores each glyph's original aspect without changing layout.
@@ -197,6 +197,22 @@ def text_items(text, path, atlas):
     return items
 
 
+def latex_text_source(text):
+    """Use the same native LaTeX/Computer Modern pipeline for all film English."""
+    if any(ord(character) > 127 for character in text):
+        raise ValueError("Chinese film text must use the pinned Song font")
+    escapes = {"\\": r"\textbackslash{}", "{": r"\{", "}": r"\}",
+               "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#",
+               "_": r"\_", "^": r"\textasciicircum{}", "~": r"\textasciitilde{}"}
+    return r"\text{" + "".join(escapes.get(character, character) for character in text) + "}"
+
+
+def latex_text_svg(text, tex_class):
+    from pyreact_manim.reference.mobject_source import native_tex_environment
+    with native_tex_environment():
+        return tex_class(latex_text_source(text), template="basic").get_svg_string()
+
+
 def make_contact_sheet(groups, atlas, output):
     width, row_height = 1600, 170
     image = Image.new("RGB", (width, row_height * len(groups)), (6, 12, 22))
@@ -244,13 +260,20 @@ def build(output):
         raise ValueError("Pinned Noto Serif SC source mismatch")
     build_subset(source_font, song, "".join(TEXTS.values()), "serif")
     for name, text in TEXTS.items():
-        font = song if any(ord(character) > 127 for character in text) else ROOT / "tools/reference/fonts/DejaVuSerif.ttf"
-        groups[name] = normalize_group(text_items(text, font, atlas), text, "text")
+        if any(ord(character) > 127 for character in text):
+            groups[name] = normalize_group(text_items(text, song, atlas), text, "text")
+        else:
+            svg = latex_text_svg(text, Tex)
+            (svg_directory / (name + ".svg")).write_text(svg, encoding="utf-8")
+            groups[name] = normalize_group(svg_items(svg, atlas), text, "latex_text")
+            groups[name]["tex_source"] = latex_text_source(text)
+        print("text", name, len(groups[name]["glyphs"]), flush=True)
     groups["final"] = deepcopy(groups["exp2"])
     atlas_path = output / "type_atlas.png"
     atlas.image.save(atlas_path, optimize=True)
     report = {"schema": 1, "atlas": atlas_path.name, "atlas_size": [ATLAS_SIZE, ATLAS_SIZE],
               "tile_size": TILE_SIZE, "padding": PADDING, "ink_size": INK_SIZE,
+              "contour_data_region": [0, ATLAS_SIZE // 2, ATLAS_SIZE, ATLAS_SIZE // 2],
               "sdf": {"channel": "R", "threshold": 0.5, "range_pixels": SDF_RANGE,
                       "decode": "(sample.r - 0.5) * 48.0; positive inside",
                       "axes": "Each tile normalizes ink X/Y independently; glyph size restores natural aspect.",
@@ -259,7 +282,8 @@ def build(output):
               "groups": groups, "shapes": atlas.entries,
               "sha256": digest(atlas_path.read_bytes()), "unique_shapes": len(atlas.entries),
               "provenance": {"formulas": "ManimGL 1.7.2 Tex / native LaTeX + dvisvgm; per-use layout preserved",
-                             "song": "Noto Serif SC OFL-1.1 derived 400-weight subset", "latin": "DejaVu Serif"}}
+                             "song": "Noto Serif SC OFL-1.1 derived 400-weight subset",
+                             "latin": "Computer Modern Roman; native LaTeX text via ManimGL Tex/basic + dvisvgm"}}
     (output / "type_data.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     make_contact_sheet(groups, atlas.image, output)
     print(json.dumps({"atlas": str(atlas_path), "unique_shapes": len(atlas.entries),
