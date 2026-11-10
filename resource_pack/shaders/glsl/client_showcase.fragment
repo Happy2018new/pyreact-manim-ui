@@ -1,218 +1,1025 @@
 // __multiversion__
-// Let ideas become visible. A deterministic, forty-one-second visual score.
+// METAMORPHOSIS. Authored 120-second score, with per-glyph SDF transport.
 precision highp float;
 #include "fragmentVersionCentroidUV.h"
 uniform sampler2D TEXTURE_0;
 uniform sampler2D TEXTURE_2;
 uniform vec4 EXTRA_VECTOR1;
 uniform vec4 EXTRA_VECTOR2;
-const vec4 TYPE_TITLE = vec4(107.0, 36.0, 1834.0, 248.0);
-const vec4 TYPE_OPENING_EN = vec4(36.0, 339.0, 1976.0, 90.0);
-const vec4 TYPE_BRAND = vec4(312.0, 484.0, 1423.0, 120.0);
-const vec4 TYPE_SOURCE_WORD = vec4(112.0, 644.0, 784.0, 376.0);
-const vec4 TYPE_TARGET_WORD = vec4(1134.0, 644.0, 788.0, 376.0);
-const vec4 TYPE_CHAPTER_LIGHT = vec4(129.0, 1060.0, 253.0, 248.0);
-const vec4 TYPE_CHAPTER_SHAPE = vec4(638.0, 1060.0, 259.0, 248.0);
-const vec4 TYPE_CHAPTER_RHYTHM = vec4(1152.0, 1060.0, 256.0, 248.0);
-const vec4 TYPE_CHAPTER_UNIVERSE = vec4(1572.0, 1076.0, 440.0, 216.0);
-const vec4 TYPE_FOOTER = vec4(36.0, 1692.0, 1976.0, 104.0);
-const vec4 TYPE_SIGNATURE = vec4(36.0, 1870.0, 1976.0, 84.0);
-const vec4 TYPE_FORMULA = vec4(36.0, 1380.0, 1976.0, 248.0);
-const float PI = 3.14159265359;
-const vec3 INK = vec3(0.018, 0.028, 0.053);
-const vec3 ICE = vec3(0.29, 0.87, 0.94);
-const vec3 GOLD = vec3(1.0, 0.71, 0.35);
-const vec3 PAPER = vec3(0.94, 0.94, 0.87);
-
-float ease(float a, float b, float t) { return smoothstep(a, b, t); }
-float window(float t, float a, float b) { return ease(a, a+0.8,t)*(1.0-ease(b-0.8,b,t)); }
-mat2 turn(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
-float hash(float n) { return fract(sin(n*78.233+12.9898)*43758.5453); }
-float stroke(float d, float w, float aa) { return 1.0-smoothstep(w,w+aa,d); }
-float segment(vec2 p, vec2 a, vec2 b) {
-    vec2 v=b-a; return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.00001),0.0,1.0));
+const float PI=3.14159265359;
+const float TAU=6.28318530718;
+const vec3 CYAN=vec3(0.12,0.86,1.0);
+const vec3 GOLD=vec3(1.0,0.69,0.24);
+const vec3 PINK=vec3(0.97,0.25,0.58);
+const vec3 WHITE=vec3(0.94,0.97,1.0);
+mat2 rot(float a) { return mat2(cos(a),-sin(a),sin(a),cos(a)); }
+float hash1(float n) { return fract(sin(n*127.1+311.7)*43758.5453); }
+float gate(float t,float a,float b) {
+    return smoothstep(a,a+0.7,t)*(1.0-smoothstep(b-0.7,b,t));
 }
-void light(inout vec3 c, float d, vec3 hue, float w, float power, float aa) {
-    c += hue*power*(stroke(d,w,aa)+0.13*exp(-d*23.0));
+float lineDistance(vec2 p,vec2 a,vec2 b) {
+    vec2 v=b-a; return length(p-a-v*clamp(dot(p-a,v)/max(dot(v,v),0.000001),0.0,1.0));
 }
-float maskAt(vec2 p, vec2 center, float h, vec4 rect) {
-    vec2 size=vec2(h*rect.z/rect.w,h);
-    vec2 q=(p-center)/size+0.5;
+vec3 glow(float d,float width,vec3 hue,float power,float aa) {
+    return hue*power*((1.0-smoothstep(width,width+aa,d))+0.12*exp(-d*24.0));
+}
+float sdfSample(vec2 q,vec4 tile) {
     q.y=1.0-q.y;
-    if (min(q.x,q.y)<0.0 || max(q.x,q.y)>1.0) return 0.0;
-    vec2 pix=rect.xy+q*rect.zw-0.5;
-    vec2 base=floor(pix), f=fract(pix);
-    float a=texture2D(TEXTURE_2,(base+vec2(0.5,0.5))/2048.0).r;
-    float b=texture2D(TEXTURE_2,(base+vec2(1.5,0.5))/2048.0).r;
-    float c=texture2D(TEXTURE_2,(base+vec2(0.5,1.5))/2048.0).r;
-    float d=texture2D(TEXTURE_2,(base+vec2(1.5,1.5))/2048.0).r;
-    return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
+    vec2 pix=tile.xy+clamp(q,0.0,1.0)*(tile.zw-1.0);
+    vec2 b=floor(pix),f=fract(pix);
+    float d00=texture2D(TEXTURE_2,(b+vec2(0.5,0.5))/4096.0).r;
+    float d10=texture2D(TEXTURE_2,(b+vec2(1.5,0.5))/4096.0).r;
+    float d01=texture2D(TEXTURE_2,(b+vec2(0.5,1.5))/4096.0).r;
+    float d11=texture2D(TEXTURE_2,(b+vec2(1.5,1.5))/4096.0).r;
+    return (mix(mix(d00,d10,f.x),mix(d01,d11,f.x),f.y)-0.5)*48.0;
 }
-void lettering(inout vec3 c, vec2 p, vec2 center, float h, vec4 rect, vec3 hue, float opacity) {
-    c=mix(c,hue,clamp(maskAt(p,center,h,rect)*opacity,0.0,1.0));
+void glyph(inout vec3 c,vec2 p,vec2 a,vec2 sa,vec4 ta,
+           vec2 b,vec2 sb,vec4 tb,float u,float arc,vec3 hue,float opacity,float aa) {
+    float lift=sin(PI*u);
+    vec2 center=mix(a,b,u)+vec2(arc*0.21,arc)*lift;
+    vec2 size=max(mix(sa,sb,u),vec2(0.002));
+    vec2 v=rot(lift*arc*0.16)*(p-center);
+    vec2 q=v/size+0.5;
+    if(min(q.x,q.y)<0.005 || max(q.x,q.y)>0.995 || opacity<0.001) return;
+    float da=sdfSample(q,ta), db=sdfSample(q,tb);
+    float d=mix(da,db,u);
+    float edge=max(0.55,aa*192.0/max(min(size.x,size.y),0.005)*0.45);
+    float fill=smoothstep(-edge,edge,d);
+    float outline=1.0-smoothstep(0.6+edge,1.3+edge,abs(d));
+    vec3 color=mix(hue,mix(CYAN,PINK,0.5+arc*0.4),lift*0.38);
+    c+=color*opacity*(fill*(1.0-0.35*lift)+outline*lift*0.65);
+    c+=color*opacity*exp(-abs(d)*0.42)*lift*0.18;
 }
-vec2 glyphPoint(float i, float row) {
-    vec4 b=floor(texture2D(TEXTURE_2,vec2(i+0.5,row+0.5)/2048.0)*255.0+0.5);
-    return vec2(dot(b.rg,vec2(256.0,1.0)),dot(b.ba,vec2(256.0,1.0)))/65535.0*4.0-2.0;
+// Authored two-dimensional geometry for the 120-second transformation film.
+// Requires PI, TAU, CYAN, GOLD, PINK, WHITE and rot/lineDistance/glow helpers.
+// Every main shape change below interpolates geometry, not completed pictures.
+
+float geoGate(float t, float start, float finish) {
+    return smoothstep(start,start+0.65,t)*(1.0-smoothstep(finish-0.65,finish,t));
 }
-vec3 stageSeed(vec2 p, float t, float aa) {
-    vec3 c=vec3(0.0);
-    float born=ease(0.0,1.4,t);
-    float r=length(p-vec2(0.0,0.55));
-    float blast=ease(0.5,3.5,t);
-    c+=ICE*0.13*exp(-r*r*0.45)*born;
-    for (int j=0;j<4;j++) {
-        float i=float(j), radius=(0.5+i*0.45)*blast;
-        float ang=atan(p.y-0.55,p.x)+t*(0.15+i*0.03);
-        float arc=ease(-0.95,0.0,sin(ang+i*1.4));
-        light(c,abs(r-radius),mix(ICE,GOLD,i/4.0),0.008,(0.3+arc*0.45)*born,aa);
+float geoStroke(float distanceToLine,float width,float aa) {
+    return 1.0-smoothstep(width,width+aa,distanceToLine);
+}
+float geoHash(float value) { return fract(sin(value*37.713+7.19)*43758.5453); }
+float geoRayCrossing(vec2 p,vec2 a,vec2 b) {
+    if((a.y>p.y)!=(b.y>p.y)) {
+        float crossing=a.x+(p.y-a.y)*(b.x-a.x)/(b.y-a.y);
+        return step(p.x,crossing);
     }
-    float a=t*0.6;
-    vec2 at=vec2(cos(a),sin(a))*1.4*blast+vec2(0.0,0.55);
-    light(c,length(p-at),GOLD,0.035,born,aa);
-    light(c,r,PAPER,0.025+0.04*(1.0-born),1.2*born,aa);
-    lettering(c,p,vec2(0.0,-2.0),0.28,TYPE_OPENING_EN,PAPER,ease(1.0,2.6,t));
-    return c;
+    return 0.0;
 }
-vec3 stageGlyph(vec2 p, float t, float aa) {
-    vec3 c=vec3(0.0);
-    float morph=ease(7.6,10.4,t);
-    float airborne=sin(PI*morph);
-    vec2 q=p-vec2(0.0,0.35);
-    float intro=1.0-ease(7.3,8.2,t);
-    float outro=ease(10.1,10.9,t);
-    lettering(c,p,vec2(0.0,0.35),1.9,TYPE_SOURCE_WORD,PAPER,intro);
-    lettering(c,p,vec2(0.0,0.35),1.9,TYPE_TARGET_WORD,PAPER,outro);
-    if(abs(q.x)<5.4 && abs(q.y)<2.8) {
-        float points=0.0, bloom=0.0;
-        for (int k=0;k<256;k++) {
-            float i=float(k);
-            vec2 a=glyphPoint(i,2040.0), b=glyphPoint(i,2041.0);
-            vec2 at=mix(a,b,morph)*1.162234;
-            at+=airborne*vec2(sin(i*2.399+t*0.2)*0.42,cos(i*1.17+t*0.3)*0.55);
-            float d=length(q-at);
-            vec2 tail=at-(b-a)*0.07*airborne-vec2(cos(i),sin(i))*0.055*airborne;
-            points=max(points,stroke(segment(q,tail,at),0.009,aa));
-            bloom+=exp(-d*75.0)*0.11;
-        }
-        c+=mix(GOLD,ICE,morph)*(points*(0.25+airborne*0.9)+bloom*airborne);
+
+vec2 geoPolygon(float u,float sides,float radius,float offset) {
+    float slot=u*sides;
+    float a=floor(slot)*TAU/sides+offset;
+    float b=a+TAU/sides;
+    return mix(vec2(cos(a),sin(a)),vec2(cos(b),sin(b)),fract(slot))*radius;
+}
+
+vec2 geoShape(float u,float kind) {
+    float a=u*TAU+PI*0.5;
+    if(kind<0.5) return vec2(cos(a),sin(a))*2.35;
+    if(kind<1.5) return geoPolygon(u,4.0,2.65,PI*0.25);
+    if(kind<2.5) return geoPolygon(u,3.0,2.55,PI*0.5);
+    if(kind<3.5) return geoPolygon(u,6.0,2.4,PI/6.0);
+    if(kind<4.5) {
+        float slot=u*10.0;
+        float n=floor(slot), a=n*PI/5.0+PI*0.5, b=a+PI/5.0;
+        float ra=mix(2.55,1.04,mod(n,2.0));
+        float rb=mix(1.04,2.55,mod(n,2.0));
+        return mix(vec2(cos(a),sin(a))*ra,vec2(cos(b),sin(b))*rb,fract(slot));
     }
-    float line=ease(5.0,6.7,t);
-    light(c,segment(p,vec2(-2.6,-1.2),vec2(-2.6+5.2*line,-1.2)),ICE,0.005,0.45,aa);
-    lettering(c,p,vec2(0.0,2.75),0.37,TYPE_CHAPTER_SHAPE,GOLD,0.85);
-    lettering(c,p,vec2(0.0,-2.3),0.23,TYPE_OPENING_EN,PAPER,0.65);
-    return c;
+    if(kind<5.5) return vec2(cos(a),sin(a))*(1.95+0.48*cos(6.0*a));
+    return vec2(2.45*sin(a*2.0),2.12*sin(a*3.0));
 }
-vec3 stageWave(vec2 p, float t, float aa) {
+
+vec2 geoMorphPoint(float u,float evolution,float angle) {
+    float stepIndex=min(5.0,floor(evolution));
+    float blend=smoothstep(0.12,0.86,evolution-stepIndex);
+    return rot(angle)*mix(geoShape(u,stepIndex),geoShape(u,stepIndex+1.0),blend);
+}
+
+vec3 geoMorphChain(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
-    float enter=ease(13.0,14.5,t);
-    float phase=(t-14.0)*1.6;
-    vec2 center=vec2(-3.9,0.3);
-    float radius=1.35;
-    vec2 v=center+radius*vec2(cos(phase),sin(phase));
-    float circle=abs(length(p-center)-radius);
-    light(c,circle,ICE,0.009,0.7*enter,aa);
-    light(c,segment(p,center-vec2(1.7,0),center+vec2(1.7,0)),ICE,0.004,0.22,aa);
-    light(c,segment(p,center-vec2(0,1.7),center+vec2(0,1.7)),ICE,0.004,0.22,aa);
-    light(c,segment(p,center,v),GOLD,0.014,enter,aa);
-    light(c,length(p-v),PAPER,0.042,enter,aa);
-    vec2 waveStart=vec2(-1.35,v.y);
-    float dotline=step(0.4,fract(p.x*7.0));
-    light(c,segment(p,v,waveStart),GOLD,0.005,0.36*dotline,aa);
-    light(c,segment(p,vec2(-1.35,0.3),vec2(6.2,0.3)),ICE,0.005,0.33,aa);
-    if(p.x>=-1.35 && p.x<6.2) {
-        float x=p.x+1.35;
-        float a=phase-x*1.03;
-        float y=0.3+radius*sin(a);
-        float d=abs(p.y-y)/sqrt(1.0+pow(radius*1.03*cos(a),2.0));
-        float reveal=1.0-ease(7.3*enter,7.3*enter+0.1,x);
-        light(c,d,ICE,0.017,reveal,aa);
-        float trail=0.3+radius*sin(a-0.12);
-        light(c,abs(p.y-trail),ICE,0.006,0.12*reveal,aa);
-        float grid=abs(fract(x*0.5+0.5)-0.5);
-        c+=ICE*stroke(grid,0.001,aa*0.3)*0.06*ease(-1.5,-1.3,p.y)*(1.0-ease(1.9,2.1,p.y));
+    float progress=clamp((t-12.0)/2.38,0.0,6.0);
+    float angle=0.07*(t-12.0)+0.08*sin((t-12.0)*0.6);
+    vec2 q=p-vec2(0.0,-0.12);
+    float mainDistance=100.0, echoDistance=100.0, innerDistance=100.0, crossings=0.0;
+    vec2 previous=geoMorphPoint(0.0,progress,angle);
+    vec2 echoPrevious=geoMorphPoint(0.0,max(0.0,progress-0.19),angle-0.055)*1.08;
+    vec2 innerPrevious=geoMorphPoint(0.0,min(6.0,progress+0.15),angle+0.055)*0.89;
+    for(int j=1;j<=96;j++) {
+        float u=float(j)/96.0;
+        vec2 current=geoMorphPoint(u,progress,angle);
+        vec2 echoCurrent=geoMorphPoint(u,max(0.0,progress-0.19),angle-0.055)*1.08;
+        vec2 innerCurrent=geoMorphPoint(u,min(6.0,progress+0.15),angle+0.055)*0.89;
+        mainDistance=min(mainDistance,lineDistance(q,previous,current));
+        echoDistance=min(echoDistance,lineDistance(q,echoPrevious,echoCurrent));
+        innerDistance=min(innerDistance,lineDistance(q,innerPrevious,innerCurrent));
+        crossings+=geoRayCrossing(q,previous,current);
+        previous=current;
+        echoPrevious=echoCurrent;
+        innerPrevious=innerCurrent;
     }
-    light(c,length(p-waveStart),GOLD,0.035,enter,aa);
-    lettering(c,p,vec2(0.0,2.85),0.4,TYPE_CHAPTER_RHYTHM,GOLD,1.0);
-    lettering(c,p,vec2(0.0,-2.1),0.63,TYPE_FORMULA,PAPER,ease(14.0,15.2,t));
-    return c;
-}
-vec3 stageUniverse(vec2 p, float t, float aa) {
-    vec3 c=vec3(0.0);
-    float arrive=ease(24.0,25.4,t);
-    float leave=1.0-ease(31.4,33.5,t);
-    vec2 q=turn((t-24.0)*0.13)*p;
-    q.y-=0.12;
-    float expand=(0.35+0.65*arrive)*(0.08+0.92*leave);
+    vec3 hue=mix(CYAN,PINK,0.5+0.5*sin(progress*0.9));
+    float inside=mod(crossings,2.0);
+    vec3 fillHue=mix(CYAN,PINK,0.5+0.4*sin(q.x*0.6+progress));
+    float fillGradient=0.075+0.045*(0.5+0.5*sin(q.y*0.9-t*0.3));
+    c+=fillHue*inside*fillGradient;
+    c+=glow(echoDistance,0.009,GOLD,0.42,aa);
+    c+=glow(innerDistance,0.006,CYAN,0.29,aa);
+    c+=glow(mainDistance,0.024,hue,1.12,aa);
+    c+=WHITE*geoStroke(mainDistance,0.005,aa)*0.68;
+    c+=hue*exp(-dot(q,q)*0.35)*0.075;
+    float drawU=fract((t-12.0)*0.23);
+    vec2 cursor=geoMorphPoint(drawU,progress,angle);
+    c+=glow(length(q-cursor),0.065,WHITE,1.15,aa);
+    float reverseU=fract(0.5-(t-12.0)*0.19);
+    vec2 reverseCursor=geoMorphPoint(reverseU,progress,angle);
+    c+=glow(length(q-reverseCursor),0.055,GOLD,1.05,aa);
+    for(int j=1;j<=8;j++) {
+        float delay=float(j)*0.012;
+        vec2 tail=geoMorphPoint(fract(drawU-delay),progress,angle);
+        vec2 backTail=geoMorphPoint(fract(reverseU+delay),progress,angle);
+        float fade=1.0-float(j)/9.0;
+        c+=glow(length(q-tail),0.013+0.026*fade,CYAN,0.28*fade,aa);
+        c+=glow(length(q-backTail),0.013+0.022*fade,GOLD,0.22*fade,aa);
+    }
+    // Corresponding vertices move with the body throughout each transform.
     for(int j=0;j<12;j++) {
-        float i=float(j), angle=i*PI/6.0;
-        vec2 center=vec2(cos(angle),sin(angle))*(1.02+0.3*sin((t-24.0)*0.8))*expand;
-        float radius=(1.4+0.18*cos((t-24.0)*0.8)+0.06*sin(t*0.7+i))*expand;
-        float d=abs(length(q-center)-radius);
-        vec3 hue=mix(ICE,GOLD,0.5+0.5*sin(i*0.6+t*0.25));
-        light(c,d,hue,0.007,0.47,aa);
+        float u=float(j)/12.0;
+        vec2 at=geoMorphPoint(u,progress,angle);
+        c+=glow(length(q-at),0.029,GOLD,0.75,aa);
+        float reveal=0.09+0.06*sin(t+float(j));
+        c+=glow(lineDistance(q,at,vec2(0.0)),0.003,CYAN,reveal,aa);
     }
-    float r=length(q), a=atan(q.y,q.x);
-    float petals=(2.3+0.18*cos(6.0*a+t))*expand;
-    light(c,abs(r-petals),GOLD,0.012,0.7,aa);
-    light(c,abs(r-2.72*expand),ICE,0.004,0.35,aa);
-    float ticks=step(0.89,fract(a/PI*48.0));
-    c+=GOLD*stroke(abs(r-3.02*expand),0.05*expand,aa)*ticks*0.32;
-    vec2 comet=vec2(cos(t*0.75),sin(t*0.75))*2.72*expand;
-    light(c,length(q-comet),PAPER,0.035,0.95,aa);
-    for(int k=0;k<48;k++) {
-        float i=float(k), a=i*2.399963+0.07*t;
-        float r=(2.9+hash(i+9.0)*1.2)*expand;
-        vec2 at=vec2(cos(a),sin(a))*r;
-        light(c,length(q-at),mix(ICE,GOLD,hash(i)),0.012+0.012*hash(i+4.0),0.55,aa);
+    // A perimeter dial frames the changing geometry without dominating it.
+    float radius=length(q), a=atan(q.y,q.x);
+    c+=glow(abs(radius-3.15),0.005,CYAN,0.22,aa);
+    float tick=step(0.93,fract(a/TAU*72.0));
+    c+=GOLD*geoStroke(abs(radius-3.32),0.05,aa)*tick*0.45;
+    for(int j=0;j<6;j++) {
+        float i=float(j), angle=i*TAU/6.0-t*0.12;
+        vec2 center=vec2(cos(angle)*5.35,sin(angle)*2.85);
+        vec2 local=(p-center)*4.0;
+        float r=length(local);
+        float petals=1.0+0.24*cos(atan(local.y,local.x)*(3.0+i));
+        c+=glow(abs(r-petals)/4.0,0.006,mix(CYAN,GOLD,i/6.0),0.6,aa);
     }
-    c+=ICE*exp(-r*r*0.45)*0.06;
-    lettering(c,p,vec2(0.0,3.45),0.34,TYPE_CHAPTER_UNIVERSE,GOLD,leave);
     return c;
 }
-vec3 stageFinal(vec2 p,float t,float aa) {
+
+vec3 geoEuler(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
-    float enter=ease(33.0,35.0,t);
-    float r=length(p-vec2(0.0,0.2));
-    c+=ICE*exp(-r*r*0.085)*0.055;
-    vec2 q=turn(0.19+(t-33.0)*0.008)*(p-vec2(0.0,0.2));
-    float oval=abs(length(q/vec2(5.7,2.3))-1.0)*2.3;
-    light(c,oval,ICE,0.004,0.18*enter,aa);
-    float mark=segment(p,vec2(-0.32,1.9),vec2(0.32,1.9));
-    light(c,mark,GOLD,0.012,enter,aa);
-    vec3 hue=mix(PAPER,vec3(1.0,0.84,0.55),0.12+0.12*sin(p.x*0.4-t));
-    lettering(c,p,vec2(0.0,0.35+0.15*(1.0-enter)),1.14,TYPE_TITLE,hue,enter);
-    lettering(c,p,vec2(0.0,-1.1),0.22,TYPE_OPENING_EN,PAPER,0.75*ease(34.5,36.0,t));
-    lettering(c,p,vec2(0.0,-2.6),0.23,TYPE_BRAND,ICE,ease(35.0,36.5,t));
+    float phase=(t-48.0)*1.2;
+    float ellipse=0.5+0.5*sin((t-48.0)*0.45);
+    float ax=mix(1.22,1.65,ellipse), ay=mix(1.65,1.0,ellipse);
+    vec2 center=vec2(-3.85,-0.4);
+    vec2 local=p-center;
+    float ring=abs(length(local/vec2(ax,ay))-1.0)*min(ax,ay);
+    c+=glow(ring,0.012,CYAN,0.8,aa);
+    c+=glow(lineDistance(p,center-vec2(2.0,0.0),center+vec2(2.0,0.0)),0.005,CYAN,0.26,aa);
+    c+=glow(lineDistance(p,center-vec2(0.0,2.0),center+vec2(0.0,2.0)),0.005,CYAN,0.26,aa);
+    vec2 tip=center+vec2(ax*cos(phase),ay*sin(phase));
+    c+=glow(lineDistance(p,center,tip),0.018,GOLD,1.0,aa);
+    c+=glow(length(p-tip),0.052,WHITE,1.1,aa);
+    vec2 waveStart=vec2(-1.2,tip.y);
+    float dotted=step(0.38,fract(p.x*9.0));
+    c+=glow(lineDistance(p,tip,waveStart),0.006,GOLD,0.35*dotted,aa);
+    c+=glow(lineDistance(p,vec2(-1.2,-0.4),vec2(6.2,-0.4)),0.005,CYAN,0.3,aa);
+    if(p.x>-1.2 && p.x<6.2) {
+        float x=p.x+1.2;
+        float a=phase-x*1.12;
+        float y=-0.4+ay*sin(a);
+        float dy=ay*1.12*cos(a);
+        float distanceToWave=abs(p.y-y)/sqrt(1.0+dy*dy);
+        c+=glow(distanceToWave,0.02,CYAN,1.05,aa);
+        // The second projection peels away then rejoins the same oscillator.
+        float split=smoothstep(52.0,55.0,t)*(1.0-smoothstep(62.0,65.0,t));
+        float y2=-0.4+ax*cos(a);
+        float d2=abs(p.y-y2)/sqrt(1.0+pow(ax*1.12*sin(a),2.0));
+        c+=glow(d2,0.012,PINK,0.52*split,aa);
+        float grid=abs(fract(x*0.5+0.5)-0.5);
+        c+=CYAN*geoStroke(grid,0.001,aa*0.4)*0.055*
+            smoothstep(-2.6,-2.4,p.y)*(1.0-smoothstep(1.4,1.6,p.y));
+    }
+    c+=glow(length(p-waveStart),0.04,GOLD,0.95,aa);
+    // A quietly rotating coordinate square reinforces the changing basis.
+    vec2 q=rot(-phase*0.17)*local;
+    float box=max(abs(q.x)-1.8,abs(q.y)-1.8);
+    c+=glow(abs(box),0.004,PINK,0.15,aa);
+    return c;
+}
+
+float geoPolynomial(float x,float morph) {
+    return mix(x*x*x,3.0*x*x,morph);
+}
+float geoPolynomialSlope(float x,float morph) {
+    return mix(3.0*x*x,6.0*x,morph);
+}
+vec3 geoCalculus(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    vec2 origin=vec2(-1.0,-1.75);
+    vec2 q=(p-origin)/vec2(2.0,0.75);
+    float morph=smoothstep(66.8,70.9,t);
+    float integral=smoothstep(71.8,76.7,t);
+    float curve=100.0;
+    vec2 previous=vec2(-2.0,geoPolynomial(-2.0,morph));
+    for(int j=1;j<=80;j++) {
+        float x=-2.0+float(j)*4.0/80.0;
+        vec2 current=vec2(x,geoPolynomial(x,morph));
+        curve=min(curve,lineDistance(p,origin+previous*vec2(2.0,0.75),origin+current*vec2(2.0,0.75)));
+        previous=current;
+    }
+    float boundary=smoothstep(-3.6,-3.45,p.y)*(1.0-smoothstep(1.3,1.48,p.y));
+    c+=glow(curve,0.019,mix(CYAN,PINK,morph),1.05,aa)*boundary;
+    c+=glow(lineDistance(p,vec2(-5.3,origin.y),vec2(5.3,origin.y)),0.005,CYAN,0.32,aa);
+    c+=glow(lineDistance(p,vec2(origin.x,-3.5),vec2(origin.x,1.1)),0.005,CYAN,0.32,aa);
+    for(int j=-4;j<=5;j++) {
+        float x=float(j);
+        c+=glow(lineDistance(p,vec2(x,-1.82),vec2(x,-1.68)),0.004,GOLD,0.35,aa);
+    }
+    float cursorX=-1.1+2.2*(0.5+0.5*sin((t-66.0)*0.55));
+    vec2 at=origin+vec2(cursorX,geoPolynomial(cursorX,morph))*vec2(2.0,0.75);
+    float slope=geoPolynomialSlope(cursorX,morph)*0.375;
+    vec2 tangent=normalize(vec2(1.0,slope))*1.35;
+    c+=glow(lineDistance(p,at-tangent,at+tangent),0.012,GOLD,0.85*(1.0-integral),aa)*boundary;
+    c+=glow(length(p-at),0.046,WHITE,1.0*(1.0-integral),aa)*boundary;
+    if(integral>0.001 && q.x>=0.0 && q.x<=1.0 && q.y>=0.0) {
+        float count=mix(5.0,40.0,smoothstep(77.0,82.5,t));
+        float bin=floor(q.x*count);
+        float x=(bin+0.5)/count;
+        float barHeight=geoPolynomial(x,morph);
+        float inside=1.0-smoothstep(barHeight,barHeight+aa/0.75,q.y);
+        float margin=step(0.08,fract(q.x*count));
+        c+=mix(CYAN,GOLD,bin/count)*inside*margin*integral*0.22;
+        float upper=abs(q.y-barHeight)*0.75;
+        c+=glow(upper,0.006,GOLD,0.55*integral,aa)*margin;
+    }
+    return c;
+}
+
+float geoHarmonic(float angle,float amount) {
+    return sin(angle)+smoothstep(0.0,1.0,amount)*sin(3.0*angle)/3.0
+        +smoothstep(1.0,2.0,amount)*sin(5.0*angle)/5.0
+        +smoothstep(2.0,3.0,amount)*sin(7.0*angle)/7.0;
+}
+float geoHarmonicSlope(float angle,float amount) {
+    return cos(angle)+smoothstep(0.0,1.0,amount)*cos(3.0*angle)
+        +smoothstep(1.0,2.0,amount)*cos(5.0*angle)
+        +smoothstep(2.0,3.0,amount)*cos(7.0*angle);
+}
+vec3 geoFourier(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float phase=(t-84.0)*1.6;
+    float amount=smoothstep(84.8,88.7,t)+smoothstep(89.8,94.7,t)+smoothstep(95.8,99.7,t);
+    vec2 tip=vec2(-4.1,-0.6);
+    for(int j=0;j<4;j++) {
+        float harmonic=2.0*float(j)+1.0;
+        float weight=j==0?1.0:smoothstep(float(j)-1.0,float(j),amount);
+        float radius=1.5/harmonic*weight;
+        vec2 end=tip+radius*vec2(cos(harmonic*phase),sin(harmonic*phase));
+        vec3 hue=mix(CYAN,PINK,float(j)/3.0);
+        c+=glow(abs(length(p-tip)-radius),0.006,hue,0.5*weight,aa);
+        c+=glow(lineDistance(p,tip,end),0.012,GOLD,0.65*weight,aa);
+        c+=glow(length(p-end),0.027,WHITE,0.72*weight,aa);
+        tip=end;
+    }
+    vec2 start=vec2(-1.15,tip.y);
+    c+=glow(lineDistance(p,tip,start),0.005,GOLD,0.35*step(0.35,fract(p.x*10.0)),aa);
+    c+=glow(length(p-start),0.04,WHITE,0.9,aa);
+    c+=glow(lineDistance(p,vec2(-1.15,-0.6),vec2(6.1,-0.6)),0.005,CYAN,0.28,aa);
+    if(p.x>-1.15 && p.x<6.1) {
+        float a=phase-(p.x+1.15)*1.16;
+        float y=-0.6+1.5*geoHarmonic(a,amount);
+        float slope=1.74*geoHarmonicSlope(a,amount);
+        float distanceToWave=abs(p.y-y)/sqrt(1.0+slope*slope);
+        c+=glow(distanceToWave,0.02,CYAN,1.0,aa);
+        // A thin fundamental remains under the gradually squared composite.
+        float reference=-0.6+1.5*sin(a);
+        c+=glow(abs(p.y-reference)/sqrt(1.0+pow(1.74*cos(a),2.0)),0.005,PINK,0.19,aa);
+    }
+    float baseline=-3.25;
+    for(int j=0;j<4;j++) {
+        float i=float(j), h=i*2.0+1.0;
+        float weight=j==0?1.0:smoothstep(i-1.0,i,amount);
+        float x=-1.1+i*1.75;
+        float top=baseline+0.75/h*weight;
+        float bar=lineDistance(p,vec2(x,baseline),vec2(x,top));
+        c+=glow(bar,0.065,mix(CYAN,GOLD,i/3.0),0.55*weight,aa);
+    }
+    return c;
+}
+
+vec2 geoFinalPoint(float u,float local) {
+    float sequence=mod(max(0.0,local)*0.95,4.0);
+    float k=floor(sequence), blend=smoothstep(0.12,0.9,fract(sequence));
+    float fromKind=k<0.5?5.0:k<1.5?4.0:k<2.5?1.0:0.0;
+    float toKind=k<0.5?4.0:k<1.5?1.0:k<2.5?0.0:5.0;
+    return mix(geoShape(u,fromKind),geoShape(u,toKind),blend);
+}
+vec3 geoFinale(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float local=t-102.0;
+    vec2 q=rot(local*0.12)*p;
+    float d=100.0,echoDistance=100.0,outerDistance=100.0,crossings=0.0;
+    vec2 previous=geoFinalPoint(0.0,local)*1.28;
+    vec2 echoPrevious=rot(0.13)*geoFinalPoint(0.0,local-0.32)*1.43;
+    vec2 outerPrevious=rot(-0.11)*geoFinalPoint(0.0,local-0.66)*1.56;
+    for(int j=1;j<=96;j++) {
+        float u=float(j)/96.0;
+        vec2 current=geoFinalPoint(u,local)*1.28;
+        vec2 echoCurrent=rot(0.13)*geoFinalPoint(u,local-0.32)*1.43;
+        vec2 outerCurrent=rot(-0.11)*geoFinalPoint(u,local-0.66)*1.56;
+        d=min(d,lineDistance(q,previous,current));
+        echoDistance=min(echoDistance,lineDistance(q,echoPrevious,echoCurrent));
+        outerDistance=min(outerDistance,lineDistance(q,outerPrevious,outerCurrent));
+        crossings+=geoRayCrossing(q,previous,current);
+        previous=current;
+        echoPrevious=echoCurrent;
+        outerPrevious=outerCurrent;
+    }
+    float clearCenter=smoothstep(1.0,1.6,length(p));
+    vec3 hue=mix(CYAN,PINK,0.5+0.5*sin(local*0.6));
+    float inside=mod(crossings,2.0);
+    c+=hue*inside*(0.055+0.035*smoothstep(1.5,3.5,length(p)))*clearCenter;
+    c+=glow(outerDistance,0.006,CYAN,0.28,aa)*clearCenter;
+    c+=glow(echoDistance,0.009,GOLD,0.5,aa)*clearCenter;
+    c+=glow(d,0.024,hue,1.05,aa)*clearCenter;
+    c+=WHITE*geoStroke(d,0.004,aa)*0.42*clearCenter;
+    float headU=fract(local*0.31);
+    float reverseU=fract(0.5-local*0.27);
+    vec2 head=geoFinalPoint(headU,local)*1.28;
+    vec2 reverseHead=rot(0.13)*geoFinalPoint(reverseU,local-0.32)*1.43;
+    c+=glow(length(q-head),0.06,WHITE,1.0,aa)*clearCenter;
+    c+=glow(length(q-reverseHead),0.055,GOLD,1.0,aa)*clearCenter;
+    for(int j=1;j<=8;j++) {
+        float delay=float(j)*0.012;
+        float fade=1.0-float(j)/9.0;
+        vec2 tail=geoFinalPoint(fract(headU-delay),local)*1.28;
+        vec2 reverseTail=rot(0.13)*geoFinalPoint(fract(reverseU+delay),local-0.32)*1.43;
+        c+=glow(length(q-tail),0.018+0.022*fade,PINK,0.3*fade,aa)*clearCenter;
+        c+=glow(length(q-reverseTail),0.018+0.022*fade,GOLD,0.26*fade,aa)*clearCenter;
+    }
+    float r=length(p), a=atan(p.y,p.x);
+    c+=glow(abs(r-(3.6+0.16*cos(8.0*a+local))),0.007,GOLD,0.55,aa);
+    c+=glow(abs(r-3.94),0.004,CYAN,0.25,aa);
+    for(int j=0;j<32;j++) {
+        float i=float(j), angle=i*TAU/32.0+local*0.18;
+        float radius=3.65+0.12*sin(i*2.3+local);
+        vec2 at=vec2(cos(angle),sin(angle))*radius;
+        c+=glow(length(p-at),0.022,mix(GOLD,CYAN,geoHash(i)),0.6,aa);
+    }
+    // Diagonal energy ribbons remain outside the reading area.
+    vec2 ribbon=rot(-0.24)*p;
+    float wave=sin(ribbon.x*0.8-local)*0.45;
+    c+=glow(abs(abs(ribbon.y)-2.9-wave),0.008,PINK,0.25,aa)*smoothstep(2.2,4.4,abs(p.x));
+    return c;
+}
+
+vec3 geometryAct(vec2 p,float t,float aa) {
+    if(t>=12.0 && t<28.0) return geoMorphChain(p,t,aa)*geoGate(t,12.0,28.0);
+    if(t>=48.0 && t<66.0) return geoEuler(p,t,aa)*geoGate(t,48.0,66.0);
+    if(t>=66.0 && t<84.0) return geoCalculus(p,t,aa)*geoGate(t,66.0,84.0);
+    if(t>=84.0 && t<102.0) return geoFourier(p,t,aa)*geoGate(t,84.0,102.0);
+    if(t>=102.0 && t<114.0) return geoFinale(p,t,aa)*geoGate(t,102.0,114.0);
+    return vec3(0.0);
+}
+
+void typography(inout vec3 c,vec2 p,float t,float aa) {
+if(t<2.4) { float u=smoothstep(0.2,2.3,t); float visibility=1.0;
+glyph(c,p,vec2(6.300000,0.000000),vec2(0.089446,0.063540),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-2.913045,0.250000),vec2(2.555610,1.815418),vec4(2688.000000,384.000000,192.000000,192.000000),u,0.287655,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.641323,2.299081),vec2(0.071448,0.066267),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-1.189177,0.250000),vec2(2.041372,1.893333),vec4(2880.000000,384.000000,192.000000,192.000000),u,0.144132,WHITE,visibility,aa);
+glyph(c,p,vec2(0.538691,-3.387548),vec2(0.067903,0.063540),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.303868,0.250000),vec2(1.940082,1.815418),vec4(3072.000000,384.000000,192.000000,192.000000),u,-0.500025,WHITE,visibility,aa);
+glyph(c,p,vec2(3.847596,2.692253),vec2(0.058631,0.063540),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(1.612840,0.250000),vec2(1.675171,1.815418),vec4(3264.000000,384.000000,192.000000,192.000000),u,0.592622,WHITE,visibility,aa);
+glyph(c,p,vec2(-6.207877,-0.579315),vec2(0.076084,0.063540),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(3.056214,0.250000),vec2(2.173827,1.815418),vec4(3456.000000,384.000000,192.000000,192.000000),u,-0.373166,WHITE,visibility,aa);
+}
+if(t>=2.400 && t<12.000) { float visibility=gate(t,2.400,12.000);
+if(t>=2.400 && t<5.300) { float u=smoothstep(3.125,5.000,t);
+glyph(c,p,vec2(3.056214,0.250000),vec2(2.173827,1.815418),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(2.352446,0.250000),vec2(2.267124,1.893333),vec4(3456.000000,384.000000,192.000000,192.000000),u,0.335598,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(-2.913045,0.250000),vec2(2.555610,1.815418),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-2.203133,0.250000),vec2(2.665293,1.893333),vec4(2688.000000,384.000000,192.000000,192.000000),u,0.168154,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(0.303868,0.250000),vec2(1.940082,1.815418),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.853219,0.250000),vec2(1.730815,1.893333),vec4(3840.000000,384.000000,192.000000,192.000000),u,-0.583362,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(-1.189177,0.250000),vec2(2.041372,1.893333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.493648,0.250000),vec2(1.925837,1.893333),vec4(3648.000000,384.000000,192.000000,192.000000),u,0.691393,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(1.612840,0.250000),vec2(1.675171,1.815418),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(1.612840,-0.200000),vec2(0.067007,0.072617),vec4(3264.000000,384.000000,192.000000,192.000000),u,-0.435360,mix(WHITE,CYAN,0.13),(visibility)*mix(1.0,0.0,u),aa);
+}
+if(t>=5.300 && t<8.000) { float u=smoothstep(5.975,7.700,t);
+glyph(c,p,vec2(-2.203133,0.250000),vec2(2.665293,1.893333),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-2.506914,0.250000),vec2(2.555610,1.815418),vec4(2688.000000,384.000000,192.000000,192.000000),u,0.335598,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(-0.493648,0.250000),vec2(1.925837,1.893333),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.867778,0.250000),vec2(1.846584,1.815418),vec4(3648.000000,384.000000,192.000000,192.000000),u,0.168154,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(0.853219,0.250000),vec2(1.730815,1.893333),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(0.549300,0.250000),vec2(1.994623,1.893333),vec4(0.000000,576.000000,192.000000,192.000000),u,-0.583362,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(2.352446,0.250000),vec2(2.267124,1.893333),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(2.749424,0.250000),vec2(1.908916,1.893333),vec4(384.000000,576.000000,192.000000,192.000000),u,0.691393,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(1.665432,0.700000),vec2(0.039269,0.072617),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.665432,0.250000),vec2(0.981728,1.815418),vec4(192.000000,576.000000,192.000000,192.000000),u,-0.435360,mix(WHITE,CYAN,0.13),(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=8.000 && t<10.300) { float u=smoothstep(8.575,10.000,t);
+glyph(c,p,vec2(-0.867778,0.250000),vec2(1.846584,1.815418),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.786159,0.230346),vec2(2.096424,1.840923),vec4(3840.000000,192.000000,192.000000,192.000000),u,0.335598,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(0.549300,0.250000),vec2(1.994623,1.893333),vec4(0.000000,576.000000,192.000000,192.000000),vec2(0.786159,0.262284),vec2(2.096424,1.860577),vec4(0.000000,384.000000,192.000000,192.000000),u,0.168154,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(-2.506914,0.250000),vec2(2.555610,1.815418),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-2.506914,-0.200000),vec2(0.102224,0.072617),vec4(2688.000000,384.000000,192.000000,192.000000),u,-0.583362,mix(WHITE,CYAN,0.13),(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(1.665432,0.250000),vec2(0.981728,1.815418),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.665432,-0.200000),vec2(0.039269,0.072617),vec4(192.000000,576.000000,192.000000,192.000000),u,0.691393,mix(WHITE,CYAN,0.13),(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(2.749424,0.250000),vec2(1.908916,1.893333),vec4(384.000000,576.000000,192.000000,192.000000),vec2(2.749424,-0.200000),vec2(0.076357,0.075733),vec4(384.000000,576.000000,192.000000,192.000000),u,-0.435360,mix(WHITE,CYAN,0.13),(visibility)*mix(1.0,0.0,u),aa);
+}
+if(t>=10.300 && t<12.000) { float u=smoothstep(10.725,11.700,t);
+glyph(c,p,vec2(-0.786159,0.230346),vec2(2.096424,1.840923),vec4(3840.000000,192.000000,192.000000,192.000000),vec2(-0.786159,0.230346),vec2(2.096424,1.840923),vec4(3840.000000,192.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,CYAN,0.13),visibility,aa);
+glyph(c,p,vec2(0.786159,0.262284),vec2(2.096424,1.860577),vec4(0.000000,384.000000,192.000000,192.000000),vec2(0.786159,0.262284),vec2(2.096424,1.860577),vec4(0.000000,384.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,CYAN,0.13),visibility,aa);
+}
+}
+if(t>=0.000 && t<12.000) { float visibility=gate(t,0.000,12.000);
+glyph(c,p,vec2(-1.280617,3.200000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-1.280617,3.200000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.026214,3.200000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-1.026214,3.200000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.823868,3.200000),vec2(0.257119,0.281262),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(-0.823868,3.200000),vec2(0.257119,0.281262),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.621975,3.200000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.621975,3.200000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.369835,3.200000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-0.369835,3.200000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.102757,3.200000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.102757,3.200000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.128560,3.200000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.128560,3.200000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.331358,3.200000),vec2(0.259534,0.281262),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(0.331358,3.200000),vec2(0.259534,0.281262),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.554979,3.200000),vec2(0.336790,0.281262),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(0.554979,3.200000),vec2(0.336790,0.281262),vec4(3456.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.799877,3.200000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(0.799877,3.200000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.017613,3.200000),vec2(0.264362,0.293333),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(1.017613,3.200000),vec2(0.264362,0.293333),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.173786,3.200000),vec2(0.152099,0.281262),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.173786,3.200000),vec2(0.152099,0.281262),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.329959,3.200000),vec2(0.264362,0.293333),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(1.329959,3.200000),vec2(0.264362,0.293333),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+}
+if(t>=0.000 && t<12.000) { float visibility=gate(t,0.000,12.000);
+glyph(c,p,vec2(-1.904938,-2.500000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),vec2(-1.904938,-2.500000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.711111,-2.500000),vec2(0.273251,0.255693),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(-1.711111,-2.500000),vec2(0.273251,0.255693),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.507407,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-1.507407,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.264609,-2.500000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-1.264609,-2.500000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.949794,-2.500000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.949794,-2.500000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.683128,-2.500000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(-0.683128,-2.500000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.486831,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.486831,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.327160,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(-0.327160,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.160082,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(-0.160082,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.042798,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(0.042798,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.302058,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(0.302058,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.497531,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(0.497531,-2.500000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.741152,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(0.741152,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.908230,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(0.908230,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.114815,-2.500000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),vec2(1.114815,-2.500000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.258025,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.258025,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.425103,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(1.425103,-2.502058),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.592181,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.592181,-2.500000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.731687,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(1.731687,-2.500000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.906173,-2.500000),vec2(0.240329,0.255693),vec4(576.000000,576.000000,192.000000,192.000000),vec2(1.906173,-2.500000),vec2(0.240329,0.255693),vec4(576.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+if(t>=12.000 && t<28.000) { float visibility=gate(t,12.000,28.000);
+glyph(c,p,vec2(-0.781770,3.750000),vec2(0.309026,0.293333),vec4(0.000000,576.000000,192.000000,192.000000),vec2(-0.781770,3.750000),vec2(0.309026,0.293333),vec4(0.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.559959,3.750000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.559959,3.750000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.335432,3.750000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.335432,3.750000),vec2(0.316269,0.293333),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.068354,3.750000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-0.068354,3.750000),vec2(0.395940,0.281262),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.186049,3.750000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),vec2(0.186049,3.750000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.388395,3.750000),vec2(0.257119,0.281262),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(0.388395,3.750000),vec2(0.257119,0.281262),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.597531,3.750000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.597531,3.750000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.798519,3.750000),vec2(0.264362,0.281262),vec4(576.000000,576.000000,192.000000,192.000000),vec2(0.798519,3.750000),vec2(0.264362,0.281262),vec4(576.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+}
+if(t>=12.000 && t<28.000) { float visibility=gate(t,12.000,28.000);
+if(t>=12.000 && t<18.000) { float u=smoothstep(12.800,17.700,t);
+glyph(c,p,vec2(6.157495,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),vec2(6.917590,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),u,0.076708,CYAN,visibility,aa);
+glyph(c,p,vec2(5.142505,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),vec2(4.382410,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),u,0.038435,CYAN,visibility,aa);
+glyph(c,p,vec2(5.948803,-3.000973),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(5.937122,-3.046315),vec2(0.201167,0.242351),vec4(3648.000000,0.000000,192.000000,192.000000),u,-0.133340,CYAN,visibility,aa);
+glyph(c,p,vec2(5.947021,-2.530131),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(5.837066,-2.558643),vec2(0.322607,0.021120),vec4(2112.000000,0.000000,192.000000,192.000000),u,0.158033,CYAN,visibility,aa);
+glyph(c,p,vec2(5.354805,-2.525775),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(5.188728,-2.520231),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.099511,CYAN,visibility,aa);
+glyph(c,p,vec2(5.353023,-3.005329),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(5.166729,-2.995429),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.011410,CYAN,visibility,aa);
+glyph(c,p,vec2(4.583028,-2.121117),vec2(0.008047,0.009694),vec4(3648.000000,0.000000,192.000000,192.000000),vec2(4.583028,-2.571117),vec2(0.201167,0.242351),vec4(3648.000000,0.000000,192.000000,192.000000),u,0.116322,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.768928,-2.121117),vec2(0.009356,0.009694),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(4.768928,-2.571117),vec2(0.233903,0.242351),vec4(3840.000000,0.000000,192.000000,192.000000),u,-0.159984,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.945940,-2.121117),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),vec2(4.945940,-2.571117),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),u,0.119404,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.135032,-2.121117),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),vec2(6.135032,-2.571117),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.015950,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.268858,-2.075181),vec2(0.004520,0.014129),vec4(576.000000,192.000000,192.000000,192.000000),vec2(6.268858,-2.525181),vec2(0.112992,0.353230),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.095903,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.435684,-2.120127),vec2(0.010623,0.009335),vec4(768.000000,192.000000,192.000000,192.000000),vec2(6.435684,-2.570127),vec2(0.265583,0.233375),vec4(768.000000,192.000000,192.000000,192.000000),u,0.157256,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.707821,-2.070231),vec2(0.008723,0.015122),vec4(192.000000,192.000000,192.000000,192.000000),vec2(6.707821,-2.520231),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.135804,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.593940,-2.596315),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),vec2(4.593940,-3.046315),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),u,0.042843,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.727766,-2.550379),vec2(0.004520,0.014129),vec4(576.000000,192.000000,192.000000,192.000000),vec2(4.727766,-3.000379),vec2(0.112992,0.353230),vec4(576.000000,192.000000,192.000000,192.000000),u,0.072678,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.894592,-2.595325),vec2(0.010623,0.009335),vec4(768.000000,192.000000,192.000000,192.000000),vec2(4.894592,-3.045325),vec2(0.265583,0.233375),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.149930,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.123021,-2.596315),vec2(0.009356,0.009694),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(6.123021,-3.046315),vec2(0.233903,0.242351),vec4(3840.000000,0.000000,192.000000,192.000000),u,0.148233,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.300033,-2.596315),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),vec2(6.300033,-3.046315),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.068482,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(6.542822,-2.545429),vec2(0.008723,0.015122),vec4(192.000000,192.000000,192.000000,192.000000),vec2(6.542822,-2.995429),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.047329,CYAN,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=18.000 && t<24.000) { float u=smoothstep(18.800,23.700,t);
+glyph(c,p,vec2(6.917590,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),vec2(6.157495,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),u,0.076708,CYAN,visibility,aa);
+glyph(c,p,vec2(4.382410,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),vec2(5.142505,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),u,0.038435,CYAN,visibility,aa);
+glyph(c,p,vec2(5.937122,-3.046315),vec2(0.201167,0.242351),vec4(3648.000000,0.000000,192.000000,192.000000),vec2(5.948803,-3.000973),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.133340,CYAN,visibility,aa);
+glyph(c,p,vec2(5.837066,-2.558643),vec2(0.322607,0.021120),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(5.947021,-2.530131),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),u,0.158033,CYAN,visibility,aa);
+glyph(c,p,vec2(5.188728,-2.520231),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),vec2(5.354805,-2.525775),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.099511,CYAN,visibility,aa);
+glyph(c,p,vec2(5.166729,-2.995429),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),vec2(5.353023,-3.005329),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),u,-0.011410,CYAN,visibility,aa);
+glyph(c,p,vec2(4.583028,-2.571117),vec2(0.201167,0.242351),vec4(3648.000000,0.000000,192.000000,192.000000),vec2(4.583028,-3.021117),vec2(0.008047,0.009694),vec4(3648.000000,0.000000,192.000000,192.000000),u,0.116322,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(4.768928,-2.571117),vec2(0.233903,0.242351),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(4.768928,-3.021117),vec2(0.009356,0.009694),vec4(3840.000000,0.000000,192.000000,192.000000),u,-0.159984,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(4.945940,-2.571117),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),vec2(4.945940,-3.021117),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),u,0.119404,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.135032,-2.571117),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),vec2(6.135032,-3.021117),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.015950,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.268858,-2.525181),vec2(0.112992,0.353230),vec4(576.000000,192.000000,192.000000,192.000000),vec2(6.268858,-2.975181),vec2(0.004520,0.014129),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.095903,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.435684,-2.570127),vec2(0.265583,0.233375),vec4(768.000000,192.000000,192.000000,192.000000),vec2(6.435684,-3.020127),vec2(0.010623,0.009335),vec4(768.000000,192.000000,192.000000,192.000000),u,0.157256,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.707821,-2.520231),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),vec2(6.707821,-2.970231),vec2(0.008723,0.015122),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.135804,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(4.593940,-3.046315),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),vec2(4.593940,-3.496315),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),u,0.042843,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(4.727766,-3.000379),vec2(0.112992,0.353230),vec4(576.000000,192.000000,192.000000,192.000000),vec2(4.727766,-3.450379),vec2(0.004520,0.014129),vec4(576.000000,192.000000,192.000000,192.000000),u,0.072678,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(4.894592,-3.045325),vec2(0.265583,0.233375),vec4(768.000000,192.000000,192.000000,192.000000),vec2(4.894592,-3.495325),vec2(0.010623,0.009335),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.149930,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.123021,-3.046315),vec2(0.233903,0.242351),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(6.123021,-3.496315),vec2(0.009356,0.009694),vec4(3840.000000,0.000000,192.000000,192.000000),u,0.148233,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.300033,-3.046315),vec2(0.172655,0.242351),vec4(0.000000,192.000000,192.000000,192.000000),vec2(6.300033,-3.496315),vec2(0.006906,0.009694),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.068482,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(6.542822,-2.995429),vec2(0.218063,0.378046),vec4(192.000000,192.000000,192.000000,192.000000),vec2(6.542822,-3.445429),vec2(0.008723,0.015122),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.047329,CYAN,(visibility)*mix(1.0,0.0,u),aa);
+}
+if(t>=24.000 && t<28.000) { float u=smoothstep(24.800,27.700,t);
+glyph(c,p,vec2(5.142505,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),vec2(5.142505,-2.800000),vec2(0.259775,1.266667),vec4(3456.000000,192.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(5.354805,-2.525775),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(5.354805,-2.525775),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(5.947021,-2.530131),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(5.947021,-2.530131),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(5.353023,-3.005329),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(5.353023,-3.005329),vec2(0.222287,0.363262),vec4(1920.000000,0.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(5.948803,-3.000973),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(5.948803,-3.000973),vec2(0.174239,0.351646),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(6.157495,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),vec2(6.157495,-2.800000),vec2(0.259775,1.266667),vec4(3648.000000,192.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+}
+}
+if(t>=28.000 && t<48.000) { float visibility=gate(t,28.000,48.000);
+if(t>=28.000 && t<32.400) { float u=smoothstep(28.800,32.100,t);
+glyph(c,p,vec2(1.003347,0.291688),vec2(0.739682,1.417053),vec4(576.000000,0.000000,192.000000,192.000000),vec2(1.075857,0.151177),vec2(0.868263,1.663384),vec4(576.000000,0.000000,192.000000,192.000000),u,0.287655,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.578711,0.101743),vec2(0.920582,0.910532),vec4(192.000000,0.000000,192.000000,192.000000),vec2(0.207730,-0.071787),vec2(1.080610,1.068813),vec4(192.000000,0.000000,192.000000,192.000000),u,0.144132,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.266720,0.153752),vec2(1.336653,1.338663),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-2.235143,-0.010737),vec2(1.569008,1.571367),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.500025,WHITE,visibility,aa);
+glyph(c,p,vec2(2.188030,0.749656),vec2(0.621896,0.934250),vec4(960.000000,0.000000,192.000000,192.000000),vec2(4.700526,0.688755),vec2(0.730002,1.096654),vec4(960.000000,0.000000,192.000000,192.000000),u,0.592622,WHITE,visibility,aa);
+glyph(c,p,vec2(1.562883,0.153752),vec2(0.466321,2.010005),vec4(768.000000,0.000000,192.000000,192.000000),vec2(2.507223,-0.010737),vec2(1.569008,1.571367),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.373166,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.246370,0.153752),vec2(0.466321,2.010005),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-0.711559,0.136136),vec2(0.941405,1.571367),vec4(1152.000000,0.000000,192.000000,192.000000),u,-0.042786,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.569048,0.378213),vec2(0.043224,0.042753),vec4(192.000000,0.000000,192.000000,192.000000),vec2(-4.569048,-0.071787),vec2(1.080610,1.068813),vec4(192.000000,0.000000,192.000000,192.000000),u,0.436208,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-3.757900,1.138755),vec2(0.029200,0.043866),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-3.757900,0.688755),vec2(0.730002,1.096654),vec4(960.000000,0.000000,192.000000,192.000000),u,-0.599939,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(3.998071,0.601177),vec2(0.034731,0.066535),vec4(576.000000,0.000000,192.000000,192.000000),vec2(3.998071,0.151177),vec2(0.868263,1.663384),vec4(576.000000,0.000000,192.000000,192.000000),u,0.447763,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=32.400 && t<37.000) { float u=smoothstep(33.200,36.700,t);
+glyph(c,p,vec2(-3.757900,0.688755),vec2(0.730002,1.096654),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-3.733608,0.647132),vec2(0.660749,0.992618),vec4(960.000000,0.000000,192.000000,192.000000),u,0.287655,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.235143,-0.010737),vec2(1.569008,1.571367),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-2.355309,0.013998),vec2(1.420162,1.422297),vec4(384.000000,0.000000,192.000000,192.000000),u,0.144132,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.569048,-0.071787),vec2(1.080610,1.068813),vec4(192.000000,0.000000,192.000000,192.000000),vec2(-5.383214,-0.041260),vec2(0.978096,0.967418),vec4(192.000000,0.000000,192.000000,192.000000),u,-0.500025,WHITE,visibility,aa);
+glyph(c,p,vec2(2.507223,-0.010737),vec2(1.569008,1.571367),vec4(384.000000,0.000000,192.000000,192.000000),vec2(1.205094,0.013998),vec2(1.420162,1.422297),vec4(384.000000,0.000000,192.000000,192.000000),u,0.592622,WHITE,visibility,aa);
+glyph(c,p,vec2(1.075857,0.151177),vec2(0.868263,1.663384),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.005893,0.160552),vec2(0.785894,1.505585),vec4(576.000000,0.000000,192.000000,192.000000),u,-0.373166,WHITE,visibility,aa);
+glyph(c,p,vec2(3.998071,0.151177),vec2(0.868263,1.663384),vec4(576.000000,0.000000,192.000000,192.000000),vec2(3.944817,0.013998),vec2(1.420162,0.499726),vec4(1728.000000,0.000000,192.000000,192.000000),u,-0.042786,WHITE,visibility,aa);
+glyph(c,p,vec2(0.207730,-0.071787),vec2(1.080610,1.068813),vec4(192.000000,0.000000,192.000000,192.000000),vec2(-0.243223,-0.041260),vec2(1.063519,0.967418),vec4(1344.000000,0.000000,192.000000,192.000000),u,0.436208,WHITE,visibility,aa);
+glyph(c,p,vec2(4.700526,0.688755),vec2(0.730002,1.096654),vec4(960.000000,0.000000,192.000000,192.000000),vec2(5.412845,0.129319),vec2(0.899080,1.469280),vec4(1920.000000,0.000000,192.000000,192.000000),u,-0.599939,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.711559,0.136136),vec2(0.941405,1.571367),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(2.561718,-0.041260),vec2(0.830741,0.967418),vec4(1536.000000,0.000000,192.000000,192.000000),u,0.447763,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.522163,0.408740),vec2(0.042541,0.038697),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-4.522163,-0.041260),vec2(1.063519,0.967418),vec4(1344.000000,0.000000,192.000000,192.000000),u,-0.059811,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=37.000 && t<42.300) { float u=smoothstep(37.800,42.000,t);
+glyph(c,p,vec2(-1.005893,0.160552),vec2(0.785894,1.505585),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.063233,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),u,0.287655,WHITE,visibility,aa);
+glyph(c,p,vec2(2.561718,-0.041260),vec2(0.830741,0.967418),vec4(1536.000000,0.000000,192.000000,192.000000),vec2(3.187393,0.602261),vec2(0.392441,0.457008),vec4(1536.000000,0.000000,192.000000,192.000000),u,0.144132,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.522163,-0.041260),vec2(1.063519,0.967418),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-3.148240,0.090391),vec2(0.502406,0.457008),vec4(1344.000000,0.000000,192.000000,192.000000),u,-0.500025,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.733608,0.647132),vec2(0.660749,0.992618),vec4(960.000000,0.000000,192.000000,192.000000),vec2(1.117150,0.833631),vec2(0.312137,0.468912),vec4(960.000000,0.000000,192.000000,192.000000),u,0.592622,WHITE,visibility,aa);
+glyph(c,p,vec2(-5.383214,-0.041260),vec2(0.978096,0.967418),vec4(192.000000,0.000000,192.000000,192.000000),vec2(0.947785,-0.428622),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),u,-0.373166,WHITE,visibility,aa);
+glyph(c,p,vec2(3.944817,0.013998),vec2(1.420162,0.499726),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(-2.422022,0.116495),vec2(0.670883,0.236070),vec4(1728.000000,0.000000,192.000000,192.000000),u,-0.042786,WHITE,visibility,aa);
+glyph(c,p,vec2(1.205094,0.013998),vec2(1.420162,1.422297),vec4(384.000000,0.000000,192.000000,192.000000),vec2(0.755064,0.116496),vec2(6.884202,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.436208,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.243223,-0.041260),vec2(1.063519,0.967418),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-0.451203,0.691165),vec2(0.672901,0.671892),vec4(2304.000000,0.000000,192.000000,192.000000),u,-0.599939,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.355309,0.013998),vec2(1.420162,1.422297),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-1.532559,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),u,0.447763,WHITE,visibility,aa);
+glyph(c,p,vec2(5.412845,0.129319),vec2(0.899080,1.469280),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.812791,0.602261),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),u,-0.059811,WHITE,visibility,aa);
+glyph(c,p,vec2(0.361799,1.171683),vec2(0.031476,0.040354),vec4(2496.000000,0.000000,192.000000,192.000000),vec2(0.361799,0.721683),vec2(0.786900,1.008847),vec4(2496.000000,0.000000,192.000000,192.000000),u,-0.359635,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.989325,1.534867),vec2(0.143714,0.001614),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(1.989325,1.084867),vec2(3.592845,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.589711,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.816791,1.147597),vec2(0.014850,0.028449),vec4(576.000000,0.000000,192.000000,192.000000),vec2(0.816791,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),u,-0.509266,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.768257,1.078365),vec2(0.024656,0.001614),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(1.768257,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),u,0.160660,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(2.419717,1.145327),vec2(0.017877,0.027320),vec4(2880.000000,0.000000,192.000000,192.000000),vec2(2.419717,0.695327),vec2(0.446919,0.682989),vec4(2880.000000,0.000000,192.000000,192.000000),u,0.272544,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.554712,0.110282),vec2(0.016101,0.026876),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(0.554712,-0.339718),vec2(0.402530,0.671892),vec4(1152.000000,0.000000,192.000000,192.000000),u,-0.562236,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=42.300 && t<46.800) { float u=smoothstep(43.100,46.500,t);
+glyph(c,p,vec2(-3.148240,0.090391),vec2(0.502406,0.457008),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-3.148240,0.090391),vec2(0.502406,0.457008),vec4(1344.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.422022,0.116495),vec2(0.670883,0.236070),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(-2.422022,0.116495),vec2(0.670883,0.236070),vec4(1728.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.532559,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(-1.532559,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.063233,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.063233,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.451203,0.691165),vec2(0.672901,0.671892),vec4(2304.000000,0.000000,192.000000,192.000000),vec2(-0.451203,0.691165),vec2(0.672901,0.671892),vec4(2304.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.361799,0.721683),vec2(0.786900,1.008847),vec4(2496.000000,0.000000,192.000000,192.000000),vec2(0.361799,0.721683),vec2(0.786900,1.008847),vec4(2496.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.989325,1.084867),vec2(3.592845,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(1.989325,1.084867),vec2(3.592845,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.816791,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),vec2(0.816791,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.117150,0.833631),vec2(0.312137,0.468912),vec4(960.000000,0.000000,192.000000,192.000000),vec2(1.117150,0.833631),vec2(0.312137,0.468912),vec4(960.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.768257,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(1.768257,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(2.419717,0.695327),vec2(0.446919,0.682989),vec4(2880.000000,0.000000,192.000000,192.000000),vec2(2.419717,0.695327),vec2(0.446919,0.682989),vec4(2880.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(2.812791,0.602261),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),vec2(2.812791,0.602261),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.187393,0.602261),vec2(0.392441,0.457008),vec4(1536.000000,0.000000,192.000000,192.000000),vec2(3.187393,0.602261),vec2(0.392441,0.457008),vec4(1536.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.755064,0.116496),vec2(6.884202,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(0.755064,0.116496),vec2(6.884202,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.554712,-0.339718),vec2(0.402530,0.671892),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(0.554712,-0.339718),vec2(0.402530,0.671892),vec4(1152.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.947785,-0.428622),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),vec2(0.947785,-0.428622),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+if(t>=46.800 && t<48.000) { float u=smoothstep(47.100,47.700,t);
+glyph(c,p,vec2(-3.148240,0.090391),vec2(0.502406,0.457008),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-3.148240,0.090391),vec2(0.502406,0.457008),vec4(1344.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.422022,0.116495),vec2(0.670883,0.236070),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(-2.422022,0.116495),vec2(0.670883,0.236070),vec4(1728.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.532559,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(-1.532559,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.063233,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),vec2(-1.063233,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.451203,0.691165),vec2(0.672901,0.671892),vec4(2304.000000,0.000000,192.000000,192.000000),vec2(-0.451203,0.691165),vec2(0.672901,0.671892),vec4(2304.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.361799,0.721683),vec2(0.786900,1.008847),vec4(2496.000000,0.000000,192.000000,192.000000),vec2(0.361799,0.721683),vec2(0.786900,1.008847),vec4(2496.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.989325,1.084867),vec2(3.592845,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(1.989325,1.084867),vec2(3.592845,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.816791,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),vec2(0.816791,0.697597),vec2(0.371256,0.711237),vec4(576.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.117150,0.833631),vec2(0.312137,0.468912),vec4(960.000000,0.000000,192.000000,192.000000),vec2(1.117150,0.833631),vec2(0.312137,0.468912),vec4(960.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.768257,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),vec2(1.768257,0.628365),vec2(0.616405,0.040354),vec4(2112.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(2.419717,0.695327),vec2(0.446919,0.682989),vec4(2880.000000,0.000000,192.000000,192.000000),vec2(2.419717,0.695327),vec2(0.446919,0.682989),vec4(2880.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(2.812791,0.602261),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),vec2(2.812791,0.602261),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.187393,0.602261),vec2(0.392441,0.457008),vec4(1536.000000,0.000000,192.000000,192.000000),vec2(3.187393,0.602261),vec2(0.392441,0.457008),vec4(1536.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.755064,0.116496),vec2(6.884202,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(0.755064,0.116496),vec2(6.884202,0.040352),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.554712,-0.339718),vec2(0.402530,0.671892),vec4(1152.000000,0.000000,192.000000,192.000000),vec2(0.554712,-0.339718),vec2(0.402530,0.671892),vec4(1152.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.947785,-0.428622),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),vec2(0.947785,-0.428622),vec2(0.462052,0.457008),vec4(192.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+}
+if(t>=28.000 && t<48.000) { float visibility=gate(t,28.000,48.000);
+glyph(c,p,vec2(-0.638272,3.450000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.638272,3.450000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.438189,3.450000),vec2(0.257119,0.281262),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(-0.438189,3.450000),vec2(0.257119,0.281262),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.225885,3.450000),vec2(0.309026,0.293333),vec4(0.000000,576.000000,192.000000,192.000000),vec2(-0.225885,3.450000),vec2(0.309026,0.293333),vec4(0.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.004074,3.450000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.004074,3.450000),vec2(0.282469,0.281262),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.208230,3.450000),vec2(0.283676,0.281262),vec4(1920.000000,576.000000,192.000000,192.000000),vec2(0.208230,3.450000),vec2(0.283676,0.281262),vec4(1920.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.427325,3.450000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.427325,3.450000),vec2(0.300576,0.281262),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.638272,3.450000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(0.638272,3.450000),vec2(0.286091,0.281262),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+}
+if(t>=48.000 && t<66.000) { float visibility=gate(t,48.000,66.000);
+if(t>=48.000 && t<53.400) { float u=smoothstep(48.800,53.100,t);
+glyph(c,p,vec2(-0.387300,2.284438),vec2(0.586456,0.691835),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.261583,2.468718),vec2(1.181472,1.183249),vec4(384.000000,0.000000,192.000000,192.000000),u,0.143828,WHITE,visibility,aa);
+glyph(c,p,vec2(0.427619,2.788759),vec2(0.478939,0.763310),vec4(3456.000000,0.000000,192.000000,192.000000),vec2(0.767760,2.568655),vec2(0.469036,1.193909),vec4(384.000000,192.000000,192.000000,192.000000),u,0.072066,WHITE,visibility,aa);
+glyph(c,p,vec2(0.032586,2.772322),vec2(0.323926,0.719478),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(-1.406775,2.597970),vec2(0.733756,1.272081),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.250012,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.444885,2.876745),vec2(0.027076,0.032619),vec4(3648.000000,0.000000,192.000000,192.000000),vec2(-3.444885,2.426745),vec2(0.676904,0.815482),vec4(3648.000000,0.000000,192.000000,192.000000),u,0.296311,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.819355,2.876745),vec2(0.031482,0.032619),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(-2.819355,2.426745),vec2(0.787056,0.815482),vec4(3840.000000,0.000000,192.000000,192.000000),u,-0.186583,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.223730,2.876745),vec2(0.023239,0.032619),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-2.223730,2.426745),vec2(0.580964,0.815482),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.021393,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.496198,2.876745),vec2(0.023239,0.032619),vec4(0.000000,192.000000,192.000000,192.000000),vec2(1.496198,2.426745),vec2(0.580964,0.815482),vec4(0.000000,192.000000,192.000000,192.000000),u,0.218104,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.946507,3.031313),vec2(0.015208,0.047543),vec4(576.000000,192.000000,192.000000,192.000000),vec2(1.946507,2.581313),vec2(0.380203,1.188579),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.299970,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(2.507855,2.880076),vec2(0.035746,0.031411),vec4(768.000000,192.000000,192.000000,192.000000),vec2(2.507855,2.430076),vec2(0.893655,0.785279),vec4(768.000000,192.000000,192.000000,192.000000),u,0.223882,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(3.423565,3.047970),vec2(0.029350,0.050883),vec4(192.000000,192.000000,192.000000,192.000000),vec2(3.423565,2.597970),vec2(0.733756,1.272081),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.029906,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=53.400 && t<59.000) { float u=smoothstep(54.200,58.700,t);
+glyph(c,p,vec2(-0.261583,2.468718),vec2(1.181472,1.183249),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.573568,2.389222),vec2(0.969800,0.971258),vec4(384.000000,0.000000,192.000000,192.000000),u,0.143828,WHITE,visibility,aa);
+glyph(c,p,vec2(1.496198,2.426745),vec2(0.580964,0.815482),vec4(0.000000,192.000000,192.000000,192.000000),vec2(1.370884,2.389222),vec2(0.969800,0.341253),vec4(1728.000000,0.000000,192.000000,192.000000),u,0.072066,WHITE,visibility,aa);
+glyph(c,p,vec2(2.507855,2.430076),vec2(0.893655,0.785279),vec4(768.000000,192.000000,192.000000,192.000000),vec2(2.373370,2.467972),vec2(0.613963,1.003342),vec4(1920.000000,0.000000,192.000000,192.000000),u,-0.250012,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.223730,2.426745),vec2(0.580964,0.815482),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-2.393605,2.351487),vec2(0.560005,0.660630),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.296311,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.406775,2.597970),vec2(0.733756,1.272081),vec4(192.000000,192.000000,192.000000,192.000000),vec2(-1.571419,2.728552),vec2(0.611484,0.450191),vec4(960.000000,192.000000,192.000000,192.000000),u,-0.186583,WHITE,visibility,aa);
+glyph(c,p,vec2(0.767760,2.568655),vec2(0.469036,1.193909),vec4(384.000000,192.000000,192.000000,192.000000),vec2(0.373077,2.480004),vec2(0.481254,0.971258),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.021393,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.819355,2.426745),vec2(0.787056,0.815482),vec4(3840.000000,0.000000,192.000000,192.000000),vec2(-1.992658,2.817365),vec2(0.309315,0.687026),vec4(3264.000000,0.000000,192.000000,192.000000),u,0.218104,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.444885,2.426745),vec2(0.676904,0.815482),vec4(3648.000000,0.000000,192.000000,192.000000),vec2(-3.444885,1.976745),vec2(0.027076,0.032619),vec4(3648.000000,0.000000,192.000000,192.000000),u,-0.299970,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(1.946507,2.581313),vec2(0.380203,1.188579),vec4(576.000000,192.000000,192.000000,192.000000),vec2(1.946507,2.131313),vec2(0.015208,0.047543),vec4(576.000000,192.000000,192.000000,192.000000),u,0.223882,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(3.423565,2.597970),vec2(0.733756,1.272081),vec4(192.000000,192.000000,192.000000,192.000000),vec2(3.423565,2.147970),vec2(0.029350,0.050883),vec4(192.000000,192.000000,192.000000,192.000000),u,-0.029906,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+}
+if(t>=59.000 && t<63.700) { float u=smoothstep(59.800,63.400,t);
+glyph(c,p,vec2(-2.393605,2.351487),vec2(0.560005,0.660630),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.387300,2.284438),vec2(0.586456,0.691835),vec4(3072.000000,0.000000,192.000000,192.000000),u,0.143828,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.992658,2.817365),vec2(0.309315,0.687026),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(0.032586,2.772322),vec2(0.323926,0.719478),vec4(3264.000000,0.000000,192.000000,192.000000),u,0.072066,WHITE,visibility,aa);
+glyph(c,p,vec2(0.373077,2.480004),vec2(0.481254,0.971258),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.427619,2.788759),vec2(0.478939,0.763310),vec4(3456.000000,0.000000,192.000000,192.000000),u,-0.250012,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.571419,2.728552),vec2(0.611484,0.450191),vec4(960.000000,192.000000,192.000000,192.000000),vec2(-1.571419,2.278552),vec2(0.024459,0.018008),vec4(960.000000,192.000000,192.000000,192.000000),u,0.296311,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(-0.573568,2.389222),vec2(0.969800,0.971258),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.573568,1.939222),vec2(0.038792,0.038850),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.186583,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(1.370884,2.389222),vec2(0.969800,0.341253),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(1.370884,1.939222),vec2(0.038792,0.013650),vec4(1728.000000,0.000000,192.000000,192.000000),u,-0.021393,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+glyph(c,p,vec2(2.373370,2.467972),vec2(0.613963,1.003342),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.373370,2.017972),vec2(0.024559,0.040134),vec4(1920.000000,0.000000,192.000000,192.000000),u,0.218104,WHITE,(visibility)*mix(1.0,0.0,u),aa);
+}
+if(t>=63.700 && t<66.000) { float u=smoothstep(64.275,65.700,t);
+glyph(c,p,vec2(-0.387300,2.284438),vec2(0.586456,0.691835),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-0.387300,2.284438),vec2(0.586456,0.691835),vec4(3072.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.032586,2.772322),vec2(0.323926,0.719478),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(0.032586,2.772322),vec2(0.323926,0.719478),vec4(3264.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.427619,2.788759),vec2(0.478939,0.763310),vec4(3456.000000,0.000000,192.000000,192.000000),vec2(0.427619,2.788759),vec2(0.478939,0.763310),vec4(3456.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+}
+if(t>=48.000 && t<66.000) { float visibility=gate(t,48.000,66.000);
+glyph(c,p,vec2(-1.133745,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),vec2(-1.133745,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.925103,3.750000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.925103,3.750000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.682305,3.750000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-0.682305,3.750000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.458848,3.750000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(-0.458848,3.750000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.282716,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(-0.282716,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.098765,3.750000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.098765,3.750000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.091358,3.750000),vec2(0.250206,0.255693),vec4(2112.000000,576.000000,192.000000,192.000000),vec2(0.091358,3.750000),vec2(0.250206,0.255693),vec4(2112.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.357613,3.750000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(0.357613,3.750000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.533745,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(0.533745,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.717284,3.750000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(0.717284,3.750000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.926749,3.747942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(0.926749,3.747942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(1.138272,3.750000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),vec2(1.138272,3.750000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+}
+if(t>=66.000 && t<84.000) { float visibility=gate(t,66.000,84.000);
+if(t>=66.000 && t<71.200) { float u=smoothstep(66.800,70.900,t);
+glyph(c,p,vec2(-0.885147,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-0.993828,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),u,0.167799,WHITE,visibility,aa);
+glyph(c,p,vec2(0.490222,2.434891),vec2(0.904207,0.318172),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(0.381541,2.434891),vec2(0.904207,0.318172),vec4(1728.000000,0.000000,192.000000,192.000000),u,0.084077,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.409390,2.434891),vec2(0.315453,1.359709),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-0.518071,2.434891),vec2(0.315453,1.359709),vec4(768.000000,0.000000,192.000000,192.000000),u,-0.291681,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.345976,2.434891),vec2(0.315453,1.359709),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-1.454658,2.434891),vec2(0.315453,1.359709),vec4(0.000000,0.000000,192.000000,192.000000),u,0.345696,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.865786,2.434891),vec2(0.678495,1.237335),vec4(1344.000000,192.000000,192.000000,192.000000),vec2(-2.260573,2.434891),vec2(0.678495,1.237335),vec4(1344.000000,192.000000,192.000000,192.000000),u,-0.217680,WHITE,visibility,aa);
+glyph(c,p,vec2(1.453969,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(1.855180,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),u,-0.024959,WHITE,visibility,aa);
+glyph(c,p,vec2(1.956036,2.830864),vec2(0.437826,0.651029),vec4(1536.000000,192.000000,192.000000,192.000000),vec2(2.357248,2.838003),vec2(0.420694,0.631993),vec4(960.000000,0.000000,192.000000,192.000000),u,0.254455,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.836164,3.265160),vec2(0.009556,0.019721),vec4(1728.000000,192.000000,192.000000,192.000000),vec2(-1.836164,2.815160),vec2(0.238901,0.493030),vec4(1728.000000,192.000000,192.000000,192.000000),u,-0.349965,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.316224,2.958315),vec2(0.022571,0.037419),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(1.316224,2.508315),vec2(0.564279,0.935480),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.261195,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=71.200 && t<77.000) { float u=smoothstep(72.000,76.700,t);
+glyph(c,p,vec2(0.381541,2.434891),vec2(0.904207,0.318172),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(0.899837,2.464731),vec2(0.407244,0.143301),vec4(1728.000000,0.000000,192.000000,192.000000),u,0.167799,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.993828,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-0.325151,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),u,0.084077,WHITE,visibility,aa);
+glyph(c,p,vec2(1.855180,2.399708),vec2(0.677135,0.615948),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(0.459003,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),u,-0.291681,WHITE,visibility,aa);
+glyph(c,p,vec2(1.316224,2.508315),vec2(0.564279,0.935480),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-0.567891,2.497800),vec2(0.254145,0.421329),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.345696,WHITE,visibility,aa);
+glyph(c,p,vec2(2.357248,2.838003),vec2(0.420694,0.631993),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-0.099026,2.646287),vec2(0.189475,0.284642),vec4(960.000000,0.000000,192.000000,192.000000),u,-0.217680,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.454658,2.434891),vec2(0.315453,1.359709),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-1.194959,2.464787),vec2(0.543196,1.360745),vec4(2112.000000,192.000000,192.000000,192.000000),u,-0.024959,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.518071,2.434891),vec2(0.315453,1.359709),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-0.871521,2.968259),vec2(0.156039,0.284642),vec4(2304.000000,192.000000,192.000000,192.000000),u,0.254455,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.836164,2.815160),vec2(0.238901,0.493030),vec4(1728.000000,192.000000,192.000000,192.000000),vec2(-1.077904,2.034956),vec2(0.198906,0.293215),vec4(2496.000000,192.000000,192.000000,192.000000),u,-0.349965,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.260573,2.434891),vec2(0.678495,1.237335),vec4(1344.000000,192.000000,192.000000,192.000000),vec2(0.219945,2.506756),vec2(0.291501,0.431740),vec4(2688.000000,192.000000,192.000000,192.000000),u,0.261195,WHITE,visibility,aa);
+glyph(c,p,vec2(1.322873,2.952852),vec2(0.008084,0.016314),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(1.322873,2.502852),vec2(0.202091,0.407856),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.034890,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=77.000 && t<84.000) { float u=smoothstep(77.800,83.700,t);
+glyph(c,p,vec2(-1.194959,2.464787),vec2(0.543196,1.360745),vec4(2112.000000,192.000000,192.000000,192.000000),vec2(-1.194959,2.464787),vec2(0.543196,1.360745),vec4(2112.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.871521,2.968259),vec2(0.156039,0.284642),vec4(2304.000000,192.000000,192.000000,192.000000),vec2(-0.871521,2.968259),vec2(0.156039,0.284642),vec4(2304.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.077904,2.034956),vec2(0.198906,0.293215),vec4(2496.000000,192.000000,192.000000,192.000000),vec2(-1.077904,2.034956),vec2(0.198906,0.293215),vec4(2496.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.567891,2.497800),vec2(0.254145,0.421329),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-0.567891,2.497800),vec2(0.254145,0.421329),vec4(1920.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.325151,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(-0.325151,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.099026,2.646287),vec2(0.189475,0.284642),vec4(960.000000,0.000000,192.000000,192.000000),vec2(-0.099026,2.646287),vec2(0.189475,0.284642),vec4(960.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.219945,2.506756),vec2(0.291501,0.431740),vec4(2688.000000,192.000000,192.000000,192.000000),vec2(0.219945,2.506756),vec2(0.291501,0.431740),vec4(2688.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.459003,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),vec2(0.459003,2.448885),vec2(0.304973,0.277416),vec4(1344.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.899837,2.464731),vec2(0.407244,0.143301),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(0.899837,2.464731),vec2(0.407244,0.143301),vec4(1728.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.322873,2.502852),vec2(0.202091,0.407856),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(1.322873,2.502852),vec2(0.202091,0.407856),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+}
+if(t>=66.000 && t<84.000) { float visibility=gate(t,66.000,84.000);
+glyph(c,p,vec2(-0.683539,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),vec2(-0.683539,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.486831,3.750000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.486831,3.750000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.304938,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(-0.304938,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.116461,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),vec2(-0.116461,3.750000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.095473,3.747942),vec2(0.296296,0.261180),vec4(2304.000000,576.000000,192.000000,192.000000),vec2(0.095473,3.747942),vec2(0.296296,0.261180),vec4(2304.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.294239,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(0.294239,3.750000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.493004,3.747942),vec2(0.296296,0.261180),vec4(2304.000000,576.000000,192.000000,192.000000),vec2(0.493004,3.747942),vec2(0.296296,0.261180),vec4(2304.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.694239,3.750000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(0.694239,3.750000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+}
+if(t>=84.000 && t<102.000) { float visibility=gate(t,84.000,102.000);
+if(t>=84.000 && t<89.000) { float u=smoothstep(84.800,88.700,t);
+glyph(c,p,vec2(1.137374,2.507475),vec2(0.588600,0.826200),vec4(0.000000,192.000000,192.000000,192.000000),vec2(0.664970,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.119856,WHITE,visibility,aa);
+glyph(c,p,vec2(1.593601,2.664075),vec2(0.385200,1.204200),vec4(576.000000,192.000000,192.000000,192.000000),vec2(0.887470,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,0.060055,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.702115,2.627625),vec2(0.552600,1.146600),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-0.987582,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.208344,WHITE,visibility,aa);
+glyph(c,p,vec2(2.162327,2.510850),vec2(0.905400,0.795600),vec4(768.000000,192.000000,192.000000,192.000000),vec2(1.164835,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,0.246926,WHITE,visibility,aa);
+glyph(c,p,vec2(2.992872,2.627625),vec2(0.552600,1.146600),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(1.899085,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.155486,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.219338,2.550000),vec2(0.417600,1.800000),vec4(768.000000,0.000000,192.000000,192.000000),vec2(-1.392636,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.017828,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.028420,2.550000),vec2(1.197000,0.421200),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(0.182263,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.181754,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.175142,2.550000),vec2(0.417600,1.800000),vec4(0.000000,0.000000,192.000000,192.000000),vec2(-1.892501,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.249975,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.863272,2.550000),vec2(0.898200,1.638000),vec4(1344.000000,192.000000,192.000000,192.000000),vec2(-1.670001,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,0.186568,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.463945,2.955704),vec2(0.023351,0.023386),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.463945,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.024921,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.184896,3.455756),vec2(0.011588,0.023386),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.184896,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.149848,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.181933,2.551486),vec2(0.014572,0.024159),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(0.181933,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.245713,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.617951,3.003108),vec2(0.014572,0.024159),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(1.617951,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,-0.212194,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=89.000 && t<95.000) { float u=smoothstep(89.800,94.700,t);
+glyph(c,p,vec2(0.181933,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(0.174618,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.119856,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.892501,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-0.778364,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.060055,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.670001,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-0.555864,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.208344,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.392636,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-0.278498,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,0.246926,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.463945,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-1.907279,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.155486,WHITE,visibility,aa);
+glyph(c,p,vec2(1.899085,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(3.342418,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.017828,WHITE,visibility,aa);
+glyph(c,p,vec2(0.182263,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(-1.261071,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.181754,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.987582,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-2.430916,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.249975,WHITE,visibility,aa);
+glyph(c,p,vec2(0.184896,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(-1.258438,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,0.186568,WHITE,visibility,aa);
+glyph(c,p,vec2(0.887470,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(2.330803,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.024921,WHITE,visibility,aa);
+glyph(c,p,vec2(1.164835,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(2.608169,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.149848,WHITE,visibility,aa);
+glyph(c,p,vec2(0.664970,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(2.108303,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.245713,WHITE,visibility,aa);
+glyph(c,p,vec2(1.617951,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-1.261400,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,-0.212194,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.335835,2.934965),vec2(0.011482,0.016117),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-3.335835,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.066941,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-3.113335,3.011338),vec2(0.007514,0.023491),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-3.113335,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,0.113560,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.835969,2.936611),vec2(0.017662,0.015520),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-2.835969,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.234265,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.455751,2.993562),vec2(0.010780,0.022368),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(0.455751,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,0.231614,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(0.979388,2.955704),vec2(0.023351,0.023386),vec4(384.000000,0.000000,192.000000,192.000000),vec2(0.979388,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.107004,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.628229,3.455756),vec2(0.011588,0.023386),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(1.628229,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.073951,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.625596,2.955705),vec2(0.017557,0.001404),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(1.625596,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.215966,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.625267,2.551486),vec2(0.014011,0.024159),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(1.625267,2.101486),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),u,-0.244261,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(3.061285,3.003108),vec2(0.014011,0.024159),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(3.061285,2.553108),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),u,0.143937,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=95.000 && t<100.000) { float u=smoothstep(95.800,99.700,t);
+glyph(c,p,vec2(1.625267,2.101486),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(1.617951,2.553108),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),u,0.119856,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.261400,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-1.268716,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.060055,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.335835,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-2.221697,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,-0.208344,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.113335,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-1.999197,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,0.246926,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.835969,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-1.721832,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.155486,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.907279,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.463945,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.017828,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.278498,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(1.164835,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,0.181754,WHITE,visibility,aa);
+glyph(c,p,vec2(3.342418,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(1.899085,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.249975,WHITE,visibility,aa);
+glyph(c,p,vec2(2.108303,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(3.551637,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.186568,WHITE,visibility,aa);
+glyph(c,p,vec2(2.330803,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(3.774137,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.024921,WHITE,visibility,aa);
+glyph(c,p,vec2(2.608169,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(4.051502,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,-0.149848,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.258438,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.184896,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,0.245713,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.261071,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(0.182263,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,-0.212194,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.778364,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(0.664970,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.066941,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.555864,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(0.887470,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,0.113560,WHITE,visibility,aa);
+glyph(c,p,vec2(0.455751,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-0.987582,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.234265,WHITE,visibility,aa);
+glyph(c,p,vec2(1.625596,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(3.068930,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.231614,WHITE,visibility,aa);
+glyph(c,p,vec2(0.979388,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(2.422722,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.107004,WHITE,visibility,aa);
+glyph(c,p,vec2(1.628229,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(3.071563,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,-0.073951,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.430916,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-3.874249,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,0.215966,WHITE,visibility,aa);
+glyph(c,p,vec2(3.061285,2.553108),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(0.181933,2.101486),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),u,-0.244261,WHITE,visibility,aa);
+glyph(c,p,vec2(0.174618,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-2.704734,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),u,0.143937,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.779168,2.934965),vec2(0.011482,0.016117),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-4.779168,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),u,0.032179,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-4.556668,3.011338),vec2(0.007514,0.023491),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-4.556668,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),u,-0.191351,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-4.279303,2.936611),vec2(0.017662,0.015520),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-4.279303,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),u,0.249764,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-3.350612,2.955704),vec2(0.023351,0.023386),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-3.350612,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),u,-0.176660,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.701771,3.455756),vec2(0.011588,0.023386),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(-2.701771,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),u,0.010534,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.704404,2.955705),vec2(0.017557,0.001404),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(-2.704404,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),u,0.161140,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(3.082426,2.554778),vec2(0.015064,0.024510),vec4(3264.000000,192.000000,192.000000,192.000000),vec2(3.082426,2.104778),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),u,-0.247963,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.518444,3.006400),vec2(0.015064,0.024510),vec4(3264.000000,192.000000,192.000000,192.000000),vec2(4.518444,2.556400),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),u,0.204217,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(4.785752,2.993562),vec2(0.010780,0.022368),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(4.785752,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),u,-0.052938,WHITE,(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=100.000 && t<102.000) { float u=smoothstep(100.500,101.700,t);
+glyph(c,p,vec2(-4.779168,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-4.779168,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.556668,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-4.556668,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-4.279303,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-4.279303,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.874249,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-3.874249,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-3.350612,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-3.350612,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.701771,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(-2.701771,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.704404,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(-2.704404,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.704734,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-2.704734,2.101486),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-2.221697,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(-2.221697,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.999197,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(-1.999197,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.721832,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(-1.721832,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-1.268716,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),vec2(-1.268716,2.553108),vec2(0.364309,0.603963),vec4(1920.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.987582,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(-0.987582,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.463945,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.463945,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.184896,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.184896,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.182263,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(0.182263,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.181933,2.101486),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(0.181933,2.101486),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.664970,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(0.664970,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.887470,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(0.887470,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.164835,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(1.164835,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.617951,2.553108),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),vec2(1.617951,2.553108),vec2(0.350263,0.603963),vec4(3072.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.899085,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(1.899085,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(2.422722,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),vec2(2.422722,2.505704),vec2(0.583772,0.584650),vec4(384.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.071563,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(3.071563,3.005756),vec2(0.289691,0.584650),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.068930,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),vec2(3.068930,2.505705),vec2(0.438928,0.035112),vec4(2688.000000,0.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.082426,2.104778),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),vec2(3.082426,2.104778),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.551637,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),vec2(3.551637,2.484965),vec2(0.287058,0.402935),vec4(0.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(3.774137,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),vec2(3.774137,2.561338),vec2(0.187861,0.587284),vec4(576.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(4.051502,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),vec2(4.051502,2.486611),vec2(0.441560,0.388011),vec4(768.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(4.518444,2.556400),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),vec2(4.518444,2.556400),vec2(0.376599,0.612741),vec4(3264.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(4.785752,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),vec2(4.785752,2.543562),vec2(0.269501,0.559192),vec4(2880.000000,192.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+}
+if(t>=84.000 && t<102.000) { float visibility=gate(t,84.000,102.000);
+glyph(c,p,vec2(-0.795062,3.800000),vec2(0.306173,0.255693),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(-0.795062,3.800000),vec2(0.306173,0.255693),vec4(3456.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.584362,3.800000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.584362,3.800000),vec2(0.260082,0.255693),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.387654,3.800000),vec2(0.273251,0.255693),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(-0.387654,3.800000),vec2(0.273251,0.255693),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(-0.156790,3.800000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-0.156790,3.800000),vec2(0.359945,0.255693),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.086008,3.800000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(0.086008,3.800000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.309053,3.797942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(0.309053,3.797942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.476132,3.800000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(0.476132,3.800000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.628807,3.800000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),vec2(0.628807,3.800000),vec2(0.268861,0.266667),vec4(384.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+glyph(c,p,vec2(0.819753,3.800000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(0.819753,3.800000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,GOLD,visibility,aa);
+}
+if(t>=102.000 && t<114.000) { float visibility=gate(t,102.000,114.000);
+if(t>=102.000 && t<104.200) { float u=smoothstep(102.550,103.900,t);
+glyph(c,p,vec2(0.608997,0.109516),vec2(1.623991,1.441292),vec4(0.000000,384.000000,192.000000,192.000000),vec2(0.600683,0.101877),vec2(1.601820,1.461661),vec4(384.000000,384.000000,192.000000,192.000000),u,0.201359,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-0.608997,0.084775),vec2(1.623991,1.426067),vec4(3840.000000,192.000000,192.000000,192.000000),vec2(-0.600683,0.092491),vec2(1.601820,1.446644),vec4(192.000000,384.000000,192.000000,192.000000),u,0.100892,mix(WHITE,GOLD,0.15),visibility,aa);
+}
+if(t>=104.200 && t<106.400) { float u=smoothstep(104.750,106.100,t);
+glyph(c,p,vec2(-0.600683,0.092491),vec2(1.601820,1.446644),vec4(192.000000,384.000000,192.000000,192.000000),vec2(-0.602740,0.092466),vec2(1.607306,1.446575),vec4(576.000000,384.000000,192.000000,192.000000),u,0.201359,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(0.600683,0.101877),vec2(1.601820,1.461661),vec4(384.000000,384.000000,192.000000,192.000000),vec2(0.602740,0.100000),vec2(1.607306,1.466667),vec4(768.000000,384.000000,192.000000,192.000000),u,0.100892,mix(WHITE,GOLD,0.15),visibility,aa);
+}
+if(t>=106.400 && t<108.600) { float u=smoothstep(106.950,108.300,t);
+glyph(c,p,vec2(0.602740,0.100000),vec2(1.607306,1.466667),vec4(768.000000,384.000000,192.000000,192.000000),vec2(0.596610,0.103729),vec2(1.590960,1.456723),vec4(1152.000000,384.000000,192.000000,192.000000),u,0.201359,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-0.602740,0.092466),vec2(1.607306,1.446575),vec4(576.000000,384.000000,192.000000,192.000000),vec2(-0.596610,0.070169),vec2(1.590960,1.387119),vec4(960.000000,384.000000,192.000000,192.000000),u,0.100892,mix(WHITE,GOLD,0.15),visibility,aa);
+}
+if(t>=108.600 && t<110.800) { float u=smoothstep(109.150,110.500,t);
+glyph(c,p,vec2(-0.596610,0.070169),vec2(1.590960,1.387119),vec4(960.000000,384.000000,192.000000,192.000000),vec2(-0.600881,-0.068434),vec2(1.015981,1.017508),vec4(384.000000,0.000000,192.000000,192.000000),u,0.201359,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(0.596610,0.103729),vec2(1.590960,1.456723),vec4(1152.000000,384.000000,192.000000,192.000000),vec2(0.390843,0.026671),vec2(0.504171,1.017508),vec4(1152.000000,192.000000,192.000000,192.000000),u,0.100892,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-2.507586,0.342034),vec2(0.023467,0.027684),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-2.507586,-0.107966),vec2(0.586672,0.692089),vec4(3072.000000,0.000000,192.000000,192.000000),u,-0.350017,mix(WHITE,GOLD,0.15),(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-2.087546,0.830097),vec2(0.012962,0.028790),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(-2.087546,0.380097),vec2(0.324044,0.719742),vec4(3264.000000,0.000000,192.000000,192.000000),u,0.414836,mix(WHITE,GOLD,0.15),(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(-1.646248,0.737054),vec2(0.025624,0.018865),vec4(960.000000,192.000000,192.000000,192.000000),vec2(-1.646248,0.287054),vec2(0.640602,0.471629),vec4(960.000000,192.000000,192.000000,192.000000),u,-0.261216,mix(WHITE,GOLD,0.15),(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(1.436164,0.381566),vec2(0.040639,0.014300),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(1.436164,-0.068434),vec2(1.015981,0.357503),vec4(1728.000000,0.000000,192.000000,192.000000),u,-0.029950,mix(WHITE,GOLD,0.15),(visibility)*mix(0.0,1.0,u),aa);
+glyph(c,p,vec2(2.486388,0.464066),vec2(0.025728,0.042045),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.486388,0.014066),vec2(0.643200,1.051120),vec4(1920.000000,0.000000,192.000000,192.000000),u,0.305346,mix(WHITE,GOLD,0.15),(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=110.800 && t<114.000) { float u=smoothstep(111.600,113.700,t);
+glyph(c,p,vec2(-2.507586,-0.107966),vec2(0.586672,0.692089),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-2.507586,-0.107966),vec2(0.586672,0.692089),vec4(3072.000000,0.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-2.087546,0.380097),vec2(0.324044,0.719742),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(-2.087546,0.380097),vec2(0.324044,0.719742),vec4(3264.000000,0.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-1.646248,0.287054),vec2(0.640602,0.471629),vec4(960.000000,192.000000,192.000000,192.000000),vec2(-1.646248,0.287054),vec2(0.640602,0.471629),vec4(960.000000,192.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(-0.600881,-0.068434),vec2(1.015981,1.017508),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.600881,-0.068434),vec2(1.015981,1.017508),vec4(384.000000,0.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(0.390843,0.026671),vec2(0.504171,1.017508),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.390843,0.026671),vec2(0.504171,1.017508),vec4(1152.000000,192.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(1.436164,-0.068434),vec2(1.015981,0.357503),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(1.436164,-0.068434),vec2(1.015981,0.357503),vec4(1728.000000,0.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+glyph(c,p,vec2(2.486388,0.014066),vec2(0.643200,1.051120),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.486388,0.014066),vec2(0.643200,1.051120),vec4(1920.000000,0.000000,192.000000,192.000000),0.0,0.000000,mix(WHITE,GOLD,0.15),visibility,aa);
+}
+}
+if(t>=102.000 && t<114.000) { float visibility=gate(t,102.000,114.000);
+glyph(c,p,vec2(-1.693827,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(-1.693827,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.526749,3.647942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(-1.526749,3.647942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.320165,3.650000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),vec2(-1.320165,3.650000),vec2(0.243621,0.255693),vec4(1344.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.176955,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(-1.176955,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.009877,3.647942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(-1.009877,3.647942),vec2(0.307270,0.261180),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.842798,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(-0.842798,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.703292,3.650000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(-0.703292,3.650000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.519342,3.650000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.519342,3.650000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.250617,3.650000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(-0.250617,3.650000),vec2(0.235940,0.255693),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.054321,3.650000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.054321,3.650000),vec2(0.287517,0.266667),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.143621,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(0.143621,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.323868,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(0.323868,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.465844,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(0.465844,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.614403,3.650000),vec2(0.257888,0.255693),vec4(1920.000000,576.000000,192.000000,192.000000),vec2(0.614403,3.650000),vec2(0.257888,0.255693),vec4(1920.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.762963,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(0.762963,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.902469,3.650000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),vec2(0.902469,3.650000),vec2(0.233745,0.255693),vec4(1728.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.041975,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.041975,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.181481,3.650000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(1.181481,3.650000),vec2(0.233745,0.255693),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.320988,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.320988,3.650000),vec2(0.138272,0.255693),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.469136,3.650000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),vec2(1.469136,3.650000),vec2(0.256790,0.255693),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.655556,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(1.655556,3.650000),vec2(0.240329,0.266667),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+}
+if(t>=114.0) { float u=smoothstep(114.0,116.1,t); float visibility=1.0;
+glyph(c,p,vec2(-0.600881,-0.068434),vec2(1.015981,1.017508),vec4(384.000000,0.000000,192.000000,192.000000),vec2(-0.480480,-0.198348),vec2(1.281281,0.404404),vec4(1728.000000,384.000000,192.000000,192.000000),u,0.311627,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(0.390843,0.026671),vec2(0.504171,1.017508),vec4(1152.000000,192.000000,192.000000,192.000000),vec2(0.480480,0.201051),vec2(1.281281,1.181181),vec4(1920.000000,384.000000,192.000000,192.000000),u,0.156143,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(2.486388,0.014066),vec2(0.643200,1.051120),vec4(1920.000000,0.000000,192.000000,192.000000),vec2(2.402402,0.196547),vec2(1.281281,1.161161),vec4(2304.000000,384.000000,192.000000,192.000000),u,-0.541693,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(-1.646248,0.287054),vec2(0.640602,0.471629),vec4(960.000000,192.000000,192.000000,192.000000),vec2(-1.441441,0.202553),vec2(1.281281,1.177177),vec4(1536.000000,384.000000,192.000000,192.000000),u,0.642007,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(1.436164,-0.068434),vec2(1.015981,0.357503),vec4(1728.000000,0.000000,192.000000,192.000000),vec2(1.441441,0.205556),vec2(1.281281,1.169169),vec4(2112.000000,384.000000,192.000000,192.000000),u,-0.404263,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(-2.507586,-0.107966),vec2(0.586672,0.692089),vec4(3072.000000,0.000000,192.000000,192.000000),vec2(-2.402402,0.223574),vec2(1.281281,1.137137),vec4(0.000000,384.000000,192.000000,192.000000),u,-0.046352,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(-2.087546,0.380097),vec2(0.324044,0.719742),vec4(3264.000000,0.000000,192.000000,192.000000),vec2(-3.363363,0.229580),vec2(1.281281,1.105105),vec4(1344.000000,384.000000,192.000000,192.000000),u,0.472559,mix(WHITE,GOLD,0.14),visibility,aa);
+glyph(c,p,vec2(3.363363,0.648048),vec2(0.051251,0.046286),vec4(2496.000000,384.000000,192.000000,192.000000),vec2(3.363363,0.198048),vec2(1.281281,1.157157),vec4(2496.000000,384.000000,192.000000,192.000000),u,-0.649934,mix(WHITE,GOLD,0.14),(visibility)*mix(0.0,1.0,u),aa);
+}
+if(t>=115.000 && t<121.000) { float visibility=gate(t,115.000,121.000);
+glyph(c,p,vec2(-1.223134,-2.139739),vec2(0.235323,0.255025),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(-1.223134,-2.139739),vec2(0.235323,0.255025),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-1.048284,-2.139739),vec2(0.239701,0.255025),vec4(576.000000,576.000000,192.000000,192.000000),vec2(-1.048284,-2.139739),vec2(0.239701,0.255025),vec4(576.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.859478,-2.139739),vec2(0.272537,0.255025),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(-0.859478,-2.139739),vec2(0.272537,0.255025),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.667799,-2.139739),vec2(0.256119,0.255025),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.667799,-2.139739),vec2(0.256119,0.255025),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.476119,-2.139739),vec2(0.259403,0.255025),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.476119,-2.139739),vec2(0.259403,0.255025),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.281567,-2.139739),vec2(0.268159,0.265970),vec4(384.000000,576.000000,192.000000,192.000000),vec2(-0.281567,-2.139739),vec2(0.268159,0.265970),vec4(384.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(-0.093582,-2.139739),vec2(0.233134,0.255025),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(-0.093582,-2.139739),vec2(0.233134,0.255025),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.121903,-2.152052),vec2(0.118209,0.287861),vec4(960.000000,576.000000,192.000000,192.000000),vec2(0.121903,-2.152052),vec2(0.118209,0.287861),vec4(960.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.384590,-2.139739),vec2(0.359005,0.255025),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(0.384590,-2.139739),vec2(0.359005,0.255025),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.614851,-2.139739),vec2(0.259403,0.255025),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(0.614851,-2.139739),vec2(0.259403,0.255025),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.823769,-2.141791),vec2(0.306468,0.260498),vec4(1152.000000,576.000000,192.000000,192.000000),vec2(0.823769,-2.141791),vec2(0.306468,0.260498),vec4(1152.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(0.990410,-2.139739),vec2(0.137910,0.255025),vec4(192.000000,576.000000,192.000000,192.000000),vec2(0.990410,-2.139739),vec2(0.137910,0.255025),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+glyph(c,p,vec2(1.176754,-2.139739),vec2(0.359005,0.255025),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(1.176754,-2.139739),vec2(0.359005,0.255025),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,CYAN,visibility,aa);
+}
+if(t>=115.000 && t<121.000) { float visibility=gate(t,115.000,121.000);
+glyph(c,p,vec2(-1.105988,-1.050000),vec2(0.341948,0.242908),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-1.105988,-1.050000),vec2(0.341948,0.242908),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.886276,-1.050000),vec2(0.243951,0.242908),vec4(768.000000,576.000000,192.000000,192.000000),vec2(-0.886276,-1.050000),vec2(0.243951,0.242908),vec4(768.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.711523,-1.050000),vec2(0.222058,0.242908),vec4(3840.000000,384.000000,192.000000,192.000000),vec2(-0.711523,-1.050000),vec2(0.222058,0.242908),vec4(3840.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.537160,-1.050000),vec2(0.247078,0.242908),vec4(3648.000000,384.000000,192.000000,192.000000),vec2(-0.537160,-1.050000),vec2(0.247078,0.242908),vec4(3648.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.319403,-1.050000),vec2(0.341948,0.242908),vec4(2688.000000,384.000000,192.000000,192.000000),vec2(-0.319403,-1.050000),vec2(0.341948,0.242908),vec4(2688.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(-0.088745,-1.050000),vec2(0.273141,0.253333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(-0.088745,-1.050000),vec2(0.273141,0.253333),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.111029,-1.050000),vec2(0.259588,0.242908),vec4(3072.000000,384.000000,192.000000,192.000000),vec2(0.111029,-1.050000),vec2(0.259588,0.242908),vec4(3072.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.286173,-1.050000),vec2(0.224143,0.242908),vec4(3264.000000,384.000000,192.000000,192.000000),vec2(0.286173,-1.050000),vec2(0.224143,0.242908),vec4(3264.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.479300,-1.050000),vec2(0.290864,0.242908),vec4(3456.000000,384.000000,192.000000,192.000000),vec2(0.479300,-1.050000),vec2(0.290864,0.242908),vec4(3456.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.690802,-1.050000),vec2(0.273141,0.253333),vec4(2880.000000,384.000000,192.000000,192.000000),vec2(0.690802,-1.050000),vec2(0.273141,0.253333),vec4(2880.000000,384.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(0.878848,-1.050000),vec2(0.228313,0.253333),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(0.878848,-1.050000),vec2(0.228313,0.253333),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.013724,-1.050000),vec2(0.131358,0.242908),vec4(192.000000,576.000000,192.000000,192.000000),vec2(1.013724,-1.050000),vec2(0.131358,0.242908),vec4(192.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+glyph(c,p,vec2(1.148601,-1.050000),vec2(0.228313,0.253333),vec4(1536.000000,576.000000,192.000000,192.000000),vec2(1.148601,-1.050000),vec2(0.228313,0.253333),vec4(1536.000000,576.000000,192.000000,192.000000),0.0,0.000000,WHITE,visibility,aa);
+}
+}
+
+vec3 atmosphere(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.012,0.019,0.04);
+    c+=CYAN*0.025*exp(-dot(p-vec2(-3.0,1.0),p-vec2(-3.0,1.0))*0.075);
+    c+=PINK*0.019*exp(-dot(p-vec2(4.0,-1.0),p-vec2(4.0,-1.0))*0.09);
+    float kinetic=gate(t,0.0,12.0)*0.3+gate(t,12.0,28.0)*0.5+gate(t,102.0,114.0)*0.9;
+    if(kinetic>0.001) {
+        for(int j=0;j<7;j++) {
+            float i=float(j);
+            float wave=sin(p.x*0.42+t*0.38+i*0.57)*(0.35+i*0.08);
+            float band=3.25+wave+i*0.11;
+            float d=abs(abs(p.y)-band);
+            c+=glow(d,0.004,mix(CYAN,PINK,i/7.0),kinetic*0.12,aa);
+        }
+    }
+    float energy=0.3+0.6*gate(t,0.0,12.0)+0.6*gate(t,102.0,114.0);
+    for(int j=0;j<48;j++) {
+        float i=float(j), h=hash1(i+9.0);
+        vec2 v=vec2(hash1(i*7.0)*16.0-8.0,hash1(i*13.0)*8.5-4.25);
+        v+=vec2(sin(t*0.06+i),cos(t*0.05+i*2.0))*0.08;
+        float d=length(p-v);
+        c+=mix(CYAN,PINK,h)*energy*(0.12+0.06*sin(t*0.7+i))*(1.0-smoothstep(0.004,0.004+aa,d));
+    }
+    return c;
+}
+vec3 introStage(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float enter=smoothstep(0.0,1.8,t);
+    vec2 q=p-vec2(0.0,0.25);
+    for(int j=0;j<6;j++) {
+        float i=float(j);
+        float r=2.1+i*0.31+0.12*sin(t*0.6+i);
+        vec2 v=rot(t*(0.06+i*0.012)+i*0.16)*q;
+        float d=abs(length(v/vec2(1.0,0.45+i*0.08))-r)*0.6;
+        float opening=0.25+0.75*smoothstep(-0.2,0.7,sin(atan(v.y,v.x)*2.0+t));
+        c+=glow(d,0.005,mix(CYAN,PINK,i/6.0),0.22*enter*opening,aa);
+    }
+    float sweep=sin(t*0.72)*2.0;
+    c+=glow(lineDistance(p,vec2(-5.8,-1.4),vec2(-5.8+11.6*enter,-1.4)),0.008,CYAN,0.4,aa);
+    c+=glow(length(p-vec2(sweep,-1.4)),0.03,WHITE,0.7,aa);
+    return c*gate(t,0.0,12.6);
+}
+vec3 algebraStage(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float k=t-28.0;
+    for(int j=0;j<4;j++) {
+        float i=float(j),side=i<2.0?-1.0:1.0;
+        float y=mod(i,2.0)<0.5?-1.8:1.8;
+        vec2 a=vec2(side*(6.2+0.08*sin(k)),y);
+        c+=glow(lineDistance(p,a,a-vec2(side*0.55,0.0)),0.008,CYAN,0.5,aa);
+        c+=glow(lineDistance(p,a,a-vec2(0.0,sign(y)*0.3)),0.008,CYAN,0.5,aa);
+    }
+    for(int j=0;j<5;j++) {
+        float i=float(j),r=0.17+0.035*i;
+        vec2 center=vec2(-4.0+i*2.0,-2.65);
+        vec2 q=rot(k*0.35+i)* (p-center);
+        float blend=0.5+0.5*sin(k*0.8+i*0.65);
+        float radius=mix(length(q),max(abs(q.x),abs(q.y)),blend);
+        c+=glow(abs(radius-r),0.008,mix(CYAN,GOLD,i/4.0),0.65,aa);
+    }
+    return c*gate(t,28.0,48.3);
+}
+vec3 closingStage(vec2 p,float t,float aa) {
+    vec3 c=vec3(0.0);
+    float a=smoothstep(113.7,115.5,t);
+    vec2 q=rot(0.15+(t-114.0)*0.015)*(p-vec2(0.0,0.1));
+    for(int j=0;j<3;j++) {
+        float i=float(j);
+        float d=abs(length(q/vec2(5.8+i*0.12,2.0+i*0.15))-1.0)*2.0;
+        c+=glow(d,0.005,mix(CYAN,GOLD,i/2.0),0.3*a,aa);
+    }
+    c+=glow(lineDistance(p,vec2(-0.5,1.65),vec2(0.5,1.65)),0.018,GOLD,a,aa);
     return c;
 }
 void main() {
     vec2 v=uv;
     if(EXTRA_VECTOR2.x>0.5) v.y=1.0-v.y;
-    float top=EXTRA_VECTOR2.y;
     float height=EXTRA_VECTOR2.z>0.0?EXTRA_VECTOR2.z:1.0;
-    vec2 local=vec2(v.x,(v.y-top)/height);
+    vec2 local=vec2(v.x,(v.y-EXTRA_VECTOR2.y)/height);
     vec4 original=texture2D(TEXTURE_0,uv);
     if(local.y<0.0 || local.y>1.0) { gl_FragColor=original; return; }
     float aspect=EXTRA_VECTOR1.y;
-    vec2 p=vec2((local.x-0.5)*aspect,0.5-local.y)*9.0;
-    // Letterbox the composition on narrow windows instead of cropping titles.
-    p*=max(1.0,(16.0/9.0)/aspect);
-    float aa=10.0/max(EXTRA_VECTOR1.z,1.0)*max(1.0,(16.0/9.0)/aspect);
-    float t=clamp(EXTRA_VECTOR1.x,0.0,41.0);
-    vec3 color=INK;
-    color+=vec3(0.005,0.015,0.023)*exp(-dot(p,p)*0.06);
-    // Tiny fixed stars stay deterministic when scrubbing or replaying.
-    vec2 cell=floor(p*1.7);
-    float star=hash(dot(cell,vec2(13.1,79.7)));
-    vec2 pos=(cell+vec2(0.15+0.7*star,0.15+0.7*hash(star*80.0)))/1.7;
-    color+=ICE*stroke(length(p-pos),0.004,aa)*step(0.79,star)*0.15;
-    if(t<5.8) color+=stageSeed(p,t,aa)*window(t,0.0,5.8);
-    if(t>5.0 && t<13.8) color+=stageGlyph(p,t,aa)*window(t,5.0,13.8);
-    if(t>13.0 && t<24.8) color+=stageWave(p,t,aa)*window(t,13.0,24.8);
-    if(t>24.0 && t<34.0) color+=stageUniverse(p,t,aa)*window(t,24.0,34.0);
-    if(t>33.0) color+=stageFinal(p,t,aa);
-    color*=0.84+0.16*exp(-dot(p,p)*0.012);
-    color=clamp(color,0.0,1.0);
-    gl_FragColor=mix(original,vec4(color,1.0),clamp(EXTRA_VECTOR1.w,0.0,1.0));
+    float narrow=max(1.0,(16.0/9.0)/aspect);
+    vec2 p=vec2((local.x-0.5)*aspect,0.5-local.y)*9.0*narrow;
+    float aa=9.0/max(EXTRA_VECTOR1.z,1.0)*narrow;
+    float t=clamp(EXTRA_VECTOR1.x,0.0,120.0);
+    vec3 c=atmosphere(p,t,aa);
+    if(t<12.6) c+=introStage(p,t,aa);
+    c+=geometryAct(p,t,aa);
+    if(t>=28.0 && t<48.3) c+=algebraStage(p,t,aa);
+    if(t>113.7) c+=closingStage(p,t,aa);
+    typography(c,p,t,aa);
+    // Fine progress arc at the perimeter links the chapters without UI chrome.
+    float edgeAngle=atan(p.y,p.x);
+    float border=abs(length(p/vec2(7.8,4.15))-1.0)*4.0;
+    c+=glow(border,0.003,CYAN,0.06*step(edgeAngle+PI,t/120.0*TAU),aa);
+    c*=0.9+0.1*exp(-dot(p,p)*0.01);
+    c=clamp(c,0.0,1.0)*smoothstep(0.0,0.6,t);
+    gl_FragColor=mix(original,vec4(c,1.0),clamp(EXTRA_VECTOR1.w,0.0,1.0));
 }

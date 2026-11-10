@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "kind": "container_and_stream_integrity_only",
+  "visual_acceptance": "reserved_for_user",
+  "minecraft_tested": false,
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "avg_frame_rate": "60/1",
+        "duration": "120.000000",
+        "nb_frames": "7200",
+        "nb_read_frames": "7200"
+      },
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "channels": 2,
+        "avg_frame_rate": "0/0",
+        "duration": "120.000000",
+        "nb_frames": "5626",
+        "nb_read_frames": "5625"
+      }
+    ],
+    "format": {
+      "duration": "120.000000",
+      "size": "35718545",
+      "tags": {
+        "title": "Metamorphosis | A visual language",
+        "comment": "Offline shader film; original synthesized electronic score; not game capture"
+      }
+    }
+  },
+  "faststart_verified": true,
+  "mp4_boxes": [
+    {
+      "type": "ftyp",
+      "offset": 0,
+      "size": 32
+    },
+    {
+      "type": "moov",
+      "offset": 32,
+      "size": 192672
+    },
+    {
+      "type": "free",
+      "offset": 192704,
+      "size": 8
+    },
+    {
+      "type": "mdat",
+      "offset": 192712,
+      "size": 35525833
+    }
+  ],
+  "shader_sha256": "3a41be74522ef6026e51aa74e235270b00797183f3eccc6608aafcba579feba7",
+  "texture_sha256": "3217b0297c849638f0bd3d370d1973ab198d63c4f5402a033bc5bdaf21b70c5f",
+  "video_sha256": "f82e27b5cc7f3c733714b69278da204d6d5b8b6dc8ef1a1486444215d659c61f"
+}

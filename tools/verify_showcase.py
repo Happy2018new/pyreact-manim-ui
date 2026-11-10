@@ -48,7 +48,8 @@ def main():
         assert state["scene"] == "client_showcase" and not state["error"], state
         report["initial"] = state
         report["load_timings"] = execute("_result=json.dumps(player.load_timings())")
-        for timestamp in (4.0, 6.5, 9.2, 17.0, 28.5, 38.0):
+        duration = state["duration"]
+        for timestamp in [duration * ratio for ratio in (0.1,0.2,0.32,0.47,0.72,0.97)]:
             current = execute("player.seek(%r)\n_result=json.dumps({'state':player.snapshot(),"
                               "'canvas':player.canvas,'fps':player.game.GetFps()})" % timestamp)
             assert current["canvas"] == [0.0, 1.0], current
@@ -67,14 +68,14 @@ def main():
             report["frames"].append(current)
             print(json.dumps({"frame":timestamp,"fps":current["fps"]}),flush=True)
         assert execute("_result=player.replay_showcase()")
-        for _ in range(7):
+        for _ in range(int(duration / 6.0)+1):
             time.sleep(6.0)
             current = execute("_result=json.dumps({'state':player.snapshot(),'fps':player.game.GetFps()})")
             assert not current["state"]["error"], current
             report["playback"].append(current)
             print(json.dumps({"playing":current["state"]["playing"],
                               "position":current["state"]["position"],"fps":current["fps"]}),flush=True)
-        assert report["playback"][-1]["state"]["position"] == 41.0
+        assert report["playback"][-1]["state"]["position"] == duration
         assert not report["playback"][-1]["state"]["playing"]
         assert execute("_result=player.close_showcase()")
         time.sleep(0.5)

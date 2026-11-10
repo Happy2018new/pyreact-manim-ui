@@ -22,13 +22,13 @@ class ShowcaseBuildTests(unittest.TestCase):
     def test_shader_has_current_typography_and_resource_digest(self):
         import hashlib
         import json
-        meta = json.loads((ROOT / "tools/showcase/typography.json").read_text(encoding="utf-8"))
+        meta = json.loads((ROOT / "tools/showcase_v2/film.json").read_text(encoding="utf-8"))
         shader = (ROOT / "resource_pack/shaders/glsl/client_showcase.fragment").read_bytes()
         texture = (ROOT / "resource_pack/textures/manim/client_showcase.png").read_bytes()
         self.assertEqual(hashlib.sha256(shader).hexdigest(), meta["shader_sha256"])
-        self.assertEqual(hashlib.sha256(texture).hexdigest(), meta["sha256"])
+        self.assertEqual(hashlib.sha256(texture).hexdigest(), meta["texture_sha256"])
         self.assertNotIn(b"__TYPOGRAPHY_CONSTANTS__", shader)
-        self.assertEqual(meta["duration"], 41.0)
+        self.assertEqual(meta["duration"], 120.0)
 
 
 if __name__ == "__main__":

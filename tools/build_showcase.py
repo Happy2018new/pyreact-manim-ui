@@ -1,4 +1,7 @@
-"""Deploy the authored 41-second film without rebaking the ten reference scenes."""
+"""Deploy a showcase; the two-minute film is the current default.
+
+The explicit --legacy option retains the original 41-second build recipe.
+"""
 import argparse
 import hashlib
 import json
@@ -12,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 NAME = "client_showcase"
 
 
-def build(assets=None, root=ROOT):
+def build_legacy(assets=None, root=ROOT):
     root = Path(root).resolve()
     assets = Path(assets) if assets else root / "tools/showcase"
     metadata = json.loads((assets / "typography.json").read_text(encoding="utf-8"))
@@ -66,8 +69,17 @@ def build(assets=None, root=ROOT):
             "texture_bytes": texture_path.stat().st_size, "scene_count": len(scenes)}
 
 
+def build(assets=None):
+    from showcase_v2.build_film import build as build_v2
+    return build_v2(assets)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--assets", type=Path)
+    parser.add_argument("--legacy", action="store_true", help="Rebuild the original film from its original atlas")
     args = parser.parse_args()
-    print(json.dumps(build(args.assets), ensure_ascii=False, indent=2))
+    if args.legacy:
+        print(json.dumps(build_legacy(args.assets), ensure_ascii=False, indent=2))
+    else:
+        build(args.assets)
