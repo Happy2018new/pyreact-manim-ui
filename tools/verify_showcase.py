@@ -1,6 +1,7 @@
 """Background, owner-bound showcase state and actual-frame acceptance."""
 import argparse
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -16,6 +17,8 @@ def main():
     parser.add_argument("--owner", required=True)
     parser.add_argument("--capture-helper", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--times", help="Comma-separated capture times; defaults to six chapter samples")
+    parser.add_argument("--skip-playback", action="store_true", help="Capture targeted frames without repeating the full film")
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Use a fresh evidence directory")
@@ -49,13 +52,17 @@ def main():
         report["initial"] = state
         report["load_timings"] = execute("_result=json.dumps(player.load_timings())")
         duration = state["duration"]
-        for timestamp in [duration * ratio for ratio in (0.1,0.2,0.32,0.47,0.72,0.97)]:
+        timestamps = ([float(value) for value in args.times.split(",")] if args.times
+                      else [duration * ratio for ratio in (0.1,0.2,0.32,0.47,0.72,0.97)])
+        if any(not math.isfinite(value) or not 0 <= value <= duration for value in timestamps):
+            raise ValueError("Capture times must be finite and within the film")
+        for timestamp in timestamps:
             current = execute("player.seek(%r)\n_result=json.dumps({'state':player.snapshot(),"
                               "'canvas':player.canvas,'fps':player.game.GetFps()})" % timestamp)
             assert current["canvas"] == [0.0, 1.0], current
             assert current["state"]["position"] == timestamp and not current["state"]["error"], current
             time.sleep(0.4)
-            output = args.output / ("game-%04d.png" % round(timestamp*10))
+            output = args.output / ("game-%06d.png" % round(timestamp*1000))
             capture = subprocess.run([
                 sys.executable, "-B", "-X", "utf8", str(ROOT / "tools/capture_owned.py"),
                 "--session", args.session, "--owner", args.owner,
@@ -66,17 +73,19 @@ def main():
                 raise RuntimeError(capture.stderr or capture.stdout)
             current["capture"] = str(output)
             report["frames"].append(current)
+            (args.output / "checkpoint.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
             print(json.dumps({"frame":timestamp,"fps":current["fps"]}),flush=True)
-        assert execute("_result=player.replay_showcase()")
-        for _ in range(int(duration / 6.0)+1):
-            time.sleep(6.0)
-            current = execute("_result=json.dumps({'state':player.snapshot(),'fps':player.game.GetFps()})")
-            assert not current["state"]["error"], current
-            report["playback"].append(current)
-            print(json.dumps({"playing":current["state"]["playing"],
-                              "position":current["state"]["position"],"fps":current["fps"]}),flush=True)
-        assert report["playback"][-1]["state"]["position"] == duration
-        assert not report["playback"][-1]["state"]["playing"]
+        if not args.skip_playback:
+            assert execute("_result=player.replay_showcase()")
+            for _ in range(int(duration / 6.0)+1):
+                time.sleep(6.0)
+                current = execute("_result=json.dumps({'state':player.snapshot(),'fps':player.game.GetFps()})")
+                assert not current["state"]["error"], current
+                report["playback"].append(current)
+                print(json.dumps({"playing":current["state"]["playing"],
+                                  "position":current["state"]["position"],"fps":current["fps"]}),flush=True)
+            assert report["playback"][-1]["state"]["position"] == duration
+            assert not report["playback"][-1]["state"]["playing"]
         assert execute("_result=player.close_showcase()")
         time.sleep(0.5)
         restored = execute("_result=json.dumps(player.snapshot())")

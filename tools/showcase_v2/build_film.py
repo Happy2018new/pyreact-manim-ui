@@ -9,6 +9,7 @@ import math
 from pathlib import Path
 import pprint
 import shutil
+import statistics
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -20,39 +21,210 @@ def vector(values):
     return "vec%d(%s)" % (len(values), ",".join("%.6f" % value for value in values))
 
 
-def layout(group, center=(0, 0), height=1, width=12):
-    scale = min(height, width / group["width"])
+def glyph_roles(group):
+    """Classify this authored atlas's TeX placements without inventing glyph IDs.
+
+    TeX raw coordinates retain a common baseline before group normalization.
+    Rules enclose numerator/denominator rows; smaller raised/lowered ink belongs
+    to scripts. Explicit semantic_role fields take precedence for future assets.
+    """
+    glyphs = group["glyphs"]
+    if group["kind"] != "latex":
+        return [glyph.get("semantic_role", "text") for glyph in glyphs]
+    bounds = group["raw_bounds"]
+    raw_height = bounds[3] - bounds[1]
+    raw_middle = (bounds[3] + bounds[1]) * 0.5
+    ink = [(glyph["center"][0] * raw_height,
+            raw_middle - glyph["center"][1] * raw_height,
+            glyph["ink_size"][0] * raw_height, glyph["ink_size"][1] * raw_height)
+           for glyph in glyphs]
+    rules = []
+    for index, glyph in enumerate(glyphs):
+        if glyph["id"] != "tex_rule":
+            continue
+        x, y, width, _height = ink[index]
+        above = any(abs(px - x) < width / 2 and py < y - 0.5
+                    for j, (px, py, _w, _h) in enumerate(ink) if j != index)
+        below = any(abs(px - x) < width / 2 and py > y + 0.5
+                    for j, (px, py, _w, _h) in enumerate(ink) if j != index)
+        rules.append((index, x, y, width, "fraction_rule" if above and below else "radical_rule"))
+    roles = []
+    for index, glyph in enumerate(glyphs):
+        if "semantic_role" in glyph:
+            roles.append(glyph["semantic_role"])
+            continue
+        rule = next((rule for rule in rules if rule[0] == index), None)
+        if rule is not None:
+            roles.append(rule[4])
+            continue
+        x, y, _width, height = ink[index]
+        fraction = next((rule for rule in sorted(rules, key=lambda rule: rule[3])
+                         if rule[4] == "fraction_rule" and abs(x - rule[1]) <= rule[3] / 2
+                         and abs(y - rule[2]) > 0.5), None)
+        if fraction is not None:
+            roles.append("numerator" if y < fraction[2] else "denominator")
+        elif height < 6.3 and y + height / 2 < -2.8:
+            roles.append("superscript")
+        elif height < 6.3 and y - height / 2 > 1.0:
+            roles.append("subscript")
+        else:
+            roles.append("body")
+    return roles
+
+
+def layout(group, center=(0, 0), height=1, width=12, raw_scale=None, raw_middle=None):
+    raw_height = group["raw_bounds"][3] - group["raw_bounds"][1]
+    scale = min(height, width / group["width"]) if raw_scale is None else raw_scale * raw_height
     result = deepcopy(group["glyphs"])
-    for glyph in result:
+    roles = glyph_roles(group)
+    for glyph, role in zip(result, roles):
         glyph["center"] = [glyph["center"][axis] * scale + center[axis] for axis in range(2)]
+        if raw_middle is not None:
+            middle = (group["raw_bounds"][3] + group["raw_bounds"][1]) * 0.5
+            glyph["center"][1] += (raw_middle - middle) * raw_scale
         glyph["size"] = [value * scale for value in glyph["size"]]
         glyph["opacity"] = 1.0
+        glyph["role"] = role
+        glyph["kind"] = group["kind"]
     return result
 
 
-def pair_glyphs(source, target):
-    """Keep matching symbols, then assign changed glyphs by smallest travel."""
+def chain_layouts(groups, names, center, height, width, max_height=None):
+    """One TeX scale and baseline for a complete chapter, including fractions."""
+    selected = [groups[name] for name in names]
+    if not all(group["kind"] == "latex" for group in selected):
+        return {name: layout(groups[name], center, height, width) for name in names}
+    bounds = [group["raw_bounds"] for group in selected]
+    heights = [box[3] - box[1] for box in bounds]
+    padded = []
+    for group, box, raw_height in zip(selected, bounds, heights):
+        raw_middle = (box[1] + box[3]) * 0.5
+        for glyph in group["glyphs"]:
+            x = glyph["center"][0] * raw_height
+            y = raw_middle - glyph["center"][1] * raw_height
+            half_width, half_height = (value * raw_height / 2 for value in glyph["size"])
+            padded.append((x - half_width, y - half_height, x + half_width, y + half_height))
+    bottom = min(box[1] for box in padded)
+    top = max(box[3] for box in padded)
+    max_height = height * 1.65 if max_height is None else max_height
+    scale = min(height / statistics.median(heights),
+                (max_height - 0.12) / (top - bottom),
+                (width - 0.12) / (2 * max(max(abs(box[0]), abs(box[2])) for box in padded)))
+    middle = (bottom + top) * 0.5
+    return {name: layout(groups[name], center, height, width, scale, middle) for name in names}
+
+
+TRANSITION_MODES = ("shape_morph", "matching_transport")
+
+
+def role_family(glyph):
+    role = glyph.get("role", "body")
+    if role.endswith("_rule") or glyph["id"] == "tex_rule":
+        return role
+    if role in ("superscript", "subscript"):
+        return "script"
+    return "body"
+
+
+def shape_compatible(a, b):
+    """Allow real outline changes without stretching rules into full characters."""
+    family = role_family(a)
+    if family != role_family(b):
+        return False
+    if family.endswith("_rule"):
+        return a.get("role") == b.get("role")
+    aw, ah = a["size"]
+    bw, bh = b["size"]
+    aspect_a, aspect_b = aw / ah, bw / bh
+    aspect_ratio = max(aspect_a / aspect_b, aspect_b / aspect_a)
+    height_ratio = max(ah / bh, bh / ah)
+    area_ratio = max(aw * ah / (bw * bh), bw * bh / (aw * ah))
+    # Long bars and tall fences keep their family even when they are not the
+    # explicit tex_rule tile. Parentheses must not turn into square Chinese ink.
+    slender_a = min(aspect_a, 1 / aspect_a) < .24
+    slender_b = min(aspect_b, 1 / aspect_b) < .24
+    if slender_a or slender_b:
+        return (slender_a and slender_b and (aspect_a < 1) == (aspect_b < 1)
+                and aspect_ratio <= 1.8 and height_ratio <= 2.5)
+    return aspect_ratio <= 3.0 and height_ratio <= 3.0 and area_ratio <= 6.0
+
+
+def pair_kind(a, b):
+    if a["opacity"] == 0:
+        return "birth"
+    if b["opacity"] == 0:
+        return "death"
+    if a["id"] != b["id"] and vector(a["tile"]) != vector(b["tile"]):
+        return "shape_morph"
+    if all(vector(a[key]) == vector(b[key]) for key in ("center", "size", "tile")):
+        return "stationary"
+    return "transport"
+
+
+def pair_glyphs(source, target, mode="shape_morph"):
+    """Choose authored outline changes or identity transport, then local births.
+
+    Shape mode deliberately pairs different compatible ink, including ordinary
+    TeX glyphs and Chinese text. Transport mode preserves symbol identity. Neither
+    moving the same tile nor appearing from zero opacity counts as a shape morph.
+    """
+    if mode not in TRANSITION_MODES:
+        raise ValueError("Unknown typography transition mode: " + mode)
     source, target = deepcopy(source), deepcopy(target)
     pairs = []
-    for same_id in (True, False):
-        while source and target:
-            choices = [(sum((a["center"][k] - b["center"][k]) ** 2 for k in range(2)), i, j)
-                       for i, a in enumerate(source) for j, b in enumerate(target)
-                       if not same_id or a["id"] == b["id"]]
-            if not choices:
-                break
-            _, i, j = min(choices)
-            pairs.append((source.pop(i), target.pop(j)))
+    if mode == "shape_morph" and source and target:
+        def span(glyphs):
+            left = min(g["center"][0] - g["size"][0] / 2 for g in glyphs)
+            right = max(g["center"][0] + g["size"][0] / 2 for g in glyphs)
+            return (left + right) / 2, max(right - left, .001)
+
+        source_middle, source_width = span(source)
+        target_middle, target_width = span(target)
+        candidates = []
+        for i, a in enumerate(source):
+            for j, b in enumerate(target):
+                if (a["id"] == b["id"] or vector(a["tile"]) == vector(b["tile"])
+                        or not shape_compatible(a, b)):
+                    continue
+                ax, ay = a["center"]
+                bx, by = b["center"]
+                relative = abs((ax - source_middle) / source_width
+                               - (bx - target_middle) / target_width)
+                travel_limit = max(1.2, 2.5 * max(a["size"][0], b["size"][0]),
+                                   .18 * (source_width + target_width))
+                if relative > .46 or abs(ax - bx) > travel_limit:
+                    continue
+                scale = max(.3, (a["size"][1] + b["size"][1]) / 2)
+                distance = ((ax - bx) ** 2 + (ay - by) ** 2) / scale ** 2
+                size_change = sum(abs(math.log(a["size"][k] / b["size"][k])) for k in (0, 1))
+                role_change = .3 if a.get("role") != b.get("role") else 0
+                candidates.append((distance + relative * 4 + size_change * .6 + role_change, i, j))
+        used_source, used_target = set(), set()
+        for _cost, i, j in sorted(candidates):
+            if i not in used_source and j not in used_target:
+                pairs.append((source[i], target[j]))
+                used_source.add(i)
+                used_target.add(j)
+        source = [g for i, g in enumerate(source) if i not in used_source]
+        target = [g for j, g in enumerate(target) if j not in used_target]
+    identities = sorted(set((glyph["id"], glyph.get("role", "body")) for glyph in source))
+    for identity in identities:
+        left = sorted((glyph for glyph in source if (glyph["id"], glyph.get("role", "body")) == identity),
+                      key=lambda glyph: (glyph["center"][0], glyph["center"][1]))
+        right = sorted((glyph for glyph in target if (glyph["id"], glyph.get("role", "body")) == identity),
+                       key=lambda glyph: (glyph["center"][0], glyph["center"][1]))
+        for a, b in zip(left, right):
+            pairs.append((a, b))
+            source.remove(a)
+            target.remove(b)
     for a in source:
         b = deepcopy(a)
-        b["center"][1] -= 0.45
-        b["size"] = [value * 0.04 for value in b["size"]]
+        b["size"] = [value * 0.84 for value in b["size"]]
         b["opacity"] = 0.0
         pairs.append((a, b))
     for b in target:
         a = deepcopy(b)
-        a["center"][1] += 0.45
-        a["size"] = [value * 0.04 for value in a["size"]]
+        a["size"] = [value * 0.84 for value in a["size"]]
         a["opacity"] = 0.0
         pairs.append((a, b))
     return pairs
@@ -63,8 +235,11 @@ def render_pairs(pairs, amount="u", opacity="visibility", arc_strength=0.32, col
     for index, (a, b) in enumerate(pairs):
         arc = math.sin(index * 2.399 + 0.5) * arc_strength
         actual_amount = amount
-        if all(a[key] == b[key] for key in ("center", "size", "tile", "opacity")):
+        if (all(vector(a[key]) == vector(b[key]) for key in ("center", "size", "tile"))
+                and a["opacity"] == b["opacity"]):
             actual_amount = "0.0"
+            arc = 0.0
+        elif a["opacity"] == 0.0 or b["opacity"] == 0.0:
             arc = 0.0
         coverage = opacity
         if a["opacity"] != b["opacity"]:
@@ -76,25 +251,74 @@ def render_pairs(pairs, amount="u", opacity="visibility", arc_strength=0.32, col
     return "\n".join(lines)
 
 
+def transition_window(begin, stop, duration=0.8):
+    """A short readable motion followed by a real hold, not a chapter-long morph."""
+    start = begin + min(0.8, max(0.0, (stop - begin - duration) * 0.4))
+    return round(start, 3), round(start + duration, 3)
+
+
+def review_bounds(glyphs, margin=0.06):
+    return [min(g["center"][0] - g["size"][0] / 2 for g in glyphs) - margin,
+            min(g["center"][1] - g["size"][1] / 2 for g in glyphs) - margin,
+            max(g["center"][0] + g["size"][0] / 2 for g in glyphs) + margin,
+            max(g["center"][1] + g["size"][1] / 2 for g in glyphs) + margin]
+
+
+def event_record(chapter, begin, stop, source, target, pairs, window, arc, bounds, mode):
+    counts = {kind: 0 for kind in ("shape_morph", "transport", "stationary", "birth", "death")}
+    for a, b in pairs:
+        counts[pair_kind(a, b)] += 1
+    return {"chapter": chapter, "start": begin, "end": stop, "transition_mode": mode,
+            "transition_start": window[0], "transition_end": window[1],
+            "source": source, "target": target, "tracks": len(pairs),
+            **{kind + "_tracks": count for kind, count in counts.items()},
+            "arc_strength": arc, "review_bounds": bounds,
+            "source_hold": {"start": begin, "end": window[0], "duration": window[0] - begin},
+            "preserved_symbols": sum(a["id"] == b["id"] and a["opacity"] > 0 and b["opacity"] > 0
+                                     for a, b in pairs)}
+
+
+def finish_holds(events, until):
+    for index, event in enumerate(events):
+        hold_until = events[index + 1]["transition_start"] if index + 1 < len(events) else until
+        event["hold_until"] = hold_until
+        event["target_hold"] = {"start": event["transition_end"], "end": hold_until,
+                                "duration": round(hold_until - event["transition_end"], 3)}
+        event["hold"] = {"before": round(event["source_hold"]["duration"], 3),
+                         "after": event["target_hold"]["duration"]}
+
+
 def make_type(groups):
     code = ["void typography(inout vec3 c,vec2 p,float t,float aa) {"]
     events = []
 
-    def chain(name, start, end, keys, center=(0, 0), height=1.5, width=12, color="WHITE", arc=0.35):
-        code.append("if(t>=%.3f && t<%.3f) { float visibility=gate(t,%.3f,%.3f);" % (start, end, start, end))
+    def chain(name, start, end, keys, center=(0, 0), height=1.5, width=12,
+              color="WHITE", arc=0.08, fade_in=True, fade_out=True, max_height=None,
+              transport_sources=()):
+        visibility = "gate(t,%.3f,%.3f)" % (start, end)
+        if not fade_in:
+            visibility = "(1.0-smoothstep(%.3f,%.3f,t))" % (end - 0.7, end) if fade_out else "1.0"
+        elif not fade_out:
+            visibility = "smoothstep(%.3f,%.3f,t)" % (start, start + 0.7)
+        code.append("if(t>=%.3f && t<%.3f) { float visibility=%s;" % (start, end, visibility))
+        layouts = chain_layouts(groups, [key for _time, key in keys], center, height, width, max_height)
+        chapter_events = []
         for index, (begin, group_name) in enumerate(keys):
             stop, next_name = keys[index + 1] if index + 1 < len(keys) else (end, group_name)
-            left = layout(groups[group_name], center, height, width)
-            right = layout(groups[next_name], center, height, width)
-            pairs = pair_glyphs(left, right)
+            left, right = layouts[group_name], layouts[next_name]
+            mode = ("matching_transport" if group_name == next_name or group_name in transport_sources
+                    else "shape_morph")
+            pairs = pair_glyphs(left, right, mode)
+            window = transition_window(begin, stop)
             code.append("if(t>=%.3f && t<%.3f) { float u=smoothstep(%.3f,%.3f,t);" % (
-                begin, stop, begin + min(0.8, (stop - begin) * .25), stop - .3))
+                begin, stop, window[0], window[1]))
             code.append(render_pairs(pairs, arc_strength=arc, color=color))
             code.append("}")
             if group_name != next_name:
-                events.append({"chapter": name, "start": begin, "end": stop,
-                               "source": group_name, "target": next_name, "tracks": len(pairs),
-                               "preserved_symbols": sum(a["id"] == b["id"] and a["opacity"]>0 and b["opacity"]>0 for a, b in pairs)})
+                chapter_events.append(event_record(name, begin, stop, group_name, next_name,
+                                                    pairs, window, arc, review_bounds(right), mode))
+        finish_holds(chapter_events, end - 0.7 if fade_out else end)
+        events.extend(chapter_events)
         code.append("}")
 
     def label(key, begin, end, center, height, width=12, color="GOLD"):
@@ -109,44 +333,51 @@ def make_type(groups):
         angle = index * 2.399
         glyph["center"] = [math.cos(angle) * 6.3, math.sin(angle) * 3.4]
         glyph["size"] = [v * 0.035 for v in glyph["size"]]
-    code.append("if(t<2.4) { float u=smoothstep(0.2,2.3,t); float visibility=1.0;")
-    code.append(render_pairs(list(zip(scattered,assembled)), color="WHITE", arc_strength=.6))
+    code.append("if(t<2.4) { float u=smoothstep(0.2,1.0,t); float visibility=1.0;")
+    code.append(render_pairs(list(zip(scattered,assembled)), color="mix(WHITE,CYAN,0.13)", arc_strength=.35))
     code.append("}")
     chain("opening",2.4,12.0,[(2.4,"morph"),(5.3,"math"),(8.0,"magic"),(10.3,"c_thought")],
-          center=(0,.25),height=1.42,width=11.5,color="mix(WHITE,CYAN,0.13)",arc=.7)
+          center=(0,.25),height=1.42,width=11.5,color="mix(WHITE,CYAN,0.13)",arc=.3,fade_in=False,
+          transport_sources=("math",))
     label("title_en",0,12,(0,3.2),.22,color="CYAN")
     label("opening",0,12,(0,-2.5),.20,color="WHITE")
     label("geometry_label",12,28,(0,3.75),.22,color="GOLD")
     # Small matrices sit outside the main morph's silhouette, not over it.
     chain("matrix",12,28,[(12,"matrix0"),(18,"matrix1"),(24,"matrix0")],
-          center=(5.65,-2.8),height=.95,width=3.0,color="CYAN",arc=.16)
+          center=(5.65,-2.8),height=.95,width=3.0,color="CYAN",arc=.06)
     chain("algebra",28,48,[(28,"algebra0"),(32.4,"algebra1"),(37.0,"quadratic0"),
                            (42.3,"quadratic1"),(46.8,"quadratic1")],
-          center=(0,.25),height=1.7,width=11.5,arc=.6)
+          center=(0,.25),height=1.7,width=11.5,arc=.08,max_height=3.0)
     label("algebra_label",28,48,(0,3.45),.22)
     chain("complex",48,66,[(48,"exp0"),(53.4,"exp1"),(59,"exp2"),(63.7,"exp0")],
-          center=(0,2.55),height=1.05,width=10.5,color="WHITE",arc=.3)
+          center=(0,2.55),height=1.05,width=10.5,color="WHITE",arc=.06,max_height=1.7,
+          transport_sources=("exp2",))
     label("complex_label",48,66,(0,3.75),.20,color="GOLD")
     chain("calculus",66,84,[(66,"calculus0"),(71.2,"calculus1"),(77,"calculus2")],
-          center=(0,2.5),height=1.15,width=11,arc=.35)
+          center=(0,2.5),height=1.15,width=11,arc=.07,max_height=1.7)
     label("calculus_label",66,84,(0,3.75),.20)
     chain("harmonics",84,102,[(84,"fourier0"),(89,"fourier1"),(95,"fourier2"),(100,"fourier3")],
-          center=(0,2.55),height=1.35,width=12.5,arc=.25)
+          center=(0,2.55),height=1.35,width=12.5,arc=.05,max_height=1.7,
+          transport_sources=("fourier2",))
     label("harmonics_label",84,102,(0,3.8),.20)
     chain("finale",102,114,[(102,"c_thought"),(104.2,"c_shape"),(106.4,"c_formula"),
                            (108.6,"c_universe"),(110.8,"final")],
-          center=(0,.1),height=1.1,width=6.4,color="mix(WHITE,GOLD,0.15)",arc=.42)
+          center=(0,.1),height=1.1,width=6.4,color="mix(WHITE,GOLD,0.15)",arc=.25,fade_out=False)
     label("finale_label",102,114,(0,3.65),.20,color="CYAN")
-    # The closing title itself is assembled by moving the final equation's glyphs.
+    # Compatible formula glyphs change their outline into the closing Chinese title.
     a=layout(groups["final"],(0,.1),1.1,6.4)
     b=layout(groups["c_title"],(0,.15),1.0,11.8)
-    code.append("if(t>=114.0) { float u=smoothstep(114.0,116.1,t); float visibility=1.0;")
-    code.append(render_pairs(pair_glyphs(a,b),color="mix(WHITE,GOLD,0.14)",arc_strength=.65))
+    closing_pairs = pair_glyphs(a,b)
+    code.append("if(t>=114.0) { float u=smoothstep(114.0,115.0,t); float visibility=1.0;")
+    code.append(render_pairs(closing_pairs,color="mix(WHITE,GOLD,0.15)",arc_strength=.3))
     code.append("}")
     label("brand",115.0,121.0,(0,-2.15),.22,color="CYAN")
     label("title_en",115.0,121.0,(0,-1.05),.19,color="WHITE")
     code.append("}")
-    events.append({"chapter":"closing","start":114,"end":116.1,"source":"final","target":"c_title"})
+    closing = event_record("closing", 114, 120, "final", "c_title", closing_pairs,
+                           (114.0, 115.0), .3, review_bounds(b), "shape_morph")
+    finish_holds([closing], 120.0)
+    events.append(closing)
     return "\n".join(code),events
 
 
@@ -188,9 +419,15 @@ def build(assets=None):
     report={"duration":120,"shader_sha256":hashlib.sha256(output.read_bytes()).hexdigest(),
             "texture_sha256":metadata["sha256"],"shader_bytes":output.stat().st_size,
             "atlas_bytes":atlas.stat().st_size,"glyph_transitions":events,
+            "typography_transition_modes": {
+                mode: sum(event["transition_mode"] == mode for event in events)
+                for mode in TRANSITION_MODES},
+            "typography_track_totals": {
+                kind: sum(event[kind + "_tracks"] for event in events)
+                for kind in ("shape_morph", "transport", "stationary", "birth", "death")},
             "geometry_transitions":"six opening shape transitions, ellipse, calculus, four harmonic levels, finale loop",
-            "rendering":"per-glyph matched transport plus SDF interpolation; parametric geometry interpolation",
-            "game_validation":"not run in this iteration, at user's request"}
+            "rendering":"authored shape morphs with constrained glyph pairing; selected identity transport; parametric geometry interpolation",
+            "game_validation":"Recorded separately against these resource hashes in docs/SHOWCASE_REVIEW.md"}
     (folder / "film.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")
     print(json.dumps({k:v for k,v in report.items() if k!="glyph_transitions"},ensure_ascii=False,indent=2))
     return report

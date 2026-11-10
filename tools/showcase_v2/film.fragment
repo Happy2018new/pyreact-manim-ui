@@ -25,7 +25,8 @@ vec3 glow(float d,float width,vec3 hue,float power,float aa) {
 }
 float sdfSample(vec2 q,vec4 tile) {
     q.y=1.0-q.y;
-    vec2 pix=tile.xy+clamp(q,0.0,1.0)*(tile.zw-1.0);
+    // q addresses pixel edges; bilinear reads address pixel centers.
+    vec2 pix=clamp(tile.xy+q*tile.zw-0.5,tile.xy,tile.xy+tile.zw-1.0);
     vec2 b=floor(pix),f=fract(pix);
     float d00=texture2D(TEXTURE_2,(b+vec2(0.5,0.5))/4096.0).r;
     float d10=texture2D(TEXTURE_2,(b+vec2(1.5,0.5))/4096.0).r;
@@ -42,13 +43,22 @@ void glyph(inout vec3 c,vec2 p,vec2 a,vec2 sa,vec4 ta,
     vec2 q=v/size+0.5;
     if(min(q.x,q.y)<0.005 || max(q.x,q.y)>0.995 || opacity<0.001) return;
     float da=sdfSample(q,ta), db=sdfSample(q,tb);
-    float d=mix(da,db,u);
-    float edge=max(0.55,aa*192.0/max(min(size.x,size.y),0.005)*0.45);
+    // Only different shapes receive morph styling. Matching-symbol transport
+    // retains its solid glyph, including through the middle of the movement.
+    float shapeLift=lift*step(0.5,length(ta.xy-tb.xy));
+    // A subpixel expansion in atlas space softens stroke erosion while the
+    // two distance fields merge. Both endpoint contours remain unchanged.
+    float d=mix(da,db,u)+0.6*shapeLift;
+    // Each SDF glyph is stretched independently in x/y. Screen derivatives
+    // keep a fraction rule's vertical AA from blurring its horizontal ends.
+    // The cap stays inside the atlas' +/-24 distance range during tiny births.
+    float edge=clamp(0.5*fwidth(d),0.55,12.0);
     float fill=smoothstep(-edge,edge,d);
-    float outline=1.0-smoothstep(0.6+edge,1.3+edge,abs(d));
-    vec3 color=mix(hue,mix(CYAN,PINK,0.5+arc*0.4),lift*0.38);
-    c+=color*opacity*(fill*(1.0-0.35*lift)+outline*lift*0.65);
-    c+=color*opacity*exp(-abs(d)*0.42)*lift*0.18;
+    float rim=1.0-smoothstep(edge,edge+0.9,abs(d));
+    float accent=rim*(1.0-fill)*0.08*shapeLift;
+    vec3 color=mix(hue,mix(CYAN,PINK,0.5+arc*0.4),shapeLift*0.38);
+    c+=color*opacity*(fill+accent);
+    c+=color*opacity*exp(-abs(d)*0.42)*shapeLift*0.04;
 }
 // __GEOMETRY__
 // __TYPE_FUNCTIONS__

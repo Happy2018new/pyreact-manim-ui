@@ -1,199 +1,842 @@
 {
   "duration": 120,
-  "shader_sha256": "3a41be74522ef6026e51aa74e235270b00797183f3eccc6608aafcba579feba7",
-  "texture_sha256": "3217b0297c849638f0bd3d370d1973ab198d63c4f5402a033bc5bdaf21b70c5f",
-  "shader_bytes": 133333,
-  "atlas_bytes": 602063,
+  "shader_sha256": "0e7f15fa98734e22c9ee2eb24dbcfcb1192831de562a583ead95b235e7e63f40",
+  "texture_sha256": "b66d0f249034fd863cf9e6b7a5ffd42c5c8278a739f9ab0b9444f198ae9760d7",
+  "shader_bytes": 138737,
+  "atlas_bytes": 541266,
   "glyph_transitions": [
     {
       "chapter": "opening",
       "start": 2.4,
       "end": 5.3,
+      "transition_mode": "shape_morph",
+      "transition_start": 3.2,
+      "transition_end": 4.0,
       "source": "morph",
       "target": "math",
       "tracks": 5,
-      "preserved_symbols": 2
+      "shape_morph_tracks": 3,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 1,
+      "arc_strength": 0.3,
+      "review_bounds": [
+        -3.5957796852646635,
+        -0.7566666666666666,
+        3.546008583690987,
+        1.2566666666666666
+      ],
+      "source_hold": {
+        "start": 2.4,
+        "end": 3.2,
+        "duration": 0.8000000000000003
+      },
+      "preserved_symbols": 1,
+      "hold_until": 6.06,
+      "target_hold": {
+        "start": 4.0,
+        "end": 6.06,
+        "duration": 2.06
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 2.06
+      }
     },
     {
       "chapter": "opening",
       "start": 5.3,
       "end": 8.0,
+      "transition_mode": "matching_transport",
+      "transition_start": 6.06,
+      "transition_end": 6.86,
       "source": "math",
       "target": "magic",
-      "tracks": 5,
-      "preserved_symbols": 2
+      "tracks": 7,
+      "shape_morph_tracks": 0,
+      "transport_tracks": 2,
+      "stationary_tracks": 0,
+      "birth_tracks": 3,
+      "death_tracks": 2,
+      "arc_strength": 0.3,
+      "review_bounds": [
+        -3.844718792866941,
+        -0.7566666666666666,
+        3.7638820301783262,
+        1.2566666666666666
+      ],
+      "source_hold": {
+        "start": 5.3,
+        "end": 6.06,
+        "duration": 0.7599999999999998
+      },
+      "preserved_symbols": 2,
+      "hold_until": 8.6,
+      "target_hold": {
+        "start": 6.86,
+        "end": 8.6,
+        "duration": 1.74
+      },
+      "hold": {
+        "before": 0.76,
+        "after": 1.74
+      }
     },
     {
       "chapter": "opening",
       "start": 8.0,
       "end": 10.3,
+      "transition_mode": "shape_morph",
+      "transition_start": 8.6,
+      "transition_end": 9.4,
       "source": "magic",
       "target": "c_thought",
       "tracks": 5,
-      "preserved_symbols": 0
+      "shape_morph_tracks": 2,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 3,
+      "arc_strength": 0.3,
+      "review_bounds": [
+        -1.8943713956170705,
+        -0.7501153402537486,
+        1.8943713956170705,
+        1.2525720876585928
+      ],
+      "source_hold": {
+        "start": 8.0,
+        "end": 8.6,
+        "duration": 0.5999999999999996
+      },
+      "preserved_symbols": 0,
+      "hold_until": 11.3,
+      "target_hold": {
+        "start": 9.4,
+        "end": 11.3,
+        "duration": 1.9
+      },
+      "hold": {
+        "before": 0.6,
+        "after": 1.9
+      }
     },
     {
       "chapter": "matrix",
       "start": 12,
       "end": 18,
+      "transition_mode": "shape_morph",
+      "transition_start": 12.8,
+      "transition_end": 13.6,
       "source": "matrix0",
       "target": "matrix1",
       "tracks": 19,
-      "preserved_symbols": 2
+      "shape_morph_tracks": 4,
+      "transport_tracks": 2,
+      "stationary_tracks": 0,
+      "birth_tracks": 13,
+      "death_tracks": 0,
+      "arc_strength": 0.06,
+      "review_bounds": [
+        4.19252220216303,
+        -3.493333333333333,
+        7.107477797836971,
+        -2.1066666666666665
+      ],
+      "source_hold": {
+        "start": 12,
+        "end": 12.8,
+        "duration": 0.8000000000000007
+      },
+      "preserved_symbols": 2,
+      "hold_until": 18.8,
+      "target_hold": {
+        "start": 13.6,
+        "end": 18.8,
+        "duration": 5.2
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 5.2
+      }
     },
     {
       "chapter": "matrix",
       "start": 18,
       "end": 24,
+      "transition_mode": "shape_morph",
+      "transition_start": 18.8,
+      "transition_end": 19.6,
       "source": "matrix1",
       "target": "matrix0",
       "tracks": 19,
-      "preserved_symbols": 2
+      "shape_morph_tracks": 4,
+      "transport_tracks": 2,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 13,
+      "arc_strength": 0.06,
+      "review_bounds": [
+        4.952617431216769,
+        -3.493333333333333,
+        6.347382568783234,
+        -2.1066666666666665
+      ],
+      "source_hold": {
+        "start": 18,
+        "end": 18.8,
+        "duration": 0.8000000000000007
+      },
+      "preserved_symbols": 2,
+      "hold_until": 27.3,
+      "target_hold": {
+        "start": 19.6,
+        "end": 27.3,
+        "duration": 7.7
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 7.7
+      }
     },
     {
       "chapter": "algebra",
       "start": 28,
       "end": 32.4,
+      "transition_mode": "shape_morph",
+      "transition_start": 28.8,
+      "transition_end": 29.6,
       "source": "algebra0",
       "target": "algebra1",
-      "tracks": 9,
-      "preserved_symbols": 4
+      "tracks": 11,
+      "shape_morph_tracks": 3,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 5,
+      "death_tracks": 2,
+      "arc_strength": 0.08,
+      "review_bounds": [
+        -3.021718592085357,
+        -0.4806150843752803,
+        2.996314127728173,
+        0.8181374037395002
+      ],
+      "source_hold": {
+        "start": 28,
+        "end": 28.8,
+        "duration": 0.8000000000000007
+      },
+      "preserved_symbols": 1,
+      "hold_until": 33.2,
+      "target_hold": {
+        "start": 29.6,
+        "end": 33.2,
+        "duration": 3.6
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 3.6
+      }
     },
     {
       "chapter": "algebra",
       "start": 32.4,
       "end": 37.0,
+      "transition_mode": "shape_morph",
+      "transition_start": 33.2,
+      "transition_end": 34.0,
       "source": "algebra1",
       "target": "quadratic0",
-      "tracks": 10,
-      "preserved_symbols": 5
+      "tracks": 11,
+      "shape_morph_tracks": 7,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 2,
+      "death_tracks": 1,
+      "arc_strength": 0.08,
+      "review_bounds": [
+        -3.8207166477173997,
+        -0.4806150843752803,
+        3.8143911686445664,
+        0.8181374037395002
+      ],
+      "source_hold": {
+        "start": 32.4,
+        "end": 33.2,
+        "duration": 0.8000000000000043
+      },
+      "preserved_symbols": 1,
+      "hold_until": 37.8,
+      "target_hold": {
+        "start": 34.0,
+        "end": 37.8,
+        "duration": 3.8
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 3.8
+      }
     },
     {
       "chapter": "algebra",
       "start": 37.0,
       "end": 42.3,
+      "transition_mode": "shape_morph",
+      "transition_start": 37.8,
+      "transition_end": 38.6,
       "source": "quadratic0",
       "target": "quadratic1",
-      "tracks": 16,
-      "preserved_symbols": 6
+      "tracks": 17,
+      "shape_morph_tracks": 8,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 7,
+      "death_tracks": 1,
+      "arc_strength": 0.08,
+      "review_bounds": [
+        -4.668545240320087,
+        -1.099092250736285,
+        5.749999999999999,
+        1.5990922507362852
+      ],
+      "source_hold": {
+        "start": 37.0,
+        "end": 37.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 1,
+      "hold_until": 47.3,
+      "target_hold": {
+        "start": 38.6,
+        "end": 47.3,
+        "duration": 8.7
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 8.7
+      }
     },
     {
       "chapter": "complex",
       "start": 48,
       "end": 53.4,
+      "transition_mode": "shape_morph",
+      "transition_start": 48.8,
+      "transition_end": 49.6,
       "source": "exp0",
       "target": "exp1",
-      "tracks": 10,
-      "preserved_symbols": 0
+      "tracks": 12,
+      "shape_morph_tracks": 1,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 9,
+      "death_tracks": 2,
+      "arc_strength": 0.06,
+      "review_bounds": [
+        -3.3122032265686925,
+        1.81248698053823,
+        3.318312138372621,
+        3.098909038305758
+      ],
+      "source_hold": {
+        "start": 48,
+        "end": 48.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 0,
+      "hold_until": 54.2,
+      "target_hold": {
+        "start": 49.6,
+        "end": 54.2,
+        "duration": 4.6
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.6
+      }
     },
     {
       "chapter": "complex",
       "start": 53.4,
       "end": 59,
+      "transition_mode": "shape_morph",
+      "transition_start": 54.2,
+      "transition_end": 55.0,
       "source": "exp1",
       "target": "exp2",
-      "tracks": 10,
-      "preserved_symbols": 1
+      "tracks": 12,
+      "shape_morph_tracks": 5,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 2,
+      "death_tracks": 5,
+      "arc_strength": 0.06,
+      "review_bounds": [
+        -2.8598948774477204,
+        1.8124869805382298,
+        2.866958304325768,
+        3.24916041867913
+      ],
+      "source_hold": {
+        "start": 53.4,
+        "end": 54.2,
+        "duration": 0.8000000000000043
+      },
+      "preserved_symbols": 0,
+      "hold_until": 59.8,
+      "target_hold": {
+        "start": 55.0,
+        "end": 59.8,
+        "duration": 4.8
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.8
+      }
     },
     {
       "chapter": "complex",
       "start": 59,
       "end": 63.7,
+      "transition_mode": "matching_transport",
+      "transition_start": 59.8,
+      "transition_end": 60.6,
       "source": "exp2",
       "target": "exp0",
-      "tracks": 7,
-      "preserved_symbols": 2
+      "tracks": 8,
+      "shape_morph_tracks": 0,
+      "transport_tracks": 2,
+      "stationary_tracks": 0,
+      "birth_tracks": 1,
+      "death_tracks": 5,
+      "arc_strength": 0.06,
+      "review_bounds": [
+        -0.7405279346443325,
+        1.9356199041485547,
+        0.7270883056813366,
+        3.2875130194617697
+      ],
+      "source_hold": {
+        "start": 59,
+        "end": 59.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 2,
+      "hold_until": 65.3,
+      "target_hold": {
+        "start": 60.6,
+        "end": 65.3,
+        "duration": 4.7
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.7
+      }
     },
     {
       "chapter": "calculus",
       "start": 66,
       "end": 71.2,
+      "transition_mode": "shape_morph",
+      "transition_start": 66.8,
+      "transition_end": 67.6,
       "source": "calculus0",
       "target": "calculus1",
       "tracks": 9,
-      "preserved_symbols": 6
+      "shape_morph_tracks": 7,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 2,
+      "death_tracks": 0,
+      "arc_strength": 0.07,
+      "review_bounds": [
+        -1.4195973370087525,
+        2.0843992987572917,
+        1.4027449565627415,
+        2.9359984038703373
+      ],
+      "source_hold": {
+        "start": 66,
+        "end": 66.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 0,
+      "hold_until": 72.0,
+      "target_hold": {
+        "start": 67.6,
+        "end": 72.0,
+        "duration": 4.4
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.4
+      }
     },
     {
       "chapter": "calculus",
       "start": 71.2,
       "end": 77,
+      "transition_mode": "shape_morph",
+      "transition_start": 72.0,
+      "transition_end": 72.8,
       "source": "calculus1",
       "target": "calculus2",
-      "tracks": 10,
-      "preserved_symbols": 5
+      "tracks": 12,
+      "shape_morph_tracks": 6,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 3,
+      "death_tracks": 2,
+      "arc_strength": 0.07,
+      "review_bounds": [
+        -1.7628611367870959,
+        1.65,
+        1.713352806136301,
+        3.35
+      ],
+      "source_hold": {
+        "start": 71.2,
+        "end": 72.0,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 1,
+      "hold_until": 83.3,
+      "target_hold": {
+        "start": 72.8,
+        "end": 83.3,
+        "duration": 10.5
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 10.5
+      }
     },
     {
       "chapter": "harmonics",
       "start": 84,
       "end": 89,
+      "transition_mode": "shape_morph",
+      "transition_start": 84.8,
+      "transition_end": 85.6,
       "source": "fourier0",
       "target": "fourier1",
-      "tracks": 13,
-      "preserved_symbols": 5
+      "tracks": 15,
+      "shape_morph_tracks": 7,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 6,
+      "death_tracks": 2,
+      "arc_strength": 0.05,
+      "review_bounds": [
+        -2.09603005135068,
+        1.7412603548605694,
+        2.093835416661873,
+        3.35983696799099
+      ],
+      "source_hold": {
+        "start": 84,
+        "end": 84.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 0,
+      "hold_until": 89.8,
+      "target_hold": {
+        "start": 85.6,
+        "end": 89.8,
+        "duration": 4.2
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.2
+      }
     },
     {
       "chapter": "harmonics",
       "start": 89,
       "end": 95,
+      "transition_mode": "shape_morph",
+      "transition_start": 89.8,
+      "transition_end": 90.6,
       "source": "fourier1",
       "target": "fourier2",
       "tracks": 22,
-      "preserved_symbols": 13
+      "shape_morph_tracks": 12,
+      "transport_tracks": 1,
+      "stationary_tracks": 0,
+      "birth_tracks": 9,
+      "death_tracks": 0,
+      "arc_strength": 0.05,
+      "review_bounds": [
+        -3.539363490992518,
+        1.7412603548605694,
+        3.537168856303715,
+        3.35983696799099
+      ],
+      "source_hold": {
+        "start": 89,
+        "end": 89.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 1,
+      "hold_until": 95.8,
+      "target_hold": {
+        "start": 90.6,
+        "end": 95.8,
+        "duration": 5.2
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 5.2
+      }
     },
     {
       "chapter": "harmonics",
       "start": 95,
       "end": 100,
+      "transition_mode": "matching_transport",
+      "transition_start": 95.8,
+      "transition_end": 96.6,
       "source": "fourier2",
       "target": "fourier3",
       "tracks": 31,
-      "preserved_symbols": 22
+      "shape_morph_tracks": 0,
+      "transport_tracks": 22,
+      "stationary_tracks": 0,
+      "birth_tracks": 9,
+      "death_tracks": 0,
+      "arc_strength": 0.05,
+      "review_bounds": [
+        -4.98269699672023,
+        1.74016303200901,
+        4.980502362031425,
+        3.35983696799099
+      ],
+      "source_hold": {
+        "start": 95,
+        "end": 95.8,
+        "duration": 0.7999999999999972
+      },
+      "preserved_symbols": 22,
+      "hold_until": 101.3,
+      "target_hold": {
+        "start": 96.6,
+        "end": 101.3,
+        "duration": 4.7
+      },
+      "hold": {
+        "before": 0.8,
+        "after": 4.7
+      }
     },
     {
       "chapter": "finale",
       "start": 102,
       "end": 104.2,
+      "transition_mode": "shape_morph",
+      "transition_start": 102.56,
+      "transition_end": 103.36,
       "source": "c_thought",
       "target": "c_shape",
       "tracks": 2,
-      "preserved_symbols": 0
+      "shape_morph_tracks": 2,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 0,
+      "arc_strength": 0.25,
+      "review_bounds": [
+        -1.4615927189988625,
+        -0.6908304891922641,
+        1.4615927189988625,
+        0.8927076222980661
+      ],
+      "source_hold": {
+        "start": 102,
+        "end": 102.56,
+        "duration": 0.5600000000000023
+      },
+      "preserved_symbols": 0,
+      "hold_until": 104.76,
+      "target_hold": {
+        "start": 103.36,
+        "end": 104.76,
+        "duration": 1.4
+      },
+      "hold": {
+        "before": 0.56,
+        "after": 1.4
+      }
     },
     {
       "chapter": "finale",
       "start": 104.2,
       "end": 106.4,
+      "transition_mode": "shape_morph",
+      "transition_start": 104.76,
+      "transition_end": 105.56,
       "source": "c_shape",
       "target": "c_formula",
       "tracks": 2,
-      "preserved_symbols": 0
+      "shape_morph_tracks": 2,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 0,
+      "arc_strength": 0.25,
+      "review_bounds": [
+        -1.4663926940639271,
+        -0.6933333333333334,
+        1.4663926940639271,
+        0.8933333333333333
+      ],
+      "source_hold": {
+        "start": 104.2,
+        "end": 104.76,
+        "duration": 0.5600000000000023
+      },
+      "preserved_symbols": 0,
+      "hold_until": 106.96,
+      "target_hold": {
+        "start": 105.56,
+        "end": 106.96,
+        "duration": 1.4
+      },
+      "hold": {
+        "before": 0.56,
+        "after": 1.4
+      }
     },
     {
       "chapter": "finale",
       "start": 106.4,
       "end": 108.6,
+      "transition_mode": "shape_morph",
+      "transition_start": 106.96,
+      "transition_end": 107.76,
       "source": "c_formula",
       "target": "c_universe",
       "tracks": 2,
-      "preserved_symbols": 0
+      "shape_morph_tracks": 2,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 0,
+      "death_tracks": 0,
+      "arc_strength": 0.25,
+      "review_bounds": [
+        -1.452090395480226,
+        -0.6846327683615818,
+        1.452090395480226,
+        0.892090395480226
+      ],
+      "source_hold": {
+        "start": 106.4,
+        "end": 106.96,
+        "duration": 0.5599999999999881
+      },
+      "preserved_symbols": 0,
+      "hold_until": 109.16,
+      "target_hold": {
+        "start": 107.76,
+        "end": 109.16,
+        "duration": 1.4
+      },
+      "hold": {
+        "before": 0.56,
+        "after": 1.4
+      }
     },
     {
       "chapter": "finale",
       "start": 108.6,
       "end": 110.8,
+      "transition_mode": "shape_morph",
+      "transition_start": 109.16,
+      "transition_end": 109.96,
       "source": "c_universe",
       "target": "final",
       "tracks": 7,
-      "preserved_symbols": 0
+      "shape_morph_tracks": 2,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 5,
+      "death_tracks": 0,
+      "arc_strength": 0.25,
+      "review_bounds": [
+        -2.8609216278114618,
+        -0.6371885380010323,
+        2.867987644921084,
+        0.7999677378858232
+      ],
+      "source_hold": {
+        "start": 108.6,
+        "end": 109.16,
+        "duration": 0.5600000000000023
+      },
+      "preserved_symbols": 0,
+      "hold_until": 114,
+      "target_hold": {
+        "start": 109.96,
+        "end": 114,
+        "duration": 4.04
+      },
+      "hold": {
+        "before": 0.56,
+        "after": 4.04
+      }
     },
     {
       "chapter": "closing",
       "start": 114,
-      "end": 116.1,
+      "end": 120,
+      "transition_mode": "shape_morph",
+      "transition_start": 114.0,
+      "transition_end": 115.0,
       "source": "final",
-      "target": "c_title"
+      "target": "c_title",
+      "tracks": 10,
+      "shape_morph_tracks": 5,
+      "transport_tracks": 0,
+      "stationary_tracks": 0,
+      "birth_tracks": 3,
+      "death_tracks": 2,
+      "arc_strength": 0.3,
+      "review_bounds": [
+        -4.064004004004004,
+        -0.46055055055055055,
+        4.064004004004004,
+        0.8521421421421422
+      ],
+      "source_hold": {
+        "start": 114,
+        "end": 114.0,
+        "duration": 0.0
+      },
+      "preserved_symbols": 0,
+      "hold_until": 120.0,
+      "target_hold": {
+        "start": 115.0,
+        "end": 120.0,
+        "duration": 5.0
+      },
+      "hold": {
+        "before": 0.0,
+        "after": 5.0
+      }
     }
   ],
+  "typography_transition_modes": {
+    "shape_morph": 18,
+    "matching_transport": 3
+  },
+  "typography_track_totals": {
+    "shape_morph": 82,
+    "transport": 36,
+    "stationary": 0,
+    "birth": 79,
+    "death": 41
+  },
   "geometry_transitions": "six opening shape transitions, ellipse, calculus, four harmonic levels, finale loop",
-  "rendering": "per-glyph matched transport plus SDF interpolation; parametric geometry interpolation",
-  "game_validation": "not run in this iteration, at user's request"
+  "rendering": "authored shape morphs with constrained glyph pairing; selected identity transport; parametric geometry interpolation",
+  "game_validation": "Recorded separately against these resource hashes in docs/SHOWCASE_REVIEW.md"
 }

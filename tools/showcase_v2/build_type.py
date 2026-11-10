@@ -69,8 +69,10 @@ def sdf_tile(mask):
     inside = alpha >= 0.5
     distance = distance_transform_edt(inside) - distance_transform_edt(~inside)
     distance += np.where(inside, -0.5, 0.5)
-    fractional = (alpha > 0.0) & (alpha < 1.0)
-    distance[fractional] = alpha[fractional] - 0.5
+    # Correct coverage without discarding distance. Lanczos can leave a tiny
+    # nonzero alpha several pixels outside the edge; treating every fractional
+    # pixel as alpha-.5 creates false zero-distance contours and bright specks.
+    distance += alpha - inside.astype(float)
     encoded = np.rint(np.clip(0.5 + distance / (SDF_RANGE * 2), 0, 1) * 255).astype(np.uint8)
     return Image.fromarray(encoded)
 

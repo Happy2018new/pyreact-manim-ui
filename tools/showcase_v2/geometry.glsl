@@ -169,8 +169,8 @@ vec3 geoCalculus(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     vec2 origin=vec2(-1.0,-1.75);
     vec2 q=(p-origin)/vec2(2.0,0.75);
-    float morph=smoothstep(66.8,70.9,t);
-    float integral=smoothstep(71.8,76.7,t);
+    float morph=smoothstep(66.8,67.6,t);
+    float integral=smoothstep(72.0,72.8,t);
     float curve=100.0;
     vec2 previous=vec2(-2.0,geoPolynomial(-2.0,morph));
     for(int j=1;j<=80;j++) {
@@ -220,7 +220,7 @@ float geoHarmonicSlope(float angle,float amount) {
 vec3 geoFourier(vec2 p,float t,float aa) {
     vec3 c=vec3(0.0);
     float phase=(t-84.0)*1.6;
-    float amount=smoothstep(84.8,88.7,t)+smoothstep(89.8,94.7,t)+smoothstep(95.8,99.7,t);
+    float amount=smoothstep(84.8,85.6,t)+smoothstep(89.8,90.6,t)+smoothstep(95.8,96.6,t);
     vec2 tip=vec2(-4.1,-0.6);
     for(int j=0;j<4;j++) {
         float harmonic=2.0*float(j)+1.0;
