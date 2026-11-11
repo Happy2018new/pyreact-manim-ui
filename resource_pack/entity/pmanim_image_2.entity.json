@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "geometry": {
+        "default": "geometry.pmanim_canvas"
+      },
+      "identifier": "pmanim:image_2",
+      "materials": {
+        "default": "pmanim_image"
+      },
+      "render_controllers": [
+        "controller.render.pmanim_image"
+      ],
+      "textures": {
+        "default": "textures/manim/images_atlas"
+      }
+    }
+  }
+}

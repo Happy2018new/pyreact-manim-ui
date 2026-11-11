@@ -1,0 +1,17 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:entity": {
+    "components": {
+      "minecraft:physics": {
+        "has_collision": false,
+        "has_gravity": false
+      }
+    },
+    "description": {
+      "identifier": "pmanim:image_3",
+      "is_experimental": false,
+      "is_spawnable": false,
+      "is_summonable": false
+    }
+  }
+}

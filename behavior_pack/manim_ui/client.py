@@ -11,6 +11,7 @@ from . import pyreact
 ClientSystem = clientApi.GetClientSystemCls()
 PLAYER_PAGE_KEY = "manim_player"
 CANVAS_PAGE_KEY = "manim_canvas_demo"
+IMAGE_PAGE_KEY = "manim_image_demo"
 SHOWCASE_PAGE_KEY = "manim_showcase"
 SHOWCASE_SCENE = "client_showcase"
 
@@ -41,6 +42,8 @@ class ManimClient(ClientSystem):
         self.playback.subscribe(self._sync_presentation_audio)
         self.scenes = self.playback.scenes
         self.canvas_demo = None
+        self.image_demo = None
+        self._image_return_visible = None
         self._showcase_return = None
         self._showcase_scene = SHOWCASE_SCENE
         self._reopen_key = str(clientApi.GetMinecraftEnum().KeyBoardType.KEY_F8)
@@ -107,6 +110,8 @@ class ManimClient(ClientSystem):
             return False
         if navigator.contains(CANVAS_PAGE_KEY):
             return True
+        if navigator.contains(IMAGE_PAGE_KEY):
+            return False
         from .canvas_panel import CanvasDemo, CanvasPanel
         self.canvas_demo = CanvasDemo()
         self.hide()
@@ -117,6 +122,49 @@ class ManimClient(ClientSystem):
             self._canvas_closed()
         return accepted
 
+    def open_image_panel(self):
+        navigator = pyreact.navigator
+        if self.playback.disposed or not navigator.is_ready or navigator.is_transitioning:
+            return False
+        if navigator.contains(IMAGE_PAGE_KEY):
+            return True
+        if navigator.contains(CANVAS_PAGE_KEY) or navigator.contains(SHOWCASE_PAGE_KEY):
+            return False
+        from .images.panel import ImageDemo, ImagePanel
+        self.image_demo = ImageDemo()
+        self._image_return_visible = self.visible
+        self.hide()
+        accepted = navigator.push(ImagePanel(demo=self.image_demo, onBack=self.close_image_panel),
+                                  key=IMAGE_PAGE_KEY, on_result=self._image_closed,
+                                  on_error=self._image_error)
+        if not accepted and self.image_demo is not None:
+            self._image_closed()
+        return accepted
+
+    def close_image_panel(self):
+        navigator = pyreact.navigator
+        if not navigator.contains(IMAGE_PAGE_KEY) or navigator.is_transitioning:
+            return False
+        return navigator.pop()
+
+    def image_snapshot(self):
+        return self.image_demo.snapshot() if self.image_demo is not None else None
+
+    def _image_closed(self, _result=None):
+        if self.image_demo is not None:
+            self.image_demo.dispose()
+            self.image_demo = None
+        restore = self._image_return_visible
+        self._image_return_visible = None
+        if restore and not self.playback.disposed and pyreact.navigator.contains(PLAYER_PAGE_KEY):
+            self.show()
+
+    def _image_error(self, error):
+        self._image_closed()
+        self.error = "Image UI failed: " + str(error)
+        print("[manim-ui] " + self.error)
+        self.notify()
+
     def open_showcase(self, scene_name=SHOWCASE_SCENE):
         """Open a clean full-screen presentation, starting after UI mount."""
         navigator = pyreact.navigator
@@ -126,7 +174,7 @@ class ManimClient(ClientSystem):
             return False
         if navigator.contains(SHOWCASE_PAGE_KEY):
             return True if scene_name == self._showcase_scene else self.switch_showcase(scene_name)
-        if navigator.contains(CANVAS_PAGE_KEY):
+        if navigator.contains(CANVAS_PAGE_KEY) or navigator.contains(IMAGE_PAGE_KEY):
             return False
         from .showcase_panel import ShowcasePanel
         was_visible = self.visible
@@ -423,7 +471,11 @@ class ManimClient(ClientSystem):
 
     def Destroy(self):
         self._showcase_return = None
+        self._image_return_visible = None
         self.presentation_audio.dispose()
+        if self.image_demo is not None:
+            self.image_demo.dispose()
+            self.image_demo = None
         if self.canvas_demo is not None:
             self.canvas_demo.dispose()
             self.canvas_demo = None

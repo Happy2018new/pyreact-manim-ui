@@ -29,6 +29,8 @@ Pyreact 播放器已集成，支持播放/暂停、拖动进度、起点/中间�
 
 实时图元使用同一 shader 接收游戏中的新参数；文字、中文与复杂公式仍在构建端生成。动态纹理实验的更新依赖全材质重载，尚不适合发布成任意运行时内容引擎；详见 [本版验收与数据入口结论](docs/RUNTIME_ACCEPTANCE.md)。
 
+新增 **ShaderImage 图片变形组件**：资源包 PNG 使用共用图集和通用 shader，支持完整包含／铺满／拉伸、独立宽高缩放、旋转、镜像、裁剪、透明度、波纹和旋涡。同屏提供四个独立图片槽位；主播放器的“图片变形”打开原图与变形结果对照页面。自定义图片构建和业务接入见 [ShaderImage](docs/SHADER_IMAGE.md)。
+
 目前仍有明显冷加载等待：首次载入完整 UI 材质可能持续数分钟，两组中文后处理首装在本次机器上分别约 90 秒和 83 秒。加载后的播放及切例已通过验证，冷加载优化尚未关闭。
 
 0.1.0 的六例、18 帧及小窗口测量作为历史记录保留在 [初版验收记录](docs/INITIAL_ACCEPTANCE.md)。0.2.0 增加的中文、公式与渲染修正另见 [本版验收记录](docs/TEXT_FORMULA_ACCEPTANCE.md)，不把旧版测试数量沿用为新版结果。
@@ -54,6 +56,7 @@ python -B -X utf8 tools/start_dev.py --owner manim-demo
 ## 开发与文档
 
 - [播放 API](docs/PLAYBACK_API.md) 与 [UI 画布 API](docs/CANVAS_API.md)：业务接入、双实例、实时参数和清理。
+- [图片组件 API](docs/SHADER_IMAGE.md)：普通 PNG、图集构建、实时变形和交互演示。
 - [开发路线](docs/DEVELOPMENT_PLAN.md)：初版范围、后续文字一致性和 UI 里程碑。
 - [实现架构](docs/ARCHITECTURE.md)：宿主/游戏边界、两种数据格式、shader 与时间轴。
 - [验收标准](docs/ACCEPTANCE.md)：如何区分实现、离线验证、实机验证与 1:1。

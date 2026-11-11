@@ -1,0 +1,239 @@
+{
+  "date": "2026-11-11",
+  "feature": "ShaderImage",
+  "environment": {
+    "client": "NetEase development client 3.10.0.448891",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "offline_gl": "4.5",
+    "fps_cap": 60,
+    "background_only": true,
+    "fps_benchmark_performed": false
+  },
+  "offline_tests": {
+    "passed": 90,
+    "suites": {
+      "test_shader_image_build.py": 11,
+      "test_shader_image_gpu.py": 13,
+      "test_shader_image_runtime.py": 18,
+      "test_player_lifecycle.py": 31,
+      "test_canvas.py": 17
+    },
+    "command_template": ".venv-reference/Scripts/python.exe -m unittest discover -s tests -p <suite> -v",
+    "shader_dialects": [
+      330,
+      400,
+      450
+    ]
+  },
+  "runtime": {
+    "pause_time_stable_seconds": 32.998508500000014,
+    "page_close": {
+      "slots": 0,
+      "image_model_removed": true,
+      "player_restored": true
+    },
+    "page_reopen": {
+      "slots": 2,
+      "both_ready": true
+    },
+    "resize": {
+      "requested": [
+        1280,
+        720
+      ],
+      "actual": [
+        1280,
+        720
+      ],
+      "activated": false
+    },
+    "screenshots": [
+      {
+        "case": "Paused wave after resizing",
+        "capture": "resize1280.png",
+        "native_capture_size": [
+          1280,
+          720
+        ],
+        "stored_preview_size": [
+          960,
+          540
+        ],
+        "config": {
+          "opacity": 1.0,
+          "src": "aurora",
+          "scale": [
+            0.9,
+            0.9
+          ],
+          "fit": "cover",
+          "effect": "wave",
+          "crop": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "flip_x": false,
+          "flip_y": false,
+          "rotation": 0.0,
+          "strength": 1.0
+        },
+        "original_config": {
+          "opacity": 1.0,
+          "src": "aurora",
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "fit": "contain",
+          "effect": "none",
+          "crop": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "flip_x": false,
+          "flip_y": false,
+          "rotation": 0.0,
+          "strength": 0.15
+        },
+        "background_capture": true,
+        "actual_pixels_reviewed": true
+      },
+      {
+        "case": "Rotate, nonuniform stretch, mirror, crop and alpha",
+        "capture": "transform1280.png",
+        "native_capture_size": [
+          1280,
+          720
+        ],
+        "stored_preview_size": [
+          960,
+          540
+        ],
+        "config": {
+          "opacity": 0.6,
+          "src": "prism",
+          "scale": [
+            0.8,
+            0.72
+          ],
+          "fit": "fill",
+          "effect": "none",
+          "crop": [
+            0.12,
+            0.1,
+            0.76,
+            0.8
+          ],
+          "flip_x": true,
+          "flip_y": false,
+          "rotation": 0.45,
+          "strength": 0.75
+        },
+        "original_config": {
+          "opacity": 1.0,
+          "src": "prism",
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "fit": "contain",
+          "effect": "none",
+          "crop": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "flip_x": false,
+          "flip_y": false,
+          "rotation": 0.0,
+          "strength": 0.15
+        },
+        "background_capture": true,
+        "actual_pixels_reviewed": true
+      },
+      {
+        "case": "Static swirl with independent original",
+        "capture": "swirl1280.png",
+        "native_capture_size": [
+          1280,
+          720
+        ],
+        "stored_preview_size": [
+          960,
+          540
+        ],
+        "config": {
+          "opacity": 1.0,
+          "src": "sunrise",
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "fit": "contain",
+          "effect": "swirl",
+          "crop": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "flip_x": false,
+          "flip_y": false,
+          "rotation": 0.0,
+          "strength": 0.9
+        },
+        "original_config": {
+          "opacity": 1.0,
+          "src": "sunrise",
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "fit": "contain",
+          "effect": "none",
+          "crop": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "flip_x": false,
+          "flip_y": false,
+          "rotation": 0.0,
+          "strength": 0.15
+        },
+        "background_capture": true,
+        "actual_pixels_reviewed": true
+      }
+    ]
+  },
+  "log_scan": {
+    "sha256": "12b7272bd901f148b6a8644fd138cb50615a76c62940e3219c4832196c2f654b",
+    "bytes": 217781,
+    "patterns": {
+      "shader_compile_failure": "(?im)^.*(?:shader.*(?:error|fail)|(?:error|fail).*shader).*$",
+      "python_traceback": "Traceback \\(most recent call last\\)",
+      "image_failure": "(?im)^.*(?:Image UI failed|\\[manim-image\\].*(?:error|fail)).*$"
+    },
+    "matches": {
+      "shader_compile_failure": 0,
+      "python_traceback": 0,
+      "image_failure": 0
+    },
+    "unrelated_engine_error_lines": 8,
+    "scope": "Bound instance MCDK log through final image checks; not a claim of an error-free engine."
+  },
+  "limits": [
+    "No measured game FPS guarantee",
+    "No physical mouse or touch input acceptance",
+    "Four-slot behavior tested offline; game screenshots use two slots",
+    "Arbitrary nested scrolling and parent clipping not accepted",
+    "No runtime PNG creation or downloading",
+    "No geometry edge AA, mipmaps or anisotropic filtering"
+  ]
+}

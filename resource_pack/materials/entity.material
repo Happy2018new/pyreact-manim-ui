@@ -51,6 +51,27 @@
     },
     "pmanim_canvas_runtime_shapes:pmanim_canvas": {
       "fragmentShader": "shaders/pmanim_canvas_runtime_shapes.fragment"
+    },
+    "pmanim_image:entity_static": {
+      "vertexShader": "shaders/pmanim_image.vertex",
+      "fragmentShader": "shaders/pmanim_image.fragment",
+      "+states": [
+        "DisableCulling",
+        "DisableDepthTest",
+        "DisableDepthWrite",
+        "Blending"
+      ],
+      "blendSrc": "One",
+      "blendDst": "OneMinusSrcAlpha",
+      "alphaSrc": "One",
+      "alphaDst": "OneMinusSrcAlpha",
+      "samplerStates": [
+        {
+          "samplerIndex": 0,
+          "textureWrap": "Clamp",
+          "textureFilter": "Point"
+        }
+      ]
     }
   }
 }

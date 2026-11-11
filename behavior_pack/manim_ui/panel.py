@@ -24,7 +24,7 @@ def change_scene(player, step):
 
 
 def button_row(children, scale):
-    return Panel(style=Style(width="100%", maxWidth=320,
+    return Panel(style=Style(width="100%", maxWidth=400,
                              flexDirection=FlexDirection.row, flexWrap=FlexWrap.wrap,
                              justifyContent=JustifyContent.center, rowGap=4 * scale, marginBottom=4 * scale),
                  children=children)
@@ -93,6 +93,7 @@ def PlayerPanel(player):
                         action_button("中间态", partial(player.seek, duration / 2), scale),
                         action_button("终点", partial(player.seek, duration), scale),
                         action_button("独立画布", player.open_canvas_panel, scale),
+                        action_button("图片变形", player.open_image_panel, scale),
                     ], scale),
                 ],
             ),

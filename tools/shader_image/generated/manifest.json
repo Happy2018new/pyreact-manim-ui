@@ -1,0 +1,56 @@
+{
+  "atlas_size": [
+    1024,
+    512
+  ],
+  "gutter": 2,
+  "images": {
+    "aurora": {
+      "rgba_sha256": "43c10df222483b59aed87939f3a0c24eddf07f1bfe748e7fefd56024e25d24d7",
+      "size": [
+        384,
+        256
+      ],
+      "title": "极光山野",
+      "uv": [
+        0.001953125,
+        0.00390625,
+        0.375,
+        0.5
+      ]
+    },
+    "prism": {
+      "rgba_sha256": "232ab9778ba6e144e201f245be318c22bddc8a13859ccf4904d53524aac2e964",
+      "size": [
+        256,
+        384
+      ],
+      "title": "星光棱镜",
+      "uv": [
+        0.380859375,
+        0.00390625,
+        0.25,
+        0.75
+      ]
+    },
+    "sunrise": {
+      "rgba_sha256": "a303b1dfb5c7d57f4b6950d4fe6b477ee847374440236e1fe1855fa6c6c16820",
+      "size": [
+        320,
+        320
+      ],
+      "title": "日出湖畔",
+      "uv": [
+        0.634765625,
+        0.00390625,
+        0.3125,
+        0.625
+      ]
+    }
+  },
+  "inputs": {
+    "generator": "tools/shader_image/defaults.py",
+    "kind": "original_procedural"
+  },
+  "schema_version": 1
+}

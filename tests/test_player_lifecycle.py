@@ -544,6 +544,66 @@ class PlayerLifecycleTests(unittest.TestCase):
         self.player._canvas_closed()  # A late navigator result is harmless.
         self.assertFalse(self.player.visible)
 
+    def _image_page_module(self):
+        module = types.ModuleType(PACKAGE + ".images.panel")
+        module.ImageDemo = Mock(side_effect=lambda: types.SimpleNamespace(
+            dispose=Mock(), snapshot=lambda: {"image": True}))
+        module.ImagePanel = lambda **props: props
+        return module
+
+    def test_image_page_disposes_and_restores_previous_visibility_and_position(self):
+        self.player.on_ui_ready()
+        self.player.seek(1.25)
+        images = self._image_page_module()
+        with patch.dict(sys.modules, {PACKAGE + ".images.panel": images}):
+            self.assertTrue(self.player.open_image_panel())
+            demo = self.player.image_demo
+            self.assertFalse(self.player.visible)
+            self.assertEqual(self.player.image_snapshot(), {"image": True})
+            self.assertTrue(self.player.open_image_panel())
+            images.ImageDemo.assert_called_once()
+            self.assertFalse(self.player.open_canvas_panel())
+            self.navigation_pages.remove(self.module.IMAGE_PAGE_KEY)
+            self.player._image_closed()
+            self.player._image_closed()
+        demo.dispose.assert_called_once()
+        self.assertTrue(self.player.visible)
+        self.assertEqual(self.player.snapshot()["position"], 1.25)
+        self.assertFalse(self.player.snapshot()["playing"])
+
+    def test_failed_image_navigation_cleans_owned_model_without_exposing_hidden_player(self):
+        self.player.on_ui_ready()
+        self.player.hide()
+        images = self._image_page_module()
+        demo = types.SimpleNamespace(dispose=Mock(), snapshot=lambda: {})
+        images.ImageDemo.side_effect = None
+        images.ImageDemo.return_value = demo
+        self.navigation_error = RuntimeError("image mount failed")
+        with patch.dict(sys.modules, {PACKAGE + ".images.panel": images}):
+            self.assertFalse(self.player.open_image_panel())
+        demo.dispose.assert_called_once()
+        self.assertIsNone(self.player.image_demo)
+        self.assertFalse(self.player.visible)
+        self.assertIn("image mount failed", self.player.error)
+
+    def test_image_page_rejects_overlaid_demo_and_destroy_cleans_owned_images(self):
+        self.player.on_ui_ready()
+        images = self._image_page_module()
+        with patch.dict(sys.modules, {PACKAGE + ".images.panel": images}):
+            for key in (self.module.CANVAS_PAGE_KEY, self.module.SHOWCASE_PAGE_KEY):
+                self.navigation_pages.add(key)
+                self.assertFalse(self.player.open_image_panel())
+                self.navigation_pages.remove(key)
+            images.ImageDemo.assert_not_called()
+            self.assertTrue(self.player.open_image_panel())
+            demo = self.player.image_demo
+        self.player.Destroy()
+        demo.dispose.assert_called_once()
+        self.assertIsNone(self.player.image_demo)
+        self.player._image_closed()
+        self.assertFalse(self.player.open_image_panel())
+        self.assertFalse(self.player.visible)
+
     def _enable_showcase(self):
         self.player.Destroy()
         self.module.SCENES = SCENES + [{"name": "client_showcase", "title": "Showcase", "duration": 37.0,

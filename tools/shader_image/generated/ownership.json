@@ -1,0 +1,23 @@
+{
+  "files": {
+    "behavior_pack/entities/pmanim_image_0.json": "63f99bc86a37cca9cef92dbf79176188c4ad0bca387e6ba6276cce0d2c9e9a1b",
+    "behavior_pack/entities/pmanim_image_1.json": "5b707cf9e879181024b2fd6ac66aca4957286424cc07ffe680c26cd92d735239",
+    "behavior_pack/entities/pmanim_image_2.json": "acb16f5a9a225e1e3d8a5075964d4422eaa7f448c5829cb09319bc3d1f4fe747",
+    "behavior_pack/entities/pmanim_image_3.json": "c4f0b52372697018c9160005c7595753d31b1d95d411669c58c35925d01209a6",
+    "behavior_pack/manim_ui/images/generated.py": "fa9d7271b7e616539655125172e2fad29d5c1eac94b46fffd6f0044180a2194a",
+    "resource_pack/entity/pmanim_image_0.entity.json": "e72436e9f03a2436921e90c0324bee1bb7143770e1f427a453826a14fdc9fd5b",
+    "resource_pack/entity/pmanim_image_1.entity.json": "45d36a4f3921741506869918e73dd7049d495e5df9769e9db0ab3dafd53ccf9e",
+    "resource_pack/entity/pmanim_image_2.entity.json": "a4dbc241731c4d62bd318cf623d5f49b486faaa5da0e6ab11bbfd31d9bed4e12",
+    "resource_pack/entity/pmanim_image_3.entity.json": "7af0d3d0ab339944f184801d5bd5ac3fb38c43397b7023ccc7ca5a59d32b29fc",
+    "resource_pack/render_controllers/pmanim_image.render_controllers.json": "d821824d8779fdfaebd505caf8ea0201f3ae317e05d048e0ed11c8c0bec1507b",
+    "resource_pack/shaders/glsl/pmanim_image.fragment": "41f969f2f2ccb740bdea463636cedda54ed679ca008f8656640401e8378f74ce",
+    "resource_pack/shaders/glsl/pmanim_image.vertex": "090de8b723f0e41160a695f57c2f62c3c7f1ef3e3c9cb45afba7df24c543d9e8",
+    "resource_pack/textures/manim/images_atlas.png": "e3b5b6ea5ea80faead34586fdf08b091faae07424ecf0804fb5ae0636c3667f5",
+    "resource_pack/textures/manim/images_checker.png": "8698e71cd6e820db7aee3aa3167758f9a3aa569e8c04b927006c1af9f187c163",
+    "tools/shader_image/generated/manifest.json": "edda2f804b0d405681b2360a054730f79d42d9ab69f550f885ca7176bac6d65d",
+    "tools/shader_image/generated/materials.json": "2ad6f767fac6e56d8e0ca4c50777ef4c735c599ea94fa3d5895784a00c349b0a"
+  },
+  "generator": "tools/build_shader_images.py",
+  "material_sha256": "5e9d629b56bbb3bd9f1bc2670a9733ad5930ac50eff5823ab7007ba554bee636",
+  "schema_version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "materials": {
+    "pmanim_image:entity_static": {
+      "+states": [
+        "DisableCulling",
+        "DisableDepthTest",
+        "DisableDepthWrite",
+        "Blending"
+      ],
+      "alphaDst": "OneMinusSrcAlpha",
+      "alphaSrc": "One",
+      "blendDst": "OneMinusSrcAlpha",
+      "blendSrc": "One",
+      "fragmentShader": "shaders/pmanim_image.fragment",
+      "samplerStates": [
+        {
+          "samplerIndex": 0,
+          "textureFilter": "Point",
+          "textureWrap": "Clamp"
+        }
+      ],
+      "vertexShader": "shaders/pmanim_image.vertex"
+    },
+    "version": "1.0.0"
+  }
+}

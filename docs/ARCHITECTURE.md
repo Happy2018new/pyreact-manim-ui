@@ -81,6 +81,12 @@ Python 2 播放器安装编译后的后处理，按渲染帧上传播放时间�
 
 暂停时相同参数跳过上传；布局后下一渲染帧测量控件和逻辑／物理视口，避免尺寸事件早于物理窗口更新。不在每帧读取屏幕信息。`dispose` 停止时间轴、隐藏并清理订阅／实例槽位；原生注册资源是否释放不作承诺。
 
+## 普通图片组件
+
+`behavior_pack/manim_ui/images/` 提供独立的 `ImageController`、`ImageRenderer` 和 `ShaderImage` primitive。模型负责原子参数校验及波纹时钟，渲染器负责四个图片槽位、材质参数缓存和原生显隐，primitive 复用已有局部画布模板与布局测量。图片槽位与两个 ManimCanvas 槽位分别管理。`images/demo.py` 与 `images/panel.py` 提供主播放器“图片变形”入口的原图对照与交互参数。
+
+`tools/build_shader_images.py` 将预置普通 PNG 打包成一个有间隔的 RGBA 图集，生成对应图片元数据和四个实体 identifier；所有图片共用小型 shader。U3 保存屏幕矩形，U1 保存波纹时间／画布比例／透明度／效果类型，U2 保存带镜像符号的显示宽高／旋转／效果强度，U4 保存最终裁剪后的图集矩形。采样颜色先预乘 alpha，再做手动双线性插值，材质使用预乘混合。详情、重建方式及限制见 [ShaderImage](SHADER_IMAGE.md)。
+
 ## 可复建与证据
 
 字体、上游版本及许可见 [第三方记录](../THIRD_PARTY_NOTICES.md) 与 `tools/reference/upstream.json`。构建输出记录实际源码/字体哈希、采样配置、资源哈希和近似开关；`.runtime/` 保存参考、编译产物、截图与完整日志，小型验收摘要进入 `docs/evidence/`。CPU 结果、桌面参考与 MC 实机证据不能相互替代。

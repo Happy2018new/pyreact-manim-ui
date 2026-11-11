@@ -1,0 +1,66 @@
+// __multiversion__
+// Ordinary RGBA images; no path-data decoding or per-shape loops.
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // seconds, canvas aspect, opacity, effect mode
+uniform vec4 EXTRA_ACTOR_UNIFORM2; // signed display width/height, radians, strength
+uniform vec4 EXTRA_ACTOR_UNIFORM4; // final atlas crop: u, v, width, height
+const vec2 IMAGE_ATLAS_SIZE = vec2(1024.0, 512.0);
+const float IMAGE_PI = 3.14159265358979323846;
+
+vec4 imageTexel(vec2 pixel, vec2 cropMin, vec2 cropMax) {
+    vec2 atlasUV = clamp((pixel + vec2(0.5)) / IMAGE_ATLAS_SIZE, cropMin, cropMax);
+    vec4 rgba = texture2D(TEXTURE_0, atlasUV);
+    // Premultiply BEFORE interpolation: RGB hidden in transparent PNG pixels
+    // must not introduce dark/colored fringes. The material uses One blending.
+    return vec4(rgba.rgb * rgba.a, rgba.a);
+}
+
+vec4 imageBilinear(vec2 localUV) {
+    vec2 origin = EXTRA_ACTOR_UNIFORM4.xy;
+    vec2 extent = EXTRA_ACTOR_UNIFORM4.zw;
+    vec2 inset = min(vec2(0.5) / IMAGE_ATLAS_SIZE, extent * 0.5);
+    vec2 cropMin = origin + inset;
+    vec2 cropMax = origin + extent - inset;
+    vec2 atlasUV = clamp(origin + localUV * extent, cropMin, cropMax);
+    vec2 pixel = atlasUV * IMAGE_ATLAS_SIZE - vec2(0.5);
+    vec2 base = floor(pixel);
+    vec2 fraction = fract(pixel);
+    vec4 top = mix(imageTexel(base, cropMin, cropMax),
+                   imageTexel(base + vec2(1.0, 0.0), cropMin, cropMax), fraction.x);
+    vec4 bottom = mix(imageTexel(base + vec2(0.0, 1.0), cropMin, cropMax),
+                      imageTexel(base + vec2(1.0, 1.0), cropMin, cropMax), fraction.x);
+    return mix(top, bottom, fraction.y);
+}
+
+void main() {
+    vec2 displaySize = EXTRA_ACTOR_UNIFORM2.xy;
+    if (any(lessThan(abs(displaySize), vec2(0.000001))) ||
+        any(lessThanEqual(EXTRA_ACTOR_UNIFORM4.zw, vec2(0.0)))) {
+        gl_FragColor = vec4(0.0);
+        return;
+    }
+    vec2 p = (uv - vec2(0.5)) * vec2(max(EXTRA_ACTOR_UNIFORM1.y, 0.000001), 1.0);
+    float c = cos(EXTRA_ACTOR_UNIFORM2.z), s = sin(EXTRA_ACTOR_UNIFORM2.z);
+    vec2 localUV = vec2(c * p.x + s * p.y, -s * p.x + c * p.y) / displaySize + vec2(0.5);
+    float strength = clamp(EXTRA_ACTOR_UNIFORM2.w, -1.0, 1.0);
+    float mode = EXTRA_ACTOR_UNIFORM1.w;
+    if (mode > 0.5 && mode < 1.5) {
+        // Bounded horizontal displacement, at most 4% of this image's width.
+        localUV.x += 0.04 * strength * sin(2.0 * IMAGE_PI * (3.0 * localUV.y - EXTRA_ACTOR_UNIFORM1.x));
+    } else if (mode > 1.5 && mode < 2.5) {
+        vec2 centered = localUV - vec2(0.5);
+        float angle = strength * IMAGE_PI * (1.0 - smoothstep(0.0, 0.5, length(centered)));
+        float twistCos = cos(angle), twistSin = sin(angle);
+        localUV = vec2(twistCos * centered.x + twistSin * centered.y,
+                       -twistSin * centered.x + twistCos * centered.y) + vec2(0.5);
+    }
+    // Reject outside the distorted image before clamping atlas samples. This
+    // prevents a stretched border and guarantees adjacent cards cannot leak.
+    if (any(lessThan(localUV, vec2(0.0))) || any(greaterThan(localUV, vec2(1.0)))) {
+        gl_FragColor = vec4(0.0);
+        return;
+    }
+    gl_FragColor = imageBilinear(localUV) * clamp(EXTRA_ACTOR_UNIFORM1.z, 0.0, 1.0);
+}
