@@ -1,0 +1,11 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform vec4 EXTRA_VECTOR1; // invert, remaining components unused
+
+void main() {
+    vec4 screenColor = texture2D(TEXTURE_0, uv);
+    gl_FragColor = vec4(mix(screenColor.rgb, vec3(1.0) - screenColor.rgb,
+                           clamp(EXTRA_VECTOR1.x, 0.0, 1.0)), screenColor.a);
+}

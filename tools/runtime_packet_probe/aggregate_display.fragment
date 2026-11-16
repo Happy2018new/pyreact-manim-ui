@@ -1,0 +1,31 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // page count, row shift, word shift, byte shift
+uniform vec4 EXTRA_VECTOR2; // left/top/width/height, top-left screen origin
+
+const float WORDS_PER_PAGE = 8.0;
+
+void main() {
+    vec2 point = (vec2(uv.x, 1.0 - uv.y) - EXTRA_VECTOR2.xy) / EXTRA_VECTOR2.zw;
+    if (point.x < 0.0 || point.x >= 1.0 || point.y < 0.0 || point.y >= 1.0) {
+        gl_FragColor = vec4(texture2D(TEXTURE_1, uv).rgb, 1.0);
+        return;
+    }
+    float page = mod(floor(point.y * EXTRA_VECTOR1.x) + EXTRA_VECTOR1.y,
+                     EXTRA_VECTOR1.x);
+    float cell = floor(point.x * (WORDS_PER_PAGE * 3.0));
+    float word = mod(floor(cell / 3.0) + EXTRA_VECTOR1.z, WORDS_PER_PAGE);
+    float component = mod(cell + EXTRA_VECTOR1.w, 3.0);
+    // Read any atlas row/word; no producer value is duplicated as a uniform.
+    vec3 bytes = texture2D(TEXTURE_3,
+                          vec2((word + 0.5) / WORDS_PER_PAGE,
+                               (page + 0.5) / EXTRA_VECTOR1.x)).rgb;
+    float value = bytes.r;
+    if (component >= 1.5) value = bytes.b;
+    else if (component >= 0.5) value = bytes.g;
+    gl_FragColor = vec4(value, value, value, 1.0);
+}

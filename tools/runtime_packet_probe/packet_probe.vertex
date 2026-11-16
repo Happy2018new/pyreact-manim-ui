@@ -1,0 +1,13 @@
+// __multiversion__
+#include "entityVertexUtil.h"
+uniform vec4 EXTRA_ACTOR_UNIFORM3; // NDC left, top, width, height
+
+void main() {
+    POS4 entitySpacePosition, entitySpaceNormal;
+    getEntitySpacePositionAndNormal(entitySpacePosition, entitySpaceNormal);
+    uv = TEXCOORD_0;
+    gl_Position = WORLDVIEWPROJ * entitySpacePosition;
+    vec2 clipPosition = EXTRA_ACTOR_UNIFORM3.xy + uv *
+        vec2(EXTRA_ACTOR_UNIFORM3.z, -EXTRA_ACTOR_UNIFORM3.w);
+    gl_Position.xy = clipPosition * gl_Position.w;
+}

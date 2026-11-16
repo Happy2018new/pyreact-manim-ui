@@ -1,0 +1,16 @@
+// __multiversion__
+precision highp float;
+#include "vertexVersionCentroid.h"
+#include "uniformWorldConstants.h"
+attribute POS4 POSITION;
+varying highp vec2 packetUv;
+
+void main() {
+    // Matches BBE's calibrated first source quad and a (2,2,2) palette:
+    // origin [-16,0,0], size [16,0,16] -> native X/Z span [-1,0].
+    // Avoid atlas TEXCOORD_0: block UVs have already been packed into the atlas.
+    packetUv = POSITION.xz + vec2(1.0);
+    gl_Position = WORLDVIEWPROJ * POSITION;
+    // Keep native UI framing in XY; eliminate unrelated model depth clipping.
+    gl_Position.z = 0.0;
+}

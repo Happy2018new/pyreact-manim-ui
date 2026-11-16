@@ -1,0 +1,37 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // page index, page count, words per page (8), reserved
+uniform vec4 EXTRA_VECTOR2; // packet0: first four normalized uint24 words
+uniform vec4 EXTRA_VECTOR3; // packet1: last four normalized uint24 words
+
+float packetAt(float column) {
+    vec4 packet = EXTRA_VECTOR2;
+    if (column >= 4.0) packet = EXTRA_VECTOR3;
+    float component = mod(column, 4.0);
+    if (component < 0.5) return packet.x;
+    if (component < 1.5) return packet.y;
+    if (component < 2.5) return packet.z;
+    return packet.w;
+}
+
+void main() {
+    float page = floor(uv.y * EXTRA_VECTOR1.y);
+    float column = min(floor(uv.x * EXTRA_VECTOR1.z), EXTRA_VECTOR1.z - 1.0);
+    if (abs(page - EXTRA_VECTOR1.x) < 0.5) {
+        // Dyadic fractions retain all 24 bits in float32. Do not add 0.5:
+        // above 2^23 it would round odd integers upward before floor().
+        float word = floor(packetAt(column) * 16777216.0);
+        vec3 bytes = vec3(floor(word / 65536.0),
+                          mod(floor(word / 256.0), 256.0), mod(word, 256.0));
+        gl_FragColor = vec4(bytes / 255.0, 1.0);
+    } else if (EXTRA_VECTOR1.x < 0.5) {
+        // Page zero initializes the entire atlas each frame. No history RT.
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    } else {
+        // This binding is explicitly connected to the previous process pass.
+        gl_FragColor = texture2D(TEXTURE_3, uv);
+    }
+}

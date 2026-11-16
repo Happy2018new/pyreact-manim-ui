@@ -1,0 +1,24 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+#include "uniformShaderConstants.h"
+varying highp vec2 packetUv;
+
+void main() {
+    vec3 payload = CURRENT_COLOR.rgb;
+    if (any(lessThan(payload, vec3(0.0))) || any(greaterThanEqual(payload, vec3(1.0)))) {
+        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        return;
+    }
+    float cellIndex = min(floor(clamp(packetUv.x, 0.0, 1.0) * 9.0), 8.0);
+    float channelValue = payload.r;
+    if (cellIndex >= 3.0) channelValue = payload.g;
+    if (cellIndex >= 6.0) channelValue = payload.b;
+    float packedValue = floor(channelValue * 16777216.0);
+    float byteIndex = mod(cellIndex, 3.0);
+    float divisor = 65536.0;
+    if (byteIndex >= 1.0) divisor = 256.0;
+    if (byteIndex >= 2.0) divisor = 1.0;
+    float byteValue = mod(floor(packedValue / divisor), 256.0);
+    gl_FragColor = vec4(vec3(byteValue / 255.0), 1.0);
+}

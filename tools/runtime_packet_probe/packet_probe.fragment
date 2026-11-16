@@ -1,0 +1,29 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformShaderConstants.h"
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // positive-control RGB, mode: 0=current, 1=actor
+
+void main() {
+    vec3 payload = CURRENT_COLOR.rgb;
+    if (EXTRA_ACTOR_UNIFORM1.w > 0.5) payload = EXTRA_ACTOR_UNIFORM1.rgb;
+    // White (1.0) is outside the packet domain. Preserve a visible failure
+    // instead of silently making it indistinguishable from valid 0xffffff.
+    if (any(lessThan(payload, vec3(0.0))) || any(greaterThanEqual(payload, vec3(1.0)))) {
+        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        return;
+    }
+    float cellIndex = min(floor(clamp(uv.x, 0.0, 1.0) * 9.0), 8.0);
+    float channelValue = payload.r;
+    if (cellIndex >= 3.0) channelValue = payload.g;
+    if (cellIndex >= 6.0) channelValue = payload.b;
+    // Python uses integer / 2**24. Multiplication is exact for float32.
+    // Do NOT add 0.5: above 2**23 that would round odd integers incorrectly.
+    float packedValue = floor(channelValue * 16777216.0);
+    float byteIndex = mod(cellIndex, 3.0);
+    float divisor = 65536.0;
+    if (byteIndex >= 1.0) divisor = 256.0;
+    if (byteIndex >= 2.0) divisor = 1.0;
+    float byteValue = mod(floor(packedValue / divisor), 256.0);
+    gl_FragColor = vec4(vec3(byteValue / 255.0), 1.0);
+}
