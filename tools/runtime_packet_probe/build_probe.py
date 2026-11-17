@@ -216,7 +216,7 @@ def runtime_sources(slots):
     """Prepare the complete local runtime before mutating the output tree."""
     sources = {name: (HERE / name).read_text(encoding="utf-8")
                for name in ("runtime.py", "aggregate_runtime.py", "modMain.py",
-                            "numeric_payload.py", "numeric_runtime.py")}
+                            "numeric_payload.py", "numeric_runtime.py", "spatial_runtime.py")}
     runtime, count = re.subn(r"(?m)^LIMIT[ \t]*=[ \t]*[0-9]+[ \t]*$",
                              "LIMIT = %d" % slots, sources["runtime.py"])
     if count != 1:

@@ -1,0 +1,11 @@
+// __multiversion__
+// Same fullscreen Position/UV0 input convention as vanilla_netease.
+#include "vertexVersionCentroidUV.h"
+
+attribute highp vec3 POSITION;
+attribute highp vec2 TEXCOORD_0;
+
+void main() {
+    gl_Position = vec4(POSITION.xy, 0.0, 1.0);
+    uv = TEXCOORD_0;
+}

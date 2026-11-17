@@ -1,0 +1,36 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_0;
+uniform vec4 EXTRA_VECTOR1; // tile left/top/width/height, top-left screen origin
+uniform vec4 EXTRA_VECTOR2; // packet0: first four normalized uint24 words
+uniform vec4 EXTRA_VECTOR3; // packet1: last four normalized uint24 words
+
+float packetAt(float wordIndex) {
+    vec4 packet = EXTRA_VECTOR2;
+    if (wordIndex >= 4.0) packet = EXTRA_VECTOR3;
+    float component = mod(wordIndex, 4.0);
+    if (component < 0.5) return packet.x;
+    if (component < 1.5) return packet.y;
+    if (component < 2.5) return packet.z;
+    return packet.w;
+}
+
+void main() {
+    vec2 point = (vec2(uv.x, 1.0 - uv.y) - EXTRA_VECTOR1.xy) / EXTRA_VECTOR1.zw;
+    if (point.x < 0.0 || point.x >= 1.0 || point.y < 0.0 || point.y >= 1.0) {
+        // Ordinary process order supplies the preceding screen result here.
+        gl_FragColor = texture2D(TEXTURE_0, uv);
+        return;
+    }
+    float cell = min(floor(point.x * 24.0), 23.0);
+    float word = floor(packetAt(floor(cell / 3.0)) * 16777216.0);
+    // Dyadic normalization is exact in float32; adding 0.5 can corrupt odd
+    // uint24 values above 2^23 by rounding them to the next even integer.
+    float component = mod(cell, 3.0);
+    float value = mod(word, 256.0);
+    if (component < 0.5) value = floor(word / 65536.0);
+    else if (component < 1.5) value = mod(floor(word / 256.0), 256.0);
+    gl_FragColor = vec4(vec3(value / 255.0), 1.0);
+}

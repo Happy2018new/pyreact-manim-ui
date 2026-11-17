@@ -14,6 +14,7 @@
   "configured_fps_cap": 60,
   "background_only": true,
   "observed_background_baseline_fps": 20,
+  "historical_frame_limit_context": "The user confirmed an intentional external 20 FPS limit during this historical run. Background execution is not the cause established by these measurements; the configured in-game 60 FPS cap did not override that limit.",
   "performance_cases": [
     {
       "name": "aggregate64_dynamic",

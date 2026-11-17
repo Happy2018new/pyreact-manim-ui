@@ -21,12 +21,14 @@ def load_file(name, path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("launch", "call", "capture", "stop"))
+    parser.add_argument("action", choices=("launch", "call", "capture", "stop", "resize"))
     parser.add_argument("--project", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--code", type=Path)
     parser.add_argument("--label", default="state")
     parser.add_argument("--timeout", type=float, default=40.)
+    parser.add_argument("--width", type=int, default=720)
+    parser.add_argument("--height", type=int, default=1080)
     parser.add_argument("--force", action="store_true", help="stop only: terminate the verified owned instance")
     args = parser.parse_args()
     if args.force and args.action != "stop":
@@ -74,6 +76,24 @@ def main():
         print(json.dumps({"state": result["state"]}))
         return 0
     require_background_session(session)
+    if args.action == 'resize':
+        import ctypes
+        if args.width <= 0 or args.height <= 0:
+            raise ValueError('Client dimensions must be positive')
+        user = ctypes.WinDLL('user32', use_last_error=True)
+        setter = user.SetThreadDpiAwarenessContext
+        setter.argtypes = [ctypes.c_void_p]
+        setter.restype = ctypes.c_void_p
+        previous = setter(ctypes.c_void_p(-4))
+        if not previous:
+            raise ctypes.WinError(ctypes.get_last_error())
+        try:
+            resize = load_file('packet_resize', SCRIPTS / 'resize_window.py')
+            sys.argv = ['resize_window.py', '--size', '%dx%d' % (args.width, args.height),
+                        '--no-center']
+            return resize.main()
+        finally:
+            setter(previous)
     if args.action == "call":
         from mcdk import Client, return_value
         code = "import json\nimport mod.client.extraClientApi as api\nprobe=api.GetSystem('pmanim_packet_probe','probe')\n"

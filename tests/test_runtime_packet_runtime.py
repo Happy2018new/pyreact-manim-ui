@@ -56,6 +56,20 @@ class FakeScreen:
         self.removed = True
 
 
+class FakeUniformUISlice:
+    def __init__(self, index, lifecycle):
+        self.index, self.lifecycle = index, lifecycle
+        self.visible, self.removed = True, False
+
+    def SetScreenVisible(self, enabled):
+        self.lifecycle.append((self.index, "visible", enabled))
+        self.visible = enabled
+
+    def SetRemove(self):
+        self.lifecycle.append((self.index, "remove"))
+        self.removed = True
+
+
 class FakePost:
     """Track engine-side effects, including AddPostProcess's initial enable."""
     def __init__(self):
@@ -211,6 +225,118 @@ class RuntimePacketRuntimeTests(unittest.TestCase):
         self.assertEqual(2, result["upload_ms"]["count"])
         self.assertAlmostEqual(8., result["elapsed"])
         self.assertIs(result["gpu_verified"], False)
+
+    def test_baseline_removes_renderers_writes_nothing_and_counts_deadline_interval(self):
+        aggregation = self.installed_aggregate()
+        old_screen = FakeScreen()
+        self.system.screen = old_screen
+        parameters = list(self.post.parameter_calls)
+        words = [list(row) for row in aggregation.words]
+        with patch.object(aggregation, "write", side_effect=AssertionError("Baseline wrote payload")) as writer:
+            started = self.system.start_baseline(seconds=8.)
+            self.assertTrue(started["started"])
+            self.assertEqual(self.system.run["kind"], "baseline")
+            self.assertFalse(self.system.run["dynamic"])
+            self.assertFalse(aggregation.enabled)
+            self.assertFalse(any(self.post.enabled.values()))
+            self.assertTrue(old_screen.removed)
+            self.assertIsNone(self.system.screen)
+            self.frame(1.)
+            self.frame(1.016)
+            self.frame(8.)
+            writer.assert_not_called()
+        result = self.system.last_run
+        self.assertIsNone(self.system.run)
+        self.assertTrue(result["success"])
+        self.assertEqual(result["status"], "completed")
+        self.assertEqual(result["kind"], "baseline")
+        self.assertEqual(result["count"], 0)
+        self.assertEqual(result["interval_ms"]["count"], 2)
+        self.assertAlmostEqual(result["interval_ms"]["max"], 6984.)
+        self.assertEqual(result["measured_frames"], 2)
+        self.assertEqual(result["upload_ms"]["max"], 0.)
+        self.assertEqual(result["generation_ms"]["max"], 0.)
+        self.assertFalse(result["gpu_verified"])
+        self.assertEqual(self.post.parameter_calls, parameters)
+        self.assertEqual(aggregation.words, words)
+        self.assertEqual(old_screen.writes, [])
+
+    def test_baseline_rejects_existing_run_without_disabling_or_removing_its_renderer(self):
+        screen = self.ui_run(seconds=8.)
+        run = self.system.run
+        previous_result = self.system.last_run
+        with self.assertRaisesRegex(RuntimeError, "active benchmark"):
+            self.system.start_baseline(seconds=2.)
+        self.assertIs(self.system.run, run)
+        self.assertIs(self.system.last_run, previous_result)
+        self.assertIs(self.system.screen, screen)
+        self.assertFalse(screen.removed)
+        self.assertEqual(self.post.enable_calls, [])
+
+    def test_disable_uniform_ui_hides_before_removing_all_slices_and_is_idempotent(self):
+        uniform_ui = self.load_module("_runtime_packet_behavior_test.uniform_ui_runtime",
+                                      "uniform_ui_runtime.py")
+        config = {"transport": "uniform_ui", "pages": 3, "words_per_page": 8,
+                  "identifiers": ["slice_0", "slice_1", "slice_2"]}
+        factory = types.SimpleNamespace(CreateActorRender=lambda entity: object(),
+                                        CreateGame=lambda level: object())
+        with patch.object(self.runtime.api, "GetEngineCompFactory", return_value=factory):
+            aggregation = uniform_ui.UniformUIProbe(config)
+        lifecycle = []
+        screens = [FakeUniformUISlice(index, lifecycle) for index in range(3)]
+        aggregation.screens = list(screens)
+        aggregation.ready, aggregation.enabled = True, True
+        self.system.aggregation = aggregation
+        with patch.object(aggregation, "set_enabled", wraps=aggregation.set_enabled) as enable:
+            self.system._disable_aggregate()
+            enable.assert_called_once_with(False)
+            # Every slice is hidden before the first owned node is removed.
+            self.assertEqual(lifecycle[:3], [(index, "visible", False) for index in range(3)])
+            self.assertTrue(all(screen.removed and not screen.visible for screen in screens))
+            self.assertEqual(aggregation.screens, [None, None, None])
+            self.assertTrue(aggregation.closed)
+            self.assertFalse(aggregation.ready)
+            self.assertFalse(aggregation.enabled)
+            previous = list(lifecycle)
+            self.system._disable_aggregate()
+            self.system.close()
+            self.assertEqual(lifecycle, previous)
+            enable.assert_called_once_with(False)
+
+    def test_disable_already_hidden_uniform_ui_still_removes_owned_slices(self):
+        lifecycle = []
+        screens = [FakeUniformUISlice(index, lifecycle) for index in range(2)]
+        uniform_ui = self.load_module("_runtime_packet_behavior_test.uniform_ui_runtime",
+                                      "uniform_ui_runtime.py")
+        factory = types.SimpleNamespace(CreateActorRender=lambda entity: object(),
+                                        CreateGame=lambda level: object())
+        config = {"transport": "uniform_ui", "pages": 2, "words_per_page": 8,
+                  "identifiers": ["slice_0", "slice_1"]}
+        with patch.object(self.runtime.api, "GetEngineCompFactory", return_value=factory):
+            aggregation = uniform_ui.UniformUIProbe(config)
+        aggregation.screens, aggregation.ready = list(screens), True
+        self.assertIs(aggregation.enabled, False)
+        self.system.aggregation = aggregation
+        with patch.object(aggregation, "set_enabled", wraps=aggregation.set_enabled) as enable:
+            self.system._disable_aggregate()
+            enable.assert_not_called()
+        self.assertTrue(all(screen.removed for screen in screens))
+        self.assertTrue(aggregation.closed)
+
+    def test_disable_normal_aggregate_retains_ready_state_and_can_be_enabled_again(self):
+        aggregation = self.installed_aggregate()
+        # A generic close method must not change regular atlas ownership.
+        with patch.object(aggregation, "close", create=True) as close:
+            self.system._disable_aggregate()
+            self.system._disable_aggregate()
+            close.assert_not_called()
+        self.assertIs(self.system.aggregation, aggregation)
+        self.assertTrue(aggregation.ready)
+        self.assertFalse(aggregation.enabled)
+        self.assertIsNone(aggregation.error)
+        aggregation.set_enabled(True)
+        self.assertTrue(aggregation.enabled)
+        self.assertTrue(all(self.post.enabled[name] for name in aggregation.names))
 
     def test_no_samples_cannot_be_reported_as_success(self):
         self.ui_run(seconds=2.)

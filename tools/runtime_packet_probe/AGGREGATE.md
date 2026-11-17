@@ -6,6 +6,9 @@ It is separate from the CURRENT_COLOR / transparent Image probe.
 The measured game results, independent numeric protocol checks, evidence index,
 and remaining bulk-transfer limits are recorded in
 [the runtime data research report](../../docs/RUNTIME_PACKET_RESEARCH.md).
+This document preserves the earlier single-column atlas measurements. Later
+two-dimensional layout experiments and their frame-limit conditions are recorded
+separately in [the 2D research report](../../docs/RUNTIME_PACKET_2D_RESEARCH.md).
 
 Each producer is one custom postprocess with one pass. Its `paras` order is
 exactly `page`, `packet0`, `packet1`: `EXTRA_VECTOR1` is
@@ -120,11 +123,13 @@ independent per-batch verification.
 
 At 1024 pages, the implementation renders 1024 producer passes plus one
 consumer and performs 2048 payload `SetParameter` calls for each full update.
-The background noactivation instance measured 18.57 FPS with static data and
-13.02 FPS with data generated and uploaded on every render event; the same
-environment's baseline was about 20 FPS. Its frame cap was configured to 60,
-but these are measurements in a background environment, not evidence of
-60 FPS operation. The RTX 4060 Laptop GPU test used a 2251 × 1305 WGC frame;
+The noactivation instance measured 18.57 FPS with static data and 13.02 FPS with
+data generated and uploaded on every render event. The user had deliberately
+enabled an external frame limiter while sleeping; this accounts for the roughly
+20 FPS baseline and must not be attributed to background execution. The game
+was configured with a 60 FPS cap, which does not establish actual 60 FPS
+performance. These original measurements remain unchanged and do not predict
+performance after removing the external limit. The RTX 4060 Laptop GPU test used a 2251 × 1305 WGC frame;
 the 1024-page atlas was 32 × 1305. See the report for frame intervals, CPU timing,
 sample counts, and evidence paths. SDK upload timing is CPU call time and does
 not wait for GPU completion.

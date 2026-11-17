@@ -1,0 +1,31 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // first four normalized uint24 words
+uniform vec4 EXTRA_ACTOR_UNIFORM2; // last four normalized uint24 words
+
+float packetAt(float wordIndex) {
+    vec4 packet = EXTRA_ACTOR_UNIFORM1;
+    if (wordIndex >= 4.0) packet = EXTRA_ACTOR_UNIFORM2;
+    float component = mod(wordIndex, 4.0);
+    if (component < 0.5) return packet.x;
+    if (component < 1.5) return packet.y;
+    if (component < 2.5) return packet.z;
+    return packet.w;
+}
+
+void main() {
+    float cell = min(floor(clamp(uv.x, 0.0, 1.0) * 24.0), 23.0);
+    float payload = packetAt(floor(cell / 3.0));
+    if (payload < 0.0 || payload >= 1.0) {
+        // Default actor uniforms are white and outside the packet domain.
+        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        return;
+    }
+    float word = floor(payload * 16777216.0);
+    float component = mod(cell, 3.0);
+    float value = mod(word, 256.0);
+    if (component < 0.5) value = floor(word / 65536.0);
+    else if (component < 1.5) value = mod(floor(word / 256.0), 256.0);
+    gl_FragColor = vec4(vec3(value / 255.0), 1.0);
+}

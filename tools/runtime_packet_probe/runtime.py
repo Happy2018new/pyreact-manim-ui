@@ -212,6 +212,10 @@ class ProbeSystem(ClientSystem):
 
     def setup_aggregate(self, config, seed=12345):
         from .aggregate_runtime import AggregateProbe
+        probe_type = AggregateProbe
+        if config.get('transport') in ('atlas2d', 'uniform_split'):
+            from .spatial_runtime import SpatialProbe
+            probe_type = SpatialProbe
         if self.run is not None:
             raise RuntimeError('Finish active benchmark before aggregate setup')
         self._disable_aggregate()
@@ -219,7 +223,7 @@ class ProbeSystem(ClientSystem):
             self.screen.SetRemove()
             self.screen = None
         try:
-            self.aggregation = AggregateProbe(self.post, config, seed)
+            self.aggregation = probe_type(self.post, config, seed)
         except Exception as error:
             # Constructor rollback can itself fail. Keep its complete name list
             # reachable so close() can retry cleanup and snapshot() exposes it.
@@ -228,8 +232,12 @@ class ProbeSystem(ClientSystem):
         return self.aggregation.snapshot()
 
     def _disable_aggregate(self):
-        if self.aggregation is not None and self.aggregation.enabled is not False:
+        if self.aggregation is None:
+            return
+        if self.aggregation.enabled is not False:
             self.aggregation.set_enabled(False)
+        if self.aggregation.config.get('transport') == 'uniform_ui':
+            self.aggregation.close()
 
     def start_aggregate(self, seconds=8., dynamic=True, seed=12345):
         if (self.aggregation is None or not self.aggregation.ready or
@@ -239,6 +247,12 @@ class ProbeSystem(ClientSystem):
             raise RuntimeError('Close packet UI before aggregate benchmarking')
         return self._start_run(self.aggregation.config['pages'], -1,
                                seconds, dynamic, seed, 'aggregate')
+
+    def start_baseline(self, seconds=12.):
+        if self.run is not None:
+            raise RuntimeError('Finish active benchmark before baseline')
+        self.close()
+        return self._start_run(0, -1, seconds, False, 0, 'baseline')
 
     def _start_run(self, count, mode, seconds, dynamic, seed, kind):
         if self.run is not None:
@@ -290,7 +304,7 @@ class ProbeSystem(ClientSystem):
         run["frames"] += 1
         try:
             writer = self.aggregation if run['kind'] == 'aggregate' else self.screen
-            if writer is None:
+            if writer is None and run['kind'] != 'baseline':
                 raise RuntimeError('Benchmark writer was removed')
             if run['kind'] == 'aggregate' and (
                     not writer.ready or writer.enabled is not True or writer.error is not None):

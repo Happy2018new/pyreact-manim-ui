@@ -11,8 +11,12 @@ See [the research report](../../docs/RUNTIME_PACKET_RESEARCH.md) and
 [compact evidence](../../docs/evidence/runtime-packets/summary.json) for actual
 game results: 24 KiB in one batch, and 100,000 float32 values / 400,000 bytes in
 17 independently verified replacement batches. The complete stream is never
-simultaneously resident. The 24 KiB dynamic path ran at about 13 FPS against a
-20 FPS background baseline; this is not a production bulk buffer.
+simultaneously resident. The historical 24 KiB dynamic path ran at about 13 FPS
+against a 20 FPS baseline while the user had imposed an external frame limit.
+That external limit has since been removed; these measurements do not establish
+the cost after its removal or a limit caused by background execution. The later
+portrait atlas and split-uniform experiments are documented in
+[the 2D research report](../../docs/RUNTIME_PACKET_2D_RESEARCH.md).
 
 ## Build the resource project
 
@@ -37,7 +41,7 @@ record `block_fallback` and `initial_panel_offset`. Use a fresh output directory
 when the configuration differs, including when switching the block fallback on
 or off; an incompatible owned output is rejected before files are changed.
 It includes `behavior_pack/packet_probe/{__init__,modMain,runtime,
-aggregate_runtime,numeric_payload,numeric_runtime}.py`, copied from the local research runtime. The generated
+aggregate_runtime,numeric_payload,numeric_runtime,spatial_runtime}.py`, copied from the local research runtime. The generated
 runtime's `LIMIT` is set from `--slots`; the builder does not modify the source
 runtime or start Minecraft.
 
@@ -301,6 +305,148 @@ Runtime tests, protocol negative tests, resource bounds and desktop GPU tests:
 ```
 
 Generated resources and full raw evidence stay in `.runtime/`; only source,
-tests, compact reports and two small capture examples are committed. The optional
+tests, compact reports and small capture examples are committed. The optional
 block fallback, copy/inversion/UI inclusion diagnostic and new bulk PNG/RawPath
 candidate do not acquire game validation from the atlas/carrier results.
+
+## Portrait 2D atlas and split-uniform experiments
+
+These experiments default to a **720×1080 physical client area**. This is a
+desktop portrait test profile, not actual mobile hardware. Build every required
+shader, material, entity and UI definition before a cold launch; Python reload
+does not install new resource paths. The base builder supplies `spatial_runtime`;
+`build_uniform_ui_assets` additionally installs `uniform_ui_runtime`.
+
+| Builder/configuration | Data path | Cost represented by the configuration |
+| --- | --- | --- |
+| `atlas2d_assets.build_atlas2d_assets` / `atlas2d_config` | Eight uint24 words per page accumulate in a 2D render target; one consumer selects display windows | Two payload vec4 values per producer; one producer pass per page plus the consumer |
+| `uniform_split_assets.build_uniform_split_assets` / `uniform_split_config` | Independently named postprocesses draw their own tiles and copy `TEXTURE_0` elsewhere | Two payload vec4 values per process; every process still draws the full screen |
+| `uniform_ui_assets.build_uniform_ui_assets` / `uniform_ui_config` | Independent actor uniforms drive paperdoll tiles, with zero Image carriers and no postprocess | At most 64 paperdoll slots per screen, each with a parent panel; multiple small screens are created in separate render turns |
+
+Split mode `shader_mode='shared'` uses one shader/material resource;
+`'distinct'` generates separate shader/material paths per process. Both have
+independent process parameter names. Neither increases one shader's uniform
+capacity or proves that the driver creates distinct machine code. Generator
+allocation guards and splitting screens do not establish an engine-wide limit.
+
+The following host-only PowerShell example builds all three resource families
+and writes install commands. Use a fresh project directory. The modest counts
+make the example reproducible; change them before launch for a new scale.
+
+```powershell
+@'
+import json
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path('tools/runtime_packet_probe').resolve()))
+from build_probe import build
+from atlas2d_assets import build_atlas2d_assets
+from uniform_split_assets import build_uniform_split_assets
+from uniform_ui_assets import build_uniform_ui_assets
+
+project = build(Path('.runtime/runtime-packet-2d-example'), slots=8)
+resource = project / 'resource_pack'
+commands = project / 'commands'
+commands.mkdir(exist_ok=True)
+configs = {
+    'atlas2d_128': build_atlas2d_assets(resource, 128, screen_size=(720, 1080), display_count=64),
+    'split_shared_64': build_uniform_split_assets(resource, 64, shader_mode='shared'),
+    'split_distinct_64': build_uniform_split_assets(resource, 64, shader_mode='distinct'),
+    'uniform_ui_128': build_uniform_ui_assets(resource, 128, slots_per_screen=64),
+}
+for name, config in configs.items():
+    (project / (name + '.config.json')).write_text(json.dumps(config, indent=2), encoding='utf-8')
+    code = "if probe.run is not None:\n    raise RuntimeError('Finish active benchmark first')\n"
+    if config['transport'] == 'uniform_ui':
+        code += 'from packet_probe.uniform_ui_runtime import UniformUIProbe\nprobe.close()\n'
+        code += 'probe.aggregation=UniformUIProbe(%r,54321)\n' % config
+        code += '_result=json.dumps(probe.aggregation.snapshot())\n'
+    else:
+        code += '_result=json.dumps(probe.setup_aggregate(%r,54321))\n' % config
+    (commands / (name + '_install.py')).write_text(code, encoding='utf-8')
+(commands / 'finish.py').write_text('_result=json.dumps(probe.aggregation.finish())\n', encoding='utf-8')
+(commands / 'create_next.py').write_text(
+    "if any(not screen.ready for screen in probe.aggregation.screens):\n"
+    "    raise RuntimeError('Wait for the previous Create callback')\n"
+    "probe.aggregation.create_next()\n_result=json.dumps(probe.aggregation.snapshot())\n", encoding='utf-8')
+'@ | .venv-reference/Scripts/python.exe -B -X utf8 -
+```
+
+Configure the generated project's `.mcdev.json` to load its BP/RP using the
+existing launcher setup; `host.py launch` also requires this repository's
+`background-tools.local.json`. Cold-launch, resize through the owner-bound host,
+and confirm both the returned client dimensions and a fresh WGC PNG are exactly
+720×1080 before installing a case. `GetScreenSize()` can report different logical
+UI dimensions; the config's `screen_size` and verifier use physical pixels.
+
+```powershell
+$packetProject = '.runtime/runtime-packet-2d-example'
+$packetEvidence = '.runtime/runtime-packet-2d-example-evidence'
+$packetCommands = "$packetProject/commands"
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py launch --project $packetProject --evidence $packetEvidence
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py resize --project $packetProject --evidence $packetEvidence --width 720 --height 1080
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py capture --project $packetProject --evidence $packetEvidence --label portrait_ready
+.venv-reference/Scripts/python.exe -c "from PIL import Image; im=Image.open('$packetEvidence/portrait_ready.png'); print(im.size); assert im.size==(720,1080)"
+```
+
+For atlas2d or either split variant, `setup_aggregate` automatically selects
+`SpatialProbe`. Install the chosen config, allow a later render turn, then call
+`finish()` and require `ready=true`, `enabled=true`, `error=null` before running.
+The same sequence applies to `split_shared_64_install.py` and
+`split_distinct_64_install.py`; use fresh case names for each result.
+
+```powershell
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label atlas_install --code "$packetCommands/atlas2d_128_install.py"
+# After a later render turn:
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label atlas_finish --code "$packetCommands/finish.py"
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/run_spatial_case.py --project $packetProject --evidence $packetEvidence --name atlas_static --seconds 12 --static
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/run_spatial_case.py --project $packetProject --evidence $packetEvidence --name atlas_dynamic --seconds 12
+```
+
+For direct UI uniforms, install `uniform_ui_128_install.py`, then call
+`create_next.py` **once per render turn**, checking that the preceding screen's
+Create callback completed. The 128-slot example needs two such calls, creating
+one screen with 64 paperdoll slots each. Use unique labels such as `ui_create_0` and
+`ui_create_1`; preserve their receipts. Do not use `create_all()` for this
+experiment. In another render turn, call `finish.py`; only after all slices are
+ready may the same runner measure separate static and dynamic 12-second cases.
+
+```powershell
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label ui_install --code "$packetCommands/uniform_ui_128_install.py"
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label ui_create_0 --code "$packetCommands/create_next.py"
+# After that screen's Create callback and a later render turn:
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label ui_create_1 --code "$packetCommands/create_next.py"
+# After all Create callbacks complete, in a later render turn:
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/host.py call --project $packetProject --evidence $packetEvidence --label ui_finish --code "$packetCommands/finish.py"
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/run_spatial_case.py --project $packetProject --evidence $packetEvidence --name ui_static --seconds 12 --static
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/run_spatial_case.py --project $packetProject --evidence $packetEvidence --name ui_dynamic --seconds 12
+```
+
+`run_spatial_case.py` requires an installed, finished, enabled payload. It freezes
+the final generation after timing, independently reconstructs every expected word
+from the recorded seed, and uses `verify_spatial.py` to check every byte with zero
+tolerance at fixed declared coordinates. Atlas pagination changes only the consumer
+query; it never replaces the payload between windows. Complete coverage includes
+the last partial window and a combined observed/expected payload digest. Split
+and UI cases check all tiles in one capture. This verifies all resident bytes of
+one frozen generation, not every timed frame or a GPU-to-Python readback API.
+
+The runner persists `<name>.case.json` on success or handled failure, including
+`status`, `stage`, `error` and cleanup results; retain command logs and partial
+captures when a case fails. Setup failures before invoking the runner must also
+be recorded with their stage/error rather than counted as a throughput result.
+The launcher configures a 60 FPS cap; report actual render intervals and a fresh
+baseline after external frame limits change. No example here promises 60 FPS,
+mobile-device performance, a universal engine limit, or production readiness.
+
+Before writing, the runner requires `HideCrossHairGUI(True)` to succeed. The
+native crosshair can invert pixels after the postprocess output; hiding it keeps
+the fixed-coordinate RGB/alpha checks strict. The first contaminated 1024-page
+capture remains recorded as a failed case, separately from its successful rerun.
+
+An independent verifier can recheck the saved evidence without importing the
+production oracle or using receipt words as expected pixel values:
+
+```powershell
+.venv-reference/Scripts/python.exe -B -X utf8 tools/runtime_packet_probe/verify_spatial_evidence.py --evidence .runtime/runtime-packet-study2d --output docs/evidence/runtime-packets2d/independent-verification.json
+```

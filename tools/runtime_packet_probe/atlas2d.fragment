@@ -1,0 +1,42 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // page index, page count, page columns, page rows
+uniform vec4 EXTRA_VECTOR2; // first four uint24 words / 2^24
+uniform vec4 EXTRA_VECTOR3; // last four uint24 words / 2^24
+
+float packetAt(float wordIndex) {
+    vec4 packet = EXTRA_VECTOR2;
+    if (wordIndex >= 4.0) packet = EXTRA_VECTOR3;
+    float component = mod(wordIndex, 4.0);
+    if (component < 0.5) return packet.x;
+    if (component < 1.5) return packet.y;
+    if (component < 2.5) return packet.z;
+    return packet.w;
+}
+
+void main() {
+    float columns = EXTRA_VECTOR1.z;
+    float rows = EXTRA_VECTOR1.w;
+    float cellX = min(floor(uv.x * columns * 8.0), columns * 8.0 - 1.0);
+    float row = min(floor(uv.y * rows), rows - 1.0);
+    float page = row * columns + floor(cellX / 8.0);
+    if (page >= EXTRA_VECTOR1.y) {
+        // Padding pages are always zero, even if a prior source was nonzero.
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    } else if (abs(page - EXTRA_VECTOR1.x) < 0.5) {
+        // Fractions are exact in float32. Adding 0.5 would corrupt odd uint24
+        // values above 2^23 by rounding them up before floor().
+        float word = floor(packetAt(mod(cellX, 8.0)) * 16777216.0);
+        vec3 bytes = vec3(floor(word / 65536.0),
+                          mod(floor(word / 256.0), 256.0), mod(word, 256.0));
+        gl_FragColor = vec4(bytes / 255.0, 1.0);
+    } else if (EXTRA_VECTOR1.x < 0.5) {
+        // Each frame starts from a clear atlas, without history or feedback.
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    } else {
+        gl_FragColor = texture2D(TEXTURE_3, uv);
+    }
+}
