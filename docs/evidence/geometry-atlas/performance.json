@@ -1,0 +1,43 @@
+{
+  "schema": "geometry_atlas_static_performance_v1",
+  "payload_bytes": 65536,
+  "screen_size": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "measurement": {
+    "gpu_completion_fence": false,
+    "geometry_name": "pmanim_geometry_atlas_epoch1_version2",
+    "generation": 2,
+    "elapsed": 8.000679399999967,
+    "geometry_build_serial": 2,
+    "fps": {
+      "count": 28,
+      "max": 60.0775146484375,
+      "min": 59.76095199584961,
+      "p95": 60.0775146484375,
+      "mean": 60.05490303039551
+    },
+    "frames": 480,
+    "query": [
+      0,
+      4096,
+      2,
+      97
+    ],
+    "interval_ms": {
+      "count": 420,
+      "max": 19.30019999997512,
+      "min": 14.111000000013973,
+      "p95": 18.248200000016368,
+      "mean": 16.67184404761898
+    }
+  },
+  "workload": "All 65536 source quads scatter every frame, three full-resolution passes, 4096 dependent-output cells; source geometry and query frozen",
+  "python_rebuild_each_frame": false,
+  "gpu_completion_fence": false,
+  "every_frame_payload_verified": false,
+  "raw_receipt": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\a3\\measure64k_end.state.json",
+  "raw_receipt_sha256": "ade8b2a93d872c1a890d48299f348eadab1989f76f8cd2edb93814c35856a54d"
+}

@@ -1,0 +1,8 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+void main() {
+    // The immediately preceding pass is deliberately unlike the byte payload.
+    gl_FragColor = vec4(1.0, 0.0, 1.0, 0.25);
+}

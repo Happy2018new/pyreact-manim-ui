@@ -1,5 +1,10 @@
 # 运行时 Python → 原生建筑几何 → shader 数据传输研究
 
+本文保留的是“每个 primitive 只能读取自身记录”的几何通路历史基线。当前已经验证的跨记录索引方案是“几何写入场景 alpha → 复制纹理 → fragment consumer 按索引读取”，请以[几何数据纹理研究](GEOMETRY_ATLAS_RESEARCH.md)为准；本文的旧限制不适用于该新增 pipeline。
+
+编码优化与高频同名更新的后续证据见[compact8 与更新研究](GEOMETRY_PACKET_COMPACT_RESEARCH.md)。
+
+
 本探针将游戏 Python 运行时生成的字节写入 BlockPalette 的方块坐标，调用 `CombineBlockPaletteToGeometry` 生成原生网格，再由自定义 vertex shader 从 `POSITION` 恢复字节。载荷由网格承载；透明 Image 设置的 `CURRENT_COLOR` 只携带查询窗口和布局参数。该通路沿用 BBE 的建筑几何与 PaperDoll 渲染能力，探针运行在独立生成的资源包和行为包中。
 
 仓库内保留[紧凑结果摘要](evidence/geometry-packets/summary.json)、[v4 独立复核](evidence/geometry-packets/independent-verification-v4.json)、[v5 独立复核](evidence/geometry-packets/independent-verification-v5.json)及[冻结／更新对照](evidence/geometry-packets/freeze-update-controls.json)。完整原生截图、状态与命令保留在 `.runtime/geometry-packet-study/`。独立复核保留源失败案例，因此总 `passed=false`；所有源成功案例的 `completed_cases_recheck_passed=true`。

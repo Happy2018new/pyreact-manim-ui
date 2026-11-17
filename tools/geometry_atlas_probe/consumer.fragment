@@ -1,0 +1,60 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // start, count, mode+4*flipY+8*red+16*direct, salt
+uniform vec4 EXTRA_VECTOR2; // slot count, atlas columns, left px, top px
+uniform vec4 EXTRA_VECTOR3; // cell px, physical width, physical height, salt2
+// EXTRA_VECTOR4 belongs to the engine's ScreenInfo binding.
+
+vec4 sourceAt(float index) {
+    float column = mod(index, EXTRA_VECTOR2.y);
+    float row = floor(index / EXTRA_VECTOR2.y);
+    vec2 location = (EXTRA_VECTOR2.zw + (vec2(column, row) + 0.5) * EXTRA_VECTOR3.x)
+                    / EXTRA_VECTOR3.yz;
+    float packedMode = floor(EXTRA_VECTOR1.z);
+    if (mod(floor(packedMode / 4.0), 2.0) > 0.5) location.y = 1.0 - location.y;
+    if (mod(floor(packedMode / 16.0), 2.0) > 0.5) return texture2D(TEXTURE_1, location);
+    return texture2D(TEXTURE_3, location);
+}
+
+float byteAt(float index) {
+    vec4 sampled = sourceAt(index);
+    float channel = sampled.a;
+    if (mod(floor(EXTRA_VECTOR1.z / 8.0), 2.0) > 0.5) channel = sampled.r;
+    return floor(channel * 255.0 + 0.5);
+}
+
+void main() {
+    // Fixed top-left display rectangle: [0,64,720,1000] native pixels.
+    vec2 point = vec2(uv.x, 1.0 - uv.y);
+    point.y = (point.y * 1080.0 - 64.0) / 1000.0;
+    if (point.x < 0.0 || point.x >= 1.0 || point.y < 0.0 || point.y >= 1.0) {
+        gl_FragColor = vec4(texture2D(TEXTURE_1, uv).rgb, 1.0);
+        return;
+    }
+    float rows = ceil(EXTRA_VECTOR1.y / 64.0);
+    float ordinal = floor(point.y * rows) * 64.0 + floor(point.x * 64.0);
+    if (ordinal >= EXTRA_VECTOR1.y) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+    float index = EXTRA_VECTOR1.x + ordinal;
+    float mode = mod(floor(EXTRA_VECTOR1.z), 4.0);
+    if (mode > 0.5 && mode < 2.5) {
+        // slot count <=65536 keeps all 131*index+salt intermediates exact.
+        index = mod(131.0 * index + floor(EXTRA_VECTOR1.w), EXTRA_VECTOR2.x);
+        if (mode > 1.5) {
+            float first = byteAt(index);
+            index = mod(index + 257.0 * first + floor(EXTRA_VECTOR3.w), EXTRA_VECTOR2.x);
+        }
+    }
+    if (mode > 2.5) {
+        gl_FragColor = vec4(sourceAt(index).rgb, 1.0);
+        return;
+    }
+    float value = byteAt(index) / 255.0;
+    gl_FragColor = vec4(value, value, value, 1.0);
+}

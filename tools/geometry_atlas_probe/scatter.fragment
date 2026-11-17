@@ -1,0 +1,10 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+varying highp float geometryByte;
+
+void main() {
+    // Material masks RGB by default. A separately built diagnostic material
+    // permits the same gray output so native POSITION can be calibrated.
+    gl_FragColor = vec4(vec3(geometryByte), geometryByte);
+}

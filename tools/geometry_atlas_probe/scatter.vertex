@@ -1,0 +1,35 @@
+// __multiversion__
+precision highp float;
+#include "vertexVersionCentroid.h"
+#include "uniformWorldConstants.h"
+
+attribute POS4 POSITION;
+uniform highp vec4 EXTRA_ACTOR_UNIFORM1; // stride, yOffset, count, atlas columns
+uniform highp vec4 EXTRA_ACTOR_UNIFORM2; // left px, top px, cell px, physical width
+uniform highp vec4 EXTRA_ACTOR_UNIFORM3; // physical height, source center XYZ
+uniform highp vec4 EXTRA_ACTOR_UNIFORM4; // visible, debug RGB, reserved, reserved
+varying highp float geometryByte;
+
+void main() {
+    float stride = EXTRA_ACTOR_UNIFORM1.x;
+    float count = EXTRA_ACTOR_UNIFORM1.z;
+    float columns = EXTRA_ACTOR_UNIFORM1.w;
+    vec3 source = POSITION.xyz + EXTRA_ACTOR_UNIFORM3.yzw;
+    vec2 cell = floor(source.xz + vec2(0.5));
+    float record = cell.x * stride + cell.y;
+    vec2 corner = (source.xz - cell) * 2.0 + vec2(0.5);
+    float value = 16.0 * floor(source.y) + floor(16.0 * fract(source.y));
+    geometryByte = value / 255.0;
+    if (EXTRA_ACTOR_UNIFORM4.x < 0.5 || stride < 1.0 || columns < 1.0 ||
+        record < 0.0 || record >= count || EXTRA_ACTOR_UNIFORM2.z < 1.0 ||
+        EXTRA_ACTOR_UNIFORM2.w < 1.0 || EXTRA_ACTOR_UNIFORM3.x < 1.0) {
+        gl_Position = vec4(2.0, 2.0, 0.0, 1.0);
+        return;
+    }
+    vec2 grid = vec2(mod(record, columns), floor(record / columns));
+    vec2 pixels = EXTRA_ACTOR_UNIFORM2.xy +
+                  (grid + corner) * EXTRA_ACTOR_UNIFORM2.z;
+    vec2 size = vec2(EXTRA_ACTOR_UNIFORM2.w, EXTRA_ACTOR_UNIFORM3.x);
+    vec2 uv = pixels / size;
+    gl_Position = vec4(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.0, 1.0);
+}

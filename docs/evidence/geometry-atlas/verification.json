@@ -1,0 +1,53 @@
+{
+  "schema": "geometry_transport_final_checks_v1",
+  "generated_at_utc": "2026-11-17T15:34:16.463646+00:00",
+  "test_command": ".venv-reference/Scripts/python.exe -B -m unittest discover -s tests -p test_geometry*.py -q",
+  "tests": 81,
+  "passed": true,
+  "skipped": 0,
+  "elapsed_seconds": 16.77,
+  "gpu_shader_tests_included": true,
+  "mcp_review": {
+    "files": 5,
+    "parsed": 5,
+    "parse_failures": 0,
+    "advisories": [
+      {
+        "rule": "signature.too-many-params",
+        "function": "ProbeSystem.query",
+        "assessment": "Explicit independent research controls for mode, salts, orientation and source; source validation and negative controls covered."
+      },
+      {
+        "rule": "logic-blob.large-function",
+        "function": "ProbeSystem.load",
+        "assessment": "One sequential upload transaction including timings and failure guards; binding failure and budget effects covered."
+      }
+    ]
+  },
+  "cleanup": {
+    "owned_session_state": "stopped",
+    "owner": "manim-geometry-atlas",
+    "entity": null,
+    "ready": false,
+    "pipeline_ready": false,
+    "native_hud_hidden": false
+  },
+  "cleanup_receipt_sha256": "a14592cbf907d412dd20c308174ccec0833343be5fd4ce2db3de2ca1242ed836",
+  "native_render_test_precedes_failure_path_hardening": true,
+  "source_sha256": {
+    "tools/geometry_atlas_probe/build_probe.py": "f7100bbb38a5ba9ca08e66b2fdf0d85e80311906bcad855170f11315df9f3bbb",
+    "tools/geometry_atlas_probe/consumer.fragment": "068aad5b10b7dc38b937cd518670605219049442842575bdcd320e346f5cf59a",
+    "tools/geometry_atlas_probe/copy.fragment": "d93740b0b524185b833dcafecbb779950f3a0c6f10ee64b5d3f6976d0a52c8cb",
+    "tools/geometry_atlas_probe/host.py": "601a8d27cf914d8f753270dca7beacac3643e2494a29e203f994b33c45f33642",
+    "tools/geometry_atlas_probe/modMain.py": "b625c81fe0da31a95b8a83a9cca67597956c3c85032c4527bbb93a094858039c",
+    "tools/geometry_atlas_probe/poison.fragment": "d181e048b65bb20f1acb67233a6e6bda9654a4b0b6edfeaf0b65d8ae4cc1a60f",
+    "tools/geometry_atlas_probe/recheck_evidence.py": "f00fe98339278d8b455db8eba3d6b7d77a01d858ed89163052c99b760eeff429",
+    "tools/geometry_atlas_probe/run_case.py": "919eef82173945255027eb2678d054abd6d21c2b4ff6fbbc8de922dde86dfb25",
+    "tools/geometry_atlas_probe/runtime.py": "7cb6fd3893fb26cdd83c77b06373b85f7e8abf75b5a5a33d84a8a170cb9d0017",
+    "tools/geometry_atlas_probe/scatter.fragment": "221758050b9592ba2de6ef58d373f341c888d25620074aaa6ac9d21abec9f795",
+    "tools/geometry_atlas_probe/scatter.vertex": "05ebd62889cecc3608676ddc23c60e1e78c41238f606008d235c973e5f216e26",
+    "tools/geometry_atlas_probe/verify_capture.py": "401a6c5a7c9e988096814a248b77c68e841bf454f1ac3043a070260da7adbcee",
+    "tools/geometry_packet_probe/codec.py": "6f1d6a2efff632439ed701af387af59b0e45b9534ebdd715f359467e9897aa39",
+    "tools/geometry_packet_probe/runtime.py": "3fd84598dedd955db11454c25e31af0ea5f75b9ec2467feec2d0337cc86f7092"
+  }
+}

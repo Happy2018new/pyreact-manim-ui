@@ -1,0 +1,133 @@
+{
+  "schema": "geometry_atlas_rgb_preservation_v3",
+  "source": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\a3",
+  "screen_size": [
+    720,
+    1080
+  ],
+  "pipeline_disabled_for_rgb_comparison": true,
+  "pipeline_disable_evidence": "commands/rgb_sky_setup_v3.py; SDK rejection raises",
+  "pipeline_ready_is_setup_readiness_not_current_enabled_state": true,
+  "controlled_camera_rotation": [
+    75.0,
+    0.0,
+    0.0
+  ],
+  "dataset": {
+    "seed": 54321,
+    "generation": 2,
+    "slot_count": 65536,
+    "geometry_name": "pmanim_geometry_atlas_epoch1_version2"
+  },
+  "rgb_comparison": {
+    "roi_ltrb": [
+      8,
+      64,
+      520,
+      576
+    ],
+    "pixels": 262144,
+    "changed_pixels": 0,
+    "exact_equal": true,
+    "max_abs_channel_delta": 0,
+    "baseline_rgb_sha256": "e95d7563922b7dd796c1f452435a13a2ef1502d4c981eef21f1d299ffaaffe7a",
+    "writer_rgb_sha256": "e95d7563922b7dd796c1f452435a13a2ef1502d4c981eef21f1d299ffaaffe7a"
+  },
+  "first_uncontrolled_pair": {
+    "captures": [
+      "rgb_baseline.png",
+      "rgb_writer.png"
+    ],
+    "rgb_comparison": {
+      "roi_ltrb": [
+        8,
+        64,
+        520,
+        576
+      ],
+      "pixels": 262144,
+      "changed_pixels": 11941,
+      "exact_equal": false,
+      "max_abs_channel_delta": 190,
+      "baseline_rgb_sha256": "3a8ee68165339731e7c00208baca176653605abb9155dcbb7ab7b460bbb43385",
+      "writer_rgb_sha256": "251d76bdd3b9f16236208d1ba4bc33ad12551fcbe215c2fc6172d77e245a055d"
+    },
+    "interpretation": "Moving world entities are visible at different positions. This pair cannot isolate the writer RGB effect."
+  },
+  "post_comparison_writer_active_check": {
+    "schema": "geometry_atlas_probe_v1",
+    "seed": 54321,
+    "generation": 2,
+    "slot_count": 65536,
+    "geometry_name": "pmanim_geometry_atlas_epoch1_version2",
+    "geometry_build_serial": 2,
+    "encoding": "compact8",
+    "passed": true,
+    "exact_equal": true,
+    "query": [
+      0,
+      4096,
+      2,
+      97
+    ],
+    "salt2": 53,
+    "orientation": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "direct_source": false,
+    "packed_mode": 6,
+    "payload_channel": "alpha",
+    "alpha_channel_sampled": true,
+    "capture_size": [
+      720,
+      1080
+    ],
+    "rows": 64,
+    "sample_width": 3,
+    "byte_tolerance": 0,
+    "required_alpha": 255,
+    "checked_cells": 4096,
+    "checked_pixels": 36864,
+    "checked_channels": 147456,
+    "failed_cells": 0,
+    "max_error": 0,
+    "observed_payload_sha256": "7dc27e82b75a9c058705be3cec0f6cffb0acdbfff7b21d6855e44296460ed8b4",
+    "expected_payload_sha256": "7dc27e82b75a9c058705be3cec0f6cffb0acdbfff7b21d6855e44296460ed8b4"
+  },
+  "conclusion": "All 262144 atlas-ROI RGB pixels are identical in the controlled sky pair. The subsequent dependent gather passes on the same resident generation; this is a fixed-scene result, not arbitrary world/postprocess coexistence.",
+  "excluded_attempts": [
+    {
+      "command": "commands/rgb_sky_setup.py",
+      "error": "SyntaxError: return outside function; no runtime code executed"
+    },
+    {
+      "suffix": "v2",
+      "reason": "Command executed but omitted the _result assignment, so its state JSON is null; use v3 state receipts."
+    }
+  ],
+  "artifact_sha256": {
+    "rgb_sky_setup_v3.state.json": "a2d5f2bfa67b295c2cd4d348ca11b3d982b5ff35198279900b055f1fa13507b7",
+    "rgb_sky_writer_v3.state.json": "ade8b2a93d872c1a890d48299f348eadab1989f76f8cd2edb93814c35856a54d",
+    "rgb_sky_baseline_v3.png": "309b2c5dcb48360c6d89dbfb1486f1c0a74b01df010fb6460701c60a2a71f8e4",
+    "rgb_sky_baseline_v3.json": "9f73363463629342623bf4f036782cf559c6af51b8992ca06bed58d482205fd6",
+    "rgb_sky_writer_v3.png": "0ce5d03650aaafacdb4831613f0040c188e6d003b5894742ee91f2db41148251",
+    "rgb_sky_writer_v3.json": "fee3372cc03fc057117c36c379c74a5c158d92a3e20193b422021619f0f2a81c",
+    "commands/rgb_sky_setup_v3.py": "35c980754d09cf2fe2e99748ea68c8c95979e8221cb191018d11880a03f7a16e",
+    "commands/rgb_sky_writer_v3.py": "b6be323f6a3aa7c7baf299badd5f5bc1db17ab0304685286564ce7f00b240d1e",
+    "post_measure_dependent_v3.state.json": "ade8b2a93d872c1a890d48299f348eadab1989f76f8cd2edb93814c35856a54d",
+    "post_measure_dependent_v3.png": "c45391e88fa5c1bbea0e9963fd7d430a88440586d0c7b3388d732ebd23b16505",
+    "post_measure_dependent_v3.json": "7993d7bf501e8638b2ed96db7a3d752bf548ea6ad87a5340237b3b0243d105a5",
+    "commands/post_measure_dependent_v3.py": "8f6db4abb48683efb4cab4357584c1ce4550fbda947da96328f3ce3ddf49bb1c",
+    "measure64k.state.json": "f0a318079764ffd8afda876aa3c033519b3cd288e3174565309aa9e436ce7287",
+    "measure64k_end.state.json": "ade8b2a93d872c1a890d48299f348eadab1989f76f8cd2edb93814c35856a54d",
+    "commands/measure64k.py": "c5f6d8cf5983983e4462943bb46b419f1995bb3f7ddd5f00e7cf5e3aed3b6516",
+    "rgb_baseline.png": "21eae51f2d38fff9f10859345e2f147cc5ce3c8c0f04d4c5794b47539540ce75",
+    "rgb_writer.png": "f0c8638ad80aee64b3b4f34e2d6913abf4faff0e3eb52a39c7799add61f0cd43",
+    "rgb_baseline.json": "cac58406594be249a2ff5e6b0700a874e12a5789f6ecb018bd57c48447422d4e",
+    "rgb_writer.json": "40284015af99cf325334518ca801bcefb82fefd5ada559e1217be808037ab4bf"
+  },
+  "gpu_to_python_readback": false
+}
