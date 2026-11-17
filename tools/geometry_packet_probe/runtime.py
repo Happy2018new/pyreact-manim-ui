@@ -4,13 +4,15 @@ import math
 import time
 import traceback
 import mod.client.extraClientApi as api
+from geometry_packet_probe.codec import DEFAULT_ENCODING, MAX_BYTES, encode_values
 
 ScreenNode=api.GetScreenNodeCls()
 ClientSystem=api.GetClientSystemCls()
 NAMESPACE='pmanim_geometry_packet_probe'
 IDENTIFIER='pmanim_geometry_packet:quad'
 MASK=0xffffffff
-MAX_BYTES=1048576
+MAX_NAMED_RECORDS=2097152
+MAX_NATIVE_NAMES=256
 
 
 def byte_at(seed,generation,index):
@@ -64,6 +66,8 @@ class ProbeSystem(ClientSystem):
         self.factory=api.GetEngineCompFactory()
         self.level=api.GetLevelId()
         self.game=self.factory.CreateGame(self.level)
+        self.block=self.factory.CreateBlock(self.level)
+        self.geometry=self.factory.CreateBlockGeometry(self.level)
         self.screen=None
         self.registered=False
         self.seed=0
@@ -71,12 +75,24 @@ class ProbeSystem(ClientSystem):
         self.slot_count=0
         self.geometry_name=''
         self.geometry_build_serial=0
+        self.native_attempt_serial=0
         self.epoch=0
+        self.encoding=DEFAULT_ENCODING
+        self.encoding_id=1
+        self.palette_height=16
+        self.volume=[]
+        self.name_policy='fresh'
+        self.interval_frames=1
+        self.max_updates=64
+        self.upload_history=[]
+        self.named_records={}
+        self.named_record_count=0
+        self.screen_revision=0
         self.stride=0
         self.query_value=[0,1,1]
         self.query_mode=0
         self.query_count=0
-        self.y_offset=128.
+        self.y_offset=8.
         self.timings={}
         self.last_run=None
         self.run=None
@@ -98,7 +114,7 @@ class ProbeSystem(ClientSystem):
                 raise RuntimeError('CreateUI failed')
         return self.snapshot()
 
-    def load(self,byte_count,seed=12345,generation=None):
+    def load(self,byte_count,seed=12345,generation=None,return_snapshot=True):
         if self.screen is None or not self.screen.ready:
             raise RuntimeError('Open and wait for ready screen before load')
         byte_count=int(byte_count)
@@ -106,36 +122,48 @@ class ProbeSystem(ClientSystem):
             raise ValueError('Experimental byte_count must be in [1,1048576]')
         seed=int(seed)&MASK
         generation=(self.generation+1)&MASK if generation is None else int(generation)&MASK
+        serial=self.geometry_build_serial+1
+        if self.name_policy=='fresh':
+            name='pmanim_geometry_packet_payload_epoch%d_version%d'%(
+                self.epoch,self.native_attempt_serial+1)
+        else:
+            bank=0 if self.name_policy=='single' else serial%2
+            name='pmanim_geometry_packet_payload_epoch%d_bank%d'%(self.epoch,bank)
+        previous_records=self.named_records.get(name,0)
+        prospective_records=self.named_record_count-previous_records+byte_count
+        if (prospective_records>MAX_NAMED_RECORDS or
+                (name not in self.named_records and len(self.named_records)>=MAX_NATIVE_NAMES)):
+            raise RuntimeError('Research session geometry budget exhausted; restart the owned instance. '
+                               'No public native resource eviction has been verified')
         started=time.clock()
         values=bytearray(byte_at(seed,generation,index) for index in range(byte_count))
         generated=time.clock()
-        stride=2
-        while stride*stride<byte_count:
-            stride*=2
-        indices=[]
-        plane=stride*stride
-        for index,value in enumerate(values):
-            indices.append(value*plane+(index//stride)*stride+index%stride)
-        data={'volume':(stride,stride,256),'common':{(IDENTIFIER,0):indices},
-              'extra':{},'actor':{},'states':{},'extraStates':{},
-              'void':False,'eliminateAir':True}
+        encoded=encode_values(values,self.encoding)
+        data=encoded['data']
+        stride=encoded['stride']
         packed=time.clock()
-        palette=self.factory.CreateBlock(self.level).GetBlankBlockPalette()
+        palette=self.block.GetBlankBlockPalette()
         if palette is None or not palette.DeserializeBlockPalette(data):
             raise RuntimeError('DeserializeBlockPalette rejected')
         deserialized=time.clock()
-        # Independent datasets get fresh names. Repeated updates remain bounded
-        # to two banks inside one epoch; that path still needs pixel validation.
-        name='pmanim_geometry_packet_payload_epoch%d_bank%d'%(
-            self.epoch,(self.geometry_build_serial+1)%2)
-        result=self.factory.CreateBlockGeometry(self.level).CombineBlockPaletteToGeometry(palette,name,1)
+        # Failed native builds and later Render failures also consume attempts.
+        # Fresh retries must not reuse a candidate already known to the engine.
+        self.native_attempt_serial+=1
+        result=self.geometry.CombineBlockPaletteToGeometry(palette,name,1)
         combined=time.clock()
         if not result:
             raise RuntimeError('CombineBlockPaletteToGeometry rejected')
+        # Count successful native builds even if binding the UI later fails.
+        self.named_records[name]=byte_count
+        self.named_record_count=prospective_records
         self.screen.draw(result)
         rendered=time.clock()
         self.seed,self.generation,self.slot_count=seed,generation,byte_count
         self.stride,self.geometry_name=stride,result
+        self.encoding_id=encoded['encoding_id']
+        self.palette_height=encoded['palette_height']
+        self.volume=list(encoded['volume'])
+        self.y_offset=encoded['y_offset']
         self.geometry_build_serial+=1
         self.timings={'generation_ms':(generated-started)*1000.,
                       'palette_ms':(packed-generated)*1000.,
@@ -143,21 +171,65 @@ class ProbeSystem(ClientSystem):
                       'combine_ms':(combined-deserialized)*1000.,
                       'render_ms':(rendered-combined)*1000.,
                       'total_ms':(rendered-started)*1000.}
+        self.upload_history.append({'generation':generation,'name':result,
+            'serial':self.geometry_build_serial,'seed':seed,'slot_count':byte_count,
+            'encoding':self.encoding,'timings':dict(self.timings)})
+        # History is diagnostic metadata, not a native resource eviction policy.
+        if len(self.upload_history)>257:
+            del self.upload_history[:-257]
         count=min(byte_count,4096)
-        self.query(0,count,min(64,count))
-        return self.snapshot()
+        self._write_query(0,count,min(64,count))
+        return self.snapshot() if return_snapshot else None
 
-    def begin_dataset(self):
+    def begin_dataset(self,encoding=DEFAULT_ENCODING):
         if self.run is not None:
             raise RuntimeError('Finish active benchmark before beginning a dataset')
+        if encoding not in ('legacy8','compact8'):
+            raise ValueError('Unknown geometry packet encoding')
         self.epoch+=1
         # Invalidate the old receipt before a new upload can fail. This method
         # does not claim to flush native resources or fix same-name update races.
         self.seed,self.generation,self.slot_count=0,0,0
         self.geometry_name=''
         self.stride=0
+        self.encoding=encoding
+        self.encoding_id=0 if encoding=='legacy8' else 1
+        self.palette_height=256 if encoding=='legacy8' else 16
+        self.y_offset=self.palette_height*.5
+        self.volume=[]
+        self.upload_history=[]
         self.timings={}
         return self.snapshot()
+
+    def configure_updates(self,name_policy='fresh',interval_frames=1,max_updates=64):
+        if self.run is not None:
+            raise RuntimeError('Finish active benchmark before configuring updates')
+        if name_policy not in ('single','double','fresh'):
+            raise ValueError('name_policy must be single, double or fresh')
+        if (not isinstance(interval_frames,int) or not 1<=interval_frames<=120 or
+                not isinstance(max_updates,int) or not 1<=max_updates<=256):
+            raise ValueError('Use 1..120 interval frames and 1..256 bounded updates')
+        self.name_policy=name_policy
+        self.interval_frames=interval_frames
+        self.max_updates=max_updates
+        return self.snapshot()
+
+    def redraw(self):
+        if self.run is not None or not self.geometry_name:
+            raise RuntimeError('Redraw requires a frozen uploaded geometry')
+        self.screen.draw(self.geometry_name)
+        self._write_query(*(self.query_value+[self.query_mode]))
+        return self.snapshot()
+
+    def recreate_screen(self):
+        if self.run is not None or not self.geometry_name:
+            raise RuntimeError('Recreate requires a frozen uploaded geometry')
+        if self.screen is not None:
+            self.screen.SetRemove()
+            self.screen=None
+        self.screen_revision+=1
+        # Create is asynchronous; the host must wait for ready, then redraw.
+        return self.open()
 
     def query(self,start=0,count=4096,columns=64,mode=0):
         self._write_query(start,count,columns,mode)
@@ -170,7 +242,7 @@ class ProbeSystem(ClientSystem):
             raise ValueError('Invalid geometry query')
         started=time.clock()
         query=(count-1)+(columns-1)*4096+mode*262144
-        layout=self.stride+int(round(self.y_offset*2))*2048
+        layout=self.stride+int(round(self.y_offset*2))*2048+self.encoding_id*2097152
         self.screen.image.SetSpriteColor((start/16777216.,query/16777216.,layout/8388608.))
         self.query_value=[start,count,columns]
         self.query_mode=mode
@@ -198,6 +270,8 @@ class ProbeSystem(ClientSystem):
         self.last_run=None
         self.run={'start':now,'until':now+seconds,'warm_until':now+1.,'previous':None,
                   'dynamic':bool(dynamic),'baseline':False,
+                  'updates':0,'max_updates':self.max_updates,
+                  'interval_frames':self.interval_frames,'name_policy':self.name_policy,
                   'seed':self.seed if seed is None else int(seed)&MASK,
                   'frames':0,'interval_ms':[],'fps':[],'generation_ms':[],'palette_ms':[],
                   'deserialize_ms':[],'combine_ms':[],'render_ms':[],'query_ms':[],
@@ -244,22 +318,31 @@ class ProbeSystem(ClientSystem):
         if now>=run['warm_until'] and run['previous'] is not None:
             run['interval_ms'].append((now-run['previous'])*1000.)
         run['previous']=now
-        if now>=run['until']:
+        if now>=run['until'] or (run['dynamic'] and run['updates']>=run['max_updates']):
             self._finish()
             return
         run['frames']+=1
+        did_upload=False
+        did_query=False
         try:
             if run['baseline']:
                 pass
             elif run['dynamic']:
-                self.load(self.slot_count,run['seed'],(self.generation+1)&MASK)
+                if (run['frames']-1)%run['interval_frames']==0:
+                    self.load(self.slot_count,run['seed'],(self.generation+1)&MASK,False)
+                    run['updates']+=1
+                    did_upload=True
+                    did_query=True
             else:
                 count=min(self.slot_count,4096)
                 start=(run['frames']*4096)%self.slot_count
                 start=min(start,self.slot_count-count)
                 self._write_query(start,count,min(64,count))
+                did_query=True
             if now>=run['warm_until']:
                 for key in ('generation_ms','palette_ms','deserialize_ms','combine_ms','render_ms','query_ms'):
+                    if run['dynamic'] and not (did_query if key=='query_ms' else did_upload):
+                        continue
                     measured=self.timings.get(key,0.) if run['dynamic'] or key=='query_ms' else 0.
                     run[key].append(0. if run['baseline'] else measured)
                 if run['frames']%15==0:
@@ -272,7 +355,17 @@ class ProbeSystem(ClientSystem):
         return {'schema':'geometry_packet_probe_v1','ready':self.screen is not None and self.screen.ready,
                 'seed':self.seed,'generation':self.generation,'slot_count':self.slot_count,
                 'geometry_name':self.geometry_name,'geometry_build_serial':self.geometry_build_serial,
+                'native_attempt_serial':self.native_attempt_serial,
                 'epoch':self.epoch,
+                'encoding':self.encoding,'encoding_id':self.encoding_id,
+                'palette_height':self.palette_height,'palette_volume':list(self.volume),
+                'name_policy':self.name_policy,'interval_frames':self.interval_frames,
+                'max_updates':self.max_updates,'upload_history':list(self.upload_history),
+                'screen_revision':self.screen_revision,
+                'resource_budget':{'named_geometry_count':len(self.named_records),
+                    'named_record_count':self.named_record_count,
+                    'max_names':MAX_NATIVE_NAMES,'max_named_records':MAX_NAMED_RECORDS,
+                    'native_reclamation_verified':False},
                 'screen_size':list(self.capture_size),
                 'screen_size_source':'declared_capture_target_host_must_verify_native_pixels',
                 'logical_screen_size':list(self.game.GetScreenSize()),'query':list(self.query_value),

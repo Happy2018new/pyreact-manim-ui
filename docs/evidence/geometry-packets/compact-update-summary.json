@@ -1,0 +1,2386 @@
+{
+  "schema": "geometry_packet_compact_update_summary_v1",
+  "generated_at_utc": "2026-11-17T14:50:09.164005+00:00",
+  "scope": "compact POSITION encoding, bounded update diagnostics, static capacity failures, and final-source cold-launch checks",
+  "settings": {
+    "fps_cap": 60,
+    "unlimited_fps": false,
+    "background_noactivation_required": true,
+    "capture_physical_pixels": [
+      720,
+      1080
+    ],
+    "capture": "Windows.Graphics.Capture native PNG",
+    "display_rect_physical": [
+      0,
+      64,
+      720,
+      1000
+    ],
+    "query_window_max_slots": 4096,
+    "query_columns": 64,
+    "pixel_patch": [
+      3,
+      3
+    ],
+    "rgb_byte_tolerance": 0,
+    "required_alpha": 255,
+    "oracle": "host independently recomputes seed/generation/index PRNG",
+    "benchmark_warmup_seconds": 1,
+    "v6_static_requested_seconds": 8,
+    "v6_update_requested_seconds": 12,
+    "v8_update_requested_seconds": 8,
+    "v6_update_count": 128,
+    "v6_final_settle_seconds": 2,
+    "cpu_timings_are_call_return_times": true,
+    "native_gpu_completion_measured": false,
+    "display_rect_physical_format": "x,y,width,height",
+    "launch_receipts": [
+      {
+        "path": ".runtime/geometry-packet-study/v6/launch.json",
+        "sha256": "e81e82b8847d18432b194e9a189ec53ac191059a927cc65a1167c121d3f516ed",
+        "fps": 60,
+        "background_only": true,
+        "state": "ready"
+      },
+      {
+        "path": ".runtime/geometry-packet-study/v7/launch.json",
+        "sha256": "8b6b8c421d61842f9a994d0f586f1e314f32aedc3cef5dba3062e1e6edb18a44",
+        "fps": 60,
+        "background_only": true,
+        "state": "ready"
+      },
+      {
+        "path": ".runtime/geometry-packet-study/v8/launch.json",
+        "sha256": "c91a1f14004174c2103fde4eb2d0eec9562f803de6cd400ac3f54ff33ff925b8",
+        "fps": 60,
+        "background_only": true,
+        "state": "ready"
+      }
+    ]
+  },
+  "encoding": {
+    "default": "compact8",
+    "logical_bytes_per_record": 1,
+    "quads_per_record": 1,
+    "legacy8_palette_height": 256,
+    "compact8_palette_height": 16,
+    "compact8_template_count": 16,
+    "compact8_block_y": "byte // 16",
+    "compact8_template": "byte % 16",
+    "local_plane_y": "(template+0.5)/16",
+    "decode": "16*floor(source.y)+floor(16*fract(source.y))",
+    "theoretical_equal_stride_palette_volume_ratio_compact_to_legacy": "1/16",
+    "quad_count_ratio_compact_to_legacy": 1,
+    "native_memory_ratio_measured": false,
+    "control_contains_payload_seed_or_generation": false
+  },
+  "current_source_policy": {
+    "default_name_policy": "fresh",
+    "default_max_updates": 64,
+    "single_and_double_are_diagnostic_only": true,
+    "max_native_names": 256,
+    "max_named_logical_records": 2097152,
+    "budget_persists_begin_dataset": true,
+    "budget_counts_latest_logical_record_count_per_successful_geometry_name": true,
+    "budget_is_native_or_gpu_byte_estimate": false,
+    "native_resource_reclamation_verified": false
+  },
+  "cases": [
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/compact12k_static.case.json",
+        "sha256": "23095cb894d408fb60bc8ca3252dc46b9efbd6cdb782f09733074ff09adc22dc"
+      },
+      "name": "compact12k_static",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "static_query_benchmark",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 16,
+        "palette_volume": [
+          128,
+          128,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 1,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch3_version3",
+        "geometry_build_serial": 3,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": false,
+        "frames": 480,
+        "updates": 0,
+        "initial_generation": 1,
+        "generation": 1,
+        "max_updates": 64,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 8.014219299999993
+      },
+      "fps": {
+        "count": 28,
+        "min": 60.0775146484375,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "render_event_interval_ms": {
+        "count": 421,
+        "min": 7.894699999994259,
+        "max": 24.813300000005256,
+        "p95": 18.057400000003554,
+        "p50": 16.6663999999912,
+        "mean": 16.664217814726833
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.015399999995224789,
+          "max": 0.047199999997360464,
+          "p95": 0.023499999997511622,
+          "p50": 0.018799999992324956,
+          "mean": 0.019387619047250837
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.014699999994149948,
+        "combine_ms": 0.9668000000004895,
+        "render_ms": 0.3137000000066337,
+        "generation_ms": 9.520800000004215,
+        "total_ms": 13.03140000000269,
+        "palette_ms": 2.215399999997203
+      },
+      "verification": {
+        "passed": true,
+        "exact_equal": true,
+        "full_slot_coverage": true,
+        "capture_count": 3,
+        "payload_bytes": 12288,
+        "checked_cells": 12288,
+        "checked_pixels": 110592,
+        "failed_cells": 0,
+        "max_error": 0,
+        "observed_payload_sha256": "f7b78498e76c5b11b862cbdad2346b417fa68e4012426a76a29cab62e2bbd61a",
+        "expected_payload_sha256": "f7b78498e76c5b11b862cbdad2346b417fa68e4012426a76a29cab62e2bbd61a"
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/compact3k_static.case.json",
+        "sha256": "02b37a8418c18a7ac49db58955e823acab592621edb593ec9270937aec9b96e9"
+      },
+      "name": "compact3k_static",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 3072,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "static_query_benchmark",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 64,
+        "palette_height": 16,
+        "palette_volume": [
+          64,
+          64,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 1,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch2_version2",
+        "geometry_build_serial": 2,
+        "slot_count": 3072
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": false,
+        "frames": 479,
+        "updates": 0,
+        "initial_generation": 1,
+        "generation": 1,
+        "max_updates": 64,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 8.0001642
+      },
+      "fps": {
+        "count": 27,
+        "min": 59.96131134033203,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.06029934353299
+      },
+      "render_event_interval_ms": {
+        "count": 420,
+        "min": 12.95509999999922,
+        "max": 20.699799999999158,
+        "p95": 18.133499999997582,
+        "p50": 16.66060000000158,
+        "mean": 16.669273333333326
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 419,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 419,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 419,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 419,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 419,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 419,
+          "min": 0.013100000003873902,
+          "max": 0.0665000000026339,
+          "p95": 0.02320000000111122,
+          "p50": 0.01749999999844931,
+          "mean": 0.018422673031032826
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.009300000002099296,
+        "combine_ms": 0.23419999999774177,
+        "render_ms": 0.11350000000120986,
+        "generation_ms": 2.230199999999627,
+        "total_ms": 3.136399999998929,
+        "palette_ms": 0.5491999999982511
+      },
+      "verification": {
+        "passed": true,
+        "exact_equal": true,
+        "full_slot_coverage": true,
+        "capture_count": 1,
+        "payload_bytes": 3072,
+        "checked_cells": 3072,
+        "checked_pixels": 27648,
+        "failed_cells": 0,
+        "max_error": 0,
+        "observed_payload_sha256": "80501f1b5e61b73a7233e8662c20c7bfae7a718b293d0d0a1d003765637b86a8",
+        "expected_payload_sha256": "80501f1b5e61b73a7233e8662c20c7bfae7a718b293d0d0a1d003765637b86a8"
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/compact_smoke256.case.json",
+        "sha256": "d1b42d55b170845629b28daa0482bfed036d13b60f67d9c353ed75bec84fc188"
+      },
+      "name": "compact_smoke256",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 256,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "static_verify_only",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 16,
+        "palette_height": 16,
+        "palette_volume": [
+          16,
+          16,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 1,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch1_version1",
+        "geometry_build_serial": 1,
+        "slot_count": 256
+      },
+      "resource_budget": null,
+      "benchmark": {},
+      "fps": {
+        "count": 0,
+        "mean": null,
+        "interpretation": "No benchmark FPS measurement"
+      },
+      "render_event_interval_ms": {
+        "count": 0
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {},
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.011700000000000012,
+        "combine_ms": 0.05660000000000002,
+        "render_ms": 97.39399999999999,
+        "generation_ms": 0.22619999999999998,
+        "total_ms": 97.75349999999999,
+        "palette_ms": 0.06499999999999997
+      },
+      "verification": {
+        "passed": true,
+        "exact_equal": true,
+        "full_slot_coverage": true,
+        "capture_count": 1,
+        "payload_bytes": 256,
+        "checked_cells": 256,
+        "checked_pixels": 2304,
+        "failed_cells": 0,
+        "max_error": 0,
+        "observed_payload_sha256": "06e4a9d75ac836eff0a8e9432e66f36096083de3a140affe9edcdcb4e8317bbb",
+        "expected_payload_sha256": "06e4a9d75ac836eff0a8e9432e66f36096083de3a140affe9edcdcb4e8317bbb"
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/compact12k_double128.update.json",
+        "sha256": "033bdfe1ce35b4c07c7458c291c680721981583a6dc8154e5e797962f637a67b"
+      },
+      "name": "compact12k_double128",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "compact8",
+      "name_policy": "double",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 16,
+        "palette_volume": [
+          128,
+          128,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 129,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch6_bank0",
+        "geometry_build_serial": 390,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 128,
+        "updates": 128,
+        "initial_generation": 1,
+        "generation": 129,
+        "max_updates": 128,
+        "interval_frames": 1,
+        "name_policy": "double",
+        "elapsed": 2.7825881999999638
+      },
+      "fps": {
+        "count": 5,
+        "min": 43.564353942871094,
+        "max": 47.05882263183594,
+        "p95": 45.81673049926758,
+        "p50": 45.81673049926758,
+        "mean": 45.164198303222655
+      },
+      "render_event_interval_ms": {
+        "count": 82,
+        "min": 19.15030000003526,
+        "max": 27.07589999999982,
+        "p95": 24.691599999982827,
+        "p50": 21.551100000010592,
+        "mean": 21.901432926829635
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 81,
+          "min": 8.996799999977156,
+          "max": 13.763699999969958,
+          "p95": 12.731099999996331,
+          "p50": 10.712500000011005,
+          "mean": 10.936545679010544
+        },
+        "palette_ms": {
+          "count": 81,
+          "min": 2.117499999997108,
+          "max": 5.1294000000439155,
+          "p95": 3.819199999952616,
+          "p50": 2.5355999999874257,
+          "mean": 2.6895827160546455
+        },
+        "deserialize_ms": {
+          "count": 81,
+          "min": 0.010299999985363684,
+          "max": 0.051900000016757986,
+          "p95": 0.021699999990687502,
+          "p50": 0.01500000001897206,
+          "mean": 0.0161950617262442
+        },
+        "combine_ms": {
+          "count": 81,
+          "min": 1.331999999990785,
+          "max": 2.4475999999822307,
+          "p95": 2.26959999997689,
+          "p50": 1.5549999999961983,
+          "mean": 1.6699185185155296
+        },
+        "render_ms": {
+          "count": 81,
+          "min": 0.048699999979362474,
+          "max": 0.23879999997689083,
+          "p95": 0.16249999998763087,
+          "p50": 0.05829999997786217,
+          "mean": 0.07808518518495587
+        },
+        "query_ms": {
+          "count": 81,
+          "min": 0.012399999945955642,
+          "max": 0.05770000001348308,
+          "p95": 0.03969999994524187,
+          "p50": 0.014700000008360803,
+          "mean": 0.01831111110684588
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.015100000041456951,
+        "combine_ms": 1.5753999999787993,
+        "render_ms": 0.056700000016007834,
+        "generation_ms": 13.088999999979478,
+        "total_ms": 17.38940000001321,
+        "palette_ms": 2.6531999999974687
+      },
+      "verification": {},
+      "requested_settings": {
+        "max_updates": 128,
+        "interval_frames": 1,
+        "seconds": 12.0,
+        "settle_seconds": 2.0,
+        "full_requested": true,
+        "recreate_requested": true
+      },
+      "controls": {
+        "final": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        },
+        "same_name_redraw": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        },
+        "recreated_screen": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/compact12k_fresh128.update.json",
+        "sha256": "1537f2a1c86795b7a209c4d3458ff0461dcc7d5cf0b91962a8d11d85a893ca2c"
+      },
+      "name": "compact12k_fresh128",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 16,
+        "palette_volume": [
+          128,
+          128,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 129,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch8_version648",
+        "geometry_build_serial": 648,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 128,
+        "updates": 128,
+        "initial_generation": 1,
+        "generation": 129,
+        "max_updates": 128,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 2.580307599999969
+      },
+      "fps": {
+        "count": 5,
+        "min": 49.01960372924805,
+        "max": 51.18109893798828,
+        "p95": 51.18109893798828,
+        "p50": 50.48543167114258,
+        "mean": 50.470532989501955
+      },
+      "render_event_interval_ms": {
+        "count": 79,
+        "min": 17.574200000012752,
+        "max": 23.347700000044824,
+        "p95": 22.462200000063604,
+        "p50": 20.01740000002883,
+        "mean": 20.06491645569659
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 78,
+          "min": 8.984999999938736,
+          "max": 11.928099999977348,
+          "p95": 11.163800000076662,
+          "p50": 9.837800000013885,
+          "mean": 9.939325641030978
+        },
+        "palette_ms": {
+          "count": 78,
+          "min": 2.1386000000802596,
+          "max": 5.010399999946458,
+          "p95": 3.785500000049069,
+          "p50": 2.355200000010882,
+          "mean": 2.573507692309599
+        },
+        "deserialize_ms": {
+          "count": 78,
+          "min": 0.010799999927257886,
+          "max": 0.022400000034394907,
+          "p95": 0.01899999995202961,
+          "p50": 0.013799999919683614,
+          "mean": 0.014357692303945395
+        },
+        "combine_ms": {
+          "count": 78,
+          "min": 0.7564000000002125,
+          "max": 1.8990999999459746,
+          "p95": 1.4638999999760927,
+          "p50": 0.9209999999484353,
+          "mean": 1.011674358978372
+        },
+        "render_ms": {
+          "count": 78,
+          "min": 0.143900000011854,
+          "max": 2.1457999999938693,
+          "p95": 0.2961000000141212,
+          "p50": 0.1711999999542968,
+          "mean": 0.2161794871758852
+        },
+        "query_ms": {
+          "count": 78,
+          "min": 0.012099999935344385,
+          "max": 0.23939999994126993,
+          "p95": 0.025000000050567905,
+          "p50": 0.0144999999065476,
+          "mean": 0.019611538454146517
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.015400000052068208,
+        "combine_ms": 1.5083999999205844,
+        "render_ms": 0.2687000001060369,
+        "generation_ms": 10.558999999943808,
+        "total_ms": 15.164300000037656,
+        "palette_ms": 2.8128000000151587
+      },
+      "verification": {},
+      "requested_settings": {
+        "max_updates": 128,
+        "interval_frames": 1,
+        "seconds": 12.0,
+        "settle_seconds": 2.0,
+        "full_requested": true,
+        "recreate_requested": false
+      },
+      "controls": {
+        "final": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        },
+        "same_name_redraw": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/legacy12k_double128.update.json",
+        "sha256": "57fdcf9e056f32f76ce05c534e5ff1ae80aa216a845e6658fd11c6b3387adb70"
+      },
+      "name": "legacy12k_double128",
+      "version": "v6",
+      "status": "failed",
+      "payload_bytes": 12288,
+      "encoding": "legacy8",
+      "name_policy": "double",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": false,
+      "final_payload_passed": false,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": false,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 256,
+        "palette_volume": [
+          128,
+          128,
+          256
+        ],
+        "encoding_id": 0,
+        "y_offset": 128.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 129,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch4_bank0",
+        "geometry_build_serial": 132,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 128,
+        "updates": 128,
+        "initial_generation": 1,
+        "generation": 129,
+        "max_updates": 128,
+        "interval_frames": 1,
+        "name_policy": "double",
+        "elapsed": 4.872482500000018
+      },
+      "fps": {
+        "count": 6,
+        "min": 21.868785858154297,
+        "max": 31.43418312072754,
+        "p95": 30.245744705200195,
+        "p50": 27.777774810791016,
+        "mean": 27.444303194681805
+      },
+      "render_event_interval_ms": {
+        "count": 98,
+        "min": 26.565700000020342,
+        "max": 75.56500000001165,
+        "p95": 56.83439999998541,
+        "p50": 37.66630000001214,
+        "mean": 39.810592857142645
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 97,
+          "min": 9.0324000000237,
+          "max": 26.446300000003475,
+          "p95": 14.976700000005394,
+          "p50": 11.142200000023195,
+          "mean": 11.600475257734578
+        },
+        "palette_ms": {
+          "count": 97,
+          "min": 0.5337000000054104,
+          "max": 1.9031000000211407,
+          "p95": 1.0675999999989472,
+          "p50": 0.6895999999869673,
+          "mean": 0.729564948453009
+        },
+        "deserialize_ms": {
+          "count": 97,
+          "min": 0.011199999988775744,
+          "max": 0.15240000001881526,
+          "p95": 0.028000000014571924,
+          "p50": 0.017500000012660166,
+          "mean": 0.019718556700647392
+        },
+        "combine_ms": {
+          "count": 97,
+          "min": 10.99800000000073,
+          "max": 55.839200000008304,
+          "p95": 33.776799999998275,
+          "p50": 15.345099999990452,
+          "mean": 17.81116804123648
+        },
+        "render_ms": {
+          "count": 97,
+          "min": 0.06100000001652006,
+          "max": 1.0005000000035125,
+          "p95": 0.38120000002095367,
+          "p50": 0.17020000001366498,
+          "mean": 0.20542783505297896
+        },
+        "query_ms": {
+          "count": 97,
+          "min": 0.01370000001088556,
+          "max": 0.11489999999980682,
+          "p95": 0.07439999998837266,
+          "p50": 0.021400000008497955,
+          "mean": 0.03137216494829988
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.017299999996112092,
+        "combine_ms": 17.02240000000188,
+        "render_ms": 0.29359999999201136,
+        "generation_ms": 10.983700000025465,
+        "total_ms": 29.059600000010732,
+        "palette_ms": 0.7425999999952637
+      },
+      "verification": {},
+      "requested_settings": {
+        "max_updates": 128,
+        "interval_frames": 1,
+        "seconds": 12.0,
+        "settle_seconds": 2.0,
+        "full_requested": true,
+        "recreate_requested": true
+      },
+      "controls": {
+        "final": {
+          "status": "failed",
+          "passed": false,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": false,
+            "exact_equal": false,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 12250,
+            "max_error": 254,
+            "observed_payload_sha256": "09e134a0626706eb92fb0ed98e8103412668ac04530dcbb6b87fa4db77d3ee54",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            }
+          ]
+        },
+        "same_name_redraw": {
+          "status": "failed",
+          "passed": false,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": false,
+            "exact_equal": false,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 12250,
+            "max_error": 254,
+            "observed_payload_sha256": "09e134a0626706eb92fb0ed98e8103412668ac04530dcbb6b87fa4db77d3ee54",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            }
+          ]
+        },
+        "recreated_screen": {
+          "status": "failed",
+          "passed": false,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": false,
+            "exact_equal": false,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 12250,
+            "max_error": 254,
+            "observed_payload_sha256": "09e134a0626706eb92fb0ed98e8103412668ac04530dcbb6b87fa4db77d3ee54",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "stale_generation",
+              "matched_generations": [
+                59
+              ],
+              "passed": false
+            }
+          ]
+        }
+      },
+      "completed_window_count": 0,
+      "passed_window_count": 0,
+      "passed_prefix_slot_count": 0,
+      "failure_kind": "final_payload_is_exact_submitted_stale_generation",
+      "observed_stale_generation": 59,
+      "stale_full_12288_slot_match_in_controls": [
+        "final",
+        "same_name_redraw",
+        "recreated_screen"
+      ]
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/legacy12k_double128_spaced.update.json",
+        "sha256": "8a6c0c964c97468281c578e2c72adb99f600b098ba37ebcb661837576c1cd189"
+      },
+      "name": "legacy12k_double128_spaced",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "legacy8",
+      "name_policy": "double",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 256,
+        "palette_volume": [
+          128,
+          128,
+          256
+        ],
+        "encoding_id": 0,
+        "y_offset": 128.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 129,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch7_bank1",
+        "geometry_build_serial": 519,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 509,
+        "updates": 128,
+        "initial_generation": 1,
+        "generation": 129,
+        "max_updates": 128,
+        "interval_frames": 4,
+        "name_policy": "double",
+        "elapsed": 10.678495499999997
+      },
+      "fps": {
+        "count": 30,
+        "min": 41.42011642456055,
+        "max": 53.67792892456055,
+        "p95": 53.04518508911133,
+        "p50": 47.80876159667969,
+        "mean": 48.14932505289713
+      },
+      "render_event_interval_ms": {
+        "count": 464,
+        "min": 13.1443999999874,
+        "max": 65.95780000003515,
+        "p95": 38.04990000003272,
+        "p50": 17.251099999953112,
+        "mean": 20.896049137931037
+      },
+      "cpu_stage_statistics_valid": false,
+      "cpu_stage_ms": {},
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.020099999971989746,
+        "combine_ms": 13.91680000000406,
+        "render_ms": 0.2781000000027234,
+        "generation_ms": 9.634200000050441,
+        "total_ms": 24.55680000002758,
+        "palette_ms": 0.7075999999983651
+      },
+      "verification": {},
+      "cpu_stage_statistics_excluded_reason": "v6 skipped-upload render events duplicated previous upload timings; per-upload history timings remain usable",
+      "requested_settings": {
+        "max_updates": 128,
+        "interval_frames": 4,
+        "seconds": 25.0,
+        "settle_seconds": 2.0,
+        "full_requested": true,
+        "recreate_requested": false
+      },
+      "controls": {
+        "final": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        },
+        "same_name_redraw": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/legacy12k_fresh128.update.json",
+        "sha256": "ee34d91e667ec275b8b8e526328546e633747dcb5872c9ac0707d23dda2bd6f2"
+      },
+      "name": "legacy12k_fresh128",
+      "version": "v6",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "legacy8",
+      "name_policy": "fresh",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 256,
+        "palette_volume": [
+          128,
+          128,
+          256
+        ],
+        "encoding_id": 0,
+        "y_offset": 128.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 129,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch5_version261",
+        "geometry_build_serial": 261,
+        "slot_count": 12288
+      },
+      "resource_budget": null,
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 128,
+        "updates": 128,
+        "initial_generation": 1,
+        "generation": 129,
+        "max_updates": 128,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 9.782695100000012
+      },
+      "fps": {
+        "count": 7,
+        "min": 7.561436176300049,
+        "max": 25.896411895751953,
+        "p95": 15.384613990783691,
+        "p50": 11.090572357177734,
+        "mean": 13.2796311378479
+      },
+      "render_event_interval_ms": {
+        "count": 102,
+        "min": 34.750699999989365,
+        "max": 356.2545000000341,
+        "p95": 162.5543000000107,
+        "p50": 72.18579999999974,
+        "mean": 86.21650882352971
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 101,
+          "min": 9.151799999983723,
+          "max": 29.891700000007404,
+          "p95": 19.238600000051065,
+          "p50": 13.465199999984634,
+          "mean": 14.17507029703241
+        },
+        "palette_ms": {
+          "count": 101,
+          "min": 0.5878999999993084,
+          "max": 3.1700000000114414,
+          "p95": 1.7286000000353852,
+          "p50": 0.8895999999936066,
+          "mean": 1.0273999999953103
+        },
+        "deserialize_ms": {
+          "count": 101,
+          "min": 0.016200000004573667,
+          "max": 0.13840000002574016,
+          "p95": 0.04330000001573353,
+          "p50": 0.02260000002252127,
+          "mean": 0.026343564358474323
+        },
+        "combine_ms": {
+          "count": 101,
+          "min": 17.676500000021633,
+          "max": 258.39200000001483,
+          "p95": 119.73799999998391,
+          "p50": 45.511099999998805,
+          "mean": 55.914169306927896
+        },
+        "render_ms": {
+          "count": 101,
+          "min": 0.1960999999823798,
+          "max": 2.2316000000159875,
+          "p95": 0.7184999999481079,
+          "p50": 0.3796999999963191,
+          "mean": 0.4267821782237022
+        },
+        "query_ms": {
+          "count": 101,
+          "min": 0.014799999974002276,
+          "max": 0.2501000000165732,
+          "p95": 0.10049999997363557,
+          "p50": 0.03140000001167209,
+          "mean": 0.046935643564044616
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.021300000014434772,
+        "combine_ms": 21.404200000006313,
+        "render_ms": 0.1960999999823798,
+        "generation_ms": 13.310400000023037,
+        "total_ms": 35.67920000000413,
+        "palette_ms": 0.7471999999779655
+      },
+      "verification": {},
+      "requested_settings": {
+        "max_updates": 128,
+        "interval_frames": 1,
+        "seconds": 12.0,
+        "settle_seconds": 2.0,
+        "full_requested": true,
+        "recreate_requested": false
+      },
+      "controls": {
+        "final": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        },
+        "same_name_redraw": {
+          "status": "passed",
+          "passed": true,
+          "full_slot_coverage": true,
+          "verification": {
+            "passed": true,
+            "exact_equal": true,
+            "full_slot_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "observed_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4",
+            "expected_payload_sha256": "ff722e92ba87ec21713b460b149112b4a4d028d1a3c625f56c0f05851285afe4"
+          },
+          "window_classifications": [
+            {
+              "query": [
+                0,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                4096,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            },
+            {
+              "query": [
+                8192,
+                4096,
+                64
+              ],
+              "classification": "current_generation",
+              "matched_generations": [
+                129
+              ],
+              "passed": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v7/compact1m_static.case.json",
+        "sha256": "36a58ed2a6f9c61d75fd775be4c55938f02473cc904c7e442075fc8b25bbd614"
+      },
+      "name": "compact1m_static",
+      "version": "v7",
+      "status": "failed",
+      "payload_bytes": 1048576,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "static_verify_only",
+      "source_reported_passed": null,
+      "final_payload_passed": false,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": false,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "verify:0",
+      "layout": {
+        "stride": 1024,
+        "palette_height": 16,
+        "palette_volume": [
+          1024,
+          1024,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 1,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch1_version1",
+        "geometry_build_serial": 1,
+        "slot_count": 1048576
+      },
+      "resource_budget": {
+        "max_names": 256,
+        "named_record_count": 1048576,
+        "max_named_records": 2097152,
+        "named_geometry_count": 1,
+        "native_reclamation_verified": false
+      },
+      "benchmark": {},
+      "fps": {
+        "count": 0,
+        "mean": null,
+        "interpretation": "No benchmark FPS measurement"
+      },
+      "render_event_interval_ms": {
+        "count": 0
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {},
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.01689999999998637,
+        "combine_ms": 90.32560000000001,
+        "render_ms": 293.74809999999997,
+        "generation_ms": 806.552,
+        "total_ms": 1381.0654,
+        "palette_ms": 190.4228
+      },
+      "verification": {},
+      "completed_window_count": 1,
+      "passed_window_count": 0,
+      "passed_prefix_slot_count": 0,
+      "failure_kind": "native_pixel_oracle_failure",
+      "failed_window": {
+        "query": [
+          0,
+          4096,
+          64
+        ],
+        "passed": false,
+        "checked_cells": 4096,
+        "failed_cells": 537,
+        "max_error": 249
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v7/compact256k_static.case.json",
+        "sha256": "08106d55c290b1e6f1760f57a83f0222369930ed855d7871eb97242726f6fca8"
+      },
+      "name": "compact256k_static",
+      "version": "v7",
+      "status": "failed",
+      "payload_bytes": 262144,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "static_query_benchmark",
+      "source_reported_passed": null,
+      "final_payload_passed": false,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": false,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "query:106496",
+      "layout": {
+        "stride": 512,
+        "palette_height": 16,
+        "palette_volume": [
+          512,
+          512,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 1,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch2_version2",
+        "geometry_build_serial": 2,
+        "slot_count": 262144
+      },
+      "resource_budget": {
+        "max_names": 256,
+        "named_record_count": 1310720,
+        "max_named_records": 2097152,
+        "named_geometry_count": 2,
+        "native_reclamation_verified": false
+      },
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": false,
+        "frames": 480,
+        "updates": 0,
+        "initial_generation": 1,
+        "generation": 1,
+        "max_updates": 64,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 8.013731499999992
+      },
+      "fps": {
+        "count": 28,
+        "min": 59.96131134033203,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.06506429399763
+      },
+      "render_event_interval_ms": {
+        "count": 421,
+        "min": 14.370199999987676,
+        "max": 18.842100000000528,
+        "p95": 18.182899999999336,
+        "p50": 16.675900000009847,
+        "mean": 16.66341923990499
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.01639999999270003,
+          "max": 0.10079999999845768,
+          "p95": 0.027500000001623448,
+          "p50": 0.019300000005273432,
+          "mean": 0.020587142856581545
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.01650000000097407,
+        "combine_ms": 26.416299999993953,
+        "render_ms": 0.28290000000197324,
+        "generation_ms": 222.89959999999098,
+        "total_ms": 306.6120999999953,
+        "palette_ms": 56.9968000000074
+      },
+      "verification": {},
+      "completed_window_count": 26,
+      "passed_window_count": 26,
+      "passed_prefix_slot_count": 106496,
+      "failure_kind": "background_protection_lost_after_host_call",
+      "failure_log": {
+        "path": ".runtime/geometry-packet-study/v7/compact256k_static_window_0026.call.log",
+        "sha256": "e761d2c3ca76a929556392a387c4cc155d69deea1ee486e2abf72ac288490952"
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v8/compact12k_dynamic32.case.json",
+        "sha256": "d73589cd04b5a02a18f3fb7badd57f1a655b77fc576460c7185a6e1507200820"
+      },
+      "name": "compact12k_dynamic32",
+      "version": "v8",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 128,
+        "palette_height": 16,
+        "palette_volume": [
+          128,
+          128,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 33,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch2_version146",
+        "geometry_build_serial": 146,
+        "slot_count": 12288
+      },
+      "resource_budget": {
+        "max_names": 256,
+        "named_record_count": 752640,
+        "max_named_records": 2097152,
+        "named_geometry_count": 146,
+        "native_reclamation_verified": false
+      },
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 32,
+        "updates": 32,
+        "initial_generation": 1,
+        "generation": 33,
+        "max_updates": 32,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 0.5924133999999981
+      },
+      "fps": {
+        "count": 0,
+        "mean": null,
+        "interpretation": "No GetFps samples; no FPS claim"
+      },
+      "render_event_interval_ms": {
+        "count": 0
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 0
+        },
+        "palette_ms": {
+          "count": 0
+        },
+        "deserialize_ms": {
+          "count": 0
+        },
+        "combine_ms": {
+          "count": 0
+        },
+        "render_ms": {
+          "count": 0
+        },
+        "query_ms": {
+          "count": 0
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.011099999994712562,
+        "combine_ms": 0.7745999999997366,
+        "render_ms": 0.14590000000680448,
+        "generation_ms": 9.495100000009415,
+        "total_ms": 12.582000000008975,
+        "palette_ms": 2.155299999998306
+      },
+      "verification": {
+        "passed": true,
+        "exact_equal": true,
+        "full_slot_coverage": true,
+        "capture_count": 3,
+        "payload_bytes": 12288,
+        "checked_cells": 12288,
+        "checked_pixels": 110592,
+        "failed_cells": 0,
+        "max_error": 0,
+        "observed_payload_sha256": "c37b33a5f5e0648686141663797fdbaea5938c52ba4795442f5e63cda4c91b0c",
+        "expected_payload_sha256": "c37b33a5f5e0648686141663797fdbaea5938c52ba4795442f5e63cda4c91b0c"
+      }
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v8/compact3k_dynamic112.case.json",
+        "sha256": "7c0552304f69a66e8961b5b418084a3bcc07233ee4a6c7da300e614ef604b5d3"
+      },
+      "name": "compact3k_dynamic112",
+      "version": "v8",
+      "status": "completed",
+      "payload_bytes": 3072,
+      "encoding": "compact8",
+      "name_policy": "fresh",
+      "mode": "bounded_dynamic_updates",
+      "source_reported_passed": true,
+      "final_payload_passed": true,
+      "full_flags": {
+        "whole_payload_simultaneously_resident": true,
+        "all_render_frames_verified": false,
+        "gpu_to_python_readback": false,
+        "actual_mobile_hardware": false
+      },
+      "stage": "completed",
+      "layout": {
+        "stride": 64,
+        "palette_height": 16,
+        "palette_volume": [
+          64,
+          64,
+          16
+        ],
+        "encoding_id": 1,
+        "y_offset": 8.0
+      },
+      "final_identity": {
+        "seed": 54321,
+        "generation": 113,
+        "geometry_name": "pmanim_geometry_packet_payload_epoch1_version113",
+        "geometry_build_serial": 113,
+        "slot_count": 3072
+      },
+      "resource_budget": {
+        "max_names": 256,
+        "named_record_count": 347136,
+        "max_named_records": 2097152,
+        "named_geometry_count": 113,
+        "native_reclamation_verified": false
+      },
+      "benchmark": {
+        "status": "completed",
+        "success": true,
+        "error": null,
+        "dynamic": true,
+        "frames": 112,
+        "updates": 112,
+        "initial_generation": 1,
+        "generation": 113,
+        "max_updates": 112,
+        "interval_frames": 1,
+        "name_policy": "fresh",
+        "elapsed": 1.8804953999999996
+      },
+      "fps": {
+        "count": 3,
+        "min": 60.0775146484375,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "render_event_interval_ms": {
+        "count": 53,
+        "min": 14.373699999999268,
+        "max": 19.07990000000037,
+        "p95": 18.266600000000466,
+        "p50": 16.68130000000012,
+        "mean": 16.64489433962263
+      },
+      "cpu_stage_statistics_valid": true,
+      "cpu_stage_ms": {
+        "generation_ms": {
+          "count": 52,
+          "min": 2.2129999999997985,
+          "max": 5.09999999999966,
+          "p95": 3.063299999999991,
+          "p50": 2.3143000000001024,
+          "mean": 2.5056249999999816
+        },
+        "palette_ms": {
+          "count": 52,
+          "min": 0.5465999999998417,
+          "max": 1.2934000000002221,
+          "p95": 0.7815999999998269,
+          "p50": 0.570699999999924,
+          "mean": 0.6072865384615378
+        },
+        "deserialize_ms": {
+          "count": 52,
+          "min": 0.009000000000369823,
+          "max": 0.04789999999976757,
+          "p95": 0.013899999999900103,
+          "p50": 0.010800000000088517,
+          "mean": 0.01194038461537462
+        },
+        "combine_ms": {
+          "count": 52,
+          "min": 0.22199999999994446,
+          "max": 0.42699999999973315,
+          "p95": 0.3484999999998628,
+          "p50": 0.25500000000011624,
+          "mean": 0.2705980769230471
+        },
+        "render_ms": {
+          "count": 52,
+          "min": 0.1180000000000625,
+          "max": 0.590400000000102,
+          "p95": 0.1638999999999946,
+          "p50": 0.12940000000005725,
+          "mean": 0.14685000000003168
+        },
+        "query_ms": {
+          "count": 52,
+          "min": 0.010000000000065512,
+          "max": 0.018400000000085015,
+          "p95": 0.014399999999969992,
+          "p50": 0.011800000000228295,
+          "mean": 0.01221538461534303
+        }
+      },
+      "latest_load_cpu_ms": {
+        "deserialize_ms": 0.011599999999667432,
+        "combine_ms": 0.29100000000070736,
+        "render_ms": 0.12429999999952202,
+        "generation_ms": 2.259000000000455,
+        "total_ms": 3.269200000000083,
+        "palette_ms": 0.5832999999997313
+      },
+      "verification": {
+        "passed": true,
+        "exact_equal": true,
+        "full_slot_coverage": true,
+        "capture_count": 1,
+        "payload_bytes": 3072,
+        "checked_cells": 3072,
+        "checked_pixels": 27648,
+        "failed_cells": 0,
+        "max_error": 0,
+        "observed_payload_sha256": "2f9fac1a244689bb533949803992f667eee9701c07ceebeb423d69da4c736084",
+        "expected_payload_sha256": "2f9fac1a244689bb533949803992f667eee9701c07ceebeb423d69da4c736084"
+      }
+    }
+  ],
+  "independent_audits": [
+    {
+      "source": {
+        "path": "docs/evidence/geometry-packets/independent-updates-v6.json",
+        "sha256": "a9889673c5d436fba839c789cc7875547e551287124c8e8b9fe5d187f6f4ea06"
+      },
+      "schema": "geometry_packet_update_recheck_v1",
+      "audit_passed": true,
+      "final_payload_passed": false,
+      "case_count": 5,
+      "consistent_cases": 5,
+      "expected_payload_failures": 1
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v6/independent-verification.json",
+        "sha256": "f647046ea1a96144182053e73e62f4ee5f25a2b14f5746e7bae8cb800526c014"
+      },
+      "schema": "geometry_packet_independent_verification_v1",
+      "passed": true,
+      "case_count": 3,
+      "completed_cases_recheck_passed": true,
+      "source_completed_cases": 3,
+      "source_failed_cases": 0,
+      "verified_completed_cases": 3,
+      "failed_completed_rechecks": 0,
+      "verified_windows": 5,
+      "verified_bytes": 15616
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v7/independent-verification.json",
+        "sha256": "273cd85cbe092aee2758690745ced0017aee09943e04fff69ccbb20ea290982a"
+      },
+      "schema": "geometry_packet_independent_verification_v1",
+      "passed": false,
+      "case_count": 2,
+      "completed_cases_recheck_passed": false,
+      "source_completed_cases": 0,
+      "source_failed_cases": 2,
+      "verified_completed_cases": 0,
+      "failed_completed_rechecks": 0,
+      "verified_windows": 0,
+      "verified_bytes": 0
+    },
+    {
+      "source": {
+        "path": ".runtime/geometry-packet-study/v8/independent-verification.json",
+        "sha256": "d70ee23bd7847a4b1c2179b222d7a5fdcc5ceaafe18e8ffaed076a3d31c79df9"
+      },
+      "schema": "geometry_packet_independent_verification_v1",
+      "passed": true,
+      "case_count": 2,
+      "completed_cases_recheck_passed": true,
+      "source_completed_cases": 2,
+      "source_failed_cases": 0,
+      "verified_completed_cases": 2,
+      "failed_completed_rechecks": 0,
+      "verified_windows": 4,
+      "verified_bytes": 15360
+    }
+  ],
+  "capacity": {
+    "legacy8_largest_complete_static_verified_bytes": 262144,
+    "legacy8_evidence": {
+      "path": ".runtime/geometry-packet-study/v5/bytes262144_static.case.json",
+      "sha256": "3b5a20033d95dc364fe14909f95457ccc57833f80885548bbcfb65854d3b8738"
+    },
+    "legacy8_verification": {
+      "passed": true,
+      "exact_equal": true,
+      "full_slot_coverage": true,
+      "capture_count": 64,
+      "payload_bytes": 262144,
+      "checked_cells": 262144,
+      "checked_pixels": 2359296,
+      "failed_cells": 0,
+      "max_error": 0,
+      "observed_payload_sha256": "4c0cbb1df804a01a184f1ff87265fa01bef38c68428e33ca9de11c3c30c0fef3",
+      "expected_payload_sha256": "4c0cbb1df804a01a184f1ff87265fa01bef38c68428e33ca9de11c3c30c0fef3"
+    },
+    "compact8_largest_complete_static_verified_bytes": 12288,
+    "compact8_262144_status": "incomplete_due_to_background_guard_failure_after_106496_passed_slots",
+    "compact8_1048576_status": "failed_first_window_native_pixel_oracle",
+    "experimental_max_bytes_guard": 1048576,
+    "engine_capacity_limit_established": false,
+    "all_payload_bytes_resident_is_not_all_records_simultaneously_visible": true
+  },
+  "conclusions": {
+    "high_frequency_legacy8_double_name_path_reproduced_stale_generation": 59,
+    "same_name_redraw_and_ui_recreate_did_not_recover_stale_legacy_case": true,
+    "fresh_names_and_interval4_legacy_cases_final_payload_passed": true,
+    "compact8_double_and_fresh_v6_cases_final_payload_passed": true,
+    "v8_final_source_dynamic_cases_final_payload_passed": true,
+    "v8_12288_updates32_has_fps_samples": false,
+    "exact_cpp_cache_or_queue_root_cause_known": false
+  },
+  "limitations": [
+    "Dynamic pixel checks verify only the frozen final generation, not each render frame.",
+    "v6 cases ran sequentially in one warmed instance; no randomized or repeated laboratory comparison.",
+    "FPS scalar sample counts are small and CPU call timings do not measure GPU completion.",
+    "v6 interval4 CPU stage summary excluded because skipped uploads duplicated old stage timings.",
+    "v8 12KiB updates finished before warmup and have no FPS, interval or steady-stage samples.",
+    "1MiB pixel failure and incomplete 256KiB background-guard scan remain source failures.",
+    "The prior v5 legacy8 256KiB static pass does not establish compact8 capacity.",
+    "Fresh geometry names have bounded session accounting; native reclamation and indefinite streaming are unverified."
+  ],
+  "all_render_frames_verified": false,
+  "gpu_to_python_readback": false,
+  "actual_mobile_hardware": false
+}

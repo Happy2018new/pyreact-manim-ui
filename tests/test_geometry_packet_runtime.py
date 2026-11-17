@@ -82,12 +82,15 @@ class Screen:
         self.colors=[]
         self.draws=[]
         self.removed=False
+        self.draw_ok=True
 
     def SetSpriteColor(self,value):
         self.colors.append(value)
 
     def draw(self,name):
         self.draws.append(name)
+        if not self.draw_ok:
+            raise RuntimeError('RenderBlockGeometryModel rejected')
 
     def SetRemove(self):
         self.removed=True
@@ -107,7 +110,9 @@ class GeometryRuntimeTests(unittest.TestCase):
         api.RegisterUI=lambda *args:True
         api.CreateUI=lambda *args:self.screen
         self.modules=patch.dict(sys.modules,{'mod':types.ModuleType('mod'),
-            'mod.client':types.ModuleType('mod.client'),'mod.client.extraClientApi':api})
+            'mod.client':types.ModuleType('mod.client'),'mod.client.extraClientApi':api,
+            'geometry_packet_probe':types.ModuleType('geometry_packet_probe'),
+            'geometry_packet_probe.codec':load_module('_geometry_codec_contract',PROBE/'codec.py')})
         self.modules.start()
         self.addCleanup(self.modules.stop)
         self.clock=patch.object(time,'clock',time.perf_counter,create=True)
@@ -132,15 +137,17 @@ class GeometryRuntimeTests(unittest.TestCase):
         receipt=self.ready(1024)
         data=self.factory.palettes[-1]
         z_size,x_size,y_size=data['volume']
-        self.assertEqual((z_size,x_size,y_size),(32,32,256))
-        self.assertEqual(set(data['common']),{('pmanim_geometry_packet:quad',0)})
+        self.assertEqual((z_size,x_size,y_size),(32,32,16))
+        self.assertEqual(receipt['encoding'],'compact8')
+        self.assertEqual(len(data['common']),16)
         recovered={}
-        for address in next(iter(data['common'].values())):
-            byte,plane=divmod(address,x_size*z_size)
-            x,z=divmod(plane,z_size)
-            record=x*z_size+z
-            self.assertNotIn(record,recovered)
-            recovered[record]=byte
+        for (identifier,aux),addresses in data['common'].items():
+            self.assertEqual(aux,0)
+            template=int(identifier.rsplit('_',1)[1])
+            for address in addresses:
+                y,record=divmod(address,x_size*z_size)
+                self.assertNotIn(record,recovered)
+                recovered[record]=y*16+template
         expected=bytes(self.runtime.byte_at(54321,1,i) for i in range(1024))
         self.assertEqual(bytes(recovered[i] for i in range(1024)),expected)
         self.assertNotIn('sha256',receipt)
@@ -157,7 +164,7 @@ class GeometryRuntimeTests(unittest.TestCase):
             red,green,blue=self.screen.colors[-1]
             self.assertEqual(round(red*16777216),start)
             self.assertEqual(round(green*16777216),2047+63*4096)
-            self.assertEqual(round(blue*8388608),self.probe.stride+256*2048)
+            self.assertEqual(round(blue*8388608),self.probe.stride+16*2048+2097152)
         self.assertEqual(counts,(len(self.factory.palettes),len(self.factory.names),len(self.screen.draws)))
         # Different bytes with the same layout/query produce the same query packet.
         color=self.screen.colors[-1]
@@ -166,6 +173,7 @@ class GeometryRuntimeTests(unittest.TestCase):
         self.assertEqual(self.screen.colors[-1],color)
 
     def test_two_native_names_bound_rebuild_resources(self):
+        self.probe.configure_updates(name_policy='double')
         for generation in range(1,7):
             self.ready(256,generation=generation)
         self.assertEqual(len(set(self.factory.names)),2)
@@ -173,6 +181,7 @@ class GeometryRuntimeTests(unittest.TestCase):
         self.assertEqual(self.probe.generation,6)
 
     def test_dataset_epochs_isolate_cases_and_keep_two_banks_per_epoch(self):
+        self.probe.configure_updates(name_policy='double')
         self.probe.begin_dataset()
         first=self.ready()
         first_names=set()
@@ -204,6 +213,66 @@ class GeometryRuntimeTests(unittest.TestCase):
             self.probe.begin_dataset()
         self.assertEqual(self.probe.epoch,2)
 
+    def test_fresh_versions_and_bounded_updates_are_the_default(self):
+        for generation in range(1,7):
+            self.ready(256,generation=generation)
+        self.assertEqual(len(set(self.factory.names)),6)
+        self.assertEqual(self.probe.snapshot()['name_policy'],'fresh')
+        self.probe.configure_updates(max_updates=3)
+        self.probe.start(seconds=8,dynamic=True)
+        for _ in range(4):
+            self.probe.on_frame({})
+        state=self.probe.snapshot()
+        self.assertFalse(state['benchmark_running'])
+        self.assertEqual(state['last_run']['updates'],3)
+        self.assertEqual(state['last_run']['generation'],9)
+        self.assertEqual(state['upload_history'][-1]['serial'],9)
+
+    def test_legacy_control_encoding_and_redraw_do_not_rebuild_payload(self):
+        self.probe.begin_dataset('legacy8')
+        state=self.ready()
+        self.assertEqual(state['palette_volume'],[16,16,256])
+        self.assertEqual(state['y_offset'],128)
+        before=len(self.factory.names)
+        history=list(state['upload_history'])
+        self.probe.redraw()
+        self.assertEqual(len(self.factory.names),before)
+        self.assertEqual(self.probe.snapshot()['upload_history'],history)
+        self.assertEqual(round(self.screen.colors[-1][2]*8388608),16+256*2048)
+
+    def test_spaced_updates_measure_only_real_uploads_and_keep_source_identity(self):
+        self.ready()
+        self.probe.configure_updates(interval_frames=3,max_updates=3)
+        self.probe.start(seconds=8,dynamic=True,seed=17)
+        self.probe.run['warm_until']=0
+        for _ in range(4):
+            self.probe.on_frame({})
+        self.assertEqual(self.probe.run['updates'],2)
+        self.assertEqual(len(self.probe.run['combine_ms']),2)
+        self.assertEqual(len(self.probe.run['query_ms']),2)
+        self.assertEqual(len(self.probe.run['interval_ms']),3)
+        history=self.probe.snapshot()['upload_history']
+        self.assertEqual(history[0]['seed'],54321)
+        self.assertEqual(history[-1]['seed'],17)
+        self.assertEqual(history[-1]['slot_count'],256)
+        self.assertEqual(history[-1]['encoding'],'compact8')
+
+    def test_session_resource_budget_survives_dataset_reset_and_rejects_before_build(self):
+        with patch.object(self.runtime,'MAX_NAMED_RECORDS',512):
+            self.ready()
+            self.probe.begin_dataset()
+            self.probe.load(256)
+            previous=self.probe.snapshot()
+            with self.assertRaisesRegex(RuntimeError,'budget exhausted'):
+                self.probe.load(256)
+            after=self.probe.snapshot()
+            self.assertEqual(after['geometry_build_serial'],previous['geometry_build_serial'])
+            self.assertEqual(len(self.factory.names),2)
+            self.assertEqual(after['resource_budget']['named_record_count'],512)
+            self.probe.begin_dataset()
+            with self.assertRaisesRegex(RuntimeError,'budget exhausted'):
+                self.probe.load(1)
+
     def test_async_open_and_failed_upload_do_not_publish_receipt(self):
         state=self.probe.open()
         self.assertFalse(state['ready'])
@@ -223,6 +292,37 @@ class GeometryRuntimeTests(unittest.TestCase):
         for args in ((-1,1,64),(0,4097,64),(256,1,64),(0,1,65)):
             with self.assertRaises(ValueError):
                 self.probe.query(*args)
+
+    def test_fresh_retry_consumes_native_attempts_and_keeps_failed_render_budget(self):
+        first=self.ready()
+        self.factory.combine_ok=False
+        with self.assertRaisesRegex(RuntimeError,'Combine'):
+            self.probe.load(273,generation=2)
+        failed_combine=self.factory.names[-1]
+        self.factory.combine_ok=True
+        self.screen.draw_ok=False
+        with self.assertRaisesRegex(RuntimeError,'RenderBlockGeometryModel'):
+            self.probe.load(273,generation=2)
+        failed_render=self.factory.names[-1]
+        self.assertNotEqual(failed_combine,failed_render)
+        state=self.probe.snapshot()
+        self.assertEqual(state['geometry_build_serial'],1)
+        self.assertEqual(state['native_attempt_serial'],3)
+        self.assertEqual(state['generation'],first['generation'])
+        self.assertEqual(state['upload_history'],first['upload_history'])
+        self.assertEqual(state['resource_budget']['named_geometry_count'],2)
+        self.assertEqual(state['resource_budget']['named_record_count'],256+273)
+        self.screen.draw_ok=True
+        retried=self.probe.load(273,generation=2)
+        self.assertNotIn(retried['geometry_name'],(first['geometry_name'],failed_combine,failed_render))
+        self.assertEqual(retried['geometry_build_serial'],2)
+        self.assertEqual(retried['native_attempt_serial'],4)
+        self.assertEqual(retried['resource_budget']['named_geometry_count'],3)
+        self.assertEqual(retried['resource_budget']['named_record_count'],256+273*2)
+        self.probe.begin_dataset()
+        next_dataset=self.probe.load(2,generation=3)
+        self.assertEqual(next_dataset['native_attempt_serial'],5)
+        self.assertIn('epoch1_version5',next_dataset['geometry_name'])
 
     def test_capture_target_is_distinct_from_logical_ui_size_and_listener_cleans_up(self):
         state=self.ready()

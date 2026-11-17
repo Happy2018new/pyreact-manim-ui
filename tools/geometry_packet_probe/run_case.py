@@ -26,12 +26,17 @@ def main():
     parser.add_argument('--generation', type=int, default=1)
     parser.add_argument('--seconds', type=float, default=8.)
     parser.add_argument('--dynamic', action='store_true')
+    parser.add_argument('--encoding', choices=('legacy8','compact8'), default='compact8')
+    parser.add_argument('--policy', choices=('single','double','fresh'), default='fresh')
+    parser.add_argument('--updates',type=int,default=64)
+    parser.add_argument('--interval-frames',type=int,default=1)
     parser.add_argument('--verify-only', action='store_true')
     parser.add_argument('--window', type=int, default=4096)
     parser.add_argument('--settle', type=float, default=2.)
     args = parser.parse_args()
     if (not re.fullmatch('[a-z0-9_]+', args.name) or args.byte_count < 1 or
-            not 1 <= args.window <= 4096 or not 2 <= args.seconds <= 30):
+            not 1 <= args.window <= 4096 or not 2 <= args.seconds <= 30 or
+            not 1<=args.updates<=256 or not 1<=args.interval_frames<=120):
         parser.error('Invalid case name, payload length, window or duration')
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=True)
@@ -76,9 +81,11 @@ def main():
         state = host('call', args.name + '_load',
                      "if probe.snapshot().get('benchmark_running'):\n"
                      "    raise RuntimeError('Finish the current benchmark before a new dataset')\n"
-                     "probe.begin_dataset()\n"
+                     "probe.begin_dataset(encoding=%r)\n"
+                     "probe.configure_updates(name_policy=%r,interval_frames=%d,max_updates=%d)\n"
                      "probe.load(%d,seed=%d,generation=%d)\n_result=json.dumps(probe.snapshot())\n" %
-                     (args.byte_count, args.seed, args.generation))
+                     (args.encoding,args.policy,args.interval_frames,args.updates,
+                      args.byte_count, args.seed, args.generation))
         time.sleep(args.settle)
         if not args.verify_only:
             stage = 'benchmark'
@@ -143,6 +150,7 @@ def main():
         failure = '%s: %s' % (type(error).__name__, error)
         series = None
     result = {'name': args.name, 'payload_bytes': args.byte_count, 'dynamic': args.dynamic,
+              'encoding':args.encoding,'name_policy':args.policy,
               'verify_only': args.verify_only, 'status': 'completed' if failure is None else 'failed',
               'stage': stage, 'error': failure, 'elapsed_host_seconds': time.monotonic() - started,
               'final_snapshot': state, 'benchmark': benchmark, 'windows': reports,

@@ -1,5 +1,6 @@
 """Build an isolated native block-geometry data probe; never launch Minecraft."""
 import argparse
+import importlib.util
 import json
 from pathlib import Path
 import shutil
@@ -12,6 +13,9 @@ ROOT = HERE.parents[1]
 MARKER = '.pmanim_geometry_packet_probe.json'
 IDENTIFIER = 'pmanim_geometry_packet:quad'
 NAMESPACE = uuid.UUID('994cb915-d73c-4e35-9dbd-fc84a34e7780')
+_CODEC_SPEC = importlib.util.spec_from_file_location('geometry_packet_build_codec', HERE/'codec.py')
+CODEC = importlib.util.module_from_spec(_CODEC_SPEC)
+_CODEC_SPEC.loader.exec_module(CODEC)
 
 
 def write_json(path, value):
@@ -55,20 +59,15 @@ def write_ui(resource):
 
 
 def write_block(resource, behavior):
-    write_json(behavior/'netease_blocks/geometry_packet_quad.json',{
-        'format_version':'1.10.0','minecraft:block':{
-            'description':{'identifier':IDENTIFIER,'register_to_creative_menu':False},
-            'components':{'netease:render_layer':{'value':'blend'},
-                'netease:no_crop_face_block':{},'minecraft:block_light_absorption':{'value':0}}}})
-    write_json(resource/'blocks.json',{'format_version':'1.21.40',IDENTIFIER:{
-        'netease_model':IDENTIFIER,'sound':'stone'}})
-    write_json(resource/'models/netease_block/geometry_packet_quad.json',{
-        'format_version':'1.13.0','netease:block_geometry':{
-            'description':{'identifier':IDENTIFIER,'textures':['quartz_block_top'],
-                'item_texture':'quartz_block_top','use_ao':False},
-            'bones':[{'name':'byte_plane','pivot':[0,0,0],'cubes':[{
-                'origin':[-4,0,-4],'size':[8,0,8],
-                'uv':{'up':{'uv':[0,0],'uv_size':[16,16]}}}]}]}})
+    blocks = {'format_version':'1.21.40'}
+    templates = [(IDENTIFIER, 'geometry_packet_quad', 0)]
+    templates.extend((identifier, 'geometry_packet_quad_compact8_%02d' % template,
+                      template + 0.5)
+                     for template, identifier in enumerate(CODEC.COMPACT_IDENTIFIERS))
+    for identifier, filename, origin_y in templates:
+        write_block_template(resource, behavior, identifier, filename, origin_y)
+        blocks[identifier] = {'netease_model':identifier, 'sound':'stone'}
+    write_json(resource/'blocks.json', blocks)
     materials={'version':'1.0.0','pmanim_geometry_packet:netease_block_as_entity_mesh':{
         'vertexShader':'shaders/glsl/geometry_packet.vertex',
         'fragmentShader':'shaders/glsl/geometry_packet.fragment',
@@ -79,6 +78,21 @@ def write_block(resource, behavior):
                  'netease_block_as_mesh_blend_far','netease_block_as_mesh_blend_no_culling'):
         materials[name+':pmanim_geometry_packet']={}
     write_json(resource/'materials/terrain.material',{'materials':materials})
+
+
+def write_block_template(resource, behavior, identifier, filename, origin_y):
+    write_json(behavior/('netease_blocks/'+filename+'.json'),{
+        'format_version':'1.10.0','minecraft:block':{
+            'description':{'identifier':identifier,'register_to_creative_menu':False},
+            'components':{'netease:render_layer':{'value':'blend'},
+                'netease:no_crop_face_block':{},'minecraft:block_light_absorption':{'value':0}}}})
+    write_json(resource/('models/netease_block/'+filename+'.json'),{
+        'format_version':'1.13.0','netease:block_geometry':{
+            'description':{'identifier':identifier,'textures':['quartz_block_top'],
+                'item_texture':'quartz_block_top','use_ao':False},
+            'bones':[{'name':'byte_plane','pivot':[0,0,0],'cubes':[{
+                'origin':[-4,origin_y,-4],'size':[8,0,8],
+                'uv':{'up':{'uv':[0,0],'uv_size':[16,16]}}}]}]}})
 
 
 def build(output):
@@ -92,7 +106,7 @@ def build(output):
         if marker!={'kind':'pmanim_geometry_packet_probe','version':1}:
             raise ValueError('Existing output belongs to a different probe configuration')
     scripts={name:(HERE/name).read_text(encoding='utf-8')
-             for name in ('runtime.py','modMain.py')}
+             for name in ('runtime.py','modMain.py','codec.py')}
     write_json(output/MARKER,{'kind':'pmanim_geometry_packet_probe','version':1})
     behavior,resource=output/'behavior_pack',output/'resource_pack'
     package=behavior/'geometry_packet_probe'
@@ -121,9 +135,19 @@ def build(output):
         'ui_definition':'pmanim_geometry_packet_probe.main',
         'runtime':{'package':'geometry_packet_probe','entrypoint':'geometry_packet_probe.modMain',
                    'system_namespace':'pmanim_geometry_packet_probe','system_name':'probe'},
-        'encoding':{'byte_source':'POSITION.y','record_id':'x*stride+z',
-                    'palette_volume':'(stride,stride,256)','local_quad_span':[-.25,.25],
-                    'query_source':'CURRENT_COLOR','maximum_experimental_bytes':1048576},
+        'encoding':{'default':CODEC.DEFAULT_ENCODING,'supported':list(CODEC.ENCODINGS),
+                    'byte_source':'POSITION.y','record_id':'x*stride+z',
+                    'palette_volume':'(stride,stride,palette_height)',
+                    'local_quad_span':[-.25,.25],
+                    'query_source':'CURRENT_COLOR','maximum_experimental_bytes':CODEC.MAX_BYTES,
+                    'control_encoding_bit':CODEC.ENCODING_LAYOUT_BIT,
+                    'modes':{
+                        'legacy8':{'encoding_id':0,'palette_height':256,'template_count':1,
+                                   'identifier':IDENTIFIER,'decode':'round(source.y)'},
+                        'compact8':{'encoding_id':1,'palette_height':16,'template_count':16,
+                                    'identifiers':list(CODEC.COMPACT_IDENTIFIERS),
+                                    'local_plane_y':'(template+0.5)/16',
+                                    'decode':'16*floor(source.y)+floor(16*fract(source.y))'}}},
         'production_resources_modified':False})
     return output
 

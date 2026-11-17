@@ -15,7 +15,8 @@ void main() {
     float mode = floor(query / 262144.0);
     float layoutPacket = floor(CURRENT_COLOR.b * 8388608.0 + 0.5);
     float stride = mod(layoutPacket, 2048.0);
-    float yOffset = floor(layoutPacket / 2048.0) * 0.5;
+    float yOffset = mod(floor(layoutPacket / 2048.0), 1024.0) * 0.5;
+    float encoding = mod(floor(layoutPacket / 2097152.0), 2.0);
     // PaperDoll centers all three axes on half of the palette volume.
     vec3 source = POSITION.xyz + vec3(stride * 0.5, yOffset, stride * 0.5);
     vec3 cell = floor(source + vec3(0.5));
@@ -26,6 +27,11 @@ void main() {
     // below .25 block; larger packed-input error must fail pixel validation.
     vec2 corner = (source.xz - cell.xz) * 2.0 + vec2(0.5);
     geometryByte = mod(cell.y, 256.0) / 255.0;
+    // compact8's integer Y is the high nibble; a static local plane at
+    // (template+.5)/16 supplies the low nibble away from either boundary.
+    if (encoding > 0.5) {
+        geometryByte = (16.0 * floor(source.y) + floor(16.0 * fract(source.y))) / 255.0;
+    }
     if (mode > 0.5 && mode < 1.5) geometryByte = mod(record,256.0)/255.0;
     if (mode > 1.5 && mode < 2.5) geometryByte = mod(floor(record/256.0),256.0)/255.0;
     if (mode > 2.5) geometryByte = 1.0;
