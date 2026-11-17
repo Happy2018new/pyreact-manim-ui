@@ -16,7 +16,8 @@ from PIL import Image
 SCHEMA = 'geometry_atlas_probe_v1'
 SCREEN_SIZE = (720, 1080)
 DISPLAY_RECT = [0, 64. / 1080., 1, 1000. / 1080.]
-MAX_SLOTS = 65536
+MAX_SLOTS = 524288
+MAX_SALT = 65535
 MAX_QUERY = 4096
 MASK = (1 << 32) - 1
 IDENTITY_FIELDS = ('schema', 'seed', 'generation', 'slot_count', 'geometry_name',
@@ -57,8 +58,8 @@ def expected_lookup(seed, generation, slots, ordinal, mode, salt=0, salt2=0):
     slots = _integer(slots, 'slots', 2, MAX_SLOTS)
     ordinal = _integer(ordinal, 'ordinal', maximum=slots - 1)
     mode = _integer(mode, 'mode', 0, 2)
-    salt = _integer(salt, 'salt', maximum=MAX_SLOTS - 1)
-    salt2 = _integer(salt2, 'salt2', maximum=MAX_SLOTS - 1)
+    salt = _integer(salt, 'salt', maximum=MAX_SALT)
+    salt2 = _integer(salt2, 'salt2', maximum=MAX_SALT)
     index = ordinal
     if mode:
         index = (131 * ordinal + salt) % slots
@@ -86,7 +87,7 @@ def _receipt(receipt, size):
     start, count, mode, salt = _vector(receipt.get('query'), 'query', 4)
     if not 0 <= start < slots or not 1 <= count <= MAX_QUERY or start + count > slots:
         raise ValueError('Query must fit all slots and contain 1..4096 bytes')
-    if not 0 <= mode <= 2 or not 0 <= salt < MAX_SLOTS:
+    if not 0 <= mode <= 2 or not 0 <= salt <= MAX_SALT:
         raise ValueError('Only byte-gather modes0..2 and bounded salts are payload evidence')
     layout = _vector(receipt.get('layout'), 'layout', 4)
     cell, width, height, salt2 = _vector(receipt.get('dimensions'), 'dimensions', 4)
@@ -94,7 +95,7 @@ def _receipt(receipt, size):
     if (total != slots or not 1 <= columns <= 720 or cell < 1 or
             (width, height) != SCREEN_SIZE or min(left, top) < 0 or
             left + columns * cell > width or top + ((slots + columns - 1) // columns) * cell > height or
-            not 0 <= salt2 < MAX_SLOTS):
+            not 0 <= salt2 <= MAX_SALT):
         raise ValueError('Source atlas layout must fit the declared native render surface')
     orientation = _vector(receipt.get('orientation'), 'orientation', 4)
     flip_y, channel, reserved0, reserved1 = orientation

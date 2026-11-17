@@ -1,0 +1,691 @@
+{
+  "schema": "geometry_atlas_half_grid_native_calibration_compact_v1",
+  "batch": "b4",
+  "kind": "native_frozen_geometry_center_calibration",
+  "geometry_identity_equal_across_eight_variants": true,
+  "geometry_identity": {
+    "geometry_name": "pmanim_geometry_atlas_epoch1_bank0",
+    "geometry_build_serial": 81,
+    "native_attempt_serial": 81,
+    "epoch": 1,
+    "seed": 54321,
+    "generation": 81,
+    "slot_count": 3072
+  },
+  "geometry_rebuilt_between_variants": false,
+  "query_coverage": "Full 3072-output identity query on the same frozen 3 KiB geometry; not 512 KiB or dynamic validation.",
+  "default_case": {
+    "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100.updates.json",
+    "source_sha256": "a2d80905f3f0e82743132b435b4f41faabbb16e7458536a2ba733b670452cb0f",
+    "source_bytes": 495496,
+    "name": "half3k_double50_100",
+    "status": "failed",
+    "passed": false,
+    "stage": "completed",
+    "errors": [
+      {
+        "stage": "final_identity",
+        "error": "Final gather or previous-generation rejection failed"
+      },
+      {
+        "stage": "final_dependent",
+        "error": "Final gather or previous-generation rejection failed"
+      }
+    ],
+    "payload_bytes": 3072,
+    "seed": 54321,
+    "static": false,
+    "policy": "double",
+    "publish_delay_ms": 50.0,
+    "requested_seconds": 8.0,
+    "requested_interval_ms": 100.0,
+    "complete_payload_verified": false,
+    "verified_payload_capacity_bytes": null,
+    "sampled_verification_only": false,
+    "host_requests_between_start_and_terminal": 0,
+    "gpu_completion_fence": false,
+    "all_render_frames_verified": false,
+    "center": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "generation": 81,
+    "controls": {
+      "final_identity": {
+        "mode": 0,
+        "salt": 0,
+        "salt2": 0,
+        "status": "failed",
+        "passed": false,
+        "previous_generation_rejected": true,
+        "verification": {
+          "schema": "geometry_atlas_probe_v1",
+          "seed": 54321,
+          "generation": 81,
+          "slot_count": 3072,
+          "geometry_name": "pmanim_geometry_atlas_epoch1_bank0",
+          "geometry_build_serial": 81,
+          "encoding": "compact8",
+          "passed": false,
+          "exact_equal": false,
+          "full_query_coverage": true,
+          "source_index_coverage": 3072,
+          "full_source_coverage": true,
+          "capture_count": 1,
+          "payload_bytes": 3072,
+          "checked_cells": 3072,
+          "checked_pixels": 27648,
+          "failed_cells": 2791,
+          "max_error": 250,
+          "mode": 0,
+          "salt": 0,
+          "salt2": 0,
+          "orientation": [
+            1,
+            0,
+            0,
+            0
+          ],
+          "direct_source": false,
+          "payload_channel": "alpha",
+          "observed_payload_sha256": "c9fbeb2bdd87d2f2bbf10609569fb92c8d1543bf03329130091f588d93103504",
+          "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1"
+        },
+        "windows": [
+          {
+            "query": [
+              0,
+              3072,
+              0,
+              0
+            ],
+            "passed": false,
+            "checked_cells": 3072,
+            "checked_pixels": 27648,
+            "failed_cells": 2791,
+            "max_error": 250,
+            "observed_payload_sha256": "c9fbeb2bdd87d2f2bbf10609569fb92c8d1543bf03329130091f588d93103504",
+            "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+            "classification": "unmatched",
+            "matched_generations": [],
+            "receipt_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_identity_window_0000.state.json",
+              "source_sha256": "3eae7d9a6573c3713746d818eab885fb0cf99d919b373fa5bfbd90189eca0d56",
+              "source_bytes": 149110
+            },
+            "verification_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_identity_window_0000.verify.json",
+              "source_sha256": "3ada6fc24933ca03dfd20669edb0f654f76bb06cf30328de8e6c939271053216",
+              "source_bytes": 564462
+            },
+            "capture_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_identity_window_0000.png",
+              "source_sha256": "cebddc0e40a7b13882339cb467db56eb3803207959a3db8ce738d7c391816762",
+              "source_bytes": 27453
+            }
+          }
+        ]
+      },
+      "final_dependent": {
+        "mode": 2,
+        "salt": 37,
+        "salt2": 91,
+        "status": "failed",
+        "passed": false,
+        "previous_generation_rejected": true,
+        "verification": {
+          "schema": "geometry_atlas_probe_v1",
+          "seed": 54321,
+          "generation": 81,
+          "slot_count": 3072,
+          "geometry_name": "pmanim_geometry_atlas_epoch1_bank0",
+          "geometry_build_serial": 81,
+          "encoding": "compact8",
+          "passed": false,
+          "exact_equal": false,
+          "full_query_coverage": true,
+          "source_index_coverage": 1927,
+          "full_source_coverage": false,
+          "capture_count": 1,
+          "payload_bytes": 3072,
+          "checked_cells": 3072,
+          "checked_pixels": 27648,
+          "failed_cells": 3040,
+          "max_error": 252,
+          "mode": 2,
+          "salt": 37,
+          "salt2": 91,
+          "orientation": [
+            1,
+            0,
+            0,
+            0
+          ],
+          "direct_source": false,
+          "payload_channel": "alpha",
+          "observed_payload_sha256": "40b44bf88f5d18c6761fe96cdc6b661b9dbd955e149fd57904acbc059806bf7c",
+          "expected_payload_sha256": "106ca883d428bce9ce582b81e06752aca45c5499a5df5784bd5e52988b98ee89"
+        },
+        "windows": [
+          {
+            "query": [
+              0,
+              3072,
+              2,
+              37
+            ],
+            "passed": false,
+            "checked_cells": 3072,
+            "checked_pixels": 27648,
+            "failed_cells": 3040,
+            "max_error": 252,
+            "observed_payload_sha256": "40b44bf88f5d18c6761fe96cdc6b661b9dbd955e149fd57904acbc059806bf7c",
+            "expected_payload_sha256": "106ca883d428bce9ce582b81e06752aca45c5499a5df5784bd5e52988b98ee89",
+            "classification": "unmatched",
+            "matched_generations": [],
+            "receipt_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_dependent_window_0000.state.json",
+              "source_sha256": "787660d5282e1be8e0b19da5b2ddda360ce54c4e6e62da3f219f3df83842bc69",
+              "source_bytes": 149111
+            },
+            "verification_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_dependent_window_0000.verify.json",
+              "source_sha256": "bf9cbeb1587fcdc3748adbd48f53e76de33da9e5804af08b72b24f45a2cf8d08",
+              "source_bytes": 593196
+            },
+            "capture_source": {
+              "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100_final_dependent_window_0000.png",
+              "source_sha256": "8361f4b0b6bee92415a4d29b7794fbe441e7816dc865f52524b61c89bca27168",
+              "source_bytes": 28490
+            }
+          }
+        ]
+      }
+    },
+    "performance_summary": {
+      "status": "completed",
+      "success": true,
+      "duration_completed": true,
+      "elapsed": 8.0014996,
+      "duration_seconds": 8.0,
+      "updates": 80,
+      "published": 80,
+      "effective_upload_hz": 9.99812585130917,
+      "effective_publish_hz": 9.99812585130917,
+      "skipped_updates": 0,
+      "overruns": 0,
+      "pending_skips": 0,
+      "truncated": false,
+      "budget_limited": false,
+      "end_reason": "duration",
+      "fps": {
+        "count": 28,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 420,
+        "over_33_3_ms": 0,
+        "p99": 18.749399999999028,
+        "min": 9.021599999998742,
+        "max": 29.09490000000048,
+        "p95": 18.41300000000068,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.67603333333334
+      }
+    }
+  },
+  "variants": [
+    {
+      "variant": "half_center_0",
+      "center": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 2791,
+      "max_error": 250,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "c9fbeb2bdd87d2f2bbf10609569fb92c8d1543bf03329130091f588d93103504",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_0_identity.state.json",
+        "source_sha256": "e2bfab9b9aca8db80abf137355f4223e653a16a38ad26d5883fe22c588c909aa",
+        "source_bytes": 149109
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_0_identity.verify.json",
+        "source_sha256": "c1ef30144dce7c7604da85175fd0ba34406c71f67197857c9ba1b99a04bf0070",
+        "source_bytes": 270472
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_0_identity.png",
+        "source_sha256": "8b0bb6ead142f1e919025155e40e376ae9c06bbce7a21af9aea9ef11d5f3b4a2",
+        "source_bytes": 27692
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_1",
+      "center": [
+        1.0,
+        0.5,
+        0.5
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": true,
+      "exact_equal": true,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 0,
+      "max_error": 0,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_1_identity.state.json",
+        "source_sha256": "3b19efc33b672b046268eae0800d1dfc63126413f602a2c6fb7d5719200e5b8d",
+        "source_bytes": 149109
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_1_identity.verify.json",
+        "source_sha256": "82bb533fc5bc62b380d1c32bf8e2d6a9713b48d104c68b73f529d52954dad2de",
+        "source_bytes": 81757
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_1_identity.png",
+        "source_sha256": "128af10e8a459b46e8dd866807ce66e3de9599707d7bb4678a457cd7e5f020d9",
+        "source_bytes": 28947
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_2",
+      "center": [
+        0.5,
+        0.5,
+        1.0
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 3027,
+      "max_error": 252,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "e5b268da5c446fb73ff388cee47dca18c217fa1dc9f53309d80d402c9019c825",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_2_identity.state.json",
+        "source_sha256": "7d305a1857a31154c53dc06bac788acad31634936dccb79effd3380356945a88",
+        "source_bytes": 149109
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_2_identity.verify.json",
+        "source_sha256": "73625a82f90171d59d8356aeced4107d5afa2473c710c1b2144f09e441322081",
+        "source_bytes": 287039
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_2_identity.png",
+        "source_sha256": "db5aa8f9bccbf0c35f0e96cb56b14e9df03a3bd41ee1592ed72b3acd63612c98",
+        "source_bytes": 12722
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_3",
+      "center": [
+        1.0,
+        0.5,
+        1.0
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 287,
+      "max_error": 248,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "e334f710a332b7ce706eb6428a79d6321fb133d97fdd7868b380668f6669ba56",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_3_identity.state.json",
+        "source_sha256": "82caa023992813f515c912e11f410d4b0c2012f6089de6d66307310e53df82a3",
+        "source_bytes": 149109
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_3_identity.verify.json",
+        "source_sha256": "6610b40c50fd5b1347b1bb31c3aa7ebb2c400c7c9c67f45e30ca1070bf6615f9",
+        "source_bytes": 101255
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_3_identity.png",
+        "source_sha256": "089a4833195e2e82e0c53c85abd938b7db379fe3fd35570868541f76e83865e1",
+        "source_bytes": 28928
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_4",
+      "center": [
+        0.75,
+        0.5,
+        0.75
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 2824,
+      "max_error": 250,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "185b4d0b02b96d293dbebc1db44c407705a1eb6b19bfe210d153dc8b9b313451",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_4_identity.state.json",
+        "source_sha256": "d350049d64e2f865fad0334073dace6a78bc5492de72869af0dbbc85729eb84f",
+        "source_bytes": 149111
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_4_identity.verify.json",
+        "source_sha256": "41ad5cf89a90e15e7ddfdd46918ce22dd463abd8654d4c3b612b377b595361bf",
+        "source_bytes": 272621
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_4_identity.png",
+        "source_sha256": "6d5f23c489ca777b672d8adf7d06a0f782bd002681722d1aee0a340bf959b591",
+        "source_bytes": 27822
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_5",
+      "center": [
+        0.5,
+        0.5,
+        0.75
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 3060,
+      "max_error": 252,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "656bd04525b48728b466029f76a16a825445d4d254a8530823ee78b967e01ff4",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_5_identity.state.json",
+        "source_sha256": "4e8d329693d5973e0da6b609f08f21b8ffff8ee3e5e520cd103d747483fe99c0",
+        "source_bytes": 149110
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_5_identity.verify.json",
+        "source_sha256": "b0c19cba0177915ff0193805474f96ab9f4b91e0186a65caae0fe273b17aa762",
+        "source_bytes": 289122
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_5_identity.png",
+        "source_sha256": "29038a84240c2d13d845b20963035b69ac87a40feaabd382d040aa3bb908ed39",
+        "source_bytes": 12576
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_6",
+      "center": [
+        0.75,
+        0.5,
+        0.5
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 144,
+      "max_error": 232,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "dd2b0ed319ba095c16b04e6be160ecbd1b437a241ac40c75e58755bbce61afa4",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_6_identity.state.json",
+        "source_sha256": "70732e12f07e36c26bb31d7b4fd504941eb4d62551c63d4ed7426485f3a46a55",
+        "source_bytes": 149110
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_6_identity.verify.json",
+        "source_sha256": "0bbf4a328a5f61e4107f6dc9bb2f3873947cdb0d29cb6d5c22e9610cb22abba6",
+        "source_bytes": 91506
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_6_identity.png",
+        "source_sha256": "97c5c35cd7dc6ff30f1aba453900ff49d2b393dd654aa31d44c53cbde2d8e2bc",
+        "source_bytes": 28394
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    },
+    {
+      "variant": "half_center_7",
+      "center": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "query": [
+        0,
+        3072,
+        0,
+        0
+      ],
+      "salt2": 0,
+      "passed": false,
+      "exact_equal": false,
+      "checked_cells": 3072,
+      "checked_pixels": 27648,
+      "failed_cells": 2791,
+      "max_error": 250,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "sample_width": 3,
+      "byte_tolerance": 0,
+      "required_alpha": 255,
+      "observed_payload_sha256": "c9fbeb2bdd87d2f2bbf10609569fb92c8d1543bf03329130091f588d93103504",
+      "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+      "receipt_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_7_identity.state.json",
+        "source_sha256": "3b2037a52210721f18328733f9dc0588a2c7f7b27836fab72e0c42d603017bea",
+        "source_bytes": 149109
+      },
+      "verification_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_7_identity.verify.json",
+        "source_sha256": "8526304536191f0d9f18b5dfa7da63178732c55c0b87931447271935438568aa",
+        "source_bytes": 270472
+      },
+      "capture_source": {
+        "original_source": ".runtime/geometry-atlas-study/b4/half_center_7_identity.png",
+        "source_sha256": "6bb1eb7ba9ff5bdf1c55a53dab1769e3a4dcb382e2b28a722fceb08ec741cd3a",
+        "source_bytes": 27813
+      },
+      "receipt_hash_matches_verifier": true,
+      "capture_hash_matches_verifier": true,
+      "updates_running": false,
+      "pending_upload": null
+    }
+  ],
+  "summary": {
+    "variant_count": 8,
+    "failed_cells_in_variant_order": [
+      2791,
+      0,
+      3027,
+      287,
+      2824,
+      3060,
+      144,
+      2791
+    ],
+    "passing_centers": [
+      [
+        1.0,
+        0.5,
+        0.5
+      ]
+    ],
+    "baseline_restored_with_same_observed_payload_hash": true,
+    "default_case_failed_preserved": true,
+    "baseline_restored_with_same_failures_and_observed_bytes": true
+  },
+  "limitations": [
+    "Changing center is a native coordinate calibration result; it does not capture native POSITION or prove its storage format.",
+    "No half packing, native attribute format, or exact compiler/driver root cause is established.",
+    "The eight variants verify only frozen 3 KiB identity; the passing center does not establish full 512 KiB capacity or correct streaming.",
+    "PNG, project files, per-byte arrays and complete failures lists remain only in local ignored .runtime evidence.",
+    "This archive performs no new game execution or independent pixel verification and contains no b7c results."
+  ],
+  "upload_history_equal_across_eight_variants": true,
+  "state_fields_differ_only_in_center_and_fps": true,
+  "common_verification_conditions": {
+    "encoding": "compact8",
+    "layout": [
+      3072,
+      64,
+      8,
+      64
+    ],
+    "orientation": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "direct_source": false,
+    "packed_mode": 4,
+    "screen_size": [
+      720,
+      1080
+    ],
+    "measurement_running": false,
+    "upload_history_count": 81
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "schema": "geometry_atlas_source_control_summary_v1",
+  "source": {
+    "original_source": ".runtime/geometry-atlas-study/b7c/calibrated512k_source_controls.source-controls.json",
+    "source_sha256": "8f10529cbb63a527cf99c8d12e1044482516f709e5697a80c9ac4b7668b4c92c",
+    "source_bytes": 58216
+  },
+  "passed": true,
+  "full_capacity_case": "calibrated512k_static_full",
+  "source_gen1": {
+    "schema": "geometry_atlas_probe_v1",
+    "seed": 54321,
+    "generation": 1,
+    "slot_count": 524288,
+    "geometry_name": "pmanim_geometry_atlas_epoch3_version459",
+    "geometry_build_serial": 459,
+    "encoding": "compact8"
+  },
+  "source_gen2": {
+    "schema": "geometry_atlas_probe_v1",
+    "seed": 54321,
+    "generation": 2,
+    "slot_count": 524288,
+    "geometry_name": "pmanim_geometry_atlas_epoch3_version460",
+    "geometry_build_serial": 460,
+    "encoding": "compact8"
+  },
+  "gen2_timings": {
+    "deserialize_ms": 0.13420000004771282,
+    "attach_ms": 0.10580000002846646,
+    "combine_ms": 117.46610000000146,
+    "generation_ms": 1143.9789999999448,
+    "encode_ms": 304.41369999994095,
+    "total_ms": 1566.0987999999634,
+    "palette_ms": 304.41369999994095
+  },
+  "gen2_full_capacity_verified": false,
+  "gpu_completion_fence": false,
+  "controls": {
+    "writer_off": {
+      "passed": true,
+      "windows": [
+        {
+          "start": 0,
+          "count": 4096,
+          "payload_match": false,
+          "failed_cells": 4082,
+          "receipt_sha256": "4c62b6f5693da9fdcf28179715314898a85e070df1fd2f9585ac42caa9913993",
+          "capture_sha256": "c7bb5dd75412d2da0ad7b479683273c403da63c82a05eaaabac924e30f1a9c6a",
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        }
+      ]
+    },
+    "writer_restore": {
+      "passed": true,
+      "windows": [
+        {
+          "start": 0,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "8a05246c1b7662de2e40b20337cdbf7d920227f0ac04c325ddea87e352bf00e9",
+          "capture_sha256": "1a653f29f42c6d0930098d1cbe5ba14bd10c9001c34c0f35349ccea105bb10d2",
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        }
+      ]
+    },
+    "gen2_identity": {
+      "passed": true,
+      "windows": [
+        {
+          "start": 0,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "5631d426bdc1e025dd87b282208fc7d02ac6381bece29bd042a4f3d2a3f7c726",
+          "capture_sha256": "6374706231aa43f6f9c9baa17912f7eee310b7d799f05caf0738f071de5ac412",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        },
+        {
+          "start": 260096,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "663d6372ae4cab234261ceaad1cc9d2f9e4312c67fd3f2c98e8774fcf64ad76b",
+          "capture_sha256": "7fc828691a26ace7efa64b3e041c65c0a10617bcdc0c84ef4401666d80cf4f58",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        },
+        {
+          "start": 520192,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "0db954fc3da1712acb9e33c1c5aabff0485863e0b56afe58b082d0ea6de21640",
+          "capture_sha256": "0eaa6942a9557b447e9ff31b8f73ad00a416e262601e447cc80c7d406ef4928f",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        }
+      ]
+    },
+    "gen2_dependent": {
+      "passed": true,
+      "windows": [
+        {
+          "start": 0,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "6e9ea0a8145e87d1248402608c8386d63f51d4a7185263b434371c8a2d0ee331",
+          "capture_sha256": "9080c0a352ade3c47f2bd24dc88b403d5753aaae6e94bf3a0ebc4ef7d728e1f9",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        },
+        {
+          "start": 260096,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "618e5668bdf5f8ad3bef288f1e1a54e12b7d6f5317fa3c5a9be531da910c11ac",
+          "capture_sha256": "1d09641faf997c4bb66e81d6c2d5d81a7b37878f555cb98ed1de38d9252ddd82",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        },
+        {
+          "start": 520192,
+          "count": 4096,
+          "payload_match": true,
+          "failed_cells": 0,
+          "receipt_sha256": "1863c9bc905f2619b8008f4d2472cb39df4d6df1076a613ae27ff7ab504ed852",
+          "capture_sha256": "c17bfb8252e143b3cac84223a7873d91dbf4b935a38ca7ee810f7ce66ba8b6bc",
+          "wgc_identity": [
+            78692,
+            12917102
+          ],
+          "previous_generation_rejected": true
+        }
+      ]
+    }
+  },
+  "audit_source": {
+    "original_source": ".runtime/geometry-atlas-study/independent-b7c-updates-live.json",
+    "source_sha256": "91031247c4544c99f440d24206a99e0b175775cb8145659a9fe9e4bad4842950",
+    "source_bytes": 197018
+  }
+}

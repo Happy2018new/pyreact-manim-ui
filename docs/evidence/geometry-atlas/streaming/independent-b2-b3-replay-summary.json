@@ -1,0 +1,1038 @@
+{
+  "schema": "geometry_atlas_independent_replay_compact_archive_v1",
+  "original_source": ".runtime/geometry-atlas-study/independent-b2-b3-updates.json",
+  "source_sha256": "826bdf493a2823e08b604f5b1f74cdd09822c11fa0009a25a7f89b77e7578ba0",
+  "source_bytes": 408259,
+  "source_schema": "geometry_atlas_b2_b3_independent_replay_v1",
+  "generated_utc": "2026-11-17T17:06:58.296130+00:00",
+  "audit_script_sha256": "03731cbc71b2414b3c9d2064dd4f39d2508e9ceb4dc7f488672643c35b9dda6c",
+  "verifier_source_sha256": {
+    "verify_capture.py": "2b057a4ae9e5e1ceff46b533c2d4890db35156168c3370c47dd2ae724fc92bb3",
+    "recheck_evidence.py": "3f1ca944e2f7c944bcc5f2d07ea539e9d5386338beb82e18de1ae8803df229ab",
+    "run_update_case.py": "527fd9267210cb3d0f61021550ee77ba7c2612c0519b965f8d977a2fc3a9812c",
+    "classify_live_frame.py": "de2b2b0723eb5138c59f8ee471a897ce4335b8a1c940666655ffbfb3bbcb3797"
+  },
+  "independent_saved_evidence_replay": true,
+  "independent_second_oracle": false,
+  "scope": "Offline replay of immutable saved raw PNG/receipt evidence using the declared verifier; no new game execution.",
+  "source_case_counts": {
+    "b2": 4,
+    "b3": 29
+  },
+  "summary": {
+    "case_audits_passed": 33,
+    "case_count": 33,
+    "final_query_windows": 416,
+    "source_passed_cases": 29,
+    "preserved_failed_cases": [
+      "b2/cap512k_static_full",
+      "b3/64k_double0_100",
+      "b3/64k_double0_16",
+      "b3/64k_double0_50"
+    ],
+    "live_audits_passed": 5,
+    "live_case_count": 5,
+    "live_frames": 15,
+    "complete_payload_passed_cases": 18,
+    "sampled_only_passed_cases": 11,
+    "live_frame_classification_counts": {
+      "unmatched": 9,
+      "matched": 6
+    }
+  },
+  "raw_hash_audit": {
+    "unique_files": 4169,
+    "all_declared_hashes_matched": true,
+    "unchanged_after_replay": true,
+    "canonical_manifest_sha256": "c4cc58c31e13abd0eb38b9a249cb4404d3074596f04df71230810b228ad45735"
+  },
+  "audit_passed": true,
+  "elapsed_seconds": 63.169473499991,
+  "archive_extraction": {
+    "case_source_sha256_rechecked": 33,
+    "live_source_sha256_rechecked": 5,
+    "omitted": [
+      "per-window raw artifact manifests and receipt/capture/verification SHA lists",
+      "WGC process/window identifiers",
+      "per-pixel and per-byte payload arrays",
+      "per-control summary duplication; aggregate window count and per-case pass/capacity fields remain"
+    ],
+    "adds_new_game_execution": false,
+    "adds_independent_pixel_oracle": false,
+    "extends_replay_to_b5_b6_or_later_live": false,
+    "all_4169_raw_files_rechecked_during_compact_extraction": false
+  },
+  "cases": [
+    {
+      "batch": "b2",
+      "name": "cap128k_static_sample",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 131072,
+      "source_case_sha256": "f14eca8b6b1b035542169b8aedab01ccaba94e283cb1c2d419c1a44560817643",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 63,
+        "verified_files": 63,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b2/cap128k_static_sample.updates.json"
+    },
+    {
+      "batch": "b2",
+      "name": "cap256k_static_sample",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 262144,
+      "source_case_sha256": "21c5b521f70501a09b3fc5d9d9494aaaac1c567f085b62dedde0ddf91e02a701",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 63,
+        "verified_files": 63,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b2/cap256k_static_sample.updates.json"
+    },
+    {
+      "batch": "b2",
+      "name": "cap512k_static_full",
+      "source_status": "failed",
+      "source_passed": false,
+      "payload_bytes": 524288,
+      "source_case_sha256": "e1b7a969dc3a2296b6e5fc983f98ac7b315729d45736a99ebfcef17f2b7a90a6",
+      "audit_passed": true,
+      "original_errors_preserved": [
+        {
+          "stage": "final_identity",
+          "error": "Final gather or previous-generation rejection failed"
+        },
+        {
+          "stage": "final_dependent",
+          "error": "Final gather or previous-generation rejection failed"
+        }
+      ],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 2069,
+        "verified_files": 2069,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": false,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": true,
+      "original_source": ".runtime/geometry-atlas-study/b2/cap512k_static_full.updates.json"
+    },
+    {
+      "batch": "b2",
+      "name": "smoke3k_double500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "6694575928d7f71ce02fff85a6696d75e5d44a7815f07a451498352972d6afc9",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 45,
+        "verified_files": 45,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b2/smoke3k_double500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double0_100",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "28c96e0e9e827053a64d9ec7f5aed4093127d6c41bcdbe02e7ef77cdb52e3fea",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double0_100.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double0_16",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "5bed9d5d5cedf81af8448db39d71377f48222d3abcdd8db62284f72f2ba10600",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double0_16.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double0_250",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "dc089ff83d334a4e9ecc7adac960432fb294047fc184a0b59ffde890483fcae0",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double0_250.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double0_50",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "db00728fc5754b7441e4c9ac4df9163837b39b467d6e8115ce261b764671ad14",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double0_50.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double0_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "5ffb6601b1b43c3e51bf62ca6e20803a5a848f4955d84f022e62c7bdedde02a0",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double0_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double150_100",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "ca3c9998a674716de8ddd1bce8a49fe5df7cdfb581e6256943f754b8e3aba183",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double150_100.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double150_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "062ea8f69348e3c16f0ecea1f7a2807e70eeea97943092789e86f06680800070",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double150_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_double50_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "a1569c28524fa95ae857fd7f20aca12c6e547e716c15eaf2a95843fc101f47e5",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_double50_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_fresh0_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "272188580b94e79a0d574a44fddc77b19d912afe006b5b17314013ad340270a3",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_fresh0_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "12k_static",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "2e618654e0bd2cdacb0df69aa8d8cfb3bcd31644db4cf95977b2170b366210b9",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 63,
+        "verified_files": 63,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/12k_static.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double0_100",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "6a8a95e25b33bc47dfa32f0fb00e4e60ced3bd483d1d2e914b87942cf862b8d3",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 33,
+        "verified_files": 33,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double0_100.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double0_16",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "995dbcc52a990a99baff81afec24ff7a9beac02d85cbd4b2d69f53c6675142cc",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 33,
+        "verified_files": 33,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double0_16.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double0_250",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "1abc34f8f9fb2d1599b2817f2633a3a15ffbe6d90b2810264264aa845ec5b918",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 33,
+        "verified_files": 33,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double0_250.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double0_50",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "ab40073b28a28f85915d38923bad8a56e2716d06cdd105ab524b2ae733b09076",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 33,
+        "verified_files": 33,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double0_50.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double0_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "4cf180fc6ac98b4cc497edeafab6b4c7423e000e8e3b0f6d85f2c069cab3d649",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 33,
+        "verified_files": 33,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double0_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_double50_50",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "eb622781c63f2b83d2a5aeef709089ed2fd44695b606e6db48fcbafaec02afaf",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 39,
+        "verified_files": 39,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_double50_50.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "3k_static",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "615077b408d21303bccaaee05a3f9e6a9a2c24f963bf92ff4cc04643c0fcd0f4",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 41,
+        "verified_files": 41,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/3k_static.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_100",
+      "source_status": "failed",
+      "source_passed": false,
+      "payload_bytes": 65536,
+      "source_case_sha256": "d7d48a87142b62d6290d5f4255279d20dd85de3b058f0f701e94670bdaed93c5",
+      "audit_passed": true,
+      "original_errors_preserved": [
+        {
+          "stage": "final_identity",
+          "error": "Final gather or previous-generation rejection failed"
+        },
+        {
+          "stage": "final_dependent",
+          "error": "Final gather or previous-generation rejection failed"
+        }
+      ],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": false,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": true,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_100.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_1000",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "9a63a223b56f377944ca8409c0dc00e0c720ba023b0b4542fbd954ef83b3bacb",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_1000.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_16",
+      "source_status": "failed",
+      "source_passed": false,
+      "payload_bytes": 65536,
+      "source_case_sha256": "996e53c800a9078b0d15329832b322a519914760df08707e308a4eed93cb7a1a",
+      "audit_passed": true,
+      "original_errors_preserved": [
+        {
+          "stage": "final_identity",
+          "error": "Final gather or previous-generation rejection failed"
+        },
+        {
+          "stage": "final_dependent",
+          "error": "Final gather or previous-generation rejection failed"
+        }
+      ],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": false,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": true,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_16.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_2000",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "b37ff9d4998ed6d1981ff41b2bb845035b678a37353108b5b8d8d4cd7a93052b",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_2000.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_250",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "df9e71fbd587608c9f75caf11cb88fe622352753d110bf21e0fff644db7b6117",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_250.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_50",
+      "source_status": "failed",
+      "source_passed": false,
+      "payload_bytes": 65536,
+      "source_case_sha256": "777352d140808b9a5b43bb4be992a6e1df85e1f1f711497baf116f156d26b2fb",
+      "audit_passed": true,
+      "original_errors_preserved": [
+        {
+          "stage": "final_identity",
+          "error": "Final gather or previous-generation rejection failed"
+        },
+        {
+          "stage": "final_dependent",
+          "error": "Final gather or previous-generation rejection failed"
+        }
+      ],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": false,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": true,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_50.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "a6002bdd6a90563d96fbe81fca16f0f65d4d2d93c2a79a1968523fbb3e192568",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double0_5000",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "ba1e9d18836023c713a6756c58a4248679b80b59ffecadeadc0360300504af71",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 69,
+        "verified_files": 69,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double0_5000.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double150_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "5405e513b920f5b52f73173aa49dd6ac1930ec7c5984b5d062faa8e273698129",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double150_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_double50_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "3e387386118066edeca208d6678445e831aa56bc31f0e9d2a80a14540b3a2c0e",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_double50_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_fresh0_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "20d45965d63edbe4f1f6f2cdeb3dcc04172b385365fd711c66611a38f0187ced",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_fresh0_500.updates.json"
+    },
+    {
+      "batch": "b3",
+      "name": "64k_static",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 65536,
+      "source_case_sha256": "eeb73a0fe53da7f58790ba0257cbebced9181a195f824b330ce3961deeb0778d",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 63,
+        "verified_files": 63,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "original_source": ".runtime/geometry-atlas-study/b3/64k_static.updates.json"
+    }
+  ],
+  "live": [
+    {
+      "name": "live12k_50",
+      "payload_bytes": 12288,
+      "source_sha256": "2f13e1c4970199ad0861a609ecb240e62086e9e5100dd4eff56e19d2ca30ea0d",
+      "history_sha256": "4202ea7a8179d1e07d083d502e1fe6214dbf2068fa1630b878df49c5644241ce",
+      "audit_passed": true,
+      "errors": [],
+      "original_source": ".runtime/geometry-atlas-study/b3/live12k_50.live.json",
+      "frame_count": 3,
+      "classification_counts": {
+        "unmatched": 3
+      },
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        }
+      ]
+    },
+    {
+      "name": "live12k_delay150_100",
+      "payload_bytes": 12288,
+      "source_sha256": "632f1b33a0aa36c111b629dc7f469073759ba5f0978e60a49d34845a19f0878a",
+      "history_sha256": "c74af20737946c48085bb658510e1275d18b5ba33d9648981429895f6e416bda",
+      "audit_passed": true,
+      "errors": [],
+      "original_source": ".runtime/geometry-atlas-study/b3/live12k_delay150_100.live.json",
+      "frame_count": 3,
+      "classification_counts": {
+        "matched": 3
+      },
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            19
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            42
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            64
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        }
+      ]
+    },
+    {
+      "name": "live3k_16",
+      "payload_bytes": 3072,
+      "source_sha256": "c1d3bdd2bc9384319e3c178d2453978fd02851ffb055ab5ffb7d00924ba16aa2",
+      "history_sha256": "60563fa6e12fc54e628d134f817feb5df4df4932d4590158c393a81966a52a46",
+      "audit_passed": true,
+      "errors": [],
+      "original_source": ".runtime/geometry-atlas-study/b3/live3k_16.live.json",
+      "frame_count": 3,
+      "classification_counts": {
+        "unmatched": 3
+      },
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        }
+      ]
+    },
+    {
+      "name": "live3k_delay50_50",
+      "payload_bytes": 3072,
+      "source_sha256": "a90046e6c386a29c47649730b9e4a7f360aa04fb70a88ea27c5359e5192aa868",
+      "history_sha256": "e082d147b95550278b1637da1c43c47ef1e6b00b6067117ba6ec649860a2c7c1",
+      "audit_passed": true,
+      "errors": [],
+      "original_source": ".runtime/geometry-atlas-study/b3/live3k_delay50_50.live.json",
+      "frame_count": 3,
+      "classification_counts": {
+        "matched": 3
+      },
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            119
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            186
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            234
+          ],
+          "full_patch_checked": 1,
+          "roi_all_white": false
+        }
+      ]
+    },
+    {
+      "name": "live64k_100",
+      "payload_bytes": 65536,
+      "source_sha256": "c905e0388330c5c4194a768203ad7ded832df7730c6d2deb6ad38aa2019a146d",
+      "history_sha256": "6063dcf6a9d2e04e463f0e9dbd8126946c353bd59d249737d8db0feb71964595",
+      "audit_passed": true,
+      "errors": [],
+      "original_source": ".runtime/geometry-atlas-study/b3/live64k_100.live.json",
+      "frame_count": 3,
+      "classification_counts": {
+        "unmatched": 3
+      },
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "unmatched",
+          "passed": false,
+          "matched_generations": [],
+          "full_patch_checked": 0,
+          "roi_all_white": true
+        }
+      ]
+    }
+  ]
+}

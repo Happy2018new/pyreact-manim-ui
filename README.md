@@ -57,6 +57,7 @@ python -B -X utf8 tools/start_dev.py --owner manim-demo
 
 - [播放 API](docs/PLAYBACK_API.md) 与 [UI 画布 API](docs/CANVAS_API.md)：业务接入、双实例、实时参数和清理。
 - [图片组件 API](docs/SHADER_IMAGE.md)：普通 PNG、图集构建、实时变形和交互演示。
+- [几何共享数组研究](docs/GEOMETRY_ATLAS_RESEARCH.md)与[容量、连续更新研究](docs/GEOMETRY_ATLAS_STREAMING_RESEARCH.md)：游戏 Python 经原生几何向 fragment shader 传递数据，索引读取、双缓冲、上传成本与帧率证据。
 - [开发路线](docs/DEVELOPMENT_PLAN.md)：初版范围、后续文字一致性和 UI 里程碑。
 - [实现架构](docs/ARCHITECTURE.md)：宿主/游戏边界、两种数据格式、shader 与时间轴。
 - [验收标准](docs/ACCEPTANCE.md)：如何区分实现、离线验证、实机验证与 1:1。

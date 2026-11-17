@@ -13,6 +13,7 @@ MARKER = '.pmanim_geometry_atlas_probe.json'
 NAMESPACE = uuid.UUID('cc7b047c-6371-44e9-a0b6-44241b0a4984')
 IDENTIFIER = 'pmanim_geometry_atlas:quad'
 ANCHOR = 'pmanim_geometry_atlas:anchor'
+MAX_BYTES = 524288
 _SPEC = importlib.util.spec_from_file_location('geometry_atlas_packet_assets', PACKET / 'build_probe.py')
 PACKET_BUILDER = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(PACKET_BUILDER)
@@ -50,6 +51,23 @@ def write_anchor(behavior, resource):
     PACKET_BUILDER.write_pixel(resource / 'textures/pmanim_geometry_atlas/transparent.png', 0)
 
 
+def write_atlas_block_template(resource, behavior, identifier, filename, origin_y):
+    """Keep half-block X/Z corners representable at native high coordinates."""
+    write_json(behavior / ('netease_blocks/' + filename + '.json'), {
+        'format_version': '1.10.0', 'minecraft:block': {
+            'description': {'identifier': identifier, 'register_to_creative_menu': False},
+            'components': {'netease:render_layer': {'value': 'blend'},
+                           'netease:no_crop_face_block': {},
+                           'minecraft:block_light_absorption': {'value': 0}}}})
+    write_json(resource / ('models/netease_block/' + filename + '.json'), {
+        'format_version': '1.13.0', 'netease:block_geometry': {
+            'description': {'identifier': identifier, 'textures': ['quartz_block_top'],
+                            'item_texture': 'quartz_block_top', 'use_ao': False},
+            'bones': [{'name': 'byte_plane', 'pivot': [0, 0, 0], 'cubes': [{
+                'origin': [0, origin_y, 0], 'size': [8, 0, 8],
+                'uv': {'up': {'uv': [0, 0], 'uv_size': [16, 16]}}}]}]}})
+
+
 def write_blocks(behavior, resource, rgb_writer):
     blocks = {'format_version': '1.21.40'}
     templates = [(IDENTIFIER, 'geometry_atlas_quad', 0)]
@@ -57,7 +75,7 @@ def write_blocks(behavior, resource, rgb_writer):
                       'geometry_atlas_quad_compact8_%02d' % template, template + .5)
                      for template in range(16))
     for identifier, filename, origin_y in templates:
-        PACKET_BUILDER.write_block_template(resource, behavior, identifier, filename, origin_y)
+        write_atlas_block_template(resource, behavior, identifier, filename, origin_y)
         blocks[identifier] = {'netease_model': identifier, 'sound': 'stone'}
     write_json(resource / 'blocks.json', blocks)
     states = ['Blending', 'DisableCulling', 'DisableDepthTest', 'DisableDepthWrite']
@@ -114,7 +132,7 @@ def build(output, rgb_writer=False):
             raise ValueError('Existing output belongs to a different atlas configuration')
     # Read all required sources before writing the ownership marker.
     scripts = {name: (HERE / name).read_text(encoding='utf-8')
-               for name in ('runtime.py', 'modMain.py')}
+               for name in ('runtime.py', 'modMain.py', 'update_scheduler.py')}
     scripts['codec.py'] = (PACKET / 'codec.py').read_text(encoding='utf-8')
     shaders = {name: (HERE / name).read_bytes() for name in ('scatter.vertex', 'scatter.fragment')}
     for name in ('consumer.fragment', 'copy.fragment', 'poison.fragment'):
@@ -153,13 +171,26 @@ def build(output, rgb_writer=False):
         'runtime': {'package': 'geometry_atlas_probe', 'entrypoint': 'geometry_atlas_probe.modMain',
                     'system_namespace': 'pmanim_geometry_atlas_probe', 'system_name': 'probe'},
         'anchor_identifier': ANCHOR, 'rgb_writer': bool(rgb_writer),
+        'max_payload_bytes': MAX_BYTES,
         'encoding': {'mode': 'compact8', 'palette_height': 16, 'template_count': 16,
                      'record_id': 'x*stride+z', 'byte_source': 'POSITION.y',
-                     'source_center': 'explicit EXTRA_ACTOR_UNIFORM3.yzw; calibrate world input'},
+                     'local_quad_span_xz': [0, .5],
+                     'native_position_expectation':
+                         'inferred endpoint sets: X={i-1,i-.5}, Z={i-.5,i}; not a native vertex capture',
+                     'source_center': [1., .5, .5],
+                     'center_basis': 'native image calibration for this atlas template; not a general model rule'},
         'scatter': {'uniform1': ['stride', 'y_offset', 'slot_count', 'atlas_columns'],
                     'uniform2': ['left_px', 'top_px', 'cell_px', 'width_px'],
                     'uniform3': ['height_px', 'center_x', 'center_y', 'center_z'],
-                    'uniform4': ['writer_visible', 'debug_rgb', 'reserved', 'reserved'],
+                    'uniform4': ['writer_visible', 'active_bank_selector', 'reserved', 'reserved'],
+                    'record_decode': 'floor(source.xz + 0.25)',
+                    'corner_decode': '2*(source.xz-cell)',
+                    'active_bank_selector': {'fresh': 0, 'bank0': 1, 'bank1': 2, 'pending_clip_all': 3},
+                    'bank_tag_uniform': 'COMMON_BLOCK_GEO_FLOAT1_1',
+                    'bank_tag_values': {'bank0': .25, 'bank1': .75},
+                    'large_atlas': {'max_payload_bytes': MAX_BYTES, 'columns': 512,
+                                    'cell_px': 1, 'left_px': 8, 'top_px': 32,
+                                    'width_px': 720, 'height_px': 1080},
                     'alpha_mode': 'replace', 'rgb_preserved': not rgb_writer},
         'postprocess_materials': list(materials),
         'postprocess': {'process': pipeline,

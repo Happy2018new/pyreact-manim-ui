@@ -1,0 +1,960 @@
+{
+  "schema": "geometry_atlas_decoder_aba_v1",
+  "native_geometry_rebuilt": false,
+  "controls": [
+    {
+      "name": "a_first",
+      "selected_branch": 0,
+      "uniform_readback": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "geometry_identity": {
+        "geometry_name": "pmanim_geometry_atlas_epoch1_version1",
+        "geometry_build_serial": 1,
+        "seed": 54321,
+        "generation": 1
+      },
+      "windows": [
+        {
+          "query": [
+            0,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 196,
+          "failures": [
+            {
+              "ordinal": 1023,
+              "source_index": 1023,
+              "rgb_error": 155,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2047,
+              "source_index": 2047,
+              "rgb_error": 180,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3071,
+              "source_index": 3071,
+              "rgb_error": 111,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 4095,
+              "source_index": 4095,
+              "rgb_error": 196,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 143,
+          "failures": [
+            {
+              "ordinal": 261119,
+              "source_index": 261119,
+              "rgb_error": 20,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262143,
+              "source_index": 262143,
+              "rgb_error": 122,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263167,
+              "source_index": 263167,
+              "rgb_error": 87,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 264191,
+              "source_index": 264191,
+              "rgb_error": 143,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 3,
+          "max_error": 174,
+          "failures": [
+            {
+              "ordinal": 521215,
+              "source_index": 521215,
+              "rgb_error": 53,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522239,
+              "source_index": 522239,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523263,
+              "source_index": 523263,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode0_start520192.verify.json"
+        },
+        {
+          "query": [
+            0,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 10,
+          "max_error": 179,
+          "failures": [
+            {
+              "ordinal": 156,
+              "source_index": 64511,
+              "rgb_error": 116,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 177,
+              "source_index": 83967,
+              "rgb_error": 127,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 414,
+              "source_index": 90342,
+              "rgb_error": 84,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 561,
+              "source_index": 101375,
+              "rgb_error": 163,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1438,
+              "source_index": 228855,
+              "rgb_error": 94,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1622,
+              "source_index": 244735,
+              "rgb_error": 59,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1908,
+              "source_index": 259071,
+              "rgb_error": 76,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2297,
+              "source_index": 306175,
+              "rgb_error": 179,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2462,
+              "source_index": 382531,
+              "rgb_error": 79,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3486,
+              "source_index": 517189,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 7,
+          "max_error": 214,
+          "failures": [
+            {
+              "ordinal": 260510,
+              "source_index": 68264,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 260636,
+              "source_index": 75775,
+              "rgb_error": 151,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 261534,
+              "source_index": 221940,
+              "rgb_error": 52,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262144,
+              "source_index": 294911,
+              "rgb_error": 71,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262558,
+              "source_index": 358140,
+              "rgb_error": 17,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263049,
+              "source_index": 406527,
+              "rgb_error": 214,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263582,
+              "source_index": 477892,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 6,
+          "max_error": 178,
+          "failures": [
+            {
+              "ordinal": 520606,
+              "source_index": 90904,
+              "rgb_error": 75,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521462,
+              "source_index": 194559,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521630,
+              "source_index": 227361,
+              "rgb_error": 178,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522654,
+              "source_index": 340945,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523678,
+              "source_index": 502845,
+              "rgb_error": 58,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 524222,
+              "source_index": 9215,
+              "rgb_error": 20,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_first_mode2_start520192.verify.json"
+        }
+      ]
+    },
+    {
+      "name": "b_equivalent",
+      "selected_branch": 1,
+      "uniform_readback": [
+        1.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "geometry_identity": {
+        "geometry_name": "pmanim_geometry_atlas_epoch1_version1",
+        "geometry_build_serial": 1,
+        "seed": 54321,
+        "generation": 1
+      },
+      "windows": [
+        {
+          "query": [
+            0,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 196,
+          "failures": [
+            {
+              "ordinal": 1023,
+              "source_index": 1023,
+              "rgb_error": 155,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2047,
+              "source_index": 2047,
+              "rgb_error": 180,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3071,
+              "source_index": 3071,
+              "rgb_error": 111,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 4095,
+              "source_index": 4095,
+              "rgb_error": 196,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 143,
+          "failures": [
+            {
+              "ordinal": 261119,
+              "source_index": 261119,
+              "rgb_error": 20,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262143,
+              "source_index": 262143,
+              "rgb_error": 122,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263167,
+              "source_index": 263167,
+              "rgb_error": 87,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 264191,
+              "source_index": 264191,
+              "rgb_error": 143,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 3,
+          "max_error": 174,
+          "failures": [
+            {
+              "ordinal": 521215,
+              "source_index": 521215,
+              "rgb_error": 53,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522239,
+              "source_index": 522239,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523263,
+              "source_index": 523263,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode0_start520192.verify.json"
+        },
+        {
+          "query": [
+            0,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 10,
+          "max_error": 179,
+          "failures": [
+            {
+              "ordinal": 156,
+              "source_index": 64511,
+              "rgb_error": 116,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 177,
+              "source_index": 83967,
+              "rgb_error": 127,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 414,
+              "source_index": 90342,
+              "rgb_error": 84,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 561,
+              "source_index": 101375,
+              "rgb_error": 163,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1438,
+              "source_index": 228855,
+              "rgb_error": 94,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1622,
+              "source_index": 244735,
+              "rgb_error": 59,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1908,
+              "source_index": 259071,
+              "rgb_error": 76,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2297,
+              "source_index": 306175,
+              "rgb_error": 179,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2462,
+              "source_index": 382531,
+              "rgb_error": 79,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3486,
+              "source_index": 517189,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 7,
+          "max_error": 214,
+          "failures": [
+            {
+              "ordinal": 260510,
+              "source_index": 68264,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 260636,
+              "source_index": 75775,
+              "rgb_error": 151,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 261534,
+              "source_index": 221940,
+              "rgb_error": 52,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262144,
+              "source_index": 294911,
+              "rgb_error": 71,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262558,
+              "source_index": 358140,
+              "rgb_error": 17,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263049,
+              "source_index": 406527,
+              "rgb_error": 214,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263582,
+              "source_index": 477892,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 6,
+          "max_error": 178,
+          "failures": [
+            {
+              "ordinal": 520606,
+              "source_index": 90904,
+              "rgb_error": 75,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521462,
+              "source_index": 194559,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521630,
+              "source_index": 227361,
+              "rgb_error": 178,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522654,
+              "source_index": 340945,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523678,
+              "source_index": 502845,
+              "rgb_error": 58,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 524222,
+              "source_index": 9215,
+              "rgb_error": 20,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_b_equivalent_mode2_start520192.verify.json"
+        }
+      ]
+    },
+    {
+      "name": "a_restore",
+      "selected_branch": 0,
+      "uniform_readback": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "geometry_identity": {
+        "geometry_name": "pmanim_geometry_atlas_epoch1_version1",
+        "geometry_build_serial": 1,
+        "seed": 54321,
+        "generation": 1
+      },
+      "windows": [
+        {
+          "query": [
+            0,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 196,
+          "failures": [
+            {
+              "ordinal": 1023,
+              "source_index": 1023,
+              "rgb_error": 155,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2047,
+              "source_index": 2047,
+              "rgb_error": 180,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3071,
+              "source_index": 3071,
+              "rgb_error": 111,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 4095,
+              "source_index": 4095,
+              "rgb_error": 196,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 4,
+          "max_error": 143,
+          "failures": [
+            {
+              "ordinal": 261119,
+              "source_index": 261119,
+              "rgb_error": 20,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262143,
+              "source_index": 262143,
+              "rgb_error": 122,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263167,
+              "source_index": 263167,
+              "rgb_error": 87,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 264191,
+              "source_index": 264191,
+              "rgb_error": 143,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            0,
+            0
+          ],
+          "passed": false,
+          "failed": 3,
+          "max_error": 174,
+          "failures": [
+            {
+              "ordinal": 521215,
+              "source_index": 521215,
+              "rgb_error": 53,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522239,
+              "source_index": 522239,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523263,
+              "source_index": 523263,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode0_start520192.verify.json"
+        },
+        {
+          "query": [
+            0,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 10,
+          "max_error": 179,
+          "failures": [
+            {
+              "ordinal": 156,
+              "source_index": 64511,
+              "rgb_error": 116,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 177,
+              "source_index": 83967,
+              "rgb_error": 127,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 414,
+              "source_index": 90342,
+              "rgb_error": 84,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 561,
+              "source_index": 101375,
+              "rgb_error": 163,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1438,
+              "source_index": 228855,
+              "rgb_error": 94,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1622,
+              "source_index": 244735,
+              "rgb_error": 59,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 1908,
+              "source_index": 259071,
+              "rgb_error": 76,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2297,
+              "source_index": 306175,
+              "rgb_error": 179,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 2462,
+              "source_index": 382531,
+              "rgb_error": 79,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 3486,
+              "source_index": 517189,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start0.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start0.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start0.verify.json"
+        },
+        {
+          "query": [
+            260096,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 7,
+          "max_error": 214,
+          "failures": [
+            {
+              "ordinal": 260510,
+              "source_index": 68264,
+              "rgb_error": 174,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 260636,
+              "source_index": 75775,
+              "rgb_error": 151,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 261534,
+              "source_index": 221940,
+              "rgb_error": 52,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262144,
+              "source_index": 294911,
+              "rgb_error": 71,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 262558,
+              "source_index": 358140,
+              "rgb_error": 17,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263049,
+              "source_index": 406527,
+              "rgb_error": 214,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 263582,
+              "source_index": 477892,
+              "rgb_error": 88,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start260096.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start260096.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start260096.verify.json"
+        },
+        {
+          "query": [
+            520192,
+            4096,
+            2,
+            37
+          ],
+          "passed": false,
+          "failed": 6,
+          "max_error": 178,
+          "failures": [
+            {
+              "ordinal": 520606,
+              "source_index": 90904,
+              "rgb_error": 75,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521462,
+              "source_index": 194559,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 521630,
+              "source_index": 227361,
+              "rgb_error": 178,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 522654,
+              "source_index": 340945,
+              "rgb_error": 114,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 523678,
+              "source_index": 502845,
+              "rgb_error": 58,
+              "alpha_error": 0
+            },
+            {
+              "ordinal": 524222,
+              "source_index": 9215,
+              "rgb_error": 20,
+              "alpha_error": 0
+            }
+          ],
+          "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start520192.png",
+          "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start520192.state.json",
+          "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\b6\\decoder_a_restore_mode2_start520192.verify.json"
+        }
+      ]
+    }
+  ]
+}

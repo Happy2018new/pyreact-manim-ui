@@ -1,0 +1,1013 @@
+{
+  "schema": "geometry_atlas_scatter_derived_diagnosis_v1",
+  "created_utc": "2026-11-17T17:16:24.165920+00:00",
+  "kind": "derived_analysis_not_native_vertex_capture",
+  "source_case": "512-frozen-diagnostics.json",
+  "geometry_identity_equal_across_all_receipts": true,
+  "geometry_identity": {
+    "geometry_name": "pmanim_geometry_atlas_epoch1_version1",
+    "geometry_build_serial": 1,
+    "native_attempt_serial": 1,
+    "seed": 54321,
+    "generation": 1,
+    "slot_count": 524288,
+    "upload_history": [
+      {
+        "bank": -1,
+        "publish_event": 2265,
+        "name": "pmanim_geometry_atlas_epoch1_version1",
+        "previous_bank_publication": null,
+        "encoding": "compact8",
+        "generation": 1,
+        "serial": 1,
+        "upload_finished_at": 1.3047521,
+        "published_at": 1.3081326,
+        "seed": 54321,
+        "timings": {
+          "combine_ms": 67.48060000000011,
+          "generation_ms": 404.36910000000006,
+          "palette_ms": 103.86039999999986,
+          "deserialize_ms": 0.016800000000039006,
+          "attach_ms": 86.5845999999999,
+          "encode_ms": 103.86039999999986,
+          "total_ms": 662.3114999999999
+        },
+        "ready_at": 1.3047521,
+        "slot_count": 524288,
+        "started_at": 0.6424406,
+        "attempt_serial": 1,
+        "publish_wait_ms": 3.3805000000000085,
+        "upload_event": 2265
+      }
+    ]
+  },
+  "controls": [
+    {
+      "name": "baseline",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        },
+        {
+          "start": 260096,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        },
+        {
+          "start": 520192,
+          "checked_bytes": 4096,
+          "failed_cells": 3
+        }
+      ]
+    },
+    {
+      "name": "direct",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "uv_x_minus",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "uv_x_plus",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "uv_y_minus",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "uv_y_plus",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "left9",
+      "columns": 512,
+      "left": 9,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        }
+      ]
+    },
+    {
+      "name": "cols511",
+      "columns": 511,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        },
+        {
+          "start": 260096,
+          "checked_bytes": 4096,
+          "failed_cells": 7
+        },
+        {
+          "start": 520192,
+          "checked_bytes": 4096,
+          "failed_cells": 8
+        }
+      ]
+    },
+    {
+      "name": "cols640",
+      "columns": 640,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 3
+        },
+        {
+          "start": 260096,
+          "checked_bytes": 4096,
+          "failed_cells": 7
+        },
+        {
+          "start": 520192,
+          "checked_bytes": 4096,
+          "failed_cells": 7
+        }
+      ]
+    },
+    {
+      "name": "center49",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.49,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 0
+        },
+        {
+          "start": 260096,
+          "checked_bytes": 4096,
+          "failed_cells": 0
+        },
+        {
+          "start": 520192,
+          "checked_bytes": 4096,
+          "failed_cells": 0
+        }
+      ]
+    },
+    {
+      "name": "restore",
+      "columns": 512,
+      "left": 8,
+      "center_z": 0.5,
+      "windows": [
+        {
+          "start": 0,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        },
+        {
+          "start": 260096,
+          "checked_bytes": 4096,
+          "failed_cells": 4
+        },
+        {
+          "start": 520192,
+          "checked_bytes": 4096,
+          "failed_cells": 3
+        }
+      ]
+    }
+  ],
+  "white_rule": "index%atlas_columns==atlas_columns-1 AND index%1024>=513; excluding final index and independent expected255",
+  "white_failures": 33,
+  "all_white_rules_match": true,
+  "nonwhite_failures": 14,
+  "all_nonwhite_observed_last_record_byte154": true,
+  "last_record_index": 524287,
+  "last_record_expected_byte": 154,
+  "original_invalid_clip_position": [
+    2,
+    2,
+    0,
+    1
+  ],
+  "invalid_clip_viewport_pixels": [
+    1080,
+    -540
+  ],
+  "triangle_hypothesis": "Final-record intended atlas edge A=(left+last%columns,top+floor(last/columns)),B=A+(1,0), joined to original invalid-record clip vertex C=(1080,-540). These are hypothesized positions, not captured native POSITION. Later primitive overdraw can hide parts of this narrow triangle.",
+  "nonwhite_centers_inside_ideal_triangle": 11,
+  "nonwhite_pixel_footprints_intersect_ideal_triangle": 14,
+  "max_center_horizontal_outside_ideal_triangle_pixels": 0.23616103522647336,
+  "triangle_limit": "Not all pixel centers are in the ideal triangle. All affected pixel footprints intersect it. This supports a final-record clipping artifact but is not an exact reconstruction of native vertices or sample locations.",
+  "windows": [
+    {
+      "control": "baseline",
+      "start": 0,
+      "white_failures": [
+        1023,
+        2047,
+        3071,
+        4095
+      ],
+      "white_rule_predictions": [
+        1023,
+        2047,
+        3071,
+        4095
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          519,
+          1055
+        ],
+        [
+          520,
+          1055
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": []
+    },
+    {
+      "control": "baseline",
+      "start": 260096,
+      "white_failures": [
+        261119,
+        262143,
+        263167,
+        264191
+      ],
+      "white_rule_predictions": [
+        261119,
+        262143,
+        263167,
+        264191
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          519,
+          1055
+        ],
+        [
+          520,
+          1055
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": []
+    },
+    {
+      "control": "baseline",
+      "start": 520192,
+      "white_failures": [
+        521215,
+        522239,
+        523263
+      ],
+      "white_rule_predictions": [
+        521215,
+        522239,
+        523263
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          519,
+          1055
+        ],
+        [
+          520,
+          1055
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": []
+    },
+    {
+      "control": "cols511",
+      "start": 0,
+      "white_failures": [
+        1021,
+        2043,
+        3065,
+        4087
+      ],
+      "white_rule_predictions": [
+        1021,
+        2043,
+        3065,
+        4087
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          9,
+          1058
+        ],
+        [
+          10,
+          1058
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": []
+    },
+    {
+      "control": "cols511",
+      "start": 260096,
+      "white_failures": [
+        260609,
+        262142,
+        263164,
+        264186
+      ],
+      "white_rule_predictions": [
+        260609,
+        262142,
+        263164,
+        264186
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          9,
+          1058
+        ],
+        [
+          10,
+          1058
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": [
+        {
+          "index": 260446,
+          "expected": 87,
+          "observed": 154,
+          "source_z": 350,
+          "atlas_column": 347,
+          "atlas_row": 509,
+          "source_pixel_center": [
+            355.5,
+            541.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            355.1648936170213,
+            355.84167709637046
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 261977,
+          "expected": 107,
+          "observed": 154,
+          "source_z": 857,
+          "atlas_column": 345,
+          "atlas_row": 512,
+          "source_pixel_center": [
+            353.5,
+            544.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            353.15425531914894,
+            353.83291614518146
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 262998,
+          "expected": 157,
+          "observed": 154,
+          "source_z": 854,
+          "atlas_column": 344,
+          "atlas_row": 514,
+          "source_pixel_center": [
+            352.5,
+            546.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            351.81382978723406,
+            352.49374217772214
+          ],
+          "center_inside_hypothesis_triangle": false,
+          "center_horizontal_outside_pixels": 0.006257822277859759,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "control": "cols511",
+      "start": 520192,
+      "white_failures": [
+        520708,
+        521730,
+        523263,
+        524285
+      ],
+      "white_rule_predictions": [
+        520708,
+        521730,
+        523263,
+        524285
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          9,
+          1058
+        ],
+        [
+          10,
+          1058
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": [
+        {
+          "index": 520204,
+          "expected": 119,
+          "observed": 154,
+          "source_z": 12,
+          "atlas_column": 6,
+          "atlas_row": 1018,
+          "source_pixel_center": [
+            14.5,
+            1050.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            14.02659574468085,
+            15.021902377972467
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 521225,
+          "expected": 27,
+          "observed": 154,
+          "source_z": 9,
+          "atlas_column": 5,
+          "atlas_row": 1020,
+          "source_pixel_center": [
+            13.5,
+            1052.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            12.686170212765958,
+            13.682728410513143
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 522756,
+          "expected": 58,
+          "observed": 154,
+          "source_z": 516,
+          "atlas_column": 3,
+          "atlas_row": 1023,
+          "source_pixel_center": [
+            11.5,
+            1055.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            10.675531914893616,
+            11.673967459324155
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 523266,
+          "expected": 158,
+          "observed": 154,
+          "source_z": 2,
+          "atlas_column": 2,
+          "atlas_row": 1024,
+          "source_pixel_center": [
+            10.5,
+            1056.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            10.00531914893617,
+            11.004380475594493
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "control": "cols640",
+      "start": 0,
+      "white_failures": [
+        639,
+        1919,
+        3839
+      ],
+      "white_rule_predictions": [
+        639,
+        1919,
+        3839
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          135,
+          851
+        ],
+        [
+          136,
+          851
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": []
+    },
+    {
+      "control": "cols640",
+      "start": 260096,
+      "white_failures": [
+        261119,
+        261759,
+        263039
+      ],
+      "white_rule_predictions": [
+        261119,
+        261759,
+        263039
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          135,
+          851
+        ],
+        [
+          136,
+          851
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": [
+        {
+          "index": 260247,
+          "expected": 49,
+          "observed": 154,
+          "source_z": 151,
+          "atlas_column": 407,
+          "atlas_row": 406,
+          "source_pixel_center": [
+            415.5,
+            438.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            415.23903666427026,
+            415.9424874191229
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 260887,
+          "expected": 78,
+          "observed": 154,
+          "source_z": 791,
+          "atlas_column": 407,
+          "atlas_row": 407,
+          "source_pixel_center": [
+            415.5,
+            439.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            414.55966930266,
+            415.2638389647735
+          ],
+          "center_inside_hypothesis_triangle": false,
+          "center_horizontal_outside_pixels": 0.23616103522647336,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 261526,
+          "expected": 120,
+          "observed": 154,
+          "source_z": 406,
+          "atlas_column": 406,
+          "atlas_row": 408,
+          "source_pixel_center": [
+            414.5,
+            440.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            413.8803019410496,
+            414.5851905104241
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 263444,
+          "expected": 134,
+          "observed": 154,
+          "source_z": 276,
+          "atlas_column": 404,
+          "atlas_row": 411,
+          "source_pixel_center": [
+            412.5,
+            443.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            411.84219985621854,
+            412.549245147376
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "control": "cols640",
+      "start": 520192,
+      "white_failures": [
+        520959,
+        522239,
+        522879,
+        524159
+      ],
+      "white_rule_predictions": [
+        520959,
+        522239,
+        522879,
+        524159
+      ],
+      "white_rule_exact_match": true,
+      "hypothesized_last_quad_triangle_pixels": [
+        [
+          135,
+          851
+        ],
+        [
+          136,
+          851
+        ],
+        [
+          1080.0,
+          -540.0
+        ]
+      ],
+      "nonwhite_failures": [
+        {
+          "index": 521090,
+          "expected": 51,
+          "observed": 154,
+          "source_z": 898,
+          "atlas_column": 130,
+          "atlas_row": 814,
+          "source_pixel_center": [
+            138.5,
+            846.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            138.05715312724658,
+            139.05391804457224
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 521730,
+          "expected": 157,
+          "observed": 154,
+          "source_z": 514,
+          "atlas_column": 130,
+          "atlas_row": 815,
+          "source_pixel_center": [
+            138.5,
+            847.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            137.37778576563625,
+            138.37526959022287
+          ],
+          "center_inside_hypothesis_triangle": false,
+          "center_horizontal_outside_pixels": 0.12473040977712913,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        },
+        {
+          "index": 523008,
+          "expected": 42,
+          "observed": 154,
+          "source_z": 768,
+          "atlas_column": 128,
+          "atlas_row": 817,
+          "source_pixel_center": [
+            136.5,
+            849.5
+          ],
+          "hypothesis_x_interval_at_sample_y": [
+            136.01905104241553,
+            137.01797268152407
+          ],
+          "center_inside_hypothesis_triangle": true,
+          "center_horizontal_outside_pixels": 0.0,
+          "pixel_footprint_intersects_hypothesis_triangle": true,
+          "raw_output_3x3_rgb_values": [
+            [
+              154,
+              154,
+              154
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "new_half_grid_per_primitive_consistency": {
+    "scope": "CPU factorized proof over complete512x1024 X/Z domain with explicit input storage rounding and binary32 arithmetic; not native format inference",
+    "proof": "Both X endpoints recover integer x, both Z endpoints recover integer z, so all six vertices of either triangulation yield the identical record=x*1024+z for every one of524288 records. Corners recover0/1; all256 Y-byte encodings round-trip.",
+    "checks": [
+      {
+        "input_storage": "binary32",
+        "axis_endpoints_checked": 3072,
+        "byte_values_checked": 256,
+        "axis_or_corner_failures": [],
+        "byte_decode_failures": [],
+        "passed": true
+      },
+      {
+        "input_storage": "binary16",
+        "axis_endpoints_checked": 3072,
+        "byte_values_checked": 256,
+        "axis_or_corner_failures": [],
+        "byte_decode_failures": [],
+        "passed": true
+      }
+    ],
+    "gpu_scope": "Completed desktopOpenGL and native-headerGLES100/300 sparse float32/binary16 pixel regressions passed. This report CPU-checks record consistency directly; no new GPU job was run."
+  },
+  "artifact_sha256": {
+    "512-frozen-diagnostics.json": "9698ff7785879b9d62c442a732e1dcacc8511776ab996a9b6a9964adb253bd35",
+    "diag512_baseline_identity_0.verify.json": "eb2531d5b1765e5329bc59cd489ceba871b66a8b32d909384da7beeb12f407ca",
+    "diag512_baseline_identity_0.state.json": "bef3e66ce568ece3b35e3e66cefbdee38ad9c6a18957c005fd7d10a915e910f7",
+    "diag512_baseline_identity_0.png": "56c0647ba83f0d40de20fe55ae2bc6a70d5b606029da8891a434aebdb9dcb42e",
+    "diag512_baseline_identity_260096.verify.json": "5ea94adf52a4829df02f1ce993fcaee7ce45843d1e8d6e08fdc388137b16cb40",
+    "diag512_baseline_identity_260096.state.json": "ce11ad88e5ca027aab711e2d5f70600f03be30d456ee985770472e68f09d00f6",
+    "diag512_baseline_identity_260096.png": "86d31700ba64c5b2b843fd11bda56b6c8dcc94563da6eaac8367c9af55f91dc1",
+    "diag512_baseline_identity_520192.verify.json": "8a944d503b25d5f8849e8052850867c6aaecbe7470dd143bf008413df8d91676",
+    "diag512_baseline_identity_520192.state.json": "58316305588da69cd0861711ed8d9426ef8fcc0741fd74accf0abe1eb44e17df",
+    "diag512_baseline_identity_520192.png": "f43a5869ead023a2ac14f78cec20466886939455d3039ac5727274d0a1c49cff",
+    "diag512_direct_identity_0.verify.json": "9cc8da85808d42ab91718aee9b0a8a6d672b46646959ff13dbe7c5a7136cc78b",
+    "diag512_direct_identity_0.state.json": "479c729ae99cf8a60f5bcfc9a63e586a33baac0bbb1aab6b3c6f753c13d4e5ae",
+    "diag512_direct_identity_0.png": "a4e8dd03c539fef6644af2c174db8f94b90989b8dd578136c93b2e22a0af3b77",
+    "diag512_uv_x_minus_identity_0.verify.json": "5ee101e5cc856de60a395807021ebcb0a1491c131cf544e22cbd3b6899f56a69",
+    "diag512_uv_x_minus_identity_0.state.json": "bef3e66ce568ece3b35e3e66cefbdee38ad9c6a18957c005fd7d10a915e910f7",
+    "diag512_uv_x_minus_identity_0.png": "9fcbba18c3008629660239f09cc8fa5478ec1efbdfd7013d9d5e09f1e90ba4a7",
+    "diag512_uv_x_plus_identity_0.verify.json": "2024d802026800be8a5875ec1f01afb875733f480b62a9a214bba5b6c3c1b8f9",
+    "diag512_uv_x_plus_identity_0.state.json": "bef3e66ce568ece3b35e3e66cefbdee38ad9c6a18957c005fd7d10a915e910f7",
+    "diag512_uv_x_plus_identity_0.png": "6ad36c04cd7543565bfafcf185355208b2d250c96eeaee33f0c09120f7450d67",
+    "diag512_uv_y_minus_identity_0.verify.json": "f84b6faa23f7bc31ba2ba0b5dd6142cf81179313bc8a3df3cad13f99b479aeac",
+    "diag512_uv_y_minus_identity_0.state.json": "bef3e66ce568ece3b35e3e66cefbdee38ad9c6a18957c005fd7d10a915e910f7",
+    "diag512_uv_y_minus_identity_0.png": "de8dd462c99eddd10c2e0ac7492e90cc828ba32c998d7f2728b155db1680a2aa",
+    "diag512_uv_y_plus_identity_0.verify.json": "a90456085b583d65386fca7c1bc40a7bfd529b56a92c356e4c505a30c650867f",
+    "diag512_uv_y_plus_identity_0.state.json": "bef3e66ce568ece3b35e3e66cefbdee38ad9c6a18957c005fd7d10a915e910f7",
+    "diag512_uv_y_plus_identity_0.png": "c19948ed54b3f7bddc28757071df87b79649705cd2e5455dcee963cf9c26c759",
+    "diag512_left9_identity_0.verify.json": "aa4dee89121ad769a0a7721f1a902b21f52c58ad9aeec2d91c2a9e59c15ceaa1",
+    "diag512_left9_identity_0.state.json": "69c8a847b32a5733469e59c8ca0f907641447428634457a91ffc6e9b8b4eb457",
+    "diag512_left9_identity_0.png": "cfbb7911664af8f2a13738a899a2d39c7768a34342a1a342d31b6d14a8eea798",
+    "diag512_cols511_identity_0.verify.json": "ed428f25f831a641e50d993ef163a7b175a6ddc2a7ea95a7796254252c076e31",
+    "diag512_cols511_identity_0.state.json": "b8600981c0ad83f03507b0e0ee1bc89495d0285836e835432496397abef89d81",
+    "diag512_cols511_identity_0.png": "6c8809acffb37e131238ea0f537cd1423b908f6f6aa5ab85b37f206a97b8c988",
+    "diag512_cols511_identity_260096.verify.json": "8d71af279a59d7bfde025ca6878670994d1024b041ea568b507608c46eff4214",
+    "diag512_cols511_identity_260096.state.json": "35737d74d81069087e9265883fef6f2ed5293cf049c9ce3f53ed812e031220db",
+    "diag512_cols511_identity_260096.png": "2f5849e95b5d15ea169950bcf92bcfda2e6cb57907cbed383614aa420e7a50c7",
+    "diag512_cols511_identity_520192.verify.json": "36d4ba3422ce756b25356704e4eae2720db8d917bbaeed9f4ecb29685328e69f",
+    "diag512_cols511_identity_520192.state.json": "82a9fc4798b36319ae9346e0539d13f7b4e5c94764db4f533a263d108bed33d9",
+    "diag512_cols511_identity_520192.png": "488369090c56e8b2c451c4b62bece77d9f446115994dd52aa9d524a19ee32102",
+    "diag512_cols640_identity_0.verify.json": "59e56e26aad7b936843ebf8805026e035d95a8793e063cd78d6eac3cd2bc23cc",
+    "diag512_cols640_identity_0.state.json": "2ede3c51d3e150a03f155274069a49851b5e2ce6e0d1b9becf1ff258b63c3945",
+    "diag512_cols640_identity_0.png": "fc297b3f24b8c073be7b721b3d6b301ee443fc4f023f678c20cda483dad563f3",
+    "diag512_cols640_identity_260096.verify.json": "0d3dca0ba500de8c439277fbb196c7dc7c26427a70ccd19570d2d60a3b5e8aeb",
+    "diag512_cols640_identity_260096.state.json": "3b7669b84e577a8df62d325baa839c2f9e05f53715eeb12c14608683009b75f4",
+    "diag512_cols640_identity_260096.png": "e9a652e96c5bac5cce3635cc7691a1925b3d66fa8e11b098cf5149211521a964",
+    "diag512_cols640_identity_520192.verify.json": "c82c8ec139440469be32bae18fbb162f165c03a48520edc047a4e8d31ce5edeb",
+    "diag512_cols640_identity_520192.state.json": "a9ff058aacec9c5151c5a8d5475b9891ae2780186788eb3cf75c59b8e9cdd3e0",
+    "diag512_cols640_identity_520192.png": "a8b926da52d1baa8ac1ef26a6b144549f69dd0eaa2b489b5be74e04e9e6c9cbf",
+    "diag512_center49_identity_0.verify.json": "46d88f43f4b7fc92ebe2ffc07c56d446c40aaea068106112e02d6ab760b2433b",
+    "diag512_center49_identity_0.state.json": "2674d7e4dbf0ea1e108e6dd835d22a48060e8a7a0fdde2aec0c9f650e24a0da1",
+    "diag512_center49_identity_0.png": "3ee01b115dff0c986591b8ac42bdbc997fd958a135e4e8b4feb7c0930af707c4",
+    "diag512_center49_identity_260096.verify.json": "cd6e56ea45e5eff3912f7a4509e2af3113812583db0dfe8f784b935c91e252df",
+    "diag512_center49_identity_260096.state.json": "6e9fdd0bff47575f3b864ab2796942d83e39f57f1657b69f74e741c8bee2c5ba",
+    "diag512_center49_identity_260096.png": "b9933b0fd6439819972021c63311209e51c20038a8fbc916c1bc393288dec5fc",
+    "diag512_center49_identity_520192.verify.json": "87e8ed7c4bb58df03234b406f3fe3ca9891c42796fe38c50bc09199f8138df08",
+    "diag512_center49_identity_520192.state.json": "309f80734d1dd988f8faba405db59bff2d1e07fa48a97179db0de2a72a119b51",
+    "diag512_center49_identity_520192.png": "eb9d4ca5668ce209aa000c49893c6d74813f399324bffdbc06d762047c5599a2",
+    "diag512_restore_identity_0.verify.json": "9361e3e6e98504db73f50de58bdc4a196320a0d729c07c58e4c93403d33c158a",
+    "diag512_restore_identity_0.state.json": "0278aaf4bbca707fd7a059853996d3a841f6fd81cdaeaa6a072cd142a20ed9b3",
+    "diag512_restore_identity_0.png": "1e1c6f678fab39900d605de8f993b29c1a92bc8bdc5875de0880b0ced6d4fe6c",
+    "diag512_restore_identity_260096.verify.json": "ff399ad57fb0806aa713bd605c0f18b9554b26db7a2f135a314b979e62cb2b9c",
+    "diag512_restore_identity_260096.state.json": "ce11ad88e5ca027aab711e2d5f70600f03be30d456ee985770472e68f09d00f6",
+    "diag512_restore_identity_260096.png": "5f1f34e06f7ea02d4e90354ca564bac8730df613767bd66a0034eac17ec5d03c",
+    "diag512_restore_identity_520192.verify.json": "16f67e98d279dbf444c7f789102a8afdde456b3483887ea5045078e6f211115f",
+    "diag512_restore_identity_520192.state.json": "58316305588da69cd0861711ed8d9426ef8fcc0741fd74accf0abe1eb44e17df",
+    "diag512_restore_identity_520192.png": "8f0c0bd7b239ee649063119daac7cffeac0bc81f7c45500502d4480e80060d4b"
+  },
+  "candidate_source_sha256": {
+    "tools/geometry_atlas_probe/scatter.vertex": "c78aadbb3d16b2617837fc3e08fcb7d3e090e2e382cb5c6658192f4de1134bbd",
+    "tools/geometry_atlas_probe/build_probe.py": "d749cd393248abd5fdc3344359f4f8f6cf9c48f0c826d627f17fa23c6cea6a0f",
+    ".runtime/geometry-atlas-study/project-b4/resource_pack/shaders/glsl/scatter.vertex": "c78aadbb3d16b2617837fc3e08fcb7d3e090e2e382cb5c6658192f4de1134bbd"
+  },
+  "limitations": [
+    "No CPU native mesh/index/vertex buffer was read.",
+    "No claim about native POSITION storage format.",
+    "Current localization: old-template scatter per-vertex cell/record recovery combined with atlas row-wrap and partial clipping, before consumer point sampling.",
+    "Underlying native attribute/compiler/sample-location behavior remains unresolved."
+  ]
+}

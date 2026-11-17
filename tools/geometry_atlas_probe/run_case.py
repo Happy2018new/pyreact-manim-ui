@@ -278,7 +278,7 @@ def main(argv=None):
     if (not re.fullmatch('[a-z0-9_]{1,64}', args.name) or not 2 <= args.byte_count <= MAX_SLOTS or
             math.gcd(131, args.byte_count) != 1 or not 0 <= args.seed <= 0xffffffff or
             not math.isfinite(args.settle) or not 0 <= args.settle <= 30):
-        parser.error('Use a safe name,2..65536 bytes coprime with131,uint32 seed,and0..30 seconds settle')
+        parser.error('Use a safe name,2..524288 bytes coprime with131,uint32 seed,and0..30 seconds settle')
     return AtlasCase(args).run()
 
 

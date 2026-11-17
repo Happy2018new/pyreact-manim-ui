@@ -73,7 +73,7 @@ def native_provenance(capture):
             'background_before': background, 'background_after': copy.deepcopy(background)}
 
 
-def fixture(folder, mismatch=False, split=False):
+def fixture(folder, mismatch=False, split=False, modern=False):
     name, slots = 'atlas_evidence', 137
     history = [{'seed': 123456789, 'generation': 1, 'slot_count': slots, 'encoding': 'compact8',
                 'name': 'geometry_1', 'serial': 1}]
@@ -85,8 +85,14 @@ def fixture(folder, mismatch=False, split=False):
               'center': [.5, .5, .5], 'orientation': [1, 0, 0, 0], 'direct_source': False,
               'packed_mode': 4, 'query': [0, slots, 0, 0], 'writer_visible': True,
               'upload_history': history}
+    if modern:
+        frozen.update(update_policy='double', active_bank=0, publish_delay_ms=250.)
+        if modern is True:
+            frozen.update(pending_upload=None, updates_running=False)
     next_state = copy.deepcopy(frozen)
     next_state.update(generation=2, geometry_name='geometry_2', geometry_build_serial=2)
+    if modern:
+        next_state['active_bank'] = 1
     next_state['upload_history'].append(dict(history[0], generation=2, name='geometry_2', serial=2))
     save(folder / (name + '_frozen.state.json'), frozen)
     save(folder / (name + '_generation2_frozen.state.json'), next_state)
@@ -169,10 +175,10 @@ def fixture(folder, mismatch=False, split=False):
 
 class GeometryAtlasRecheckTests(unittest.TestCase):
     def test_success_and_failed_payloads_replay_without_changing_sources(self):
-        for mismatch in (False, True):
-            with self.subTest(mismatch=mismatch), tempfile.TemporaryDirectory() as directory:
+        for mismatch, modern in ((False, False), (True, False), (False, True), (True, True)):
+            with self.subTest(mismatch=mismatch, modern=modern), tempfile.TemporaryDirectory() as directory:
                 folder = Path(directory)
-                path, _ = fixture(folder, mismatch=mismatch)
+                path, _ = fixture(folder, mismatch=mismatch, modern=modern)
                 before = {item.relative_to(folder).as_posix(): item.read_bytes() for item in folder.rglob('*') if item.is_file()}
                 row = AUDIT.recheck_case(path, folder)
                 self.assertTrue(row['audit_passed'], row)
@@ -182,6 +188,49 @@ class GeometryAtlasRecheckTests(unittest.TestCase):
                 self.assertFalse(row['vertex_random_access_verified'])
                 self.assertEqual(before, {item.relative_to(folder).as_posix(): item.read_bytes() for item in folder.rglob('*') if item.is_file()})
                 self.assertEqual(len(before), len(row['artifact_sha256']))
+
+    def test_pending_uploads_and_changed_bank_controls_are_rejected(self):
+        for key, value in (('pending_upload', {'generation': 3}), ('updates_running', True),
+                           ('active_bank', 1), ('update_policy', 'fresh'), ('publish_delay_ms', 500.),
+                           ('updates_running', None)):
+            with self.subTest(key=key, value=value), tempfile.TemporaryDirectory() as directory:
+                folder = Path(directory)
+                path, _ = fixture(folder, modern=True)
+                artifact = folder / 'atlas_evidence_identity_window_0000.state.json'
+                receipt = json.loads(artifact.read_text())
+                if value is None:
+                    del receipt[key]
+                else:
+                    receipt[key] = value
+                save(artifact, receipt)
+                self.assertFalse(AUDIT.recheck_case(path, folder)['audit_passed'])
+
+    def test_partial_modern_controls_are_rejected_even_if_consistently_absent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            path, _ = fixture(folder, modern='partial')
+            row = AUDIT.recheck_case(path, folder)
+            self.assertFalse(row['audit_passed'])
+            self.assertTrue(any('incomplete update controls' in error for error in row['errors']))
+
+    def test_frozen_bank_and_delay_must_describe_a_published_dataset(self):
+        baseline = {'schema': 'geometry_atlas_probe_v1', 'seed': 1, 'generation': 1,
+                    'slot_count': 137, 'geometry_name': 'geometry', 'geometry_build_serial': 1,
+                    'encoding': 'compact8', 'ready': True, 'pipeline_ready': True,
+                    'connection': True, 'writer_visible': True, 'update_policy': 'double',
+                    'active_bank': 0, 'publish_delay_ms': 250., 'pending_upload': None,
+                    'updates_running': False}
+        for policy, bank in (('double', 0), ('double', 1), ('fresh', -1)):
+            state = dict(baseline, update_policy=policy, active_bank=bank)
+            AUDIT.frozen_state(state, state, 'valid')
+        for controls in ({'active_bank': 3}, {'active_bank': -1}, {'active_bank': True},
+                         {'update_policy': 'fresh'}, {'update_policy': 'unknown'},
+                         {'publish_delay_ms': -1}, {'publish_delay_ms': 5001},
+                         {'publish_delay_ms': float('nan')}, {'publish_delay_ms': float('inf')},
+                         {'publish_delay_ms': True}):
+            state = dict(baseline, **controls)
+            with self.subTest(controls=controls), self.assertRaises(ValueError):
+                AUDIT.frozen_state(state, state, 'invalid')
 
     def test_tampered_gather_mode_or_summary_counts_are_rejected(self):
         for mutation in ('mode', 'count', 'old_generation'):
@@ -248,12 +297,18 @@ class GeometryAtlasRecheckTests(unittest.TestCase):
                     'shared_copy_texture_verified': False, 'gpu_to_python_readback': False,
                     'all_render_frames_verified': False, 'actual_mobile_hardware': False}
             path = folder / (name + '.atlas.json')
+            for slots in (256, 131072, 262144, 524288):
+                with self.subTest(slots=slots):
+                    case['payload_bytes'] = slots
+                    save(path, case)
+                    row = AUDIT.recheck_case(path, folder)
+                    self.assertTrue(row['audit_passed'], row)
+                    self.assertTrue(row['partial_source_failure'])
+                    self.assertIsNone(row['final_payload_passed'])
+                    self.assertTrue(row['source_failure_preserved'])
+            case['payload_bytes'] = 524289
             save(path, case)
-            row = AUDIT.recheck_case(path, folder)
-            self.assertTrue(row['audit_passed'], row)
-            self.assertTrue(row['partial_source_failure'])
-            self.assertIsNone(row['final_payload_passed'])
-            self.assertTrue(row['source_failure_preserved'])
+            self.assertFalse(AUDIT.recheck_case(path, folder)['audit_passed'])
 
     def test_cli_requires_new_output_and_retains_expected_failure_status(self):
         with tempfile.TemporaryDirectory() as directory:

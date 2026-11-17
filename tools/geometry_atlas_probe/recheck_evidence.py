@@ -9,12 +9,13 @@ from datetime import datetime, timezone
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 import re
 
 from PIL import Image
 
-from verify_capture import IDENTITY_FIELDS, compact_report, verify_image, verify_reports
+from verify_capture import IDENTITY_FIELDS, MAX_SLOTS, compact_report, verify_image, verify_reports
 
 
 HERE = Path(__file__).resolve().parent
@@ -75,6 +76,22 @@ def frozen_state(state, frozen, label, visible=True):
     require(state.get('ready') is True and state.get('pipeline_ready') is True and
             state.get('connection') is True, label + ' lacks a ready explicit texture connection')
     require(state.get('writer_visible') is visible, label + ' writer visibility is inconsistent')
+    # Old a2/a3 receipts predate asynchronous uploads and bank controls. Only
+    # complete absence of this group is legacy evidence; partial groups fail.
+    update_keys = ('pending_upload', 'updates_running', 'active_bank', 'update_policy', 'publish_delay_ms')
+    if any(key in snapshot for snapshot in (frozen, state) for key in update_keys):
+        for snapshot in (frozen, state):
+            require(all(key in snapshot for key in update_keys), label + ' has incomplete update controls')
+            require(snapshot['pending_upload'] is None and snapshot['updates_running'] is False,
+                    label + ' has an unfinished upload/update')
+            policy, bank, delay = (snapshot['update_policy'], snapshot['active_bank'], snapshot['publish_delay_ms'])
+            require(policy in ('fresh', 'double') and type(bank) is int and
+                    bank in ((-1,) if policy == 'fresh' else (0, 1)),
+                    label + ' lacks a valid published bank')
+            require(type(delay) in (int, float) and math.isfinite(delay) and 0 <= delay <= 5000,
+                    label + ' has an invalid publication delay')
+        for key in update_keys:
+            require(state[key] == frozen[key], label + ' changed frozen ' + key)
     for key in ('layout', 'upload_history', 'center'):
         require(state.get(key) == frozen.get(key), label + ' changed frozen ' + key)
     require(state.get('dimensions', [])[:3] == frozen.get('dimensions', [])[:3],
@@ -209,7 +226,7 @@ def recheck_case(case_path, evidence):
         require(isinstance(case.get('errors'), list) and (not case['passed'] or not case['errors']),
                 'Source errors disagree with its passing claim')
         require(case['passed'] or bool(case['errors']), 'Failed source case must preserve its error')
-        require(type(case.get('payload_bytes')) is int and 2 <= case['payload_bytes'] <= 65536 and
+        require(type(case.get('payload_bytes')) is int and 2 <= case['payload_bytes'] <= MAX_SLOTS and
                 type(case.get('seed')) is int and 0 <= case['seed'] <= 0xffffffff and
                 case.get('channel') in ('alpha', 'red') and type(case.get('flip_y')) is bool and
                 type(case.get('direct_source')) is bool, 'Case controls are malformed')

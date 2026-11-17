@@ -31,30 +31,30 @@ with patch.dict(sys.modules, {'verify_capture': VERIFY}):
     RUNNER = load('geometry_atlas_case_controller', 'run_case.py')
 
 
-def fixture_payload(seed, generation, slots):
+def fixture_byte(seed, generation, index):
     wrap = lambda value: ctypes.c_uint32(value).value
-    values = []
-    for index in range(slots):
-        value = seed ^ wrap(generation * 0x9e3779b9) ^ wrap(index * 0x85ebca6b)
-        for shift, multiplier in ((16, 0x7feb352d), (15, 0x846ca68b)):
-            value = wrap((value ^ (value >> shift)) * multiplier)
-        values.append((value ^ (value >> 16)) % 256)
-    return values
+    value = seed ^ wrap(generation * 0x9e3779b9) ^ wrap(index * 0x85ebca6b)
+    for shift, multiplier in ((16, 0x7feb352d), (15, 0x846ca68b)):
+        value = wrap((value ^ (value >> shift)) * multiplier)
+    return (value ^ (value >> 16)) % 256
+
+
+def fixture_payload(seed, generation, slots):
+    return [fixture_byte(seed, generation, index) for index in range(slots)]
 
 
 def fixture(slots=137, start=0, count=None, mode=0, salt=17, salt2=53,
             generation=7, channel=0, direct=False, flip=1):
     count = min(slots - start, 4096) if count is None else count
-    columns = min(64, slots)
+    columns, cell, left, top = (512, 1, 8, 32) if slots > 65536 else (min(64, slots), 4, 0, 0)
     receipt = {'schema': 'geometry_atlas_probe_v1', 'seed': 123456789, 'generation': generation,
                'slot_count': slots, 'geometry_name': 'geometry_%d' % generation,
                'geometry_build_serial': generation, 'encoding': 'compact8',
                'screen_size': [720, 1080], 'display_rect_norm': [0, 64. / 1080., 1, 1000. / 1080.],
-               'query': [start, count, mode, salt], 'layout': [slots, columns, 0, 0],
-               'dimensions': [4, 720, 1080, salt2], 'orientation': [flip, channel, 0, 0],
+               'query': [start, count, mode, salt], 'layout': [slots, columns, left, top],
+               'dimensions': [cell, 720, 1080, salt2], 'orientation': [flip, channel, 0, 0],
                'direct_source': direct, 'packed_mode': mode + 4 * flip + 8 * channel + 16 * int(direct),
                'pipeline_ready': True, 'ready': True, 'writer_visible': True}
-    values = fixture_payload(receipt['seed'], generation, slots)
     image = Image.new('RGBA', (720, 1080), (17, 53, 97, 255))
     draw, rows = ImageDraw.Draw(image), math.ceil(count / 64)
     indices, output = [], []
@@ -63,14 +63,16 @@ def fixture(slots=137, start=0, count=None, mode=0, salt=17, salt2=53,
         if mode in (1, 2):
             index = (131 * index + salt) % slots
             if mode == 2:
-                index = (index + 257 * values[index] + salt2) % slots
+                first = fixture_byte(receipt['seed'], generation, index)
+                index = (index + 257 * first + salt2) % slots
+        value = fixture_byte(receipt['seed'], generation, index)
         indices.append(index)
-        output.append(values[index])
+        output.append(value)
         row, column = divmod(ordinal, 64)
         bounds = (math.ceil(column * 720 / 64 - .5), math.ceil(64 + row * 1000 / rows - .5),
                   math.ceil((column + 1) * 720 / 64 - .5) - 1,
                   math.ceil(64 + (row + 1) * 1000 / rows - .5) - 1)
-        draw.rectangle(bounds, fill=(values[index],) * 3 + (255,))
+        draw.rectangle(bounds, fill=(value,) * 3 + (255,))
     return receipt, image, indices, output
 
 
@@ -81,6 +83,43 @@ def args(directory):
 
 
 class GeometryAtlasOracleTests(unittest.TestCase):
+    def test_capacity_and_salts_have_independent_bounds(self):
+        self.assertEqual(524288, VERIFY.MAX_SLOTS)
+        self.assertEqual(65535, VERIFY.MAX_SALT)
+        for slots in (131072, 262144, 524288):
+            for mode in (0, 1, 2):
+                with self.subTest(slots=slots, mode=mode):
+                    receipt, image, indices, output = fixture(slots=slots, start=slots - 137,
+                                                               mode=mode, salt=65535, salt2=65535)
+                    report = VERIFY.verify_image(receipt, image)
+                    self.assertTrue(report['passed'])
+                    self.assertEqual(indices, report['source_indices'])
+                    self.assertEqual(output, report['expected_bytes'])
+                    for argument in ('salt', 'salt2'):
+                        controls = {'salt': 65535, 'salt2': 65535, argument: 65536}
+                        with self.assertRaises(ValueError):
+                            VERIFY.expected_lookup(123456789, 7, slots, slots - 1, mode, **controls)
+                    for field, value in (('query', [slots - 137, 137, mode, 65536]),
+                                         ('dimensions', [1, 720, 1080, 65536])):
+                        with self.assertRaises(ValueError):
+                            VERIFY.verify_image(dict(receipt, **{field: value}), image)
+        with self.assertRaises(ValueError):
+            VERIFY.expected_lookup(1, 1, 524289, 0, 0)
+
+    def test_large_permutation_series_checks_every_query_and_source_byte(self):
+        pairs = []
+        slots = 131072
+        for start in range(0, slots, 4096):
+            receipt, image, _, _ = fixture(slots=slots, start=start, mode=1, salt=65535)
+            pairs.append((receipt, VERIFY.verify_image(receipt, image)))
+        report = VERIFY.verify_reports(pairs)
+        self.assertTrue(report['passed'])
+        self.assertTrue(report['full_query_coverage'])
+        self.assertTrue(report['full_source_coverage'])
+        self.assertEqual(slots, report['source_index_coverage'])
+        self.assertEqual(slots * 9, report['checked_pixels'])
+        self.assertEqual(32, report['capture_count'])
+
     def test_prng_golden_and_independent_gather_addresses(self):
         golden = [40, 41, 77, 92, 72, 53, 92, 99, 122, 200, 171, 159]
         self.assertEqual(golden, fixture_payload(123456789, 7, 12))
@@ -246,6 +285,23 @@ class GeometryAtlasDesktopGpuTests(unittest.TestCase):
         fragment = fragment.replace('gl_FragColor', 'output_color').replace('texture2D(', 'texture(')
         return self.context.program(vertex_shader=self.vertex, fragment_shader=fragment)
 
+    def scatter_program(self):
+        vertex = (PROBE / 'scatter.vertex').read_text(encoding='utf-8')
+        vertex = vertex.replace('// __multiversion__', '#version 330')
+        vertex = vertex.replace('precision highp float;', '')
+        vertex = vertex.replace('#include "vertexVersionCentroid.h"', '')
+        vertex = vertex.replace('#include "uniformWorldConstants.h"', '')
+        vertex = vertex.replace('attribute POS4 POSITION;', 'in vec4 POSITION;')
+        vertex = vertex.replace('varying highp float geometryByte;', 'out float geometryByte;')
+        vertex = vertex.replace('uniform highp ', 'uniform ')
+        fragment = (PROBE / 'scatter.fragment').read_text(encoding='utf-8')
+        fragment = fragment.replace('// __multiversion__', '#version 330')
+        fragment = fragment.replace('precision highp float;', '')
+        fragment = fragment.replace('#include "fragmentVersionCentroid.h"', 'out vec4 output_color;')
+        fragment = fragment.replace('varying highp float geometryByte;', 'in float geometryByte;')
+        fragment = fragment.replace('gl_FragColor', 'output_color')
+        return self.context.program(vertex_shader=vertex, fragment_shader=fragment)
+
     def texture(self, receipt):
         data = bytearray((37, 83, 149, 211)) * (720 * 1080)
         values = fixture_payload(receipt['seed'], receipt['generation'], receipt['slot_count'])
@@ -324,6 +380,78 @@ class GeometryAtlasDesktopGpuTests(unittest.TestCase):
         copied.release()
         source.release()
         copy_program.release()
+        program.release()
+
+    def test_actual_large_capacity_tail_gathers_preserve_integer_indices(self):
+        program = self.program('consumer.fragment')
+        wrong = self.context.texture((720, 1080), 4, data=bytes((255, 0, 255, 64)) * (720 * 1080))
+        for slots in (131072, 262144, 524288):
+            base, _, _, _ = fixture(slots=slots, start=slots - 4096)
+            source = self.texture(base)
+            for mode in (0, 1, 2):
+                receipt, _, indices, output = fixture(slots=slots, start=slots - 4096,
+                                                        mode=mode, salt=65535, salt2=65535)
+                image, target = self.draw(program, receipt, wrong, source)
+                report = VERIFY.verify_image(receipt, image)
+                with self.subTest(slots=slots, mode=mode):
+                    self.assertTrue(report['passed'], report['failures'][:5])
+                    self.assertEqual(indices, report['source_indices'])
+                    self.assertEqual(output, report['observed_bytes'])
+                    self.assertEqual(4096 * 36, report['checked_channels'])
+                target.release()
+            source.release()
+        wrong.release()
+        program.release()
+
+    def test_actual_scatter_calibrated_half_grid_inputs_survive_quantization(self):
+        # b4 same-geometry calibration and cold b7c use center (1,.5,.5).
+        # POSITION endpoint sets below are explicit calibrated input assumptions,
+        # not a native vertex capture or a proven JSON-local X conversion rule.
+        # X reflection/handedness and native vertex order remain unverified.
+        # Binary16 quantization is a separate offline storage stress input.
+        indices = [0, 1, 511, 512, 513, 1022, 1023, 2047, 65535, 65536,
+                   131071, 131072, 262143, 262144, 524286, 524287]
+        values = [(index * 73 + 29) % 256 for index in indices]
+        values[0], values[-1] = 0, 255
+        program = self.scatter_program()
+        target = self.context.texture((720, 1080), 4)
+        frame = self.context.framebuffer(color_attachments=[target])
+        frame.use()
+        self.context.viewport = (0, 0, 720, 1080)
+        self.context.enable(self.gl.BLEND)
+        self.context.blend_func = (self.gl.ZERO, self.gl.ONE, self.gl.ONE, self.gl.ZERO)
+        program['EXTRA_ACTOR_UNIFORM1'].value = (1024, 8, 524288, 512)
+        program['EXTRA_ACTOR_UNIFORM2'].value = (8, 32, 1, 720)
+        program['EXTRA_ACTOR_UNIFORM3'].value = (1080, 1., .5, .5)
+        program['EXTRA_ACTOR_UNIFORM4'].value = (1, 0, 0, 0)
+        program['COMMON_BLOCK_GEO_FLOAT1_1'].value = .25
+        for quantized in (False, True):
+            vertices = []
+            for index, value in zip(indices, values):
+                x, z = divmod(index, 1024)
+                # Pin POSITION spans independently from the uniform: X spans
+                # [x-1,x-.5], Z spans [z-.5,z], Y=bytePlane-.5. The tested
+                # shader must recover x/z and 0/1 corners from these inputs.
+                x_positions, z_positions = (x - 1., x - .5), (z - .5, z)
+                position_y = value // 16 + (value % 16 + .5) / 16 - .5
+                for ix, iz in ((0, 0), (1, 0), (0, 1), (1, 0), (1, 1), (0, 1)):
+                    position = (x_positions[ix], position_y, z_positions[iz], 1.)
+                    if quantized:
+                        position = [struct.unpack('e', struct.pack('e', component))[0] for component in position]
+                    vertices.extend(position)
+            buffer = self.context.buffer(struct.pack('%df' % len(vertices), *vertices))
+            vao = self.context.vertex_array(program, [(buffer, '4f', 'POSITION')])
+            frame.clear(17 / 255., 53 / 255., 97 / 255., 1.)
+            vao.render(self.gl.TRIANGLES)
+            image = ImageOps.flip(Image.frombytes('RGBA', (720, 1080), frame.read(components=4, alignment=1)))
+            for index, value in zip(indices, values):
+                with self.subTest(quantized=quantized, index=index):
+                    self.assertEqual((17, 53, 97, value), image.getpixel((8 + index % 512, 32 + index // 512)))
+            vao.release()
+            buffer.release()
+        self.context.disable(self.gl.BLEND)
+        frame.release()
+        target.release()
         program.release()
 
 

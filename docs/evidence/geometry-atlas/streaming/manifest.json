@@ -1,0 +1,104 @@
+{
+  "schema": "geometry_atlas_streaming_archive_manifest_v1",
+  "scope": "Small tracked result summaries from local ignored geometry-atlas-study evidence; no PNG or project copy.",
+  "path_convention": "original_source paths are relative to repository root; archive_file paths are relative to this directory.",
+  "raw_evidence_root": ".runtime/geometry-atlas-study",
+  "new_game_execution": false,
+  "files": [
+    {
+      "original_source": ".runtime/geometry-atlas-study/b2/summary-v1.json",
+      "source_sha256": "b7eba5fd9d7c1855ec941bf9f541aed3ce6e8f6b8aa305fa403dbfff2045208e",
+      "source_bytes": 14045,
+      "archive_file": "b2-capacity-summary.json",
+      "archive_sha256": "b7eba5fd9d7c1855ec941bf9f541aed3ce6e8f6b8aa305fa403dbfff2045208e",
+      "archive_bytes": 14045,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b3/summary29.json",
+      "source_sha256": "5fe97275e407cdae638911e436578fbcc5abf8a91809601f9a0c944a9f38bdd8",
+      "source_bytes": 94251,
+      "archive_file": "b3-streaming-summary-29.json",
+      "archive_sha256": "5fe97275e407cdae638911e436578fbcc5abf8a91809601f9a0c944a9f38bdd8",
+      "archive_bytes": 94251,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b5/summary4.json",
+      "source_sha256": "6c31c7aee7ed9c97cebb975f4d85fea4b3524bc074039d45a43d0218facd7d8a",
+      "source_bytes": 14531,
+      "archive_file": "b5-old-template-summary.json",
+      "archive_sha256": "6c31c7aee7ed9c97cebb975f4d85fea4b3524bc074039d45a43d0218facd7d8a",
+      "archive_bytes": 14531,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b5/512-derived-scatter-diagnosis.json",
+      "source_sha256": "c8f16ccb9ab82cb998c744b98b629a8867126204c7e554ab8ed7f47631ebf39a",
+      "source_bytes": 31269,
+      "archive_file": "b5-scatter-derived-diagnosis-512k.json",
+      "archive_sha256": "c8f16ccb9ab82cb998c744b98b629a8867126204c7e554ab8ed7f47631ebf39a",
+      "archive_bytes": 31269,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b6/decoder-aba-results.json",
+      "source_sha256": "1eb03e18344aeac042209f8ffccfec19e494c074b06313366666c59772cbc065",
+      "source_bytes": 32497,
+      "archive_file": "b6-decoder-aba.json",
+      "archive_sha256": "1eb03e18344aeac042209f8ffccfec19e494c074b06313366666c59772cbc065",
+      "archive_bytes": 32497,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/independent-b2-b3-updates.json",
+      "source_sha256": "826bdf493a2823e08b604f5b1f74cdd09822c11fa0009a25a7f89b77e7578ba0",
+      "source_bytes": 408259,
+      "archive_file": "independent-b2-b3-replay-summary.json",
+      "archive_sha256": "721c9c2c8584214dae6a020c69b928f640cd37101600925776421fa1fb0b7d19",
+      "archive_bytes": 33971,
+      "representation": "compact_summary",
+      "omitted_raw_manifest": true
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b4/half3k_double50_100.updates.json",
+      "source_sha256": "a2d80905f3f0e82743132b435b4f41faabbb16e7458536a2ba733b670452cb0f",
+      "source_bytes": 495496,
+      "archive_file": "b4-half-grid-calibration-summary.json",
+      "archive_sha256": "a47de967194824362123ff993d3514a95d4091069961acfbceec4481af980664",
+      "archive_bytes": 23000,
+      "representation": "compact_summary_with_eight_referenced_state_verify_pairs",
+      "omitted_raw_manifest": true
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b7c/summary4.json",
+      "source_sha256": "6c4eb545dd3ff52f40da5c7e955b112665c4ee4c1e52577e49da7c9072e768ed",
+      "source_bytes": 13943,
+      "archive_file": "b7c-calibrated-summary.json",
+      "archive_sha256": "6c4eb545dd3ff52f40da5c7e955b112665c4ee4c1e52577e49da7c9072e768ed",
+      "archive_bytes": 13943,
+      "representation": "byte_identical_copy"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/independent-b7c-updates-live.json",
+      "source_sha256": "91031247c4544c99f440d24206a99e0b175775cb8145659a9fe9e4bad4842950",
+      "source_bytes": 197018,
+      "archive_file": "independent-b7c-replay-summary.json",
+      "archive_sha256": "7752e309fd9dbf8d914dbb4aa07941a62a56898faa07f12e9f7b53252ef4c6ce",
+      "archive_bytes": 32843,
+      "representation": "compact_source_summary_without_frozen_window_lists"
+    },
+    {
+      "original_source": ".runtime/geometry-atlas-study/b7c/calibrated512k_source_controls.source-controls.json",
+      "source_sha256": "8f10529cbb63a527cf99c8d12e1044482516f709e5697a80c9ac4b7668b4c92c",
+      "source_bytes": 58216,
+      "archive_file": "b7c-source-controls-summary.json",
+      "archive_sha256": "7363bd6f3b869184a23f43c9e8f747b09b35a3979649b7339b891d7e22e0b4d8",
+      "archive_bytes": 5515,
+      "representation": "compact_source_summary_with_replayed_window_results"
+    }
+  ],
+  "copied_files": 6,
+  "compact_summaries": 4,
+  "json_bytes_excluding_manifest": 295865
+}

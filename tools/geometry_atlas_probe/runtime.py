@@ -5,12 +5,15 @@ import math
 import mod.client.extraClientApi as api
 from geometry_atlas_probe.codec import encode_values
 from geometry_atlas_probe.pipeline_config import PROCESS
+from geometry_atlas_probe.update_scheduler import UpdateScheduler, statistics
 
 ClientSystem=api.GetClientSystemCls()
 MASK=0xffffffff
-MAX_BYTES=65536
+MAX_BYTES=524288
 MAX_RECORDS=2097152
 MAX_NAMES=256
+# Calibrated against native atlas captures, not a general model-origin rule.
+ATLAS_CENTER=(1.,.5,.5)
 
 
 def byte_at(seed,generation,index):
@@ -47,11 +50,22 @@ class ProbeSystem(ClientSystem):
         self.epoch=0
         self.named_records=0
         self.names=[]
+        self.name_records={}
+        self.attached_names=set()
+        self.dataset_names=set()
+        self.update_policy='fresh'
+        self.publish_delay_ms=0.
+        self.active_bank=-1
+        self.pending_upload=None
+        self.updates=None
+        self.last_updates=None
+        self.update_run_serial=0
+        self.render_event=0
         self.upload_history=[]
         self.writer_visible=True
         self.stride=2
         self.y_offset=8.
-        self.center=[.5,.5,.5]
+        self.center=list(ATLAS_CENTER)
         self.layout=[0,16,8,64]
         self.dimensions=[4,720,1080,0]
         self.query_value=[0,1,0,0]
@@ -87,19 +101,40 @@ class ProbeSystem(ClientSystem):
             self.ready=self._writer_controls()
         return self.snapshot()
 
-    def _writer_controls(self):
-        groups=((float(self.stride),self.y_offset,float(self.slot_count),float(self.layout[1])),
-                tuple(float(value) for value in self.layout[2:]+self.dimensions[:2]),
-                (float(self.dimensions[2]),)+tuple(float(value) for value in self.center),
-                (float(self.writer_visible),0.,0.,0.))
+    def _writer_controls(self,candidate=None):
+        source=candidate if candidate is not None else self
+        if candidate is None:
+            stride,y_offset,count,layout,dimensions,center=(self.stride,self.y_offset,self.slot_count,
+                self.layout,self.dimensions,self.center)
+            bank=self.active_bank
+        else:
+            stride,y_offset,count,layout,dimensions,center=(source['stride'],8.,source['slot_count'],
+                source['layout'],source['dimensions'],ATLAS_CENTER)
+            bank=source['bank']
+        selector=0. if self.update_policy=='fresh' else float(bank+1 if bank>=0 else 3)
+        groups=((float(stride),y_offset,float(count),float(layout[1])),
+                tuple(float(value) for value in layout[2:]+dimensions[:2]),
+                (float(dimensions[2]),)+tuple(float(value) for value in center),
+                (float(self.writer_visible),selector,0.,0.))
         return all(self.render.SetEntityExtraUniforms(index+1,group)
                    for index,group in enumerate(groups))
 
     def on_frame(self,args):
+        self.render_event+=1
         if self.entity is not None and not self.ready and self.error is None:
             self.ready=self._writer_controls()
             if not self.ready and time.clock()>self.ready_until:
                 self.error='Actor uniforms did not become ready before timeout'
+        if self.pending_upload is not None:
+            try:
+                self._publish_pending(time.clock())
+            except (RuntimeError,ValueError,TypeError) as error:
+                self.error='%s: %s'%(type(error).__name__,error)
+                if self.updates is not None:
+                    self.updates.error=self.error
+                    self.updates.finish(time.clock())
+        if self.updates is not None:
+            self.updates.on_frame(time.clock())
         sample=self.measurement
         if sample is None:
             return
@@ -116,17 +151,14 @@ class ProbeSystem(ClientSystem):
                 'geometry_build_serial':self.geometry_build_serial,
                 'query':list(self.query_value),'gpu_completion_fence':False}
             for key in ('fps','interval_ms'):
-                values=sorted(sample[key])
-                result[key]={'count':len(values)}
-                if values:
-                    result[key].update(mean=sum(values)/len(values),min=values[0],max=values[-1],
-                        p95=values[int((len(values)-1)*.95)])
+                result[key]=statistics(sample[key],key=='interval_ms')
             self.last_measurement=result
             self.measurement=None
 
     def start_measurement(self,seconds=8.):
         seconds=float(seconds)
-        if (not self.pipeline_ready or self.measurement is not None or
+        if (not self.pipeline_ready or self.measurement is not None or self.updates is not None or
+                self.pending_upload is not None or
                 math.isnan(seconds) or math.isinf(seconds) or not 2.<=seconds<=30.):
             raise ValueError('An idle ready pipeline and 2..30 finite seconds are required')
         now=time.clock()
@@ -136,26 +168,70 @@ class ProbeSystem(ClientSystem):
         return self.snapshot()
 
     def begin_dataset(self,encoding='compact8'):
+        if self.updates is not None or self.measurement is not None or self.pending_upload is not None:
+            raise RuntimeError('Finish active updates and pending publication before a new dataset')
         if encoding!='compact8':
             raise ValueError('This isolated scatter fixture uses compact8 only')
-        if self.geometry_name and not self.render.SetActorBlockGeometryVisible(self.geometry_name,False):
-            raise RuntimeError('Previous geometry hide failed')
+        for name in self.dataset_names:
+            if not self.render.SetActorBlockGeometryVisible(name,False):
+                raise RuntimeError('Previous geometry hide failed')
         self.epoch+=1
         self.geometry_name=''
         self.seed,self.generation,self.slot_count=0,0,0
         self.layout[0]=0
         self.upload_history=[]
+        self.dataset_names=set()
+        self.active_bank=-1
+        if self.render is not None and not self._writer_controls():
+            raise RuntimeError('Empty dataset writer controls rejected')
         return self.snapshot()
 
+    def configure_updates(self,policy='fresh',publish_delay_ms=0):
+        delay=float(publish_delay_ms)
+        if (policy not in ('fresh','double') or math.isnan(delay) or math.isinf(delay) or
+                not 0.<=delay<=5000.):
+            raise ValueError('Use fresh/double and a finite publication delay in [0,5000] ms')
+        if self.pending_upload is not None:
+            raise RuntimeError('Pending upload must publish before update configuration changes')
+        if (self.geometry_name or self.dataset_names or self.pending_upload is not None or
+                self.updates is not None or self.measurement is not None):
+            raise RuntimeError('Configure updates only in an empty idle dataset')
+        self.update_policy,self.publish_delay_ms=policy,delay
+        self.active_bank=-1
+        if self.render is not None and not self._writer_controls():
+            raise RuntimeError('Update policy writer controls rejected')
+        return self.snapshot()
+
+    def _next_name(self):
+        bank=0 if self.active_bank<0 else 1-self.active_bank
+        if self.update_policy=='double':
+            return 'pmanim_geometry_atlas_epoch%d_bank%d'%(self.epoch,bank),bank
+        return 'pmanim_geometry_atlas_epoch%d_version%d'%(self.epoch,self.native_attempt_serial+1),-1
+
+    def can_upload(self,byte_count):
+        name,_=self._next_name()
+        previous=self.name_records.get(name,0)
+        return (self.named_records-previous+byte_count<=MAX_RECORDS and
+                (name in self.name_records or len(self.names)<MAX_NAMES))
+
     def load(self,byte_count,seed=54321,generation=1):
+        self._require_idle_controls()
+        self._submit_upload(byte_count,seed,generation)
+        self._publish_pending(time.clock())
+        return self.snapshot()
+
+    def _submit_upload(self,byte_count,seed,generation):
         if not self.ready:
             raise RuntimeError('Open the probe and wait for actor readiness')
+        if self.pending_upload is not None:
+            raise RuntimeError('Pending upload must publish before another candidate can overwrite it')
         byte_count=int(byte_count)
         if not 2<=byte_count<=MAX_BYTES:
-            raise ValueError('Atlas probe payload must be in [2,65536]')
-        if len(self.names)>=MAX_NAMES or self.named_records+byte_count>MAX_RECORDS:
+            raise ValueError('Atlas probe payload must be in [2,524288]')
+        if not self.can_upload(byte_count):
             raise RuntimeError('Named geometry budget exhausted; restart this owned probe')
         seed,generation=int(seed)&MASK,int(generation)&MASK
+        name,bank=self._next_name()
         started=time.clock()
         values=bytearray(byte_at(seed,generation,index) for index in range(byte_count))
         generated=time.clock()
@@ -171,41 +247,106 @@ class ProbeSystem(ClientSystem):
         # Consume the name before native creation. A later bind/hide failure
         # must never make a retry overwrite or reattach that candidate.
         self.native_attempt_serial+=1
-        name='pmanim_geometry_atlas_epoch%d_version%d'%(self.epoch,self.native_attempt_serial)
         result=self.geometry.CombineBlockPaletteToGeometry(palette,name,1)
         combined=time.clock()
         if not result:
             raise RuntimeError('CombineBlockPaletteToGeometry rejected')
-        self.names.append(result)
-        self.named_records+=byte_count
-        if not self.render.AddActorBlockGeometry(result,(0.,0.,0.),(0.,0.,0.)):
-            raise RuntimeError('World geometry attachment failed')
-        if self.geometry_name and not self.render.SetActorBlockGeometryVisible(self.geometry_name,False):
-            self.render.SetActorBlockGeometryVisible(result,False)
-            raise RuntimeError('Previous world geometry could not be hidden')
-        self.seed,self.generation,self.slot_count=seed,generation,byte_count
-        self.geometry_name=result
-        self.stride,self.y_offset=encoded['stride'],encoded['y_offset']
-        # Native world attachments expose palette coordinates minus .5 on
-        # every axis. PaperDoll's volume/2 centering is a different path.
-        self.center=[.5,.5,.5]
-        columns,cell=(16,4) if byte_count<=256 else ((64,4) if byte_count<=12288 else (256,2))
-        self.layout=[byte_count,columns,8,64]
-        self.dimensions=[cell,720,1080,0]
-        if not self._writer_controls():
-            self.ready=False
-            self.error='Actor control upload failed after native geometry creation'
-            raise RuntimeError(self.error)
-        self.geometry_build_serial+=1
+        if result not in self.name_records:
+            self.names.append(result)
+        self.named_records+=byte_count-self.name_records.get(result,0)
+        self.name_records[result]=byte_count
+        self.dataset_names.add(result)
+        if result not in self.attached_names:
+            if not self.render.AddActorBlockGeometry(result,(0.,0.,0.),(0.,0.,0.)):
+                raise RuntimeError('World geometry attachment failed')
+            self.attached_names.add(result)
+        if self.update_policy=='double':
+            if not (self.render.EnableActorBlockGeometryTransparent(result,True) and
+                    self.render.SetActorBlockGeometryTransparency(result,.25+.5*bank)):
+                raise RuntimeError('Double-bank transparency tag rejected')
+        elif self.publish_delay_ms>0.:
+            if not self.render.SetActorBlockGeometryVisible(result,False):
+                raise RuntimeError('Pending fresh writer hide failed')
         bound=time.clock()
-        self.timings={'generation_ms':(generated-started)*1000.,'palette_ms':(packed-generated)*1000.,
+        timings={'generation_ms':(generated-started)*1000.,'encode_ms':(packed-generated)*1000.,
+            'palette_ms':(packed-generated)*1000.,
             'deserialize_ms':(deserialized-packed)*1000.,'combine_ms':(combined-deserialized)*1000.,
             'attach_ms':(bound-combined)*1000.,'total_ms':(bound-started)*1000.}
-        self.upload_history.append({'seed':seed,'generation':generation,'name':result,
-            'serial':self.geometry_build_serial,'slot_count':byte_count,'encoding':'compact8',
-            'timings':dict(self.timings)})
-        if self.pipeline_ready:
-            self.query(0,min(byte_count,4096),0,0,0,True,0,False)
+        columns,cell,top=(16,4,64) if byte_count<=256 else (
+            (64,4,64) if byte_count<=12288 else ((256,2,64) if byte_count<=65536 else (512,1,32)))
+        candidate={'seed':seed,'generation':generation,'name':result,'slot_count':byte_count,
+            'encoding':'compact8','bank':bank,'stride':encoded['stride'],
+            'layout':[byte_count,columns,8,top],'dimensions':[cell,720,1080,self.dimensions[3]],
+            'started_at':started,'upload_finished_at':bound,
+            'ready_at':bound+self.publish_delay_ms/1000.,'published_at':None,
+            'upload_event':self.render_event,'publish_event':None,
+            'attempt_serial':self.native_attempt_serial,'timings':timings,
+            'previous_bank_publication':None}
+        for previous in reversed(self.upload_history):
+            if previous['name']==result:
+                candidate['previous_bank_publication']=previous['published_at']
+                break
+        self.pending_upload=candidate
+        return candidate
+
+    def _publish_pending(self,now):
+        candidate=self.pending_upload
+        if candidate is None or now<candidate['ready_at']:
+            return False
+        if self.update_policy=='fresh':
+            if self.geometry_name and not self.render.SetActorBlockGeometryVisible(self.geometry_name,False):
+                self.render.SetActorBlockGeometryVisible(candidate['name'],False)
+                self.pending_upload=None
+                raise RuntimeError('Previous world geometry could not be hidden')
+            if self.publish_delay_ms>0. and not self.render.SetActorBlockGeometryVisible(candidate['name'],True):
+                self.pending_upload=None
+                raise RuntimeError('Pending fresh writer publication failed')
+        if not self._writer_controls(candidate):
+            self.ready=False
+            self.error='Actor control upload failed after native geometry creation'
+            self.pending_upload=None
+            raise RuntimeError(self.error)
+        self.seed,self.generation,self.slot_count=(candidate['seed'],candidate['generation'],candidate['slot_count'])
+        self.geometry_name=candidate['name']
+        self.stride,self.y_offset=candidate['stride'],8.
+        self.center=list(ATLAS_CENTER)
+        self.layout,self.dimensions=list(candidate['layout']),list(candidate['dimensions'])
+        self.active_bank=candidate['bank']
+        self.geometry_build_serial+=1
+        candidate['serial']=self.geometry_build_serial
+        candidate['published_at']=time.clock()
+        candidate['publish_event']=self.render_event
+        candidate['publish_wait_ms']=(candidate['published_at']-candidate['upload_finished_at'])*1000.
+        self.timings=dict(candidate['timings'])
+        self.upload_history.append(self.upload_receipt(candidate))
+        if len(self.upload_history)>257:
+            del self.upload_history[:-257]
+        self.pending_upload=None
+        if self.updates is not None:
+            self.updates.note_publish(candidate)
+        elif self.pipeline_ready:
+            self.query(0,min(self.slot_count,4096),0,0,0,True,0,False)
+        return True
+
+    def upload_receipt(self,candidate):
+        return {key:value for key,value in candidate.items()
+                if key not in ('layout','dimensions','stride')}
+
+    def _dependent_query(self):
+        return self._set_query(0,min(self.slot_count,4096),2,37,91,True,0,False)
+
+    def start_updates(self,duration_seconds=8,interval_ms=16.6666667,max_updates=64):
+        duration,interval=float(duration_seconds),float(interval_ms)
+        if (not self.ready or not self.pipeline_ready or not self.geometry_name or
+                self.updates is not None or self.measurement is not None or self.pending_upload is not None or
+                math.isnan(duration) or math.isinf(duration) or not 2.<=duration<=30. or
+                math.isnan(interval) or math.isinf(interval) or not 0.<=interval<=30000. or
+                isinstance(max_updates,bool) or not isinstance(max_updates,int) or not 1<=max_updates<=4096):
+            raise ValueError('Use an idle ready payload, 2..30 seconds, finite nonnegative interval and 1..4096 updates')
+        self._dependent_query()
+        self.update_run_serial+=1
+        self.last_updates=None
+        self.updates=UpdateScheduler(self,duration,interval,max_updates,time.clock())
         return self.snapshot()
 
     def install_pipeline(self):
@@ -231,7 +372,15 @@ class ProbeSystem(ClientSystem):
         self.pipeline_ready=True
         return self.query(0,min(self.slot_count,4096),0,0,0,True,0,False)
 
+    def _require_idle_controls(self):
+        if self.updates is not None or self.measurement is not None:
+            raise RuntimeError('Benchmark controls are frozen until measurement completes')
+
     def query(self,start,count,mode=0,salt=0,salt2=0,flip_y=True,channel_mode=0,direct_source=False):
+        self._require_idle_controls()
+        return self._set_query(start,count,mode,salt,salt2,flip_y,channel_mode,direct_source)
+
+    def _set_query(self,start,count,mode=0,salt=0,salt2=0,flip_y=True,channel_mode=0,direct_source=False):
         start,count,mode,salt,salt2,channel_mode=map(int,(start,count,mode,salt,salt2,channel_mode))
         if (not self.pipeline_ready or start<0 or not 1<=count<=4096 or
                 start+count>self.slot_count or mode not in (0,1,2,3) or
@@ -251,18 +400,21 @@ class ProbeSystem(ClientSystem):
         return self.snapshot()
 
     def set_writer_visible(self,visible):
+        self._require_idle_controls()
         self.writer_visible=bool(visible)
         if not self.ready or not self._writer_controls():
             raise RuntimeError('Writer visibility controls rejected')
         return self.snapshot()
 
     def set_center(self,x,y,z):
+        self._require_idle_controls()
         self.center=[float(x),float(y),float(z)]
         if not self.ready or not self._writer_controls():
             raise RuntimeError('World geometry centering controls rejected')
         return self.snapshot()
 
     def set_pipeline_enabled(self,enabled):
+        self._require_idle_controls()
         if not self.pipeline_installed or not self.post.SetEnableByName(self.pipeline['name'],bool(enabled)):
             raise RuntimeError('Pipeline enable/disable rejected')
         return self.snapshot()
@@ -281,6 +433,11 @@ class ProbeSystem(ClientSystem):
             'pipeline_ready':self.pipeline_ready,'connection':self.connection,
             'writer_visible':self.writer_visible,'center':list(self.center),
             'native_hud_hidden':self.native_hud_hidden,
+            'update_policy':self.update_policy,'publish_delay_ms':self.publish_delay_ms,
+            'active_bank':self.active_bank,
+            'pending_upload':None if self.pending_upload is None else self.upload_receipt(self.pending_upload),
+            'updates_running':self.updates is not None,'last_updates':self.last_updates,
+            'update_run_serial':self.update_run_serial,
             'timings':dict(self.timings),'fps':self.game.GetFps(),
             'measurement_running':self.measurement is not None,'last_measurement':self.last_measurement,
             'resource_budget':{'names':len(self.names),'named_records':self.named_records,
@@ -297,9 +454,12 @@ class ProbeSystem(ClientSystem):
                 if self.entity is not None:
                     self.DestroyClientEntity(self.entity)
                     self.entity,self.render=None,None
+                    self.attached_names.clear()
             finally:
                 self.ready=False
                 self.pipeline_ready=False
+                self.updates=None
+                self.pending_upload=None
                 if self.native_hud_hidden:
                     api.HideHudGUI(False)
                     self.native_hud_hidden=False

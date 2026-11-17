@@ -1,0 +1,822 @@
+{
+  "schema": "geometry_atlas_b7c_replay_summary_v1",
+  "source": {
+    "original_source": ".runtime/geometry-atlas-study/independent-b7c-updates-live.json",
+    "source_sha256": "91031247c4544c99f440d24206a99e0b175775cb8145659a9fe9e4bad4842950",
+    "source_bytes": 197018
+  },
+  "audit_passed": true,
+  "generated_utc": "2026-11-17T18:05:46.185994+00:00",
+  "audit_script_sha256": "bd77dfa03b0f69ceef06bd947d19e3722d23c73f50b05eae520b0aa635551630",
+  "verifier_source_sha256": {
+    "verify_capture.py": "2b057a4ae9e5e1ceff46b533c2d4890db35156168c3370c47dd2ae724fc92bb3",
+    "recheck_evidence.py": "3f1ca944e2f7c944bcc5f2d07ea539e9d5386338beb82e18de1ae8803df229ab",
+    "run_update_case.py": "527fd9267210cb3d0f61021550ee77ba7c2612c0519b965f8d977a2fc3a9812c",
+    "classify_live_frame.py": "de2b2b0723eb5138c59f8ee471a897ce4335b8a1c940666655ffbfb3bbcb3797"
+  },
+  "independent_saved_evidence_replay": true,
+  "independent_second_oracle": false,
+  "scope": "Offline replay of immutable saved raw PNG/receipt evidence using the declared verifier; no new game execution.",
+  "project": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\.runtime\\geometry-atlas-study\\project-b7",
+  "project_source_sha256": {
+    ".pmanim_geometry_atlas_probe.json": "a653540bdd1d265503e170be976492073f3e2c834ca4d3a5b325642fc1aa21ab",
+    "behavior_pack/entities/geometry_atlas_anchor.json": "835ec49f1702da12b1fba60df6f8f8161ede686072271e4585f678be023d086a",
+    "behavior_pack/geometry_atlas_probe/__init__.py": "9552f854fcf77389160a08cfb4be2eb902cd9a0c0af76ab57df02cbf9125d369",
+    "behavior_pack/geometry_atlas_probe/codec.py": "668394dad32ccc43269c356cca8c4155a95078d3810184ca128505ed88105a4a",
+    "behavior_pack/geometry_atlas_probe/modMain.py": "a7ea4f8c0e422d51b608af68bcd88d43cb21370e75df399c1781c26b84bd0684",
+    "behavior_pack/geometry_atlas_probe/pipeline.json": "64a7896baad67a04a6207598dfff5b3aa343b850a5d46974085aa9f7e3251e4e",
+    "behavior_pack/geometry_atlas_probe/pipeline_config.py": "11deb18cdddac4da24720c699b436c65e446f4e008f291d06a122ac12ff24876",
+    "behavior_pack/geometry_atlas_probe/runtime.py": "de2a182813764764fc77c17b300015467764a3d3784780944129ab64946aa2ef",
+    "behavior_pack/geometry_atlas_probe/update_scheduler.py": "177ce5cdbb73ebd9ce869c3138b8540859280134c5eda1a9d76f27a3b026e99b",
+    "behavior_pack/manifest.json": "087f009e3c6735b4397762477e84a4245a11177d882d63b26cfdc6d50c4aa950",
+    "behavior_pack/netease_blocks/geometry_atlas_quad.json": "9317e0fd40592ae68df6da127b30622da75e20bb86a7744da27f795adfbdf971",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_00.json": "08b5d49e798138a2be86ef60352e9ba70344f0feb5b58cb501f7ac58d04f59d8",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_01.json": "660eb208cbf76ec166188c551b8363b20a3cba8536cf8a04511bade8549073ed",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_02.json": "ef3d4c1f046ba28b3b372254997c71c69b88605c533d250dc98de89dbc99ce1a",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_03.json": "c0aadae1a0557356db2740829ccfaa934848e05a0651fb55180b26b202805074",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_04.json": "52feaf97dba7acadebcc4b46440d771c2acc93fd2d6d08b945cbdbe707cdff51",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_05.json": "f56ccde956035c7987d3e700f76cc52adbaf209f7d88fb983118fb352edd9529",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_06.json": "149f50e9ec4687221004ba5dcfcdd0b46a5a47315fa623c340faa03c0cac6a3c",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_07.json": "702ae6faf2735a87a544a91529794ef949bfaa1ae781fc5515bdd7194dbb5079",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_08.json": "0c5582e4e565fe08d6c2b0a18e1b9718a7121d040fc9b1d8275768f089c8ba22",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_09.json": "abe5a684772b2bb57b85a3000bc8718125010a58bd0dfacb0c64a752c7f1c9f4",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_10.json": "7cfdca94991765e6268093837180fc9a015948d5003d00c55b98269285f41175",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_11.json": "e4706aa6b9a29e58a5239d97276ddf7eb850259d80f40047a0aa59ebf3714215",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_12.json": "0a5e9f53c098fe67b7b0bb63814b2e8a7d1ebe331c4da1148b11ea408d70d7de",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_13.json": "a49ab05858d3ab42ca0e911bc75380d0b2fe40c36281d62378924eb8c41aa623",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_14.json": "85e3ea01f56259654bff1eadf8bc4a903f543d3026db2b96a34681a5fe40e707",
+    "behavior_pack/netease_blocks/geometry_atlas_quad_compact8_15.json": "3ec78083d9d082bdc74b7ecb10acd925a2835e54e1d1c7ddea8901a03d339c60",
+    "probe_resources.json": "bc02ba2792a6bbfc0671f02d67cd4107c70ac317d979f048b97d79e7f1e8e4e9",
+    "resource_pack/blocks.json": "1ecb6ac429bb3313493f6e341bff562b49c5b2e3f3befae36c27961da1b5546e",
+    "resource_pack/entity/geometry_atlas_anchor.entity.json": "32f5121fe6829e5c53be237a715372c3fd384a2d39e2d1d69aa5b80c523a4098",
+    "resource_pack/manifest.json": "a12879872ff9f406bd56a68fef0cc2f463a120f97053129219bd3ec9f3c64acc",
+    "resource_pack/materials/postprocess.material": "1cbc851936b10737c7ee673f9e38a9b3d0aecbc71794df9338a718b0f658f85d",
+    "resource_pack/materials/terrain.material": "c1e1fd43ddf74da9e7c57a938e8d90e5ebeae30ea88059f06af11474f7be79dc",
+    "resource_pack/models/entity/geometry_atlas_anchor.geo.json": "149b16c900dca337ab7db8c92cb80ec21b0dfe4a5558b2bbc8e7c88a42d7e297",
+    "resource_pack/models/netease_block/geometry_atlas_quad.json": "26b64f3440706a4173713567ec26803ee5a43df5b38c7bc9737c73ff0b486ac3",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_00.json": "0ae3974345e26535475f1b4e455b016ef2efcc4b077f1f74473b60ee6d0cc323",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_01.json": "39c4c5855ae49f8d8a875278c3111696130eb6e16725eb8003aff38cd8ea6c44",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_02.json": "e3da08d6f5f80f806879f3a57ba345d6e3db3411d2ca522ffd8d4305634d82c9",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_03.json": "63ca44b0ae83be33316f28b6b63001248eccf5711d4bc0854cf9b4c92c845560",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_04.json": "4f46697c058fb83a2b67c0b99ea0e879b26d0ca8f10a76fdb43b1ffc19e7075b",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_05.json": "3aaafd27717a3fa068a9f1e0f41bb115928a1f6889df2377913119605fb64b77",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_06.json": "324e46938aed82cce848c326ce8c96da49a641fe54ebc295c762958e66656d4d",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_07.json": "ea426486b2f07785bcc329099957a542007bd2e0ff25b30f3f680570d6dc0caa",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_08.json": "2decc25acd2d3cdd0c570c2bbbd591685e96a2159a5fec8576a7fd7b675217b1",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_09.json": "1af959dd538729c6e68394706cfadc8ac5afcbdd457a53a1e0e4da770e4b92df",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_10.json": "41da3fdb9c597609825530e18e84db710dacfa043b8c09067400ba75d31e8969",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_11.json": "bc09564ec76127585617912a8f2e3268d3ca0e0ed1705f427ca0dced7ab7339f",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_12.json": "eaa26e7cef6a9f89441cebb1fdd00dc3a9f291b8cc4de35b91931ed68cd59365",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_13.json": "73b3f6d75d07582bcc743c479d8eb3e52fc8e74c701e6fd14c0ba8c3b99b2a6a",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_14.json": "e96d33b386ad6493be94c24de892e186ff41d94970a10add934191ee2ab3edb6",
+    "resource_pack/models/netease_block/geometry_atlas_quad_compact8_15.json": "191fb5f52e6fcb3a716beaa98440d09640b44bb7f3384047944ff716db182f20",
+    "resource_pack/render_controllers/geometry_atlas_anchor.json": "e66b53b72da2c6713c263cd25a1ff9be3edc5ca1ede7c81a1ac63519499cbc6b",
+    "resource_pack/shaders/glsl/geometry_atlas_consumer.fragment": "45f7b69830df5003e7e5c38c66afa7c62305e0c3544f280b5b8b80e0e00a16f8",
+    "resource_pack/shaders/glsl/geometry_atlas_copy.fragment": "d93740b0b524185b833dcafecbb779950f3a0c6f10ee64b5d3f6976d0a52c8cb",
+    "resource_pack/shaders/glsl/geometry_atlas_poison.fragment": "d181e048b65bb20f1acb67233a6e6bda9654a4b0b6edfeaf0b65d8ae4cc1a60f",
+    "resource_pack/shaders/glsl/scatter.fragment": "221758050b9592ba2de6ef58d373f341c888d25620074aaa6ac9d21abec9f795",
+    "resource_pack/shaders/glsl/scatter.vertex": "c78aadbb3d16b2617837fc3e08fcb7d3e090e2e382cb5c6658192f4de1134bbd",
+    "resource_pack/textures/pmanim_geometry_atlas/transparent.png": "e497ca2f599a68685b917011c3b77b12b5d5da7fc2b6dcbd43d49517cf409706"
+  },
+  "calibrated_center": [
+    1.0,
+    0.5,
+    0.5
+  ],
+  "exclusive_machine_benchmark": false,
+  "performance_environment_note": "Another independent Minecraft instance PID 35704 was present during collection; it was not controlled by this task. Performance is not an exclusive-machine baseline.",
+  "source_case_counts": {
+    "b7c": 4
+  },
+  "raw_hash_audit": {
+    "unique_files": 2172,
+    "all_declared_hashes_matched": true,
+    "unchanged_after_replay": true,
+    "canonical_manifest_sha256": "500ef330dba763157c64adab256f04818333d2538902fa14a79333dec45e3a8d"
+  },
+  "summary": {
+    "case_audits_passed": 4,
+    "case_count": 4,
+    "final_query_windows": 270,
+    "source_passed_cases": 4,
+    "preserved_failed_cases": [],
+    "live_audits_passed": 2,
+    "live_case_count": 2,
+    "live_frames": 6
+  },
+  "source_controls": {
+    "name": "calibrated512k_source_controls.source-controls.json",
+    "audit_passed": true,
+    "controls": {
+      "writer_off": {
+        "passed": true,
+        "windows": [
+          {
+            "start": 0,
+            "count": 4096,
+            "payload_match": false,
+            "failed_cells": 4082,
+            "receipt_sha256": "4c62b6f5693da9fdcf28179715314898a85e070df1fd2f9585ac42caa9913993",
+            "capture_sha256": "c7bb5dd75412d2da0ad7b479683273c403da63c82a05eaaabac924e30f1a9c6a",
+            "wgc_identity": [
+              78692,
+              12917102
+            ]
+          }
+        ]
+      },
+      "writer_restore": {
+        "passed": true,
+        "windows": [
+          {
+            "start": 0,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "8a05246c1b7662de2e40b20337cdbf7d920227f0ac04c325ddea87e352bf00e9",
+            "capture_sha256": "1a653f29f42c6d0930098d1cbe5ba14bd10c9001c34c0f35349ccea105bb10d2",
+            "wgc_identity": [
+              78692,
+              12917102
+            ]
+          }
+        ]
+      },
+      "gen2_identity": {
+        "passed": true,
+        "windows": [
+          {
+            "start": 0,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "5631d426bdc1e025dd87b282208fc7d02ac6381bece29bd042a4f3d2a3f7c726",
+            "capture_sha256": "6374706231aa43f6f9c9baa17912f7eee310b7d799f05caf0738f071de5ac412",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          },
+          {
+            "start": 260096,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "663d6372ae4cab234261ceaad1cc9d2f9e4312c67fd3f2c98e8774fcf64ad76b",
+            "capture_sha256": "7fc828691a26ace7efa64b3e041c65c0a10617bcdc0c84ef4401666d80cf4f58",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          },
+          {
+            "start": 520192,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "0db954fc3da1712acb9e33c1c5aabff0485863e0b56afe58b082d0ea6de21640",
+            "capture_sha256": "0eaa6942a9557b447e9ff31b8f73ad00a416e262601e447cc80c7d406ef4928f",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          }
+        ]
+      },
+      "gen2_dependent": {
+        "passed": true,
+        "windows": [
+          {
+            "start": 0,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "6e9ea0a8145e87d1248402608c8386d63f51d4a7185263b434371c8a2d0ee331",
+            "capture_sha256": "9080c0a352ade3c47f2bd24dc88b403d5753aaae6e94bf3a0ebc4ef7d728e1f9",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          },
+          {
+            "start": 260096,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "618e5668bdf5f8ad3bef288f1e1a54e12b7d6f5317fa3c5a9be531da910c11ac",
+            "capture_sha256": "1d09641faf997c4bb66e81d6c2d5d81a7b37878f555cb98ed1de38d9252ddd82",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          },
+          {
+            "start": 520192,
+            "count": 4096,
+            "payload_match": true,
+            "failed_cells": 0,
+            "receipt_sha256": "1863c9bc905f2619b8008f4d2472cb39df4d6df1076a613ae27ff7ab504ed852",
+            "capture_sha256": "c17bfb8252e143b3cac84223a7873d91dbf4b935a38ca7ee810f7ce66ba8b6bc",
+            "wgc_identity": [
+              78692,
+              12917102
+            ],
+            "previous_generation_rejected": true
+          }
+        ]
+      }
+    },
+    "errors": [],
+    "source_sha256": "8f10529cbb63a527cf99c8d12e1044482516f709e5697a80c9ac4b7668b4c92c",
+    "raw_hash_audit": {
+      "passed": true,
+      "declared_files": 83
+    },
+    "gen1_full_capacity_verified": true,
+    "gen2_full_capacity_verified": false,
+    "generation2_sampled_queries_per_mode": 12288
+  },
+  "cases": [
+    {
+      "batch": "b7c",
+      "name": "calibrated12k_double150_500",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 12288,
+      "source_case_sha256": "d2612ccfc2c05290bf777090a010fa866f76ed5857e5ca9d2e499baeea7eacd7",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 75,
+        "verified_files": 75,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 12288,
+      "preserved_failed": false,
+      "controls": {
+        "final_identity": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 17,
+            "slot_count": 12288,
+            "geometry_name": "pmanim_geometry_atlas_epoch2_bank0",
+            "geometry_build_serial": 398,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 12288,
+            "full_source_coverage": true,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 0,
+            "salt": 0,
+            "salt2": 0,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "75125abc3db3157a315f435c427847c87a8130aa020c5935c29734a8596f1dec",
+            "expected_payload_sha256": "75125abc3db3157a315f435c427847c87a8130aa020c5935c29734a8596f1dec"
+          }
+        },
+        "final_dependent": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 17,
+            "slot_count": 12288,
+            "geometry_name": "pmanim_geometry_atlas_epoch2_bank0",
+            "geometry_build_serial": 398,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 7777,
+            "full_source_coverage": false,
+            "capture_count": 3,
+            "payload_bytes": 12288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 2,
+            "salt": 37,
+            "salt2": 91,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "0a8cccc17132909648a242413a90ac9c627a0a61a33f2868cb52429039a67d0e",
+            "expected_payload_sha256": "0a8cccc17132909648a242413a90ac9c627a0a61a33f2868cb52429039a67d0e"
+          }
+        }
+      }
+    },
+    {
+      "batch": "b7c",
+      "name": "calibrated3k_double50_100",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 3072,
+      "source_case_sha256": "6fa6db41aa1a1347905a484cc851513427d183570929e969f3be37e60edd3475",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 45,
+        "verified_files": 45,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 3072,
+      "preserved_failed": false,
+      "controls": {
+        "final_identity": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 81,
+            "slot_count": 3072,
+            "geometry_name": "pmanim_geometry_atlas_epoch1_bank0",
+            "geometry_build_serial": 81,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 3072,
+            "full_source_coverage": true,
+            "capture_count": 1,
+            "payload_bytes": 3072,
+            "checked_cells": 3072,
+            "checked_pixels": 27648,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 0,
+            "salt": 0,
+            "salt2": 0,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1",
+            "expected_payload_sha256": "6ed9840ed2d684e0c3d1e67d3f51c038c0be0831dda1f3654d2668e5549068e1"
+          }
+        },
+        "final_dependent": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 81,
+            "slot_count": 3072,
+            "geometry_name": "pmanim_geometry_atlas_epoch1_bank0",
+            "geometry_build_serial": 81,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 1927,
+            "full_source_coverage": false,
+            "capture_count": 1,
+            "payload_bytes": 3072,
+            "checked_cells": 3072,
+            "checked_pixels": 27648,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 2,
+            "salt": 37,
+            "salt2": 91,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "106ca883d428bce9ce582b81e06752aca45c5499a5df5784bd5e52988b98ee89",
+            "expected_payload_sha256": "106ca883d428bce9ce582b81e06752aca45c5499a5df5784bd5e52988b98ee89"
+          }
+        }
+      }
+    },
+    {
+      "batch": "b7c",
+      "name": "calibrated512k_static_full",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 524288,
+      "source_case_sha256": "410bfb5caf8c45ff02b01c6d37f6a5d7a3596059c43cc5b7390290da00b1fe4c",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 1807,
+        "verified_files": 1807,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": true,
+      "verified_payload_capacity_bytes": 524288,
+      "preserved_failed": false,
+      "controls": {
+        "final_identity": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 1,
+            "slot_count": 524288,
+            "geometry_name": "pmanim_geometry_atlas_epoch3_version459",
+            "geometry_build_serial": 459,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 524288,
+            "full_source_coverage": true,
+            "capture_count": 128,
+            "payload_bytes": 524288,
+            "checked_cells": 524288,
+            "checked_pixels": 4718592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 0,
+            "salt": 0,
+            "salt2": 0,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "dab47722209710719601ce02869f4e26b4c8d671b868e06ae0f63c0e325b0eb6",
+            "expected_payload_sha256": "dab47722209710719601ce02869f4e26b4c8d671b868e06ae0f63c0e325b0eb6"
+          }
+        },
+        "final_dependent": {
+          "passed": true,
+          "summary": {
+            "schema": "geometry_atlas_probe_v1",
+            "seed": 54321,
+            "generation": 1,
+            "slot_count": 524288,
+            "geometry_name": "pmanim_geometry_atlas_epoch3_version459",
+            "geometry_build_serial": 459,
+            "encoding": "compact8",
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": true,
+            "source_index_coverage": 331726,
+            "full_source_coverage": false,
+            "capture_count": 128,
+            "payload_bytes": 524288,
+            "checked_cells": 524288,
+            "checked_pixels": 4718592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "mode": 2,
+            "salt": 37,
+            "salt2": 91,
+            "orientation": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "direct_source": false,
+            "payload_channel": "alpha",
+            "observed_payload_sha256": "033e7b79b31ed8c23d59c51127aa73ea0f1816d0107e326ae066fccd2c072adf",
+            "expected_payload_sha256": "033e7b79b31ed8c23d59c51127aa73ea0f1816d0107e326ae066fccd2c072adf"
+          }
+        }
+      }
+    },
+    {
+      "batch": "b7c",
+      "name": "calibrated512k_static_sample",
+      "source_status": "completed",
+      "source_passed": true,
+      "payload_bytes": 524288,
+      "source_case_sha256": "eabeb28f54b4d786c3e7b6cd2c890b66811ce9c7deadf5c4ed7f1319108583f9",
+      "audit_passed": true,
+      "original_errors_preserved": [],
+      "errors": [],
+      "raw_hash_audit": {
+        "declared_files": 63,
+        "verified_files": 63,
+        "mismatches": [],
+        "passed": true
+      },
+      "recomputed_passed": true,
+      "complete_payload_verified": false,
+      "verified_payload_capacity_bytes": null,
+      "preserved_failed": false,
+      "controls": {
+        "final_identity": {
+          "passed": true,
+          "summary": {
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": false,
+            "full_source_coverage": false,
+            "query_ordinal_coverage": 12288,
+            "source_index_coverage": 12288,
+            "capture_count": 3,
+            "payload_bytes": 524288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "sampled_verification_only": true
+          }
+        },
+        "final_dependent": {
+          "passed": true,
+          "summary": {
+            "passed": true,
+            "exact_equal": true,
+            "full_query_coverage": false,
+            "full_source_coverage": false,
+            "query_ordinal_coverage": 12288,
+            "source_index_coverage": 12176,
+            "capture_count": 3,
+            "payload_bytes": 524288,
+            "checked_cells": 12288,
+            "checked_pixels": 110592,
+            "failed_cells": 0,
+            "max_error": 0,
+            "sampled_verification_only": true
+          }
+        }
+      }
+    }
+  ],
+  "live": [
+    {
+      "name": "live12k_half_delay150_500",
+      "payload_bytes": 12288,
+      "source_sha256": "c9483bbd7029e23b7b5d3968ba1576ff58af3020c7f46d86656601e2c3e23429",
+      "history_sha256": "b0bdeb04aa5c7f9cb84f8984f4001edc4882e76a64de6cad94f97c9132074c99",
+      "audit_passed": true,
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            28
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "afde73a249a8078da9db57275a7b5b8fe742a574a66dfb02ca610cf5b4d31c71",
+          "capture_sha256": "6f83d29a61c11a9558e7ee510116793fe8e6396ba2ca3617a5c902fff139bb54",
+          "classification_sha256": "fedee6a78034ad7dc49a76d7a9faf0869e03ee11aad682b3d3e6d5603175f10e",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            42
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "3a5f817ab0f597f5d3149bb2419c99031f3157085b9ecc5ffb7c0aca7fd64a1e",
+          "capture_sha256": "387ae8c5d7295f96bc11db9505e68e51cc66f24e2bbac26dff9130c62e064753",
+          "classification_sha256": "19b445c510a66ab9d8a3e2c7b962b7057b1b4ccae824c7845ec1cced2aa3e965",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            56
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "43afad62149a7bf3e267b3db20b07973a8a4b77f7b23beadac188ce8e0450b59",
+          "capture_sha256": "4d047abf71fbb66903d39c618e60b75a42116a9fe0261276f747927b748e6a13",
+          "classification_sha256": "efc38a230102ab55200d9c24b26b378e8bf6f35ba19a352baed14e46b14622ec",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "live3k_half_delay50_100",
+      "payload_bytes": 3072,
+      "source_sha256": "688fc51225bc0ba32b195829b0bd62df6f8a91ae12199c9ac7f6dce80107e682",
+      "history_sha256": "1ede9359df39abdc395527310350179ca285f470552604d3a49d1951a94db9ba",
+      "audit_passed": true,
+      "frames": [
+        {
+          "label": "live_frame_0",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            136
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "149cb49a9b9c9dc51c524beb16352238ff3d1e18ad91701f8f0f0c17125335a6",
+          "capture_sha256": "7789d09818450c8d8f4723e81f420c4b56dba71e643f1593389371486af9c658",
+          "classification_sha256": "0de1c630ec1c4f1ead833b5610a2155e94750fe89d448db196f686dc3edd34c4",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        },
+        {
+          "label": "live_frame_1",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            205
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "a78213522eced73839dc0df37f1e2c9cdcbd56e82f76b8bbd85bf78e3382ef5a",
+          "capture_sha256": "623700f40d5db25f3bc1bd038cc87566584fe817a8bc35abcb22c59eb7da4f0e",
+          "classification_sha256": "d6491a31d37311d7d37d0040fe028cdb4f5744cf915a09b142d879aa1bc27b39",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        },
+        {
+          "label": "live_frame_2",
+          "classification": "matched",
+          "passed": true,
+          "matched_generations": [
+            273
+          ],
+          "full_patch_checked": 1,
+          "receipt_sha256": "4cf7ca9002166c750bcca7d0de74af7813991fefa587a249e6712f00a7b706dd",
+          "capture_sha256": "41e9a5cbcf5000e1e2f5e66a50aa452baff5877c2f2474c7ecf445e2065b6981",
+          "classification_sha256": "3c5b66ac6092b33a22e89ffc78d2f2ad5357613ba758398237c68d1e3755af86",
+          "roi_all_white": false,
+          "roi_extrema": [
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              0,
+              255
+            ],
+            [
+              255,
+              255
+            ]
+          ],
+          "wgc_identity": [
+            78692,
+            12917102
+          ]
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # 原生几何 → 共享数据纹理 → shader 索引取数
 
+后续的容量扩展、固定名称双缓冲、连续更新性能和运行中像素抽查见[容量与连续更新研究](GEOMETRY_ATLAS_STREAMING_RESEARCH.md)。本页保留 a1–a3 阶段的 64 KiB 基线证据；其容量保护值和静态性能不能直接代替后续动态测试结论。
+
 本轮已在本机实机跑通新的数据通路：**游戏 Python 生成字节，经原生建筑几何写入场景颜色缓冲的 alpha，再复制成显式连接给 consumer 的纹理；consumer fragment shader 可按计算索引读取字节，并完成“第一次读出的字节决定第二次地址”的两次依赖取数。** a3 对默认隐藏 HUD 的渲染配置冷启动，已完成 **64 KiB 全量驻留与五项对照**，独立审计通过；其后 8 秒静态测量中，全量每帧 scatter、三 pass 和 4,096 格 dependent 取数的平均 `GetFps()` 为 60.0549，28 个样本。该测量不包含每帧 Python 重建或上传 64 KiB。其后增加的失败重试与清理加固仅完成单元回归，未并入这次冷启动验证。
 
 这补上了[紧凑几何编码研究](GEOMETRY_PACKET_COMPACT_RESEARCH.md)中“primitive 只能使用自身记录”的限制。这里建立的是指定后处理 consumer 的 fragment 取数能力；没有验证 vertex shader 随机访问、所有 UI／材质自动获得该纹理、GPU → 游戏 Python 回读或跨帧持久 GPU 状态。

@@ -44,8 +44,11 @@ void main() {
     float index = EXTRA_VECTOR1.x + ordinal;
     float mode = mod(floor(EXTRA_VECTOR1.z), 4.0);
     if (mode > 0.5 && mode < 2.5) {
-        // slot count <=65536 keeps all 131*index+salt intermediates exact.
-        index = mod(131.0 * index + floor(EXTRA_VECTOR1.w), EXTRA_VECTOR2.x);
+        // For N<=524288 and salt<=65535 every intermediate stays below 2^24.
+        // Reduce 128*j separately so high query ordinals remain float32-exact.
+        float v16 = mod(index * 16.0, EXTRA_VECTOR2.x);
+        float v128 = mod(v16 * 8.0, EXTRA_VECTOR2.x);
+        index = mod(v128 + 3.0 * index + floor(EXTRA_VECTOR1.w), EXTRA_VECTOR2.x);
         if (mode > 1.5) {
             float first = byteAt(index);
             index = mod(index + 257.0 * first + floor(EXTRA_VECTOR3.w), EXTRA_VECTOR2.x);
