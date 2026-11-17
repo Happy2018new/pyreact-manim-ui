@@ -1,0 +1,106 @@
+{
+  "passed": true,
+  "payload_bytes": 3072,
+  "cpu_source_generation": 101,
+  "pending_cpu_count": 3072,
+  "freeze": {
+    "passed": true,
+    "expect_changed": false,
+    "payload_changed": false,
+    "before_generation": 100,
+    "after_generation": 100,
+    "before_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "after_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602"
+  },
+  "update": {
+    "passed": true,
+    "expect_changed": true,
+    "payload_changed": true,
+    "before_generation": 100,
+    "after_generation": 101,
+    "before_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "after_sha256": "c9945daaad2090206ec9318e440e4b56921f129c555a30ccbe8a25d4b224f078"
+  },
+  "new_cpu_generation_on_old_geometry_rejected": true,
+  "wrong_generation_failed_cells": 3061,
+  "initial": {
+    "schema": "geometry_packet_probe_v1",
+    "seed": 54321,
+    "generation": 100,
+    "slot_count": 3072,
+    "geometry_name": "pmanim_geometry_packet_payload_epoch1_bank1",
+    "geometry_build_serial": 1,
+    "passed": true,
+    "exact_equal": true,
+    "full_slot_coverage": true,
+    "capture_count": 1,
+    "payload_bytes": 3072,
+    "checked_cells": 3072,
+    "checked_pixels": 27648,
+    "failed_cells": 0,
+    "max_error": 0,
+    "observed_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "expected_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "queries": [
+      [
+        0,
+        3072,
+        64
+      ]
+    ]
+  },
+  "frozen": {
+    "schema": "geometry_packet_probe_v1",
+    "seed": 54321,
+    "generation": 100,
+    "slot_count": 3072,
+    "geometry_name": "pmanim_geometry_packet_payload_epoch1_bank1",
+    "geometry_build_serial": 1,
+    "passed": true,
+    "exact_equal": true,
+    "full_slot_coverage": true,
+    "capture_count": 1,
+    "payload_bytes": 3072,
+    "checked_cells": 3072,
+    "checked_pixels": 27648,
+    "failed_cells": 0,
+    "max_error": 0,
+    "observed_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "expected_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+    "queries": [
+      [
+        0,
+        3072,
+        64
+      ]
+    ]
+  },
+  "updated": {
+    "schema": "geometry_packet_probe_v1",
+    "seed": 54321,
+    "generation": 101,
+    "slot_count": 3072,
+    "geometry_name": "pmanim_geometry_packet_payload_epoch1_bank0",
+    "geometry_build_serial": 2,
+    "passed": true,
+    "exact_equal": true,
+    "full_slot_coverage": true,
+    "capture_count": 1,
+    "payload_bytes": 3072,
+    "checked_cells": 3072,
+    "checked_pixels": 27648,
+    "failed_cells": 0,
+    "max_error": 0,
+    "observed_payload_sha256": "c9945daaad2090206ec9318e440e4b56921f129c555a30ccbe8a25d4b224f078",
+    "expected_payload_sha256": "c9945daaad2090206ec9318e440e4b56921f129c555a30ccbe8a25d4b224f078",
+    "queries": [
+      [
+        0,
+        3072,
+        64
+      ]
+    ]
+  },
+  "all_render_frames_verified": false,
+  "gpu_to_python_readback": false
+}

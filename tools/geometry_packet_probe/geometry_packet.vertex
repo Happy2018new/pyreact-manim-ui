@@ -1,0 +1,41 @@
+// __multiversion__
+precision highp float;
+#include "vertexVersionCentroid.h"
+#include "uniformWorldConstants.h"
+#include "uniformShaderConstants.h"
+attribute POS4 POSITION;
+varying highp float geometryByte;
+
+void main() {
+    // CURRENT_COLOR is query/control only. The payload byte comes from Y.
+    float start = floor(CURRENT_COLOR.r * 16777216.0 + 0.5);
+    float query = floor(CURRENT_COLOR.g * 16777216.0 + 0.5);
+    float count = mod(query, 4096.0) + 1.0;
+    float columns = mod(floor(query / 4096.0), 64.0) + 1.0;
+    float mode = floor(query / 262144.0);
+    float layoutPacket = floor(CURRENT_COLOR.b * 8388608.0 + 0.5);
+    float stride = mod(layoutPacket, 2048.0);
+    float yOffset = floor(layoutPacket / 2048.0) * 0.5;
+    // PaperDoll centers all three axes on half of the palette volume.
+    vec3 source = POSITION.xyz + vec3(stride * 0.5, yOffset, stride * 0.5);
+    vec3 cell = floor(source + vec3(0.5));
+    float record = cell.x * stride + cell.z;
+    float selected = record - start;
+    // The resource quad occupies [-.25,.25] in local X/Z. Keeping the
+    // local corners separate from the integer cell survives rounding errors
+    // below .25 block; larger packed-input error must fail pixel validation.
+    vec2 corner = (source.xz - cell.xz) * 2.0 + vec2(0.5);
+    geometryByte = mod(cell.y, 256.0) / 255.0;
+    if (mode > 0.5 && mode < 1.5) geometryByte = mod(record,256.0)/255.0;
+    if (mode > 1.5 && mode < 2.5) geometryByte = mod(floor(record/256.0),256.0)/255.0;
+    if (mode > 2.5) geometryByte = 1.0;
+    if (selected < 0.0 || selected >= count || stride < 1.0) {
+        gl_Position = vec4(2.0,2.0,0.0,1.0);
+        return;
+    }
+    float rows = ceil(count / columns);
+    vec2 grid = vec2(mod(selected,columns), floor(selected/columns));
+    vec2 uv = (grid + corner) / vec2(columns,rows);
+    uv.y = (64.0 + uv.y * 1000.0) / 1080.0;
+    gl_Position = vec4(uv.x*2.0-1.0,1.0-uv.y*2.0,0.0,1.0);
+}

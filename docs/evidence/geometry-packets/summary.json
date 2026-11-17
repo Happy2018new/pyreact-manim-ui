@@ -1,0 +1,749 @@
+{
+  "schema": "geometry_packet_study_summary_v1",
+  "client": "3.10.0.448891",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "native_pixels": [
+    720,
+    1080
+  ],
+  "configured_fps_cap": 60,
+  "background_noactivation": true,
+  "all_owned_instances_stopped": true,
+  "maximum_verified_static_resident_bytes": 262144,
+  "maximum_tested_bytes": 1048576,
+  "maximum_tested_case_passed": false,
+  "byte_representation": "One uint8 encoded in native block Y; independent record index in X/Z. Logical payload size is not GPU memory size.",
+  "query_window_max_records": 4096,
+  "all_render_frames_verified": false,
+  "gpu_to_game_python_readback": false,
+  "actual_mobile_hardware": false,
+  "static_fps_scope": "Whole geometry resident; each query makes at most 4096 records visible. Not a benchmark of 262144 simultaneously visible UI objects.",
+  "dynamic_fps_scope": "A rebuild is requested each render event; only final frozen generation is audited. Request rate is not proven effective GPU update rate.",
+  "cases": [
+    {
+      "version": "v4",
+      "name": "bytes12288_dynamic",
+      "source_sha256": "c1a9fe6d6ba0ae53636d6995be7150edb370d47a6365d208d73904db3d50b3e7",
+      "status": "failed",
+      "payload_bytes": 12288,
+      "dynamic": true,
+      "verify_only": false,
+      "error": "ValueError: Geometry bytes did not match the independent oracle: bytes12288_dynamic_window_0000",
+      "stage": "verify:0",
+      "fps": {
+        "count": 10,
+        "min": 20.10968780517578,
+        "max": 29.069765090942383,
+        "p95": 25.341129302978516,
+        "p50": 21.466903686523438,
+        "mean": 22.599450492858885
+      },
+      "interval_ms": {
+        "count": 150,
+        "min": 29.746500000015885,
+        "max": 67.18240000000719,
+        "p95": 57.98710000001961,
+        "p50": 47.86640000000375,
+        "mean": 47.00115999999997
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 149,
+          "min": 9.155399999997371,
+          "max": 27.466299999986177,
+          "p95": 17.983100000009244,
+          "p50": 11.31330000001185,
+          "mean": 12.43492013423021
+        },
+        "palette_ms": {
+          "count": 149,
+          "min": 2.2158000000160882,
+          "max": 5.878000000024031,
+          "p95": 4.934200000008104,
+          "p50": 2.7427999999929398,
+          "mean": 3.0684557046968837
+        },
+        "deserialize_ms": {
+          "count": 149,
+          "min": 0.020400000011022712,
+          "max": 1.1277000000120552,
+          "p95": 0.04509999999413594,
+          "p50": 0.03300000000194814,
+          "mean": 0.04710939597350945
+        },
+        "combine_ms": {
+          "count": 149,
+          "min": 12.219299999998157,
+          "max": 34.57679999999641,
+          "p95": 25.170099999996864,
+          "p50": 17.865300000011075,
+          "mean": 18.455818120804715
+        },
+        "render_ms": {
+          "count": 149,
+          "min": 0.06849999999758438,
+          "max": 1.3920000000098298,
+          "p95": 0.37750000001324224,
+          "p50": 0.186600000006365,
+          "mean": 0.22280939597481425
+        },
+        "query_ms": {
+          "count": 149,
+          "min": 0.014800000002423985,
+          "max": 0.19740000001888802,
+          "p95": 0.0933000000031825,
+          "p50": 0.025699999980588473,
+          "mean": 0.037034899327983
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.02509999998778767,
+        "combine_ms": 12.357500000007349,
+        "render_ms": 0.17109999998865533,
+        "generation_ms": 9.977700000007417,
+        "total_ms": 24.703700000003437,
+        "palette_ms": 2.1723000000122283,
+        "query_ms": 0.014499999991812729
+      },
+      "final_generation": 178,
+      "final_geometry_build_serial": 656,
+      "query_windows": 1,
+      "full_slot_coverage": false,
+      "verified_bytes": 0,
+      "observed_payload_sha256": null,
+      "expected_payload_sha256": null
+    },
+    {
+      "version": "v4",
+      "name": "bytes12288_static",
+      "source_sha256": "832a955cefb5535711f11ca96c8a49252a076955d4ca377cc160050d09e0cf50",
+      "status": "completed",
+      "payload_bytes": 12288,
+      "dynamic": false,
+      "verify_only": false,
+      "error": null,
+      "stage": "completed",
+      "fps": {
+        "count": 28,
+        "min": 59.8802375793457,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.05512319292341
+      },
+      "interval_ms": {
+        "count": 421,
+        "min": 10.3315000000066,
+        "max": 21.1563999999953,
+        "p95": 18.30789999999638,
+        "p50": 16.628199999985327,
+        "mean": 16.667335629453675
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.014899999996487168,
+          "max": 0.17049999999585452,
+          "p95": 0.026599999984000533,
+          "p50": 0.018299999993587335,
+          "mean": 0.019874285715239977
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.022999999998774,
+        "combine_ms": 12.29030000001785,
+        "render_ms": 0.10509999998475905,
+        "generation_ms": 10.61770000001161,
+        "total_ms": 25.210200000003624,
+        "palette_ms": 2.1740999999906307,
+        "query_ms": 0.015100000013035242
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 478,
+      "query_windows": 3,
+      "full_slot_coverage": true,
+      "verified_bytes": 12288,
+      "observed_payload_sha256": "f7b78498e76c5b11b862cbdad2346b417fa68e4012426a76a29cab62e2bbd61a",
+      "expected_payload_sha256": "f7b78498e76c5b11b862cbdad2346b417fa68e4012426a76a29cab62e2bbd61a"
+    },
+    {
+      "version": "v4",
+      "name": "bytes3072_dynamic",
+      "source_sha256": "9701cfed272cf469eba22fb3b34e1987e9c04bfc0ad072a1c2c690224f347188",
+      "status": "completed",
+      "payload_bytes": 3072,
+      "dynamic": true,
+      "verify_only": false,
+      "error": null,
+      "stage": "completed",
+      "fps": {
+        "count": 27,
+        "min": 57.1992073059082,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 59.5238037109375,
+        "mean": 59.299767388237846
+      },
+      "interval_ms": {
+        "count": 415,
+        "min": 12.67709999999056,
+        "max": 24.144800000016176,
+        "p95": 18.474100000020144,
+        "p50": 16.712899999987485,
+        "mean": 16.89078746987951
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 414,
+          "min": 2.1964000000025408,
+          "max": 4.687700000005179,
+          "p95": 3.3999999999991815,
+          "p50": 2.486900000008063,
+          "mean": 2.597966425120898
+        },
+        "palette_ms": {
+          "count": 414,
+          "min": 0.5511999999896489,
+          "max": 1.5673999999989974,
+          "p95": 0.8456999999850723,
+          "p50": 0.61730000001603,
+          "mean": 0.6535731884051311
+        },
+        "deserialize_ms": {
+          "count": 414,
+          "min": 0.017400000018596984,
+          "max": 0.37250000002586603,
+          "p95": 0.03190000001040971,
+          "p50": 0.023300000009385258,
+          "mean": 0.02538188405895578
+        },
+        "combine_ms": {
+          "count": 414,
+          "min": 3.0195999999875767,
+          "max": 9.74949999999808,
+          "p95": 6.113800000008496,
+          "p50": 4.504999999994652,
+          "mean": 4.671306038647381
+        },
+        "render_ms": {
+          "count": 414,
+          "min": 0.04060000000549735,
+          "max": 1.2056999999856544,
+          "p95": 0.24839999997539053,
+          "p50": 0.05469999999263564,
+          "mean": 0.09475555555443155
+        },
+        "query_ms": {
+          "count": 414,
+          "min": 0.010699999990038123,
+          "max": 1.1176000000148179,
+          "p95": 0.04400000000259752,
+          "p50": 0.013800000004948743,
+          "mean": 0.023399516908325757
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.024000000024670953,
+        "combine_ms": 2.704299999976456,
+        "render_ms": 0.04069999999956053,
+        "generation_ms": 2.3463999999933094,
+        "total_ms": 5.6958999999778825,
+        "palette_ms": 0.5804999999838856,
+        "query_ms": 0.012100000020609514
+      },
+      "final_generation": 475,
+      "final_geometry_build_serial": 477,
+      "query_windows": 1,
+      "full_slot_coverage": true,
+      "verified_bytes": 3072,
+      "observed_payload_sha256": "4620afa086181f3acc6a7c27c8fe4548868f65eabcbebc453ca489bfc39ace41",
+      "expected_payload_sha256": "4620afa086181f3acc6a7c27c8fe4548868f65eabcbebc453ca489bfc39ace41"
+    },
+    {
+      "version": "v4",
+      "name": "bytes3072_static",
+      "source_sha256": "7276f7c15919a0f2dda82f8af4bef2cba76536799a718ae4e17078f0286dde0c",
+      "status": "completed",
+      "payload_bytes": 3072,
+      "dynamic": false,
+      "verify_only": false,
+      "error": null,
+      "stage": "completed",
+      "fps": {
+        "count": 28,
+        "min": 59.8802375793457,
+        "max": 60.19417190551758,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.071756090436665
+      },
+      "interval_ms": {
+        "count": 421,
+        "min": 14.746099999996432,
+        "max": 18.775000000005093,
+        "p95": 18.16519999999855,
+        "p50": 16.674500000007697,
+        "mean": 16.663502375296904
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.015500000003498826,
+          "max": 0.14490000000932923,
+          "p95": 0.021900000007235576,
+          "p50": 0.017999999997186933,
+          "mean": 0.01930952380956255
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.024800000005598122,
+        "combine_ms": 2.701999999999316,
+        "render_ms": 0.15179999999759275,
+        "generation_ms": 3.262399999997001,
+        "total_ms": 6.721400000003541,
+        "palette_ms": 0.5804000000040332,
+        "query_ms": 0.017100000007985727
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 2,
+      "query_windows": 1,
+      "full_slot_coverage": true,
+      "verified_bytes": 3072,
+      "observed_payload_sha256": "80501f1b5e61b73a7233e8662c20c7bfae7a718b293d0d0a1d003765637b86a8",
+      "expected_payload_sha256": "80501f1b5e61b73a7233e8662c20c7bfae7a718b293d0d0a1d003765637b86a8"
+    },
+    {
+      "version": "v4",
+      "name": "smoke256",
+      "source_sha256": "9847aabf9acc76f61fed50a14630e9b830e3611e927b0c95e27763965307e132",
+      "status": "completed",
+      "payload_bytes": 256,
+      "dynamic": false,
+      "verify_only": true,
+      "error": null,
+      "stage": "completed",
+      "fps": null,
+      "interval_ms": null,
+      "measured_timings": {
+        "generation_ms": null,
+        "palette_ms": null,
+        "deserialize_ms": null,
+        "combine_ms": null,
+        "render_ms": null,
+        "query_ms": null
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 2.0121000000017375,
+        "combine_ms": 0.7212999999985925,
+        "render_ms": 31.13779999999977,
+        "generation_ms": 0.19520000000028404,
+        "total_ms": 34.123799999999704,
+        "palette_ms": 0.05739999999931911,
+        "query_ms": 0.028300000000314185
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 1,
+      "query_windows": 1,
+      "full_slot_coverage": true,
+      "verified_bytes": 256,
+      "observed_payload_sha256": "06e4a9d75ac836eff0a8e9432e66f36096083de3a140affe9edcdcb4e8317bbb",
+      "expected_payload_sha256": "06e4a9d75ac836eff0a8e9432e66f36096083de3a140affe9edcdcb4e8317bbb"
+    },
+    {
+      "version": "v5",
+      "name": "bytes1048576_static",
+      "source_sha256": "d07be0c9e0d67d91c0480779991e8720d57e553b3be8cbb99701ca773a6c8c48",
+      "status": "failed",
+      "payload_bytes": 1048576,
+      "dynamic": false,
+      "verify_only": false,
+      "error": "ValueError: Geometry bytes did not match the independent oracle: bytes1048576_static_window_0000",
+      "stage": "verify:0",
+      "fps": {
+        "count": 25,
+        "min": 16.81759262084961,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 56.13301208496094
+      },
+      "interval_ms": {
+        "count": 384,
+        "min": 14.292699999998604,
+        "max": 575.4413000000227,
+        "p95": 18.288899999959085,
+        "p50": 16.674799999975676,
+        "mean": 18.245791666666573
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 383,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 383,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 383,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 383,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 383,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 383,
+          "min": 0.015200000007098424,
+          "max": 0.06050000001778244,
+          "p95": 0.022999999998774,
+          "p50": 0.01850000001013541,
+          "mean": 0.019066057439451646
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.032500000003210516,
+        "combine_ms": 3058.322299999986,
+        "render_ms": 3.2617999999899894,
+        "generation_ms": 792.6528999999789,
+        "total_ms": 4053.5781999999754,
+        "palette_ms": 199.30870000001732,
+        "query_ms": 0.08320000000594518
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 5,
+      "query_windows": 1,
+      "full_slot_coverage": false,
+      "verified_bytes": 0,
+      "observed_payload_sha256": null,
+      "expected_payload_sha256": null
+    },
+    {
+      "version": "v5",
+      "name": "bytes262144_static",
+      "source_sha256": "3b5a20033d95dc364fe14909f95457ccc57833f80885548bbcfb65854d3b8738",
+      "status": "completed",
+      "payload_bytes": 262144,
+      "dynamic": false,
+      "verify_only": false,
+      "error": null,
+      "stage": "completed",
+      "fps": {
+        "count": 28,
+        "min": 60.0775146484375,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 421,
+        "min": 14.565100000027087,
+        "max": 18.64219999998795,
+        "p95": 18.1536000000051,
+        "p50": 16.669700000022658,
+        "mean": 16.66369786223277
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.014899999996487168,
+          "max": 0.16670000000829077,
+          "p95": 0.02209999999536194,
+          "p50": 0.017999999982976078,
+          "mean": 0.018864761904103217
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.02829999999676147,
+        "combine_ms": 248.85770000000207,
+        "render_ms": 0.32120000000190885,
+        "generation_ms": 194.66620000000034,
+        "total_ms": 494.18190000000095,
+        "palette_ms": 50.30849999999987,
+        "query_ms": 0.026200000007747803
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 4,
+      "query_windows": 64,
+      "full_slot_coverage": true,
+      "verified_bytes": 262144,
+      "observed_payload_sha256": "4c0cbb1df804a01a184f1ff87265fa01bef38c68428e33ca9de11c3c30c0fef3",
+      "expected_payload_sha256": "4c0cbb1df804a01a184f1ff87265fa01bef38c68428e33ca9de11c3c30c0fef3"
+    },
+    {
+      "version": "v5",
+      "name": "bytes65536_static",
+      "source_sha256": "2179d0145856ece51453adf5fb59f2347a4d5e4b6706b4fd5ee47c9273c2862e",
+      "status": "completed",
+      "payload_bytes": 65536,
+      "dynamic": false,
+      "verify_only": false,
+      "error": null,
+      "stage": "completed",
+      "fps": {
+        "count": 28,
+        "min": 59.8802375793457,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.063423429216655
+      },
+      "interval_ms": {
+        "count": 421,
+        "min": 14.181199999995897,
+        "max": 19.20579999999461,
+        "p95": 18.081399999999803,
+        "p50": 16.68430000000143,
+        "mean": 16.66655178147268
+      },
+      "measured_timings": {
+        "generation_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "palette_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "deserialize_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "combine_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "render_ms": {
+          "count": 420,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "query_ms": {
+          "count": 420,
+          "min": 0.014899999996487168,
+          "max": 0.14569999999736183,
+          "p95": 0.02239999999886777,
+          "p50": 0.017399999997280702,
+          "mean": 0.018613809524058497
+        }
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 0.030500000001154604,
+        "combine_ms": 49.022499999999525,
+        "render_ms": 0.5044000000005155,
+        "generation_ms": 49.41260000000014,
+        "total_ms": 110.53130000000166,
+        "palette_ms": 11.56130000000033,
+        "query_ms": 0.024900000003214018
+      },
+      "final_generation": 1,
+      "final_geometry_build_serial": 3,
+      "query_windows": 16,
+      "full_slot_coverage": true,
+      "verified_bytes": 65536,
+      "observed_payload_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+      "expected_payload_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c"
+    },
+    {
+      "version": "v5",
+      "name": "control_initial",
+      "source_sha256": "8771f3d62d4655dff73eabf95982538831ba5b0538a868b14790c89b4215d92c",
+      "status": "completed",
+      "payload_bytes": 3072,
+      "dynamic": false,
+      "verify_only": true,
+      "error": null,
+      "stage": "completed",
+      "fps": null,
+      "interval_ms": null,
+      "measured_timings": {
+        "generation_ms": null,
+        "palette_ms": null,
+        "deserialize_ms": null,
+        "combine_ms": null,
+        "render_ms": null,
+        "query_ms": null
+      },
+      "initial_load_timings": {
+        "deserialize_ms": 2.0408999999999997,
+        "combine_ms": 3.0297000000000005,
+        "render_ms": 31.8064,
+        "generation_ms": 2.278,
+        "total_ms": 39.7315,
+        "palette_ms": 0.5765000000000002,
+        "query_ms": 0.05379999999999968
+      },
+      "final_generation": 100,
+      "final_geometry_build_serial": 1,
+      "query_windows": 1,
+      "full_slot_coverage": true,
+      "verified_bytes": 3072,
+      "observed_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602",
+      "expected_payload_sha256": "be7cad536dc1fca3a27777546b2267c034128140c8a062d76daa41e4d88b0602"
+    }
+  ]
+}
