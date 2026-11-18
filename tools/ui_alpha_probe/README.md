@@ -20,6 +20,8 @@ Client: NetEase 3.10.0.467018, native 720×1080 for the completed r3 cases. Full
 
 The source Image-to-`CURRENT_COLOR` handoff works even when only the Image is far outside the screen. The tested input is one scalar. A shared texture with indexed reads remains unverified. The fixed backdrop test establishes RGB preservation for that case. Separate real-scene frames were not pixel-identical, so the backdrop result does not establish a pixel-exact dynamic scene comparison. The T0 and T1 diagnostics sampled before UI drew over their visible output. End-to-end UI alpha readback remains unverified. The rain stage was conditional on basic alpha readback.
 
+The [follow-up texture-binding probe](../ui_texture_binding_probe/README.md) verified arbitrary indexed reads from explicitly bound resource textures. Its tested UI and world-bound drawing paths still did not expose the producer's rendered output to a later UI shader or the sampled scene postprocess inputs.
+
 The failed destination-alpha run is preserved separately in `.runtime/ui-alpha-native-20261118-r1/evidence-r2/030_reader_assert.json`, with the exact generated material in that run's `project/`. The source builder now only permits the supported `SourceAlpha` arithmetic-control configuration, and the default runner omits the failed destination-alpha cases.
 
 ## Reproduce

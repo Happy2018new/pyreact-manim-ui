@@ -1,0 +1,141 @@
+{
+  "schema": "ui_texture_binding_evidence_v1",
+  "client": "3.10.0.467018",
+  "physical_size": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "performance_measured": false,
+  "passive_capture_count": 45,
+  "owned_instance_stopped": true,
+  "computed_static_exact_byte_checks": 288,
+  "dynamic_binding_established": false,
+  "rain_test_run": false,
+  "audit": {
+    "schema": "ui_texture_binding_audit_v1",
+    "static_positive": {
+      "cases": 9,
+      "exact_cases": 9
+    },
+    "default_slots": [
+      {
+        "slot": 0,
+        "off_to_seed42_changed_cells": 0,
+        "seed42_to_seed201_changed_cells": 0,
+        "order_changed_cells": 0,
+        "writer_hidden_pixel_rgb": [
+          17,
+          53,
+          97
+        ],
+        "producer42_exact": true,
+        "producer201_exact": true
+      },
+      {
+        "slot": 1,
+        "off_to_seed42_changed_cells": 0,
+        "seed42_to_seed201_changed_cells": 0,
+        "order_changed_cells": 0,
+        "writer_hidden_pixel_rgb": [
+          17,
+          53,
+          97
+        ],
+        "producer42_exact": true,
+        "producer201_exact": true
+      },
+      {
+        "slot": 2,
+        "off_to_seed42_changed_cells": 0,
+        "seed42_to_seed201_changed_cells": 0,
+        "order_changed_cells": 0,
+        "writer_hidden_pixel_rgb": [
+          17,
+          53,
+          97
+        ],
+        "producer42_exact": true,
+        "producer201_exact": true
+      }
+    ],
+    "ordering": [
+      {
+        "binding": "hud",
+        "visible_positive_exact": true,
+        "off_to_42_changed_cells": 0,
+        "42_to_201_changed_cells": 0,
+        "t0_to_t1_changed_cells": 0,
+        "alpha_values": [
+          [
+            255,
+            255,
+            255
+          ]
+        ]
+      },
+      {
+        "binding": "world",
+        "visible_positive_exact": true,
+        "off_to_42_changed_cells": 0,
+        "42_to_201_changed_cells": 0,
+        "t0_to_t1_changed_cells": 0,
+        "alpha_values": [
+          [
+            255,
+            255,
+            255
+          ]
+        ]
+      }
+    ],
+    "image_ab": [
+      {
+        "slot": 0,
+        "changed_cells": 0
+      },
+      {
+        "slot": 1,
+        "changed_cells": 0
+      },
+      {
+        "slot": 2,
+        "changed_cells": 0
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/results.json",
+      "sha256": "a2223a9550e6f41db316fc715814e1aae4b4a480439c47197a0aec8ffa1f81cb"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/audit.json",
+      "sha256": "d9c8ac75f7082c939c37a04584c7ab43396ff5ce4e67a114782a7581d89b3fcc"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/cleanup.json",
+      "sha256": "f565e5fe0b2ba7eb563bee605482a3b90f82cd91f8de13e6b47334e822f14ff2"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/010_static_2_q2.png",
+      "sha256": "feb32a3acddc2aec5f926c4da54dfa3794da913918fb61bcd351b0be804d7d9d"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/030_slot1_seed42.png",
+      "sha256": "3fc7e48e0ad559100003d0d4a2bf07607120ebc708ed2447de0d4aacdf110f55"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/030_slot1_seed201.png",
+      "sha256": "54c6dd648c1c90d99e20a861ef8bd4d06b24c1bd70acb8c4d98924a499aedbb0"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/064_world_seed201.png",
+      "sha256": "59f77b99ca53e3cd584a4738fb166a02eec7855a607fb7a9e434d22c4bfd7a3c"
+    },
+    {
+      "path": ".runtime/ui-texture-binding-native-20261118-r1/evidence/064_world_seed201.state.json",
+      "sha256": "b3ce03613e8243d7c488c41b3e6fe66977fc20d6c481a200959065d402daae96"
+    }
+  ]
+}

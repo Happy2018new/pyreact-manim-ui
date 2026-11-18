@@ -1,0 +1,43 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformShaderConstants.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_2;
+uniform vec4 EXTRA_ACTOR_UNIFORM1; // mode,slot,query,flipY
+uniform vec4 EXTRA_ACTOR_UNIFORM2; // sourceUV left,bottom,width,height
+
+float producerByte(float index,float seed) {
+    return mod(seed*37.0+index*73.0+floor(index/3.0)*19.0,256.0);
+}
+
+vec2 sampleLocation(float index) {
+    vec2 point=vec2((index+0.5)/32.0,0.5);
+    if (EXTRA_ACTOR_UNIFORM1.x>1.5 && EXTRA_ACTOR_UNIFORM1.x<2.5)
+        point=EXTRA_ACTOR_UNIFORM2.xy+point*EXTRA_ACTOR_UNIFORM2.zw;
+    if (EXTRA_ACTOR_UNIFORM1.w>0.5) point.y=1.0-point.y;
+    return point;
+}
+
+vec4 readSlot(float index) {
+    vec2 point=sampleLocation(index);
+    if (EXTRA_ACTOR_UNIFORM1.y<0.5) return texture2D(TEXTURE_0,point);
+    if (EXTRA_ACTOR_UNIFORM1.y<1.5) return texture2D(TEXTURE_1,point);
+    return texture2D(TEXTURE_2,point);
+}
+
+void main() {
+    float index=min(floor(clamp(uv.x,0.0,1.0)*32.0),31.0);
+    if (EXTRA_ACTOR_UNIFORM1.x<0.5) {
+        float seed=floor(CURRENT_COLOR.r*255.0+0.5);
+        gl_FragColor=vec4(vec3(producerByte(index,seed)/255.0),1.0);
+        return;
+    }
+    if (EXTRA_ACTOR_UNIFORM1.z>0.5) index=mod(131.0*index+29.0,32.0);
+    if (EXTRA_ACTOR_UNIFORM1.z>1.5) {
+        float first=floor(readSlot(index).r*255.0+0.5);
+        index=mod(index+3.0*first+7.0,32.0);
+    }
+    gl_FragColor=vec4(readSlot(index).rgb,1.0);
+}
