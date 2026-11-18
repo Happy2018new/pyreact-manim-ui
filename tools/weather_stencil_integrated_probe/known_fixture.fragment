@@ -1,0 +1,24 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+#include "uniformExtraVectorConstants.h"
+
+vec2 unpackPair(float component) {
+    float integer = floor(component * 16777216.0);
+    return vec2(floor(integer / 4096.0), mod(integer, 4096.0));
+}
+
+void main() {
+    vec2 viewport = unpackPair(EXTRA_VECTOR3.r);
+    vec2 origin = unpackPair(EXTRA_VECTOR3.g);
+    vec2 extent = unpackPair(EXTRA_VECTOR3.b);
+    vec2 pos = floor(vec2(gl_FragCoord.x, viewport.y - gl_FragCoord.y)) - origin;
+    float mode = EXTRA_VECTOR3.a;
+    if (mode < 0.125 || mode > 0.875 || min(pos.x, pos.y) < 0.0
+            || pos.x >= extent.x || pos.y >= extent.y) discard;
+
+    vec3 rgb = mod(vec3(33.0, 73.0, 151.0) * pos.x
+                  + vec3(17.0, 19.0, 47.0) * pos.y + vec3(13.0, 41.0, 97.0), 256.0);
+    float alpha = mode > 0.5 ? mod(11.0*pos.x + 31.0*pos.y + 211.0, 256.0) : 255.0;
+    gl_FragColor = vec4(rgb, alpha) / 255.0;
+}

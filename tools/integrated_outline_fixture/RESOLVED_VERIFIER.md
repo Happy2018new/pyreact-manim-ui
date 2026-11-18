@@ -1,0 +1,11 @@
+# Host resolution of native skinning material names
+
+The first actual native outline baseline reported the three registered material values with an exact `.skinning` suffix. The visible magenta outline and neutral body were present, but the original runtime's literal material-name membership check returned false. `verify_resolved.py` is a new host-only correction for that receipt interpretation. It does not modify `runtime.py`, original snapshots, resource packs, native materials, shaders, or game lifecycle.
+
+The accepted material spellings are exactly the three declared native names, each optionally followed by `.skinning`. The complete list must contain exactly three entries and resolve to the three expected names. Unknown suffixes, nested suffixes, case changes and unknown materials fail. Each result preserves the raw material values, canonical values, original runtime flag, and resolved interpretation. All position, entity, camera, query sequence, registered controller and projection checks still run through the original verifier.
+
+The public host API retains `compare_snapshots(off_before, on, off_after)` and `compare_outline(off_before, on, off_after, roi, bounds=None, minimum_pixels=24)`. Pixel comparison delegates directly to the original verifier. It retains the original whole-window off-replay drift threshold of at most 1% of pixels changing by more than four channel values. There is no mask fallback, threshold change, pixel selection from observed results, or altered positive-control requirement in this correction.
+
+The game owner supplied a static stone backdrop behind the existing outline cube before the fresh strict retry. This improves the scene's stability without weakening the screenshot gate. The original failed baseline remains failed and is preserved as evidence; a fresh passing run must record its own receipts and reference that failure.
+
+Run the three host regressions with `python -m unittest discover -s tools/integrated_outline_fixture -p test_resolved.py`. They verify exact native aliases, unchanged raw snapshots, rejection of invalid names and changed projections, and identical strict pixel-gate output. Audit artifacts belong in a new `.runtime/outline-resolved-audit-*` directory, outside both the initial and failed run's evidence folders.

@@ -1,0 +1,276 @@
+{
+  "schema": "weather_stencil_integrated_evidence_v1",
+  "client": "NetEase 3.10.0.467018",
+  "game_renderer": "Windows OpenGL",
+  "fps_cap": 60,
+  "resident_post_passes": 3,
+  "texture_bindings": {
+    "late_payload_copy": 3,
+    "restored_scene_witness": 4
+  },
+  "tested_payload_bytes": [
+    65536,
+    524288
+  ],
+  "maximum_verified_native_viewport": [
+    2304,
+    1280
+  ],
+  "stencil_bits": [
+    64,
+    128
+  ],
+  "known_max_rgb_error_per_channel": [
+    2,
+    2,
+    2
+  ],
+  "same_frame_wet_low_alpha_samples": [
+    5308,
+    65531
+  ],
+  "natural_pre_encoding_rain_reference_available": false,
+  "ui_clip_exact": true,
+  "native_outline_mask_changes_under_carrier": 0,
+  "outline_native_pixels": [
+    562,
+    807
+  ],
+  "world_visual_and_reads_pass": true,
+  "particle_non255_source_alpha_witness": false,
+  "restored_world_blocks": 432,
+  "native_vignette_verified": true,
+  "native_vignette_known_center_pixels": 1337828,
+  "native_vignette_known_outer_pixels": 268922,
+  "core_and_compat_capture_counts": {
+    "evidence": 30,
+    "compat-evidence": 10,
+    "outline-early-evidence": 2,
+    "compat-recovery-evidence": 29,
+    "world-evidence": 18,
+    "expansion-512-evidence": 40
+  },
+  "vignette_capture_count": 5,
+  "timing": [
+    {
+      "count": 65536,
+      "mode": "baseline",
+      "mean_fps": 60.07356910705566,
+      "mean_interval_ms": 16.667952066666658,
+      "p99_ms": 18.413300000020172,
+      "max_ms": 25.05239999999276,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 65536,
+      "mode": "restore",
+      "mean_fps": 60.07054244995117,
+      "mean_interval_ms": 16.668044599999995,
+      "p99_ms": 18.47769999997695,
+      "max_ms": 25.437399999987065,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 65536,
+      "mode": "visible",
+      "mean_fps": 60.0775146484375,
+      "mean_interval_ms": 16.66666066666666,
+      "p99_ms": 18.41780000000881,
+      "max_ms": 26.890700000024026,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 65536,
+      "mode": "dependent",
+      "mean_fps": 60.0775146484375,
+      "mean_interval_ms": 16.666643799999974,
+      "p99_ms": 18.362200000012763,
+      "max_ms": 25.90090000001055,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 524288,
+      "mode": "baseline",
+      "environment": "rain",
+      "mean_fps": 60.0775146484375,
+      "mean_interval_ms": 16.666529600000104,
+      "p99_ms": 18.230099999982485,
+      "max_ms": 19.416800000271905,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 524288,
+      "mode": "visible",
+      "environment": "rain",
+      "mean_fps": 60.0775146484375,
+      "mean_interval_ms": 16.66649826666647,
+      "p99_ms": 18.21350000000166,
+      "max_ms": 26.82989999993879,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 524288,
+      "mode": "baseline",
+      "environment": "clear",
+      "mean_fps": 60.061835021972655,
+      "mean_interval_ms": 16.671758172114828,
+      "p99_ms": 18.744499999684194,
+      "max_ms": 31.719900000098278,
+      "intervals": 1499,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 524288,
+      "mode": "restore",
+      "environment": "clear",
+      "mean_fps": 59.71811864833639,
+      "mean_interval_ms": 16.809962205783474,
+      "p99_ms": 18.97289999988061,
+      "max_ms": 143.59879999983605,
+      "intervals": 1487,
+      "over_33_3_ms": 2
+    },
+    {
+      "count": 524288,
+      "mode": "visible",
+      "environment": "clear",
+      "mean_fps": 60.0775146484375,
+      "mean_interval_ms": 16.666906266666654,
+      "p99_ms": 18.231399999876885,
+      "max_ms": 27.069400000073074,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    },
+    {
+      "count": 524288,
+      "mode": "dependent",
+      "environment": "clear",
+      "mean_fps": 60.07519058227539,
+      "mean_interval_ms": 16.667533600000144,
+      "p99_ms": 18.118800000138435,
+      "max_ms": 28.588599999693542,
+      "intervals": 1500,
+      "over_33_3_ms": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/evidence/results.json",
+      "sha256": "2d4938b2929c81bf7fdb4d9f5de8b03f172f753aabf4fc81769f7e3317d0c033"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/compat-evidence/results.json",
+      "sha256": "adff7eb710da67d3c658c3ad2e1c92ae93848f46e79bbd2228730441cf1f700a"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/outline-early-evidence/results.json",
+      "sha256": "bfd77963dd5bf3cf561c81bd99cb9943cfc2e713f2c2f001a86f9bd92613d7c3"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/compat-recovery-evidence/results.json",
+      "sha256": "8ec412a644386e1ea7e6f2a4206f0105a41c1c8705149d0b84ffaa2e87939c70"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/world-evidence/results.json",
+      "sha256": "b06ecd1a45aae78550557cd33c3b0a1947cd92a730f571200320d4749669e9ed"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/expansion-512-evidence/results.json",
+      "sha256": "c6765d9753e886b42f9f1d2a655d59c7e87cfbfc9126d3effc172a277e0f31a4"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/project/probe_resources.json",
+      "sha256": "b1e676d260942f7e92007a885f60a4d0ea1f25abb094a316afdaec5538093c88"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/evidence/initial-status.json",
+      "sha256": "0ca36835ea4c2c47a5bcbc32be4818848642a82c9b7e4c5ae13c59263b81ce56"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/compat-evidence/compat-status.json",
+      "sha256": "397b46ea52bc019daed8f66117dcebe77d88fb366cbc6e5b2118d4ddaa95669e"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/outline-backdrop-evidence/static_outline_backdrop.server.json",
+      "sha256": "e56f8015620831b1c0fe4125d61cfdd96c4656118eaf1e524487f8618dc7c844"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/compat-recovery-evidence/compat-status.json",
+      "sha256": "d47c3241535749f573a08ad43fa0a7d3d61340e0adabbe4a9e7e902f23b119e2"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/compat-recovery-evidence/compatibility-extra.json",
+      "sha256": "34befe35053a186fb46c6462e51ffd1bbc9239dd6f62566a18d6137175859311"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/world-evidence/world-compat.json",
+      "sha256": "30343ecda0fd4200f248b7023d5a0a65d8a333e83303e95a26a6030241257d18"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/world-repair-2-evidence/world_native_aux_restore.server.json",
+      "sha256": "df7a6d80e449647b53ee01579f3d0975c4c28de375282963e53e141a381d300b"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/expansion-512-evidence/expansion-status.json",
+      "sha256": "a43f78e9e689b9b90f1a21f9feb52b1ee2f9c03a8ed05ecc4e3092166c7dad7d"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/expansion-512-evidence/independent-audit.json",
+      "sha256": "ce2026e1b93c88d868e267410fb15f586fe377e14c4349a51aef451438c0358b"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/native-vignette-evidence/vignette-status.json",
+      "sha256": "822d2172842269578f910f2297189e3547f200f03d7708e7e44b430d5194d92a"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/cleanup-evidence/cleanup.json",
+      "sha256": "c32829551a75c567d0c6628b4dc82e363079f759945aa81e34f110d8583c651a"
+    },
+    {
+      "path": ".runtime/weather-stencil-integrated-native-20261119-r1/cleanup-evidence/cleanup-process-audit.json",
+      "sha256": "dda91a76c99393f49517c2831d48ecf157ef2339375b6418d9194f4658afb50d"
+    },
+    {
+      "path": ".runtime/world-cleanup-fix-20261119-r1/validation.json",
+      "sha256": "4444cba368b57786ea074a5cd70fafdeafbae45a896f69922a71b8d09aef9426"
+    },
+    {
+      "path": ".runtime/outline-resolved-audit-20261119-r1/audit.json",
+      "sha256": "10b3d1a9df97ae9c326d85b3ff2a88c13b34986638010d07645f877eb86f209d"
+    },
+    {
+      "path": ".runtime/compat-recovery-independent-audit-20261119-r1/audit.json",
+      "sha256": "62d7c9900d2ce754393332cf49bbda859f08fddfea4a78cc6e416ed322bab138"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/core64-native-audit.json",
+      "sha256": "c58d91b7e905a5f1397b47b76bd24b13e9a3ad6e2137f43dac002d05775b3c13"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/compat-initial-audit.json",
+      "sha256": "313acfc4670f990078f7e56c31445b267c1aa36c4bc346c0465c2bbe7b93b128"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/outline-early-audit.json",
+      "sha256": "4032f158d1a6021bccebcb245c0a5118e8e06aefb09822835acea6cf7291700a"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/compat-recovery-audit.json",
+      "sha256": "03dfa55107d1d05401e480d0b580d525d2d153b044a1a7105e387ad16452ef7b"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/rounding-native-and-outline-mask.json",
+      "sha256": "390b8c26d00f055503178ed7749b194a8a5616476208820ee49522d0d895441c"
+    },
+    {
+      "path": ".runtime/stencil-integrated-audit/expansion512-audit.json",
+      "sha256": "2d3c9c098fafe71e99c36ea2fcbd9c69d6afed6245af8d621d7d15be4e30b71c"
+    }
+  ]
+}

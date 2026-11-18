@@ -1,0 +1,115 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0; // preceding restored scene
+uniform sampler2D TEXTURE_3; // explicitly published encoded copy
+uniform sampler2D TEXTURE_4; // explicitly published restored reference
+uniform highp vec4 EXTRA_VECTOR1; // viewportW,H,consumerMode,logicalBytes
+uniform highp vec4 EXTRA_VECTOR2; // sourceROI x,y,width,height
+uniform highp vec4 EXTRA_VECTOR3; // output x,y,width,shapeEnabled
+const vec3 GUARD=vec3(17.0,53.0,97.0)/255.0;
+
+vec2 atPixelUV(vec2 pixel) {
+    vec2 location=(pixel+vec2(0.5))/EXTRA_VECTOR1.xy;
+    location.y=1.0-location.y;
+    return location;
+}
+
+vec2 sourcePixel(float index) {
+    return EXTRA_VECTOR2.xy+vec2(mod(index,EXTRA_VECTOR2.z),floor(index/EXTRA_VECTOR2.z));
+}
+
+vec4 encodedSymbol(float index) {
+    return texture2D(TEXTURE_3,atPixelUV(sourcePixel(index)));
+}
+
+float readByte(float index) {
+    float start=index*4.0;
+    float a=floor(floor(encodedSymbol(start).r*255.0+0.5)/64.0);
+    float b=floor(floor(encodedSymbol(start+1.0).r*255.0+0.5)/64.0);
+    float c=floor(floor(encodedSymbol(start+2.0).r*255.0+0.5)/64.0);
+    float d=floor(floor(encodedSymbol(start+3.0).r*255.0+0.5)/64.0);
+    return a+4.0*b+16.0*c+64.0*d;
+}
+
+vec3 marker(float value) {
+    return vec3(value,mod(71.0*value+43.0,256.0),mod(131.0*value+17.0,256.0))/255.0;
+}
+
+float fixtureAlpha(vec2 localPixel) {
+    return mod(11.0*localPixel.x+31.0*localPixel.y+211.0,256.0)/255.0;
+}
+
+void main() {
+    float mode=floor(EXTRA_VECTOR1.z+0.5);
+    vec4 restored=texture2D(TEXTURE_0,uv);
+    if (mode<0.5) {
+        gl_FragColor=restored;
+        return;
+    }
+    vec2 pixel=floor(vec2(gl_FragCoord.x,EXTRA_VECTOR1.y-gl_FragCoord.y));
+    float length=EXTRA_VECTOR1.w;
+    if (mode>3.5 && mode<4.5) {
+        // Visible consumption changes only this bounded rectangle. Each byte
+        // controls both a hard-edged bar's height and its exact RGB marker.
+        if (EXTRA_VECTOR3.w<0.5 || pixel.x<408.0 || pixel.x>=704.0 ||
+                pixel.y<704.0 || pixel.y>=1008.0) {
+            gl_FragColor=restored;
+            return;
+        }
+        float index=floor((pixel.x-412.0)/18.0);
+        float lane=pixel.x-(412.0+18.0*index);
+        if (index<0.0 || index>=16.0 || lane<0.0 || lane>=16.0) {
+            gl_FragColor=restored;
+            return;
+        }
+        float value=readByte(mod(4093.0*index+17.0,length));
+        float height=4.0+value;
+        if (pixel.y<992.0-height || pixel.y>=992.0) {
+            gl_FragColor=restored;
+            return;
+        }
+        gl_FragColor=vec4(marker(value),restored.a);
+        return;
+    }
+    vec2 local=pixel-EXTRA_VECTOR3.xy;
+    if (local.x<0.0 || local.y<0.0 || local.x>=EXTRA_VECTOR3.z) {
+        gl_FragColor=restored;
+        return;
+    }
+    float ordinal=local.y*EXTRA_VECTOR3.z+local.x;
+    float diagnosticLength=(mode>2.5)?length*4.0:length;
+    if (ordinal>=diagnosticLength) {
+        gl_FragColor=vec4(GUARD,1.0);
+        return;
+    }
+    if (mode>6.5) {
+        gl_FragColor=vec4(encodedSymbol(ordinal).rgb,1.0);
+        return;
+    }
+    if (mode>5.5) {
+        gl_FragColor=vec4(texture2D(TEXTURE_4,atPixelUV(sourcePixel(ordinal))).rgb,1.0);
+        return;
+    }
+    if (mode>4.5) {
+        vec2 source=sourcePixel(ordinal);
+        float encodedAlpha=texture2D(TEXTURE_3,atPixelUV(source)).a;
+        float restoredAlpha=texture2D(TEXTURE_4,atPixelUV(source)).a;
+        gl_FragColor=vec4(encodedAlpha,restoredAlpha,fixtureAlpha(source-EXTRA_VECTOR2.xy),1.0);
+        return;
+    }
+    if (mode>2.5) {
+        vec4 raw=encodedSymbol(ordinal);
+        vec2 gb=floor(raw.gb*255.0+vec2(0.5));
+        float rangeFlag=(gb.x>63.0 || gb.y>63.0)?1.0:0.0;
+        gl_FragColor=vec4(raw.r,raw.a,rangeFlag/255.0,1.0);
+        return;
+    }
+    float address=ordinal;
+    if (mode>1.5) {
+        address=mod(13.0*ordinal+7.0,length);
+        float first=readByte(address);
+        address=mod(address+3.0*first+5.0,length);
+    }
+    gl_FragColor=vec4(marker(readByte(address)),1.0);
+}
