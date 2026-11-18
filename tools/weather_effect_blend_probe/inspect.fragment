@@ -1,0 +1,67 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0; // restored previous pass
+uniform sampler2D TEXTURE_1; // original coded scene
+uniform sampler2D TEXTURE_3; // immutable early raw copy
+uniform vec4 EXTRA_VECTOR1; // source ROI
+uniform vec4 EXTRA_VECTOR2; // width,height,slot(0/1/3),flip
+uniform vec4 EXTRA_VECTOR3; // mode + 8 if restore,output y,width,source count
+
+vec2 at(vec2 pixel) {
+    vec2 location=(pixel+vec2(.5))/EXTRA_VECTOR2.xy;
+    if (EXTRA_VECTOR2.w>.5) location.y=1.-location.y;
+    return location;
+}
+vec4 rawAt(vec2 pixel) {
+    vec2 location=at(pixel);
+    if (EXTRA_VECTOR2.z<.5) return texture2D(TEXTURE_0,location);
+    if (EXTRA_VECTOR2.z<1.5) return texture2D(TEXTURE_1,location);
+    return texture2D(TEXTURE_3,location);
+}
+float symbolAt(float index) {
+    vec4 source=rawAt(EXTRA_VECTOR1.xy+vec2((index+.5)*EXTRA_VECTOR1.z/43.,EXTRA_VECTOR1.w*.5));
+    vec3 q=floor(floor(source.rgb*255.+.5)/64.);
+    return q.r+4.*q.g+16.*q.b;
+}
+float byteAt(float address) {
+    float bit=address*8.;
+    float index=floor(bit/6.);
+    float shift=mod(bit,6.);
+    float first=symbolAt(index);
+    float second=symbolAt(index+1.);
+    return mod(floor(first/exp2(shift))+second*exp2(6.-shift),256.);
+}
+void main() {
+    vec2 pixel=floor(vec2(uv.x,1.-uv.y)*EXTRA_VECTOR2.xy);
+    float localY=pixel.y-EXTRA_VECTOR3.y;
+    if (localY<0. || localY>=ceil(EXTRA_VECTOR3.w*3./EXTRA_VECTOR3.z)) {
+        gl_FragColor=texture2D(TEXTURE_0,uv);
+        return;
+    }
+    float mode=mod(EXTRA_VECTOR3.x,8.);
+    if (mode>.5) {
+        float count=mode<1.5?43.:32.;
+        float index=min(floor(pixel.x*count/EXTRA_VECTOR3.z),count-1.);
+        float value=0.;
+        if (mode<1.5) value=symbolAt(index);
+        else {
+            if (mode>2.5) {
+                index=mod(131.*index+29.,32.);
+                index=mod(index+3.*byteAt(index)+7.,32.);
+            }
+            value=byteAt(index);
+        }
+        gl_FragColor=vec4(value,mod(value*71.+43.,256.),mod(value*131.+17.,256.),255.)/255.;
+        return;
+    }
+    float ordinal=localY*EXTRA_VECTOR3.z+pixel.x;
+    float index=floor(ordinal/3.);
+    if (index>=EXTRA_VECTOR3.w) {gl_FragColor=vec4(1.,0.,1.,1.);return;}
+    vec2 sourcePixel=EXTRA_VECTOR1.xy+vec2(mod(index,EXTRA_VECTOR1.z),floor(index/EXTRA_VECTOR1.z));
+    vec4 raw=rawAt(sourcePixel);
+    float channel=mod(ordinal,3.);
+    if (channel<.5) gl_FragColor=vec4(raw.rgb,1.);
+    else if (channel<1.5) gl_FragColor=vec4(vec3(raw.a),1.);
+    else gl_FragColor=vec4(texture2D(TEXTURE_0,at(sourcePixel)).rgb,1.);
+}

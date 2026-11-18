@@ -1,0 +1,5 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+#include "uniformExtraVectorConstants.h"
+void main() { gl_FragColor=EXTRA_VECTOR3; }

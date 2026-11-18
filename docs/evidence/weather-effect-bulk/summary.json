@@ -1,0 +1,166 @@
+{
+  "client": "3.10.0.467018",
+  "native_viewport": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "new_path_performance_measured": false,
+  "layer15_rgb": {
+    "captures": 26,
+    "arbitrary_payload_bytes": 32,
+    "clear_max_rgb_byte_error": 2,
+    "wet_full_source_checks": [
+      {
+        "label": "031_wet_0_t1",
+        "source_pixels": 124416,
+        "wrong_symbols": 0,
+        "alpha_not255": 2962,
+        "overflow_legacy_alpha_blocks": 7
+      },
+      {
+        "label": "031_wet_0_t3",
+        "source_pixels": 124416,
+        "wrong_symbols": 0,
+        "alpha_not255": 3307,
+        "overflow_legacy_alpha_blocks": 7
+      },
+      {
+        "label": "031_wet_1_t1",
+        "source_pixels": 124416,
+        "wrong_symbols": 0,
+        "alpha_not255": 3132,
+        "overflow_legacy_alpha_blocks": 46
+      },
+      {
+        "label": "031_wet_1_t3",
+        "source_pixels": 124416,
+        "wrong_symbols": 0,
+        "alpha_not255": 3144,
+        "overflow_legacy_alpha_blocks": 10
+      }
+    ]
+  },
+  "geometry_stencil_one_bit": {
+    "image_count": 26,
+    "asserted_cases": 25,
+    "checked_pixels": 425984,
+    "asserted_mismatches": 0,
+    "rain_cases": 6,
+    "logical_source": {
+      "geometry_records": 256,
+      "bits_per_record": 1,
+      "cell_pixels": [
+        8,
+        8
+      ],
+      "patterns": [
+        "zero",
+        "a",
+        "inverse",
+        "ones"
+      ],
+      "arbitrary_32B_transfer_established": false
+    }
+  },
+  "artifacts": [
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r1/evidence/results.json",
+      "sha256": "a65628d95efc1cf5d2237be4675e1d248b36c6e1c17553c77204c16634f21cc4"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r1/evidence/cleanup.json",
+      "sha256": "75661440bc22608e340be066ad04e99ef856c8577e727aaedaa3eb5a8d0021e1"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r2/evidence/results.json",
+      "sha256": "2f1270bbd06f0a7208bbfa2864e6d26983fdc05fd58bb0061ba10692c8e9e468"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r2/evidence/audit.json",
+      "sha256": "b63b90aafe380654d43c41d31d7669fb08ea90ef5d410a4010f78410c6c9acea"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r2/evidence/cleanup.json",
+      "sha256": "9f1c5b8c208c96b0ca49573e73a6d0b01449262689d8ad3393892731819cdf21"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r2/evidence/clear-baseline-gate.json",
+      "sha256": "ea092400abdbd66761a6accd3dad0bbf2d9f2e1d647694875e1e0d35d2a87399"
+    },
+    {
+      "path": ".runtime/weather-effect-blend-native-20261118-r2/evidence/031_wet_1_t1.png",
+      "sha256": "18c6fb79b12ce36c3cc318a2e62c6f00984916112fcb6faf4fe38d0315ba28bc"
+    },
+    {
+      "path": ".runtime/weather-effect-stencil-native-20261118-r3/evidence/results.json",
+      "sha256": "206dce3923346b007410cec5771ba172187796b0b8cd0e1066d531cde663acf4"
+    },
+    {
+      "path": ".runtime/weather-effect-stencil-native-20261118-r3/evidence/independent-audit.json",
+      "sha256": "a5f2023f319a8858ac915a0b323ec4daa79aebc642dacd6ff4e11a40a5d909d9"
+    },
+    {
+      "path": ".runtime/weather-effect-stencil-native-20261118-r3/evidence/cleanup.json",
+      "sha256": "52a632230ffbf156438f56eb462209cf5c84844f4b1ea912bf54f15bc3c58736"
+    },
+    {
+      "path": ".runtime/weather-effect-stencil-native-20261118-r3/evidence/040_rain_0_a.png",
+      "sha256": "180d68bfc0b67d45ded93f5335b6f1ee0cbe7aa572fd5e7baf03385d36c2dfd5"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/results.json",
+      "sha256": "4ebe104f1a0f341e782d220dd249188b719198cffb87fc0e3de644fb02dd33fd"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/independent-audit.json",
+      "sha256": "254075286e9da541b948cecb547b62474752091dc4aa6bf13b2c8a71cfde0e91"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/cleanup.json",
+      "sha256": "369c6560a36213299aec6e10a69d79d1a9c607d2c40456b79976f2c232ca2352"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/followup/results.json",
+      "sha256": "f0f375116f0520a520d87a35c910f78bc96e0932370f8a6f55b23f9fb62eb005"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/followup/independent-audit.json",
+      "sha256": "227f8f4e5b6b04b39055861234b897778e7f2eeca2c9318a9243ff4bf5b56f11"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/followup/restoration.json",
+      "sha256": "4ce8bc228dd74369dc6980312cdb587a65b0867c21e03d69b9a7e0822e81365c"
+    },
+    {
+      "path": ".runtime/weather-stencil-packed64-native-20261119-r1/evidence/followup/040_wet_0_t0_pair.png",
+      "sha256": "869d07c21bbe6abbc60563d9e9e9509852fba2d5a82e092cce792cae95632703"
+    }
+  ],
+  "owned_sessions_stopped": true,
+  "geometry_stencil_two_bit": {
+    "payload_bytes": 64,
+    "arbitrary_host_arrays": 3,
+    "tested_rain_arrays": 2,
+    "records": 256,
+    "late_effect_count": 3,
+    "original_fixture_wrong_pixels": 14720,
+    "original_fixture_audited": true,
+    "followup_captures": 35,
+    "followup_checked_output_pixels": 6451200,
+    "source_alpha_non255_with_correct_wet_symbols": {
+      "040_wet_0_t0_pair": 634,
+      "040_wet_0_t1_pair": 353,
+      "040_wet_1_t0_pair": 619,
+      "040_wet_1_t1_pair": 580
+    },
+    "hidden_negative_mismatch_pixels": 181440,
+    "qualified_sunny_rgb_max_per_channel": [
+      2,
+      2,
+      2
+    ],
+    "required_source_pixels_for_512_kib": 2097152,
+    "large_capacity_or_performance_established": false
+  }
+}

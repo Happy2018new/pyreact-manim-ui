@@ -1,0 +1,11 @@
+// __multiversion__
+#if __VERSION__ >= 300
+#define attribute in
+#endif
+attribute mediump vec4 POSITION;
+attribute vec2 TEXCOORD_0;
+void main() {
+    vec2 pixel = vec2(96.0,192.0) + TEXCOORD_0 * vec2(128.0);
+    vec2 uv = pixel / vec2(720.0,1080.0);
+    gl_Position = vec4(uv.x*2.0-1.0,1.0-uv.y*2.0,0.0,1.0);
+}

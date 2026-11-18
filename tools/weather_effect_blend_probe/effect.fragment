@@ -1,0 +1,40 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformExtraVectorConstants.h"
+
+void main() {
+    float index = floor(uv.x * 43.0);
+    float page = floor(EXTRA_VECTOR3.a * 8.0 + 0.5) - 1.0;
+    float localIndex = index - page * 12.0;
+    // Each effect owns twelve symbols; the last page renders only seven.
+    if (index < 0.0 || index >= 43.0 || page < 0.0 || page >= 4.0 ||
+            localIndex < 0.0 || localIndex >= 12.0) {
+        discard;
+    }
+
+    float channel = floor(localIndex / 4.0);
+    highp float packedValue = EXTRA_VECTOR3.r;
+    if (channel >= 2.0) {
+        packedValue = EXTRA_VECTOR3.b;
+    } else if (channel >= 1.0) {
+        packedValue = EXTRA_VECTOR3.g;
+    }
+
+    // Four big-endian six-bit symbols occupy each exact uint24 / 2^24.
+    highp float word = floor(packedValue * 16777216.0);
+    float slot = mod(localIndex, 4.0);
+    float divisor = 262144.0;
+    if (slot >= 3.0) {
+        divisor = 1.0;
+    } else if (slot >= 2.0) {
+        divisor = 64.0;
+    } else if (slot >= 1.0) {
+        divisor = 4096.0;
+    }
+    float symbol = mod(floor(word / divisor), 64.0);
+    vec3 bits = vec3(mod(symbol, 4.0),
+        mod(floor(symbol / 4.0), 4.0), floor(symbol / 16.0));
+    // Mix-color alpha identifies the page; blend alpha is independent.
+    gl_FragColor = vec4(bits / 3.0, 192.0 / 255.0);
+}

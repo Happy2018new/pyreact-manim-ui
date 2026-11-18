@@ -1,0 +1,90 @@
+// __multiversion__
+// Fixed packed64B stencil reader diagnostics. See packed_verify.py for layout.
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform vec4 EXTRA_VECTOR1; // physical width,height,source slot 0/1,mode 0..3
+uniform vec4 EXTRA_VECTOR2; // source ROI left,top,width,height = 96,192,128,128
+uniform vec4 EXTRA_VECTOR3; // output left,top,width,source flipY = 0,600,720,1
+
+const float OUTPUT_HEIGHT = 256.0;
+const float SOURCE_PIXELS = 16384.0;
+const vec3 GUARD = vec3(17.0,53.0,97.0)/255.0;
+
+vec4 sourceAt(vec2 pixel) {
+    vec2 location=(pixel+vec2(0.5))/EXTRA_VECTOR1.xy;
+    if (EXTRA_VECTOR3.w>0.5) location.y=1.0-location.y;
+    if (EXTRA_VECTOR1.z<0.5) return texture2D(TEXTURE_0,location);
+    return texture2D(TEXTURE_1,location);
+}
+
+vec4 sourcePixel(float index) {
+    return sourceAt(EXTRA_VECTOR2.xy+vec2(mod(index,EXTRA_VECTOR2.z),
+        floor(index/EXTRA_VECTOR2.z)));
+}
+
+float sourceSymbol(float record) {
+    // Each of the 256 symbols owns an 8x8 cell. Sample its center.
+    vec2 cell=vec2(mod(record,16.0),floor(record/16.0));
+    vec2 pixel=EXTRA_VECTOR2.xy+(cell+vec2(0.5))*EXTRA_VECTOR2.zw/16.0;
+    float redByte=floor(sourceAt(pixel).r*255.0+0.5);
+    return floor(redByte/64.0);
+}
+
+float payloadByte(float index) {
+    // Four successive little-endian 2-bit symbols form one arbitrary byte.
+    float first=index*4.0;
+    return sourceSymbol(first)+4.0*sourceSymbol(first+1.0)
+        +16.0*sourceSymbol(first+2.0)+64.0*sourceSymbol(first+3.0);
+}
+
+vec3 byteMarker(float value) {
+    return vec3(value,mod(value*71.0+43.0,256.0),
+        mod(value*131.0+17.0,256.0))/255.0;
+}
+
+void main() {
+    vec2 pixel=floor(vec2(uv.x,1.0-uv.y)*EXTRA_VECTOR1.xy);
+    vec2 local=pixel-EXTRA_VECTOR3.xy;
+    if (local.x<0.0 || local.y<0.0 || local.x>=EXTRA_VECTOR3.z ||
+            local.y>=OUTPUT_HEIGHT) {
+        gl_FragColor=texture2D(TEXTURE_0,uv);
+        return;
+    }
+    float ordinal=local.y*EXTRA_VECTOR3.z+local.x;
+    float mode=floor(EXTRA_VECTOR1.w+0.5);
+    if (mode<0.5) {
+        float sourceIndex=floor(ordinal/2.0);
+        if (sourceIndex>=SOURCE_PIXELS) {
+            gl_FragColor=vec4(GUARD,1.0);
+            return;
+        }
+        vec4 raw=sourcePixel(sourceIndex);
+        // Adjacent fragments use the same source texel and scene snapshot.
+        // Each emitted fragment fetches RGBA once, then exposes RGB or A.
+        gl_FragColor=mod(ordinal,2.0)<0.5?vec4(raw.rgb,1.0):vec4(vec3(raw.a),1.0);
+        return;
+    }
+    if (mode<2.5) {
+        // Repeat all 64 logical queries across the full 720x256 output.
+        float query=mod(ordinal,64.0);
+        if (mode>1.5) {
+            query=mod(query*13.0+7.0,64.0);
+            float firstByte=payloadByte(query);
+            query=mod(query+3.0*firstByte+5.0,64.0);
+        }
+        gl_FragColor=vec4(byteMarker(payloadByte(query)),1.0);
+        return;
+    }
+    if (ordinal>=SOURCE_PIXELS) {
+        gl_FragColor=vec4(GUARD,1.0);
+        return;
+    }
+    vec4 raw=sourcePixel(ordinal);
+    vec3 bytes=floor(raw.rgb*255.0+vec3(0.5));
+    // The base draw reduces every scene channel to round(C*63/255).
+    // Only red receives 64*q. This restores RGB and retains sampled alpha.
+    vec3 restored=vec3(mod(bytes.r,64.0),bytes.g,bytes.b)/63.0;
+    gl_FragColor=vec4(clamp(restored,0.0,1.0),raw.a);
+}

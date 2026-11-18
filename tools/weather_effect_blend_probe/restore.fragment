@@ -1,0 +1,18 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform vec4 EXTRA_VECTOR1; // ROI
+uniform vec4 EXTRA_VECTOR2; // physical width,height,slot,flip
+uniform vec4 EXTRA_VECTOR3; // mode + 8 when restoration enabled
+void main() {
+    vec4 value=texture2D(TEXTURE_0,uv);
+    vec2 pixel=floor(vec2(uv.x,1.0-uv.y)*EXTRA_VECTOR2.xy);
+    vec2 relative=pixel-EXTRA_VECTOR1.xy;
+    if (EXTRA_VECTOR3.x>7.5 && relative.x>=0. && relative.y>=0. &&
+            relative.x<EXTRA_VECTOR1.z && relative.y<EXTRA_VECTOR1.w) {
+        vec3 encoded=floor(value.rgb*255.+.5);
+        value.rgb=floor(mod(encoded,64.)*255./63.+.5)/255.;
+    }
+    gl_FragColor=value;
+}

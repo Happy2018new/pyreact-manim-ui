@@ -1,0 +1,8 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+varying highp float geometryByte;
+void main() {
+    if (floor(geometryByte * 255.0 + 0.5) < 128.0) discard;
+    gl_FragColor = vec4(0.0);
+}
