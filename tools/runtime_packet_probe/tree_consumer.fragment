@@ -1,0 +1,48 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_3; // Independent root data texture.
+uniform sampler2D TEXTURE_4; // Saved complete picture entering this chain.
+uniform vec4 EXTRA_VECTOR1; // mode, query start, query count, dependent salt
+uniform vec4 EXTRA_VECTOR2; // diagnostic rectangle: left/top/width/height
+uniform vec4 EXTRA_VECTOR3; // root width, root height, exact array byte length, reserved
+
+float byteAt(float index) {
+    float word = floor((index + 0.5) / 3.0);
+    float row = floor((word + 0.5) / EXTRA_VECTOR3.x);
+    vec2 location = (vec2(word - row * EXTRA_VECTOR3.x, row) + 0.5)
+                  / EXTRA_VECTOR3.xy;
+    vec3 bytes = texture2D(TEXTURE_3, location).rgb;
+    float component = index - word * 3.0;
+    float value = bytes.r;
+    if (component > 1.5) value = bytes.b;
+    else if (component > 0.5) value = bytes.g;
+    return floor(value * 255.0 + 0.5);
+}
+
+void main() {
+    vec4 original = texture2D(TEXTURE_4, uv);
+    if (EXTRA_VECTOR1.x < 0.5) {
+        gl_FragColor = original;
+        return;
+    }
+    vec2 point = (vec2(uv.x, 1.0 - uv.y) - EXTRA_VECTOR2.xy) / EXTRA_VECTOR2.zw;
+    if (point.x < 0.0 || point.x >= 1.0 || point.y < 0.0 || point.y >= 1.0) {
+        gl_FragColor = original;
+        return;
+    }
+    float ordinal = floor(point.x * 24.0)
+                  + 24.0 * floor(point.y * ceil(EXTRA_VECTOR1.z / 24.0));
+    float index = EXTRA_VECTOR1.y + ordinal;
+    float value = 0.0;
+    if (ordinal < EXTRA_VECTOR1.z && index < EXTRA_VECTOR3.z) {
+        value = byteAt(index);
+        if (EXTRA_VECTOR1.x > 1.5) {
+            float address = index + value + EXTRA_VECTOR1.w;
+            index = address - floor((address + 0.5) / EXTRA_VECTOR3.z) * EXTRA_VECTOR3.z;
+            value = byteAt(index);
+        }
+    }
+    gl_FragColor = vec4(vec3(value / 255.0), 1.0);
+}

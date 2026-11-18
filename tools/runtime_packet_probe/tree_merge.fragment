@@ -1,0 +1,43 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform sampler2D TEXTURE_3;
+uniform sampler2D TEXTURE_4;
+uniform sampler2D TEXTURE_5;
+uniform sampler2D TEXTURE_6;
+uniform sampler2D TEXTURE_7;
+uniform vec4 EXTRA_VECTOR1; // output width/height, child capacity pages, total pages
+uniform vec4 EXTRA_VECTOR2; // screen height, words per page (12), reserved, reserved
+
+vec4 childAt(float childIndex, vec2 location) {
+    if (childIndex < 0.5) return texture2D(TEXTURE_3, location);
+    if (childIndex < 1.5) return texture2D(TEXTURE_4, location);
+    if (childIndex < 2.5) return texture2D(TEXTURE_5, location);
+    if (childIndex < 3.5) return texture2D(TEXTURE_6, location);
+    return texture2D(TEXTURE_7, location);
+}
+
+void main() {
+    float word = floor(uv.x * EXTRA_VECTOR1.x)
+               + EXTRA_VECTOR1.x * floor(uv.y * EXTRA_VECTOR1.y);
+    float wordsPerPage = EXTRA_VECTOR2.y;
+    if (word >= EXTRA_VECTOR1.w * wordsPerPage) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+    float childCapacityWords = EXTRA_VECTOR1.z * wordsPerPage;
+    // Address integer cell centres: GPU reciprocal division can round an
+    // exact boundary (e.g. 300/300) just below one. Bare floor/mod then select
+    // the previous child and clamp to its final row.
+    float childIndex = floor((word + 0.5) / childCapacityWords);
+    float localWord = word - childIndex * childCapacityWords;
+    float childPages = min(EXTRA_VECTOR1.z, EXTRA_VECTOR1.w - childIndex * EXTRA_VECTOR1.z);
+    float childColumns = floor((childPages - 0.5) / EXTRA_VECTOR2.x) + 1.0;
+    float childWidth = wordsPerPage * childColumns;
+    float childHeight = floor((childPages - 0.5) / childColumns) + 1.0;
+    float row = floor((localWord + 0.5) / childWidth);
+    vec2 location = (vec2(localWord - row * childWidth, row) + 0.5)
+                  / vec2(childWidth, childHeight);
+    gl_FragColor = childAt(childIndex, location);
+}

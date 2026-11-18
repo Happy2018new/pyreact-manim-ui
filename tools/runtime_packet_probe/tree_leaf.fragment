@@ -1,0 +1,27 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+
+uniform vec4 EXTRA_VECTOR1;
+uniform vec4 EXTRA_VECTOR2;
+uniform vec4 EXTRA_VECTOR3;
+
+float packetAt(float wordIndex) {
+    vec4 packet = EXTRA_VECTOR1;
+    if (wordIndex >= 8.0) packet = EXTRA_VECTOR3;
+    else if (wordIndex >= 4.0) packet = EXTRA_VECTOR2;
+    float component = mod(wordIndex, 4.0);
+    if (component < 0.5) return packet.x;
+    if (component < 1.5) return packet.y;
+    if (component < 2.5) return packet.z;
+    return packet.w;
+}
+
+void main() {
+    float wordIndex = min(floor(uv.x * 12.0), 11.0);
+    // No half-unit addition: large odd uint24 words must remain exact.
+    float word = floor(packetAt(wordIndex) * 16777216.0);
+    vec3 bytes = vec3(floor(word / 65536.0),
+                      mod(floor(word / 256.0), 256.0), mod(word, 256.0));
+    gl_FragColor = vec4(bytes / 255.0, 1.0);
+}

@@ -1,5 +1,12 @@
 # Runtime packet probe resources
 
+The latest private-data experiment is the [36-byte-leaf tree study](../../docs/TREE_ATLAS_RESEARCH.md).
+It keeps payload off scene RGB/alpha, verifies full 64 KiB arrays and limits
+subsequent uploads to 3,060 bytes per frame. Its 64 KiB static native result is
+about 15.8 FPS, so the tree is a correctness/performance probe, not a completed
+60 FPS large-array transport. See the report for the disabled-leaf cache
+negative control, bounded history, initial full upload and reproduction commands.
+
 This directory is an isolated research fixture, not a production transport. It
 tests whether a transparent native JSON UI Image's `SetSpriteColor` survives in
 `CURRENT_COLOR` for the immediately following paperdoll draw. The custom shader

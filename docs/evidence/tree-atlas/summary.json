@@ -1,0 +1,901 @@
+{
+  "date": "2026-11-18",
+  "client": "3.10.0.448891",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "screen_pixels": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "transport": "private five-way tree, 36-byte leaves",
+  "payload_uses_scene_rgb_or_alpha": false,
+  "native_64kib_correctness_passed": true,
+  "native_64kib_60fps_target_met": false,
+  "initialization_is_budgeted": false,
+  "all_render_frames_verified": false,
+  "native_saved_scene_alpha_preservation_verified": false,
+  "gpu_to_python_readback": false,
+  "mobile_hardware_tested": false,
+  "cases": [
+    {
+      "name": "small_static_v2",
+      "raw_case_sha256": "29fa92b6bb7f88faef714bfb59634c37237a1f1d412ffd4ba28d29a9aa4d3e13",
+      "config_sha256": "cdf6c1fb47d5e36e9802acb825bcb04c20ed6026801e6dc471c1b71bee0e37c3",
+      "payload_bytes": 1000,
+      "root_pixels": [
+        12,
+        28
+      ],
+      "stats": {
+        "levels": [
+          {
+            "level": 0,
+            "nodes": 28,
+            "passes": 28,
+            "pixels": 336,
+            "capacity_pages": 1
+          },
+          {
+            "level": 1,
+            "nodes": 6,
+            "passes": 6,
+            "pixels": 336,
+            "capacity_pages": 5
+          },
+          {
+            "level": 2,
+            "nodes": 2,
+            "passes": 2,
+            "pixels": 336,
+            "capacity_pages": 25
+          },
+          {
+            "level": 3,
+            "nodes": 1,
+            "passes": 1,
+            "pixels": 336,
+            "capacity_pages": 125
+          }
+        ],
+        "leaf_nodes": 28,
+        "merge_nodes": 9,
+        "data_passes": 37,
+        "total_passes": 39,
+        "data_pixels_per_frame": 1344,
+        "save_consumer_pixels_per_frame": 1555200,
+        "total_pixels_per_frame": 1556544,
+        "flat_full_atlas_chain_pixels_per_frame": 9408,
+        "pixel_basis": "requested targets; native allocation and performance unverified"
+      },
+      "benchmark": {
+        "status": "completed",
+        "measured_frames": 180,
+        "dynamic": false,
+        "generation_ms": {
+          "count": 180,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "elapsed": 4.012178899999999,
+        "warm_until": 2.9915576,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 181,
+          "min": 14.210800000000745,
+          "max": 19.269599999999443,
+          "p95": 18.190999999999846,
+          "p50": 16.67040000000064,
+          "mean": 16.658522651933698
+        },
+        "frames": 240,
+        "gpu_verified": false,
+        "tree_case_token": "92c4774712c64492925c3c3baf566a3e",
+        "upload_ms": {
+          "count": 180,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "count": 28,
+        "kind": "aggregate",
+        "success": true,
+        "start": 1.9915576,
+        "mode": -1,
+        "fps": {
+          "count": 12,
+          "min": 60.0775146484375,
+          "max": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "p50": 60.0775146484375,
+          "mean": 60.0775146484375
+        },
+        "error": null,
+        "previous": 6.0037365,
+        "until": 5.9915576
+      },
+      "update_records": 0,
+      "total_storage_bytes_uploaded_incrementally": 0,
+      "maximum_storage_bytes_per_update": 0,
+      "source_sha256": "bf765d34fffe337e2019d931cfdfd470b33159855e1e6a13b9097b6734a63bd2",
+      "verification_modes": [
+        {
+          "mode": 1,
+          "query_count": 1000,
+          "cross_leaf_queries": 0,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "bf765d34fffe337e2019d931cfdfd470b33159855e1e6a13b9097b6734a63bd2",
+          "expected_sha256": "bf765d34fffe337e2019d931cfdfd470b33159855e1e6a13b9097b6734a63bd2"
+        },
+        {
+          "mode": 2,
+          "query_count": 1000,
+          "cross_leaf_queries": 939,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "15bfdf87ef437bf13d8aff20d36331ce946eaeb44fd46f909ae7a14d7c789b55",
+          "expected_sha256": "15bfdf87ef437bf13d8aff20d36331ce946eaeb44fd46f909ae7a14d7c789b55"
+        }
+      ],
+      "initialization_timing": {
+        "generation_ms": 0.2470999999999446,
+        "upload_ms": 0.11030000000000761
+      },
+      "all_resident_bytes_verified": true,
+      "history_complete": true,
+      "performance_coarse_only": true,
+      "concurrent_desktop_gpu_validation": false
+    },
+    {
+      "name": "tree3_incremental",
+      "raw_case_sha256": "a0367da7ab5e729ae93d0950225ee9de774bb7693fef0ba0c970f580bc33cd5c",
+      "config_sha256": "e2f972e356fb372f62ba362731fe9ceee013d0edc86567c2ca4ad3efc8dcf798",
+      "payload_bytes": 3072,
+      "root_pixels": [
+        12,
+        86
+      ],
+      "stats": {
+        "levels": [
+          {
+            "level": 0,
+            "nodes": 86,
+            "passes": 86,
+            "pixels": 1032,
+            "capacity_pages": 1
+          },
+          {
+            "level": 1,
+            "nodes": 18,
+            "passes": 18,
+            "pixels": 1032,
+            "capacity_pages": 5
+          },
+          {
+            "level": 2,
+            "nodes": 4,
+            "passes": 4,
+            "pixels": 1032,
+            "capacity_pages": 25
+          },
+          {
+            "level": 3,
+            "nodes": 1,
+            "passes": 1,
+            "pixels": 1032,
+            "capacity_pages": 125
+          }
+        ],
+        "leaf_nodes": 86,
+        "merge_nodes": 23,
+        "data_passes": 109,
+        "total_passes": 111,
+        "data_pixels_per_frame": 4128,
+        "save_consumer_pixels_per_frame": 1555200,
+        "total_pixels_per_frame": 1559328,
+        "flat_full_atlas_chain_pixels_per_frame": 88752,
+        "pixel_basis": "requested targets; native allocation and performance unverified"
+      },
+      "benchmark": {
+        "status": "completed",
+        "measured_frames": 299,
+        "dynamic": true,
+        "generation_ms": {
+          "count": 299,
+          "min": 0.6789000000253509,
+          "max": 1.4087999999787826,
+          "p95": 0.8774000000357773,
+          "p50": 0.7057000000258995,
+          "mean": 0.7303933110368837
+        },
+        "elapsed": 6.005820700000015,
+        "warm_until": 380.7446322,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 300,
+          "min": 14.705999999989672,
+          "max": 25.022199999966688,
+          "p95": 18.059199999981956,
+          "p50": 16.66779999999335,
+          "mean": 16.701388000000176
+        },
+        "frames": 359,
+        "gpu_verified": false,
+        "tree_case_token": "811d95853efe4d8e972e3113fab6c7eb",
+        "upload_ms": {
+          "count": 299,
+          "min": 0.3123999999843363,
+          "max": 1.1246999999912077,
+          "p95": 0.38380000000870496,
+          "p50": 0.3300000000194814,
+          "mean": 0.3424782608708498
+        },
+        "count": 86,
+        "kind": "aggregate",
+        "success": true,
+        "start": 379.7446322,
+        "mode": -1,
+        "fps": {
+          "count": 19,
+          "min": 58.823524475097656,
+          "max": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "p50": 60.0775146484375,
+          "mean": 59.94551568282278
+        },
+        "error": null,
+        "previous": 385.7504529,
+        "until": 385.7446322
+      },
+      "update_records": 359,
+      "total_storage_bytes_uploaded_incrementally": 1098540,
+      "maximum_storage_bytes_per_update": 3060,
+      "source_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6",
+      "verification_modes": [
+        {
+          "mode": 1,
+          "query_count": 3072,
+          "cross_leaf_queries": 0,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6",
+          "expected_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6"
+        },
+        {
+          "mode": 2,
+          "query_count": 3072,
+          "cross_leaf_queries": 2934,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "86f7db2a8a140eca430c53fc9995336143a8616938aea38c0cab7745fdbcf91c",
+          "expected_sha256": "86f7db2a8a140eca430c53fc9995336143a8616938aea38c0cab7745fdbcf91c"
+        }
+      ],
+      "initialization_timing": {
+        "generation_ms": 0.6959000000392734,
+        "upload_ms": 0.3310999999825981
+      },
+      "all_resident_bytes_verified": true,
+      "history_complete": true,
+      "performance_coarse_only": true,
+      "concurrent_desktop_gpu_validation": true
+    },
+    {
+      "name": "tree12_incremental",
+      "raw_case_sha256": "b0085bb6d734d19d0b68db548bc8da5ab19950510369ca38f37bbbd0f98dc3d9",
+      "config_sha256": "24871385b352f69b46ef7ab778748d5e82cd79b4feb2ea931b35b244cfeb94e7",
+      "payload_bytes": 12288,
+      "root_pixels": [
+        12,
+        342
+      ],
+      "stats": {
+        "levels": [
+          {
+            "level": 0,
+            "nodes": 342,
+            "passes": 342,
+            "pixels": 4104,
+            "capacity_pages": 1
+          },
+          {
+            "level": 1,
+            "nodes": 69,
+            "passes": 69,
+            "pixels": 4104,
+            "capacity_pages": 5
+          },
+          {
+            "level": 2,
+            "nodes": 14,
+            "passes": 14,
+            "pixels": 4104,
+            "capacity_pages": 25
+          },
+          {
+            "level": 3,
+            "nodes": 3,
+            "passes": 3,
+            "pixels": 4104,
+            "capacity_pages": 125
+          },
+          {
+            "level": 4,
+            "nodes": 1,
+            "passes": 1,
+            "pixels": 4104,
+            "capacity_pages": 625
+          }
+        ],
+        "leaf_nodes": 342,
+        "merge_nodes": 87,
+        "data_passes": 429,
+        "total_passes": 431,
+        "data_pixels_per_frame": 20520,
+        "save_consumer_pixels_per_frame": 1555200,
+        "total_pixels_per_frame": 1575720,
+        "flat_full_atlas_chain_pixels_per_frame": 1403568,
+        "pixel_basis": "requested targets; native allocation and performance unverified"
+      },
+      "benchmark": {
+        "status": "completed",
+        "measured_frames": 294,
+        "dynamic": true,
+        "generation_ms": {
+          "count": 294,
+          "min": 0.680199999976594,
+          "max": 1.4552000000094267,
+          "p95": 0.846400000000358,
+          "p50": 0.7019000000241249,
+          "mean": 0.726908503401014
+        },
+        "elapsed": 6.0085300000000075,
+        "warm_until": 316.8533089,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 295,
+          "min": 15.166999999962627,
+          "max": 20.00789999999597,
+          "p95": 18.347099999971306,
+          "p50": 16.70119999999997,
+          "mean": 16.98141457627128
+        },
+        "frames": 352,
+        "gpu_verified": false,
+        "tree_case_token": "6df80d5a54524582b4b8b3ef77636d61",
+        "upload_ms": {
+          "count": 294,
+          "min": 0.3155999999648884,
+          "max": 1.0329000000410815,
+          "p95": 0.351599999987684,
+          "p50": 0.3284000000007836,
+          "mean": 0.3356982993184807
+        },
+        "count": 342,
+        "kind": "aggregate",
+        "success": true,
+        "start": 315.8533089,
+        "mode": -1,
+        "fps": {
+          "count": 20,
+          "min": 57.086612701416016,
+          "max": 59.8802375793457,
+          "p95": 59.8802375793457,
+          "p50": 58.823524475097656,
+          "mean": 58.721112442016604
+        },
+        "error": null,
+        "previous": 321.8618389,
+        "until": 321.8533089
+      },
+      "update_records": 352,
+      "total_storage_bytes_uploaded_incrementally": 1077120,
+      "maximum_storage_bytes_per_update": 3060,
+      "source_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45",
+      "verification_modes": [
+        {
+          "mode": 1,
+          "query_count": 12288,
+          "cross_leaf_queries": 0,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45",
+          "expected_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45"
+        },
+        {
+          "mode": 2,
+          "query_count": 12288,
+          "cross_leaf_queries": 11693,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "ecbaa3e1ea9bd1f7d63ff4d683e1dfc8b38a76901b70a1ad336c838cb61e727f",
+          "expected_sha256": "ecbaa3e1ea9bd1f7d63ff4d683e1dfc8b38a76901b70a1ad336c838cb61e727f"
+        }
+      ],
+      "initialization_timing": {
+        "generation_ms": 2.870199999961187,
+        "upload_ms": 1.2568000000214852
+      },
+      "all_resident_bytes_verified": true,
+      "history_complete": true,
+      "performance_coarse_only": true,
+      "concurrent_desktop_gpu_validation": false
+    },
+    {
+      "name": "tree64_static",
+      "raw_case_sha256": "bedebce51167c93212e7e322a598747dfcbd94dd0423d4c090878397f10a670b",
+      "config_sha256": "8ec8a79842a484e6e63ecb5a3a9d68e66d7d96538a9d710eb70d8fb2e58c225e",
+      "payload_bytes": 65536,
+      "root_pixels": [
+        24,
+        911
+      ],
+      "stats": {
+        "levels": [
+          {
+            "level": 0,
+            "nodes": 1821,
+            "passes": 1821,
+            "pixels": 21852,
+            "capacity_pages": 1
+          },
+          {
+            "level": 1,
+            "nodes": 365,
+            "passes": 365,
+            "pixels": 21852,
+            "capacity_pages": 5
+          },
+          {
+            "level": 2,
+            "nodes": 73,
+            "passes": 73,
+            "pixels": 21852,
+            "capacity_pages": 25
+          },
+          {
+            "level": 3,
+            "nodes": 15,
+            "passes": 15,
+            "pixels": 21852,
+            "capacity_pages": 125
+          },
+          {
+            "level": 4,
+            "nodes": 3,
+            "passes": 3,
+            "pixels": 21852,
+            "capacity_pages": 625
+          },
+          {
+            "level": 5,
+            "nodes": 1,
+            "passes": 1,
+            "pixels": 21864,
+            "capacity_pages": 3125
+          }
+        ],
+        "leaf_nodes": 1821,
+        "merge_nodes": 457,
+        "data_passes": 2278,
+        "total_passes": 2280,
+        "data_pixels_per_frame": 131124,
+        "save_consumer_pixels_per_frame": 1555200,
+        "total_pixels_per_frame": 1686324,
+        "flat_full_atlas_chain_pixels_per_frame": 39814344,
+        "pixel_basis": "requested targets; native allocation and performance unverified"
+      },
+      "benchmark": {
+        "status": "completed",
+        "measured_frames": 78,
+        "dynamic": false,
+        "generation_ms": {
+          "count": 78,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "elapsed": 6.0229079,
+        "warm_until": 46.8577296,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 79,
+          "min": 60.76599999999388,
+          "max": 70.5608999999967,
+          "p95": 66.10909999999848,
+          "p50": 63.39169999999683,
+          "mean": 63.64846835443035
+        },
+        "frames": 95,
+        "gpu_verified": false,
+        "tree_case_token": "12e4ff20bd6b4352a0b775c88aaf3f3d",
+        "upload_ms": {
+          "count": 78,
+          "min": 0.0,
+          "max": 0.0,
+          "p95": 0.0,
+          "p50": 0.0,
+          "mean": 0.0
+        },
+        "count": 1821,
+        "kind": "aggregate",
+        "success": true,
+        "start": 45.8577296,
+        "mode": -1,
+        "fps": {
+          "count": 5,
+          "min": 15.686273574829102,
+          "max": 15.968063354492188,
+          "p95": 15.873014450073242,
+          "p50": 15.873014450073242,
+          "mean": 15.817327880859375
+        },
+        "error": null,
+        "previous": 51.8806375,
+        "until": 51.8577296
+      },
+      "update_records": 0,
+      "total_storage_bytes_uploaded_incrementally": 0,
+      "maximum_storage_bytes_per_update": 0,
+      "source_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4",
+      "verification_modes": [
+        {
+          "mode": 1,
+          "query_count": 65536,
+          "cross_leaf_queries": 0,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4",
+          "expected_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4"
+        },
+        {
+          "mode": 2,
+          "query_count": 65536,
+          "cross_leaf_queries": 62445,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "c55811382b90ad498d9d3fe2a2c7af3463d40585f14eeb1ab80ed24b25bd35df",
+          "expected_sha256": "c55811382b90ad498d9d3fe2a2c7af3463d40585f14eeb1ab80ed24b25bd35df"
+        }
+      ],
+      "initialization_timing": {
+        "generation_ms": 16.187999999999647,
+        "upload_ms": 7.042099999999607
+      },
+      "all_resident_bytes_verified": true,
+      "history_complete": true,
+      "performance_coarse_only": true,
+      "concurrent_desktop_gpu_validation": false
+    },
+    {
+      "name": "tree64_incremental",
+      "raw_case_sha256": "c6c89baf245939c99698ffb9d239ef6ddbfa664657e09323f3e74483fe9555c4",
+      "config_sha256": "8ec8a79842a484e6e63ecb5a3a9d68e66d7d96538a9d710eb70d8fb2e58c225e",
+      "payload_bytes": 65536,
+      "root_pixels": [
+        24,
+        911
+      ],
+      "stats": {
+        "levels": [
+          {
+            "level": 0,
+            "nodes": 1821,
+            "passes": 1821,
+            "pixels": 21852,
+            "capacity_pages": 1
+          },
+          {
+            "level": 1,
+            "nodes": 365,
+            "passes": 365,
+            "pixels": 21852,
+            "capacity_pages": 5
+          },
+          {
+            "level": 2,
+            "nodes": 73,
+            "passes": 73,
+            "pixels": 21852,
+            "capacity_pages": 25
+          },
+          {
+            "level": 3,
+            "nodes": 15,
+            "passes": 15,
+            "pixels": 21852,
+            "capacity_pages": 125
+          },
+          {
+            "level": 4,
+            "nodes": 3,
+            "passes": 3,
+            "pixels": 21852,
+            "capacity_pages": 625
+          },
+          {
+            "level": 5,
+            "nodes": 1,
+            "passes": 1,
+            "pixels": 21864,
+            "capacity_pages": 3125
+          }
+        ],
+        "leaf_nodes": 1821,
+        "merge_nodes": 457,
+        "data_passes": 2278,
+        "total_passes": 2280,
+        "data_pixels_per_frame": 131124,
+        "save_consumer_pixels_per_frame": 1555200,
+        "total_pixels_per_frame": 1686324,
+        "flat_full_atlas_chain_pixels_per_frame": 39814344,
+        "pixel_basis": "requested targets; native allocation and performance unverified"
+      },
+      "benchmark": {
+        "status": "completed",
+        "measured_frames": 77,
+        "dynamic": true,
+        "generation_ms": {
+          "count": 77,
+          "min": 0.6743000000142274,
+          "max": 1.2568999999871266,
+          "p95": 0.7786999999837008,
+          "p50": 0.6921999999747186,
+          "mean": 0.7175116883118264
+        },
+        "elapsed": 6.026670100000018,
+        "warm_until": 146.1334925,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 78,
+          "min": 62.37480000001483,
+          "max": 70.22100000000364,
+          "p95": 67.64519999998697,
+          "p50": 64.41050000000814,
+          "mean": 64.69321410256413
+        },
+        "frames": 93,
+        "gpu_verified": false,
+        "tree_case_token": "7c3acaf7ccdc44cb959efa7df91b2002",
+        "upload_ms": {
+          "count": 77,
+          "min": 0.32049999998662315,
+          "max": 0.40349999997602026,
+          "p95": 0.3605000000277414,
+          "p50": 0.3308999999944717,
+          "mean": 0.3333259740259109
+        },
+        "count": 1821,
+        "kind": "aggregate",
+        "success": true,
+        "start": 145.1334925,
+        "mode": -1,
+        "fps": {
+          "count": 5,
+          "min": 15.238094329833984,
+          "max": 15.686273574829102,
+          "p95": 15.503874778747559,
+          "p50": 15.325669288635254,
+          "mean": 15.415916252136231
+        },
+        "error": null,
+        "previous": 151.1601626,
+        "until": 151.1334925
+      },
+      "update_records": 93,
+      "total_storage_bytes_uploaded_incrementally": 284580,
+      "maximum_storage_bytes_per_update": 3060,
+      "source_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4",
+      "verification_modes": [
+        {
+          "mode": 1,
+          "query_count": 65536,
+          "cross_leaf_queries": 0,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4",
+          "expected_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4"
+        },
+        {
+          "mode": 2,
+          "query_count": 65536,
+          "cross_leaf_queries": 62445,
+          "passed": true,
+          "full_query_coverage": true,
+          "observed_sha256": "70617432c0e232d9f35daaae7c22d5612d711d343fda7a203ea63cb70741261b",
+          "expected_sha256": "70617432c0e232d9f35daaae7c22d5612d711d343fda7a203ea63cb70741261b"
+        }
+      ],
+      "initialization_timing": {
+        "generation_ms": 16.187999999999647,
+        "upload_ms": 7.042099999999607
+      },
+      "all_resident_bytes_verified": true,
+      "history_complete": true,
+      "performance_coarse_only": true,
+      "concurrent_desktop_gpu_validation": false
+    }
+  ],
+  "leaf_cache_negative_control": {
+    "disabled": {
+      "passed": false,
+      "exact_equal": false,
+      "mode": 1,
+      "start": 0,
+      "count": 1000,
+      "salt": 7,
+      "columns": 24,
+      "rows": 42,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "checked_cells": 1008,
+      "checked_pixels": 9072,
+      "failed_cells": 36,
+      "max_error": 253,
+      "padding_cells": 8,
+      "verified_query_count": 1000,
+      "unique_target_count": 1000,
+      "cross_page_queries": 0,
+      "observed_query_sha256": "e4659deeccdd471c72e6707e5751e408df693e9fac3a5f831129ec18ba01ad53",
+      "expected_query_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77"
+    },
+    "failed_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "restored": {
+      "passed": true,
+      "exact_equal": true,
+      "mode": 1,
+      "start": 0,
+      "count": 1000,
+      "salt": 7,
+      "columns": 24,
+      "rows": 42,
+      "capture_size": [
+        720,
+        1080
+      ],
+      "checked_cells": 1008,
+      "checked_pixels": 9072,
+      "failed_cells": 0,
+      "max_error": 0,
+      "padding_cells": 8,
+      "verified_query_count": 1000,
+      "unique_target_count": 1000,
+      "cross_page_queries": 0,
+      "observed_query_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77",
+      "expected_query_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77"
+    },
+    "leaf": "pmanim_tree_149458ad64a04c73_leaf_00000",
+    "payload_bytes": 65536,
+    "writes": 0,
+    "persistent_disabled_leaf_verified": false
+  },
+  "cleanup": {
+    "research_chain_disabled": true,
+    "owned_game_left_open": true,
+    "aggregation_retained_as_disabled_diagnostic_object": true,
+    "benchmark": {
+      "status": "completed",
+      "measured_frames": 300,
+      "dynamic": false,
+      "generation_ms": {
+        "count": 300,
+        "min": 0.0,
+        "max": 0.0,
+        "p95": 0.0,
+        "p50": 0.0,
+        "mean": 0.0
+      },
+      "elapsed": 6.010493199999928,
+      "warm_until": 512.9955267,
+      "seed": 0,
+      "interval_ms": {
+        "count": 301,
+        "min": 14.955200000031255,
+        "max": 18.39540000003126,
+        "p95": 18.07130000008783,
+        "p50": 16.683400000033544,
+        "mean": 16.662945182723966
+      },
+      "frames": 360,
+      "gpu_verified": false,
+      "upload_ms": {
+        "count": 300,
+        "min": 0.0,
+        "max": 0.0,
+        "p95": 0.0,
+        "p50": 0.0,
+        "mean": 0.0
+      },
+      "count": 0,
+      "kind": "baseline",
+      "success": true,
+      "start": 511.9955267,
+      "mode": -1,
+      "fps": {
+        "count": 20,
+        "min": 60.0775146484375,
+        "max": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "p50": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "error": null,
+      "previous": 518.0060199,
+      "until": 517.9955267
+    },
+    "previous_payload_bytes": 3072,
+    "cleanup_errors": []
+  },
+  "independent_audit": {
+    "file": "independent-audit.json",
+    "sha256": "7c7cd39b2ca6db2d483b1be7b76c762f065c00aec05f27b76783d3ac71ef8b32",
+    "raw_audit_sha256": "9cb3adb583aba28fc7ba12629281aafcaae2f4a5180f64eee4b73acbef853865",
+    "same_math_independent_implementation": true,
+    "png_windows": 98,
+    "checked_cells": 292896,
+    "checked_rgba_pixels": 2636064,
+    "hashed_inputs": 457
+  },
+  "offline_tests": {
+    "passed": 43,
+    "real_desktop_gpu_tests": 5,
+    "skipped": 0
+  },
+  "retained_failures": [
+    {
+      "name": "small_static",
+      "stage": "register",
+      "cause": "missing isolated_runtime dependency in generated project",
+      "builder_fixed": true,
+      "successful_replacement": "small_static_v2"
+    }
+  ],
+  "raw_evidence": ".runtime/tree-atlas-study/v1/evidence",
+  "decision": "Do not expand this uniform tree as a 64 KiB/60 FPS solution; first establish a new bulk input or persistent private texture interface."
+}

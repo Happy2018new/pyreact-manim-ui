@@ -1,0 +1,338 @@
+{
+  "audit_passed": true,
+  "algorithm": "separate integer LCG+journal replay and Fraction/divmod/PIL 3x3 RGBA checker; does not call runner.replay/verify_window",
+  "cases": [
+    {
+      "name": "tree64_static",
+      "audit_passed": true,
+      "payload_bytes": 65536,
+      "frames": 95,
+      "measured_frames": 78,
+      "update_records": 0,
+      "leaf_count": 1821,
+      "data_passes": 2278,
+      "source_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4",
+      "fps_mean": 15.817327880859375,
+      "interval_ms_mean": 63.64846835443035,
+      "interval_ms_p95": 66.10909999999848,
+      "interval_reciprocal_fps": 15.711297158502534,
+      "generation_ms_mean": 0.0,
+      "upload_ms_mean": 0.0,
+      "max_storage_bytes_per_update": 0,
+      "modes": [
+        {
+          "mode": 1,
+          "windows": 22,
+          "query_count": 65536,
+          "unique_query_addresses": 65536,
+          "unique_target_addresses": 65536,
+          "cross_leaf_queries": 0,
+          "checked_cells": 65544,
+          "checked_pixels": 589896,
+          "failed_cells": 0,
+          "observed_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4",
+          "expected_sha256": "1597aa0c0e846b8f768db8571e9c0d65296e6959b131d409d121c6e6b0a50ac4"
+        },
+        {
+          "mode": 2,
+          "windows": 22,
+          "query_count": 65536,
+          "unique_query_addresses": 65536,
+          "unique_target_addresses": 34907,
+          "cross_leaf_queries": 62445,
+          "checked_cells": 65544,
+          "checked_pixels": 589896,
+          "failed_cells": 0,
+          "observed_sha256": "c55811382b90ad498d9d3fe2a2c7af3463d40585f14eeb1ab80ed24b25bd35df",
+          "expected_sha256": "c55811382b90ad498d9d3fe2a2c7af3463d40585f14eeb1ab80ed24b25bd35df"
+        }
+      ],
+      "performance_scope": "six-second owned native run; no stated GPU-test overlap"
+    },
+    {
+      "name": "tree64_incremental",
+      "audit_passed": true,
+      "payload_bytes": 65536,
+      "frames": 93,
+      "measured_frames": 77,
+      "update_records": 93,
+      "leaf_count": 1821,
+      "data_passes": 2278,
+      "source_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4",
+      "fps_mean": 15.415916252136231,
+      "interval_ms_mean": 64.69321410256413,
+      "interval_ms_p95": 67.64519999998697,
+      "interval_reciprocal_fps": 15.45757176965435,
+      "generation_ms_mean": 0.7175116883118264,
+      "upload_ms_mean": 0.3333259740259109,
+      "max_storage_bytes_per_update": 3060,
+      "modes": [
+        {
+          "mode": 1,
+          "windows": 22,
+          "query_count": 65536,
+          "unique_query_addresses": 65536,
+          "unique_target_addresses": 65536,
+          "cross_leaf_queries": 0,
+          "checked_cells": 65544,
+          "checked_pixels": 589896,
+          "failed_cells": 0,
+          "observed_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4",
+          "expected_sha256": "a09e346d2bb0e7d2192503b3e229e961836825974c30f2078e08ab77c84d5ed4"
+        },
+        {
+          "mode": 2,
+          "windows": 22,
+          "query_count": 65536,
+          "unique_query_addresses": 65536,
+          "unique_target_addresses": 35099,
+          "cross_leaf_queries": 62445,
+          "checked_cells": 65544,
+          "checked_pixels": 589896,
+          "failed_cells": 0,
+          "observed_sha256": "70617432c0e232d9f35daaae7c22d5612d711d343fda7a203ea63cb70741261b",
+          "expected_sha256": "70617432c0e232d9f35daaae7c22d5612d711d343fda7a203ea63cb70741261b"
+        }
+      ],
+      "performance_scope": "six-second owned native run; no stated GPU-test overlap"
+    },
+    {
+      "name": "tree12_incremental",
+      "audit_passed": true,
+      "payload_bytes": 12288,
+      "frames": 352,
+      "measured_frames": 294,
+      "update_records": 352,
+      "leaf_count": 342,
+      "data_passes": 429,
+      "source_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45",
+      "fps_mean": 58.721112442016604,
+      "interval_ms_mean": 16.98141457627128,
+      "interval_ms_p95": 18.347099999971306,
+      "interval_reciprocal_fps": 58.88790922031517,
+      "generation_ms_mean": 0.726908503401014,
+      "upload_ms_mean": 0.3356982993184807,
+      "max_storage_bytes_per_update": 3060,
+      "modes": [
+        {
+          "mode": 1,
+          "windows": 4,
+          "query_count": 12288,
+          "unique_query_addresses": 12288,
+          "unique_target_addresses": 12288,
+          "cross_leaf_queries": 0,
+          "checked_cells": 12288,
+          "checked_pixels": 110592,
+          "failed_cells": 0,
+          "observed_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45",
+          "expected_sha256": "7f121d8f92b008119a66253f3d2482a836b58c6bf03134f6d7f969473cb48d45"
+        },
+        {
+          "mode": 2,
+          "windows": 4,
+          "query_count": 12288,
+          "unique_query_addresses": 12288,
+          "unique_target_addresses": 6608,
+          "cross_leaf_queries": 11693,
+          "checked_cells": 12288,
+          "checked_pixels": 110592,
+          "failed_cells": 0,
+          "observed_sha256": "ecbaa3e1ea9bd1f7d63ff4d683e1dfc8b38a76901b70a1ad336c838cb61e727f",
+          "expected_sha256": "ecbaa3e1ea9bd1f7d63ff4d683e1dfc8b38a76901b70a1ad336c838cb61e727f"
+        }
+      ],
+      "performance_scope": "six-second owned native run; no stated GPU-test overlap"
+    },
+    {
+      "name": "tree3_incremental",
+      "audit_passed": true,
+      "payload_bytes": 3072,
+      "frames": 359,
+      "measured_frames": 299,
+      "update_records": 359,
+      "leaf_count": 86,
+      "data_passes": 109,
+      "source_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6",
+      "fps_mean": 59.94551568282278,
+      "interval_ms_mean": 16.701388000000176,
+      "interval_ms_p95": 18.059199999981956,
+      "interval_reciprocal_fps": 59.87526306196764,
+      "generation_ms_mean": 0.7303933110368837,
+      "upload_ms_mean": 0.3424782608708498,
+      "max_storage_bytes_per_update": 3060,
+      "modes": [
+        {
+          "mode": 1,
+          "windows": 1,
+          "query_count": 3072,
+          "unique_query_addresses": 3072,
+          "unique_target_addresses": 3072,
+          "cross_leaf_queries": 0,
+          "checked_cells": 3072,
+          "checked_pixels": 27648,
+          "failed_cells": 0,
+          "observed_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6",
+          "expected_sha256": "593bba4297ce7ed1614832632c7788ee872770626e5d3bb3da0f64a83d48acc6"
+        },
+        {
+          "mode": 2,
+          "windows": 1,
+          "query_count": 3072,
+          "unique_query_addresses": 3072,
+          "unique_target_addresses": 1660,
+          "cross_leaf_queries": 2934,
+          "checked_cells": 3072,
+          "checked_pixels": 27648,
+          "failed_cells": 0,
+          "observed_sha256": "86f7db2a8a140eca430c53fc9995336143a8616938aea38c0cab7745fdbcf91c",
+          "expected_sha256": "86f7db2a8a140eca430c53fc9995336143a8616938aea38c0cab7745fdbcf91c"
+        }
+      ],
+      "performance_scope": "coarse reference: overlapped a separate ~4s desktop GPU unittest"
+    }
+  ],
+  "leaf_cache": {
+    "disabled": {
+      "failed_cells": 36,
+      "failed_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "checked_cells": 1008,
+      "checked_pixels": 9072,
+      "query_count": 1000,
+      "cross_leaf_queries": 0,
+      "unique_target_addresses": 1000,
+      "observed_sha256": "e4659deeccdd471c72e6707e5751e408df693e9fac3a5f831129ec18ba01ad53",
+      "expected_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77"
+    },
+    "restored": {
+      "failed_cells": 0,
+      "failed_indices": [],
+      "checked_cells": 1008,
+      "checked_pixels": 9072,
+      "query_count": 1000,
+      "cross_leaf_queries": 0,
+      "unique_target_addresses": 1000,
+      "observed_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77",
+      "expected_sha256": "72019f91b0757358d22cb711d30aaf1de667d8419b728720c45b2719b0fbba77"
+    }
+  },
+  "baseline": {
+    "audit_passed": true,
+    "disabled_diagnostic_object_retained": true,
+    "fps_mean": 60.0775146484375,
+    "interval_ms_mean": 16.662945182723966,
+    "frames": 360
+  },
+  "source_installation": [
+    {
+      "file": "tree_leaf.fragment",
+      "source_sha256": "7bf6af607120face8e3ab2c2d140b6619d3936fb03c59b0395543e8168c762a5",
+      "installed_sha256": "7bf6af607120face8e3ab2c2d140b6619d3936fb03c59b0395543e8168c762a5",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "tree_merge.fragment",
+      "source_sha256": "32579fa9ab60c5978909a843b61f77b5cc2345ba38b38c3abf1e0aff724ec55e",
+      "installed_sha256": "32579fa9ab60c5978909a843b61f77b5cc2345ba38b38c3abf1e0aff724ec55e",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "tree_consumer.fragment",
+      "source_sha256": "f92aec960351b2de41f12a0ee535fd432a7ca7ebf03bcdb4c1b4e9a7477ee003",
+      "installed_sha256": "f92aec960351b2de41f12a0ee535fd432a7ca7ebf03bcdb4c1b4e9a7477ee003",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "isolated_copy.fragment",
+      "source_sha256": "de20ddda12cf775ded2b5d638dae7a0655cac097b827cdf6b18d36b9af58454c",
+      "installed_sha256": "de20ddda12cf775ded2b5d638dae7a0655cac097b827cdf6b18d36b9af58454c",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "tree_runtime.py",
+      "source_sha256": "1c572905ce56509ecc7c428bf10b16121ecff99cc1a19cef15feb8bbb4723935",
+      "installed_sha256": "1c572905ce56509ecc7c428bf10b16121ecff99cc1a19cef15feb8bbb4723935",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "isolated_runtime.py",
+      "source_sha256": "3913021f80780b1e36e7c2c38c7a7792b8be1c7e6d1eaaa33e8e10595f38e0ed",
+      "installed_sha256": "3913021f80780b1e36e7c2c38c7a7792b8be1c7e6d1eaaa33e8e10595f38e0ed",
+      "byte_equal": true,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "aggregate_runtime.py",
+      "source_sha256": "f65560e11c4e1ae2b83d615c87c5a32e55c83bdb8efbd52883b71e3069d5394b",
+      "installed_sha256": "b2c938057e81de1091571c2ffe494d2380a5acdfbf172c0f91306db6a912241e",
+      "byte_equal": false,
+      "normalized_equal": true,
+      "allowed_builder_limit_change": false
+    },
+    {
+      "file": "runtime.py",
+      "source_sha256": "08cdeac6fab664cebe050a95f4245bd857121ae4c0a72279f43955e9e8566b2e",
+      "installed_sha256": "86022ea038a3da0a1d6949999edf9dc3ee820b639315b745a181ebd5ea0dc7e5",
+      "byte_equal": false,
+      "normalized_equal": false,
+      "allowed_builder_limit_change": true
+    }
+  ],
+  "hashed_input_files": 457,
+  "input_manifest_sha256": "d6924ce8742e6db0ca57b6e403482eb6fcb7f9c90239aeb6fc0efdcc83e6f171",
+  "all_declared_hashes_match": true,
+  "all_hashed_inputs_unchanged_after_reread": true,
+  "limitations": [
+    "source matches installed files on disk at audit time, not a GPU binary or live-process shader capture",
+    "final frozen state verified; no assertion about every render frame or atomic visibility",
+    "3KiB performance overlapped a desktop GPU unittest and is coarse reference only",
+    "saved original-picture alpha/color preservation is outside these byte-scan cases"
+  ]
+}
