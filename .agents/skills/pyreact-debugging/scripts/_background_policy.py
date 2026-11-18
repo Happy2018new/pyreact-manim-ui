@@ -1,7 +1,7 @@
 """Project rule: observe protected game windows without acquiring focus."""
 from pathlib import Path
 
-from _window import background_guard_state
+from _window import background_guard_state, foreground_policy_satisfied
 
 
 def require_protected_session(session):
@@ -11,14 +11,12 @@ def require_protected_session(session):
 
 
 def require_background_session(session):
-    """Reject absent/minimized/foreground windows; never repair them by activation."""
+    """Observe protected windows; explicit opt-in permits user-owned foreground."""
     require_protected_session(session)
     pid = session["game_pid"]
     guard = background_guard_state(pid, Path(session["game_executable"]).name)
-    foreground = guard.get("foreground", {})
     windows = guard.get("windows", [])
-    if (type(foreground.get("pid")) is not int or foreground["pid"] == pid
-            or guard.get("background_safe") is not True
+    if (not foreground_policy_satisfied(guard, pid)
             or guard.get("window_noactivate") is not True or not windows):
         raise RuntimeError("Owned game is not protected in the background; no activation fallback is allowed")
     for window in windows:

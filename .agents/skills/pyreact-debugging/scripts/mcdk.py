@@ -9,7 +9,7 @@ import time
 import urllib.request
 from _session import load_session
 from _window import (_find_game_window, background_guard_state,
-                     foreground_policy_satisfied)
+                     foreground_policy_satisfied, user_foreground_allowed)
 from _background_policy import require_passive_tool
 
 
@@ -56,9 +56,9 @@ class Client:
                     'mcdk_identity', 'mcp_url', 'token', 'game_executable'):
             if current.get(key) != self.binding.get(key):
                 raise MCDKError('Assigned instance identity changed before execute_code: ' + key)
-        # This project's user requires silent background tests, even when a
-        # shared environment inherited another project's foreground override.
-        allow_foreground = False
+        # The user may keep an owned window in front. This explicit opt-in
+        # never grants the client permission to activate or switch windows.
+        allow_foreground = user_foreground_allowed()
         report = {'ok': False, 'category': 'protected_execute_code_preflight',
                   'execute_code_blocked': True, 'execute_code_dispatched': False,
                   'python_return_checked': False, 'window_unavailable': False,

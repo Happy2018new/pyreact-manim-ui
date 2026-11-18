@@ -17,13 +17,14 @@ def main():
     args = parser.parse_args()
     sys.path.insert(0, str(ROOT / ".agents/skills/pyreact-debugging/scripts"))
     from _session import load_session, process_identity
-    from _window import _list_windows_windows, _find_game_window
+    from _window import _list_windows_windows, _find_game_window, user_foreground_allowed
     from _background_policy import require_background_session
     data = load_session(args.session, args.owner)
     if Path(data["project"]).resolve() != ROOT:
         raise ValueError("Capture project mismatch")
     if process_identity(data["game_pid"]) != data["game_identity"]:
         raise ValueError("Game process creation identity changed")
+    allow_foreground = user_foreground_allowed()
     before_guard = require_background_session(data)
     window = _find_game_window(_list_windows_windows(), pid=data["game_pid"])
     if window is None or window["minimized"]:
@@ -41,7 +42,8 @@ def main():
     if not report["ok"] or report["frame_qpc_100ns"] < report["request_qpc_100ns"]:
         raise RuntimeError("Capture did not return a fresh frame")
     report.update(pid=data["game_pid"], window=window, file=str(args.output.resolve()),
-                  background_before=before_guard, background_only=True)
+                  background_before=before_guard, background_only=not allow_foreground,
+                  user_foreground_allowed=allow_foreground, agent_activation_allowed=False)
     try:
         latest = load_session(args.session, args.owner)
         if latest["game_pid"] != data["game_pid"] or latest["game_identity"] != data["game_identity"]:
