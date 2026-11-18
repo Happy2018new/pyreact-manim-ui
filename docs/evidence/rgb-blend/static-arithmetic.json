@@ -1,0 +1,79 @@
+{
+  "scope": "CPU exact arithmetic; not a native GPU or performance result",
+  "assumptions": [
+    "linear UNORM8 attachment in the same encode/decode code space",
+    "exact blend arithmetic and nearest quantization after every draw",
+    "no dithering, sample mixing, later writes, or duplicate coverage"
+  ],
+  "high_bit_models": [
+    {
+      "bits_per_rgb_channel": 1,
+      "tested_original_payload_pairs": 512,
+      "payload_errors": 0,
+      "max_restored_channel_error_byte": 1,
+      "source_alpha_fraction": [
+        128,
+        255
+      ],
+      "full_720x1080_capacity_bytes": 291600,
+      "one_pixel_records_for_64_kib": 174763
+    },
+    {
+      "bits_per_rgb_channel": 2,
+      "tested_original_payload_pairs": 1024,
+      "payload_errors": 0,
+      "max_restored_channel_error_byte": 2,
+      "source_alpha_fraction": [
+        192,
+        255
+      ],
+      "full_720x1080_capacity_bytes": 583200,
+      "one_pixel_records_for_64_kib": 87382
+    },
+    {
+      "bits_per_rgb_channel": 3,
+      "tested_original_payload_pairs": 2048,
+      "payload_errors": 0,
+      "max_restored_channel_error_byte": 4,
+      "source_alpha_fraction": [
+        224,
+        255
+      ],
+      "full_720x1080_capacity_bytes": 874800,
+      "one_pixel_records_for_64_kib": 58255
+    },
+    {
+      "bits_per_rgb_channel": 4,
+      "tested_original_payload_pairs": 4096,
+      "payload_errors": 0,
+      "max_restored_channel_error_byte": 8,
+      "source_alpha_fraction": [
+        240,
+        255
+      ],
+      "full_720x1080_capacity_bytes": 1166400,
+      "one_pixel_records_for_64_kib": 43691
+    }
+  ],
+  "three_draw_low_bit_model": {
+    "draws": 3,
+    "tested_original_payload_pairs": 512,
+    "payload_errors": 0,
+    "lsb_replacement_identity_errors": 0,
+    "max_encoded_scene_channel_error_byte": 1
+  },
+  "naive_half_blend_byte_128_collisions": [
+    {
+      "original": 0,
+      "payload": 1
+    },
+    {
+      "original": 1,
+      "payload": 1
+    },
+    {
+      "original": 255,
+      "payload": 0
+    }
+  ]
+}
