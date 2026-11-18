@@ -1,0 +1,340 @@
+{
+  "schema": "rain_geometry_summary_v1",
+  "conclusion": "EnableActorBlockGeometryTransparent(True) with amount0.5 did not solve native rain payload corruption in this fixture.",
+  "matrix_completed": true,
+  "requested_transparency_amount": 0.5,
+  "rain_loops": 3,
+  "clear_gate_passed": true,
+  "transparent_candidate_passed": false,
+  "expansion_performed": false,
+  "formal_fps_measured": false,
+  "game_runtime_file_writes": false,
+  "continuous_updates": false,
+  "source_bundle_sha256": "511b16fb6113fd11518380aff17cecd3bba74a1bd24f5d3748dd8c9f97610481",
+  "native_effect_condition": "Native config enable flags only disabled; actual native getters false in all captures.",
+  "raw_q_sameframe_alpha_scope": "Q and alpha share one raw sample. Other captures/frames are separate dynamic observations.",
+  "render_queue_changed_proven": false,
+  "original_rain_rgb_reference_available": false,
+  "known_color_domain_valid": false,
+  "domain_controls_run": false,
+  "known_color_domain_failure": "Skipped: r1 known-color domain background covered writer in all modes; no RGB restoration accuracy claim.",
+  "groups": {
+    "clear_default": {
+      "captures": 4,
+      "query_pixels": 305920,
+      "guard_errors": 0,
+      "q_bad": [
+        0
+      ],
+      "q_bad_alpha_not255": [
+        0
+      ],
+      "q_bad_alpha255": [
+        0
+      ],
+      "alpha_not255": [
+        0
+      ],
+      "alpha_offgrid": [
+        0
+      ],
+      "identity_errors": [
+        0
+      ],
+      "dependent_errors": [
+        0
+      ],
+      "max_block_exceptions": [
+        0
+      ],
+      "overflow_source_pixels": [
+        0
+      ],
+      "alpha_restore_error_pixels": [
+        0
+      ]
+    },
+    "clear_transparent": {
+      "captures": 4,
+      "query_pixels": 305920,
+      "guard_errors": 0,
+      "q_bad": [
+        0
+      ],
+      "q_bad_alpha_not255": [
+        0
+      ],
+      "q_bad_alpha255": [
+        0
+      ],
+      "alpha_not255": [
+        0
+      ],
+      "alpha_offgrid": [
+        0
+      ],
+      "identity_errors": [
+        0
+      ],
+      "dependent_errors": [
+        0
+      ],
+      "max_block_exceptions": [
+        0
+      ],
+      "overflow_source_pixels": [
+        0
+      ],
+      "alpha_restore_error_pixels": [
+        0
+      ]
+    },
+    "rain_default": {
+      "captures": 12,
+      "query_pixels": 917760,
+      "guard_errors": 0,
+      "q_bad": [
+        170,
+        266,
+        0
+      ],
+      "q_bad_alpha_not255": [
+        170,
+        266,
+        0
+      ],
+      "q_bad_alpha255": [
+        0,
+        0,
+        0
+      ],
+      "alpha_not255": [
+        172,
+        299,
+        0
+      ],
+      "alpha_offgrid": [
+        0,
+        0,
+        0
+      ],
+      "identity_errors": [
+        104,
+        174,
+        270
+      ],
+      "dependent_errors": [
+        0,
+        1325,
+        40
+      ],
+      "max_block_exceptions": [
+        3,
+        2,
+        5
+      ],
+      "overflow_source_pixels": [
+        0,
+        0,
+        480
+      ],
+      "alpha_restore_error_pixels": [
+        0,
+        0,
+        75
+      ]
+    },
+    "rain_transparent": {
+      "captures": 12,
+      "query_pixels": 917760,
+      "guard_errors": 0,
+      "q_bad": [
+        152,
+        647,
+        108
+      ],
+      "q_bad_alpha_not255": [
+        152,
+        647,
+        108
+      ],
+      "q_bad_alpha255": [
+        0,
+        0,
+        0
+      ],
+      "alpha_not255": [
+        166,
+        682,
+        114
+      ],
+      "alpha_offgrid": [
+        0,
+        0,
+        0
+      ],
+      "identity_errors": [
+        126,
+        158,
+        118
+      ],
+      "dependent_errors": [
+        5149,
+        294,
+        279
+      ],
+      "max_block_exceptions": [
+        2,
+        3,
+        4
+      ],
+      "overflow_source_pixels": [
+        0,
+        0,
+        0
+      ],
+      "alpha_restore_error_pixels": [
+        0,
+        0,
+        0
+      ]
+    },
+    "rain_return_default": {
+      "captures": 12,
+      "query_pixels": 917760,
+      "guard_errors": 0,
+      "q_bad": [
+        771,
+        78,
+        381
+      ],
+      "q_bad_alpha_not255": [
+        771,
+        78,
+        381
+      ],
+      "q_bad_alpha255": [
+        0,
+        0,
+        0
+      ],
+      "alpha_not255": [
+        814,
+        79,
+        396
+      ],
+      "alpha_offgrid": [
+        0,
+        0,
+        0
+      ],
+      "identity_errors": [
+        34,
+        689,
+        664
+      ],
+      "dependent_errors": [
+        936,
+        12558,
+        354
+      ],
+      "max_block_exceptions": [
+        9,
+        9,
+        2
+      ],
+      "overflow_source_pixels": [
+        5952,
+        5792,
+        0
+      ],
+      "alpha_restore_error_pixels": [
+        1558,
+        1441,
+        0
+      ]
+    }
+  },
+  "original_run_status": "completed",
+  "original_run_error": null,
+  "cleanup_readonly_state": {
+    "writer_visible": false,
+    "native_background_visible": false,
+    "native_attachment_visibility": {
+      "scene_codec_epoch1_attempt1": false
+    },
+    "codec_enabled_processes": [],
+    "native_reported_enabled": [],
+    "native_post_order": [
+      "bloom",
+      "lensflare",
+      "depthoffield",
+      "gaussianblur",
+      "coloradjustment",
+      "vignette",
+      "lensstain",
+      "oldtv",
+      "scanmap"
+    ]
+  },
+  "release": {
+    "utc": "2026-11-18T12:24:04.5844805Z",
+    "owned_pid": 33116,
+    "owned_pid_running": false,
+    "active_count": 0,
+    "minecraft_processes": [
+      {
+        "ProcessId": 44232,
+        "Name": "Minecraft.Windows.exe",
+        "ThreadCount": 0,
+        "HandleCount": 0,
+        "WorkingSetSize": 32768,
+        "VirtualSize": 0
+      },
+      {
+        "ProcessId": 1448,
+        "Name": "Minecraft.Windows.exe",
+        "ThreadCount": 0,
+        "HandleCount": 0,
+        "WorkingSetSize": 32768,
+        "VirtualSize": 0
+      },
+      {
+        "ProcessId": 34120,
+        "Name": "Minecraft.Windows.exe",
+        "ThreadCount": 0,
+        "HandleCount": 0,
+        "WorkingSetSize": 32768,
+        "VirtualSize": 0
+      }
+    ],
+    "normal_stop_timed_out_then_process_exited_without_force": true
+  },
+  "metadata_manifest_discrepancy": null,
+  "artifacts": {
+    "rain_geometry.results.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\rain_geometry.results.json",
+      "sha256": "6d6af24cd4ff6741e5f3648cd708f833f5696a814246d6a49bc2ebb554ce5446"
+    },
+    "host_source_hashes.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\host_source_hashes.json",
+      "sha256": "b47df3421e9ed2f00feda27835a729a90c9210433c7576ad0c558c21821f359b"
+    },
+    "rain_enabled.server.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\rain_enabled.server.json",
+      "sha256": "06507b3dbee444e3bebe7fc460aeb77348f287e5e3a2b4d6b313f4ec763683ca"
+    },
+    "released_processes.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\released_processes.json",
+      "sha256": "e40e31a49a8dc3a6269b72eccd2d0f823d896712f040c68f73f86eede5c7aa24"
+    },
+    "stop.stdout.log": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\stop.stdout.log",
+      "sha256": "9b68f75f8e0e468038b5ffc8ceeea5a80bda34bd59e24f9c5666c3acc7362aa2"
+    },
+    "stop_finalize_after_exit.log": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\rain-geometry-native-20261118-r2\\evidence\\stop_finalize_after_exit.log",
+      "sha256": "c12e7c2685fc744068f7d07b431670fd5371c9b3dab2bbb8af11445c42564e51"
+    }
+  }
+}
