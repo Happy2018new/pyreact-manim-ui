@@ -1,0 +1,611 @@
+{
+  "date": "2026-11-18",
+  "client": "Netease 3.10.0.448891",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "viewport": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "cases": [
+    {
+      "name": "small96_dynamic",
+      "payload_bytes": 96,
+      "pages": 4,
+      "target_pixels": [
+        8,
+        4
+      ],
+      "status": "completed",
+      "exact_equal": true,
+      "all_resident_bytes_verified": true,
+      "generations": [
+        {
+          "seed": 100881,
+          "scope": "full_frozen_payload",
+          "source_sha256": "1b226d8a47910ef0d59b9e52a5e93dca77cd2b993abaa7007ebfca31fb824afc",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 96,
+              "cross_page_queries": 0,
+              "full_query_coverage": true,
+              "observed_query_sha256": "1b226d8a47910ef0d59b9e52a5e93dca77cd2b993abaa7007ebfca31fb824afc",
+              "expected_query_sha256": "1b226d8a47910ef0d59b9e52a5e93dca77cd2b993abaa7007ebfca31fb824afc",
+              "full_payload_identity_verified": true,
+              "windows": 1
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 56,
+              "cross_page_queries": 80,
+              "full_query_coverage": true,
+              "observed_query_sha256": "fde0b7fad6d5a349038fc7e3d13f4521046b28585a9e4b0c109cfe3ffb7454e6",
+              "expected_query_sha256": "fde0b7fad6d5a349038fc7e3d13f4521046b28585a9e4b0c109cfe3ffb7454e6",
+              "full_payload_identity_verified": false,
+              "windows": 1
+            }
+          ]
+        },
+        {
+          "seed": 1100884,
+          "scope": "full_frozen_payload",
+          "source_sha256": "0fd55a64acaf572f210180f0ed6094f9d8e332e75962b59f8c6dcba1b0ec5097",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 96,
+              "cross_page_queries": 0,
+              "full_query_coverage": true,
+              "observed_query_sha256": "0fd55a64acaf572f210180f0ed6094f9d8e332e75962b59f8c6dcba1b0ec5097",
+              "expected_query_sha256": "0fd55a64acaf572f210180f0ed6094f9d8e332e75962b59f8c6dcba1b0ec5097",
+              "full_payload_identity_verified": true,
+              "windows": 1
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 52,
+              "cross_page_queries": 75,
+              "full_query_coverage": true,
+              "observed_query_sha256": "7543fd7ef7edb18d97d714f98bbcd5c10de24e0f9dbdb1a9f329706a91d54f46",
+              "expected_query_sha256": "7543fd7ef7edb18d97d714f98bbcd5c10de24e0f9dbdb1a9f329706a91d54f46",
+              "full_payload_identity_verified": false,
+              "windows": 1
+            }
+          ]
+        },
+        {
+          "seed": 2100887,
+          "scope": "full_frozen_payload",
+          "source_sha256": "37b08d96f1f0480aacc589812e83ca102bd9406cd6df9b276fcb699e940affe6",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 96,
+              "cross_page_queries": 0,
+              "full_query_coverage": true,
+              "observed_query_sha256": "37b08d96f1f0480aacc589812e83ca102bd9406cd6df9b276fcb699e940affe6",
+              "expected_query_sha256": "37b08d96f1f0480aacc589812e83ca102bd9406cd6df9b276fcb699e940affe6",
+              "full_payload_identity_verified": true,
+              "windows": 1
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 96,
+              "unique_target_addresses": 53,
+              "cross_page_queries": 76,
+              "full_query_coverage": true,
+              "observed_query_sha256": "ffd85833282e5e7573a96171551bd9d1badb30a2bf17676d2a085e05cf69c147",
+              "expected_query_sha256": "ffd85833282e5e7573a96171551bd9d1badb30a2bf17676d2a085e05cf69c147",
+              "full_payload_identity_verified": false,
+              "windows": 1
+            }
+          ]
+        }
+      ],
+      "benchmark_run": {
+        "status": "completed",
+        "measured_frames": 420,
+        "dynamic": true,
+        "generation_ms": {
+          "count": 420,
+          "min": 0.03939999999991173,
+          "max": 0.35489999999960276,
+          "p95": 0.05860000000001975,
+          "p50": 0.0439999999990448,
+          "mean": 0.049078571428594675
+        },
+        "elapsed": 8.013253500000001,
+        "warm_until": 2.3035015000000003,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 421,
+          "min": 14.450499999998812,
+          "max": 18.79929999999952,
+          "p95": 18.108199999999908,
+          "p50": 16.658699999999804,
+          "mean": 16.66470498812352
+        },
+        "gpu_verified": false,
+        "frames": 480,
+        "isolated_case_token": "f8a3763238504bd5b445f388a38339b4",
+        "upload_ms": {
+          "count": 420,
+          "min": 0.023200000000223042,
+          "max": 0.623499999999666,
+          "p95": 0.03469999999961004,
+          "p50": 0.026099999999473766,
+          "mean": 0.02861952380950116
+        },
+        "count": 4,
+        "kind": "aggregate",
+        "success": true,
+        "start": 1.3035015,
+        "mode": -1,
+        "fps": {
+          "count": 28,
+          "min": 60.0775146484375,
+          "max": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "p50": 60.0775146484375,
+          "mean": 60.0775146484375
+        },
+        "error": null,
+        "previous": 9.316755,
+        "until": 9.3035015
+      },
+      "reused_resident_payload": false,
+      "scene_preservation": {
+        "native_full_capture_exact": false,
+        "native_full_rgb_difference_bbox": [
+          256,
+          16,
+          494,
+          45
+        ],
+        "scene_body_roi": [
+          0,
+          64,
+          720,
+          1026
+        ],
+        "scene_body_rgba_exact": true,
+        "native_alpha_preservation_verified": false,
+        "reason": "WGC alpha does not expose the intermediate render-target alpha"
+      }
+    },
+    {
+      "name": "bulk64k_dynamic",
+      "payload_bytes": 65536,
+      "pages": 2731,
+      "target_pixels": [
+        120,
+        183
+      ],
+      "status": "completed",
+      "exact_equal": true,
+      "all_resident_bytes_verified": true,
+      "generations": [
+        {
+          "seed": 61693,
+          "scope": "full_frozen_payload",
+          "source_sha256": "3b550e9c5df3e185d9634a6f7199d799339fafbcfe671816940c92e5c3e2f443",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 65536,
+              "unique_target_addresses": 65536,
+              "cross_page_queries": 0,
+              "full_query_coverage": true,
+              "observed_query_sha256": "3b550e9c5df3e185d9634a6f7199d799339fafbcfe671816940c92e5c3e2f443",
+              "expected_query_sha256": "3b550e9c5df3e185d9634a6f7199d799339fafbcfe671816940c92e5c3e2f443",
+              "full_payload_identity_verified": true,
+              "windows": 22
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 65536,
+              "unique_target_addresses": 35045,
+              "cross_page_queries": 63968,
+              "full_query_coverage": true,
+              "observed_query_sha256": "a4453d1c1fb0fd6f749ce4e58474b20251cb9690749fa970199e22ba4f1579a6",
+              "expected_query_sha256": "a4453d1c1fb0fd6f749ce4e58474b20251cb9690749fa970199e22ba4f1579a6",
+              "full_payload_identity_verified": false,
+              "windows": 22
+            }
+          ]
+        },
+        {
+          "seed": 1061696,
+          "scope": "first_middle_last_samples",
+          "source_sha256": "c9419ef6ab16f30d80a05e34de6852d1728f082d9c1fc6567643aec3dde0c26d",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 9216,
+              "unique_target_addresses": 9216,
+              "cross_page_queries": 0,
+              "full_query_coverage": false,
+              "observed_query_sha256": "2aaee408ba9b40f8726c63c8f721e129f739a7cdd81ebb5a31150e5cc5e4a3e8",
+              "expected_query_sha256": "2aaee408ba9b40f8726c63c8f721e129f739a7cdd81ebb5a31150e5cc5e4a3e8",
+              "full_payload_identity_verified": false,
+              "windows": 3
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 9216,
+              "unique_target_addresses": 4986,
+              "cross_page_queries": 9010,
+              "full_query_coverage": false,
+              "observed_query_sha256": "cb2caa74feaca49cd2a9e69b708b9853066788ffe26567c7ce031170910ea211",
+              "expected_query_sha256": "cb2caa74feaca49cd2a9e69b708b9853066788ffe26567c7ce031170910ea211",
+              "full_payload_identity_verified": false,
+              "windows": 3
+            }
+          ]
+        }
+      ],
+      "benchmark_run": {
+        "status": "completed",
+        "measured_frames": 66,
+        "dynamic": true,
+        "generation_ms": {
+          "count": 66,
+          "min": 14.409400000005235,
+          "max": 68.10639999999069,
+          "p95": 20.00420000001668,
+          "p50": 15.705199999999309,
+          "mean": 17.838777272727366
+        },
+        "elapsed": 8.042424400000002,
+        "warm_until": 124.5358188,
+        "seed": 54321,
+        "interval_ms": {
+          "count": 67,
+          "min": 95.68500000000313,
+          "max": 160.4705000000024,
+          "p95": 141.73170000000823,
+          "p50": 102.06759999999804,
+          "mean": 105.82362388059717
+        },
+        "gpu_verified": false,
+        "frames": 76,
+        "isolated_case_token": "3902209c5e1a4a94afe3f73e40ae35a3",
+        "upload_ms": {
+          "count": 66,
+          "min": 6.540099999995164,
+          "max": 60.922199999993154,
+          "p95": 8.958500000005643,
+          "p50": 7.324199999999337,
+          "mean": 9.11756666666654
+        },
+        "count": 2731,
+        "kind": "aggregate",
+        "success": true,
+        "start": 123.5358188,
+        "mode": -1,
+        "fps": {
+          "count": 5,
+          "min": 9.074409484863281,
+          "max": 10.152283668518066,
+          "p95": 9.80392074584961,
+          "p50": 9.784735679626465,
+          "mean": 9.689852142333985
+        },
+        "error": null,
+        "previous": 131.5782432,
+        "until": 131.53581880000002
+      },
+      "reused_resident_payload": false,
+      "scene_preservation": {
+        "native_full_capture_exact": false,
+        "native_full_rgb_difference_bbox": [
+          182,
+          16,
+          494,
+          45
+        ],
+        "scene_body_roi": [
+          0,
+          64,
+          720,
+          1026
+        ],
+        "scene_body_rgba_exact": true,
+        "native_alpha_preservation_verified": false
+      }
+    },
+    {
+      "name": "bulk128k_reuse",
+      "payload_bytes": 131072,
+      "pages": 5462,
+      "target_pixels": [
+        168,
+        261
+      ],
+      "status": "completed",
+      "exact_equal": true,
+      "all_resident_bytes_verified": true,
+      "generations": [
+        {
+          "seed": 58201,
+          "scope": "full_frozen_payload",
+          "source_sha256": "9fe27402357ee3f362f8e1a1b9647c7e3974ef2751eb74e40ffbbe974bc2b7d0",
+          "modes": [
+            {
+              "mode": 1,
+              "passed": true,
+              "verified_query_addresses": 131072,
+              "unique_target_addresses": 131072,
+              "cross_page_queries": 0,
+              "full_query_coverage": true,
+              "observed_query_sha256": "9fe27402357ee3f362f8e1a1b9647c7e3974ef2751eb74e40ffbbe974bc2b7d0",
+              "expected_query_sha256": "9fe27402357ee3f362f8e1a1b9647c7e3974ef2751eb74e40ffbbe974bc2b7d0",
+              "full_payload_identity_verified": true,
+              "windows": 43
+            },
+            {
+              "mode": 2,
+              "passed": true,
+              "verified_query_addresses": 131072,
+              "unique_target_addresses": 69940,
+              "cross_page_queries": 127604,
+              "full_query_coverage": true,
+              "observed_query_sha256": "04ae6e622653818b8cab8354c36385fa882bcad8463ab8c4742905737cfeef02",
+              "expected_query_sha256": "04ae6e622653818b8cab8354c36385fa882bcad8463ab8c4742905737cfeef02",
+              "full_payload_identity_verified": false,
+              "windows": 43
+            }
+          ]
+        }
+      ],
+      "benchmark_run": null,
+      "reused_resident_payload": true,
+      "scene_preservation": {
+        "native_full_capture_exact": false,
+        "native_full_rgb_difference_bbox": [
+          182,
+          14,
+          537,
+          45
+        ],
+        "scene_body_roi": [
+          0,
+          64,
+          720,
+          1026
+        ],
+        "scene_body_rgba_exact": true,
+        "native_alpha_preservation_verified": false
+      }
+    }
+  ],
+  "static128_run": {
+    "status": "completed",
+    "measured_frames": 44,
+    "dynamic": false,
+    "generation_ms": {
+      "count": 44,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p50": 0.0,
+      "mean": 0.0
+    },
+    "elapsed": 8.108363900000086,
+    "warm_until": 608.6376379,
+    "seed": 0,
+    "interval_ms": {
+      "count": 45,
+      "min": 146.8888000000561,
+      "max": 183.89319999994314,
+      "p95": 171.54330000005302,
+      "p50": 159.91919999999027,
+      "mean": 159.94946000000203
+    },
+    "frames": 51,
+    "gpu_verified": false,
+    "upload_ms": {
+      "count": 44,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p50": 0.0,
+      "mean": 0.0
+    },
+    "count": 5462,
+    "kind": "aggregate",
+    "success": true,
+    "start": 607.6376379,
+    "mode": -1,
+    "fps": {
+      "count": 3,
+      "min": 6.259780406951904,
+      "max": 6.64451789855957,
+      "p95": 6.379584789276123,
+      "p50": 6.379584789276123,
+      "mean": 6.427961031595866
+    },
+    "error": null,
+    "previous": 615.7460018,
+    "until": 615.6376379
+  },
+  "baseline_run": {
+    "status": "completed",
+    "measured_frames": 420,
+    "dynamic": false,
+    "generation_ms": {
+      "count": 420,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p50": 0.0,
+      "mean": 0.0
+    },
+    "elapsed": 8.002314100000149,
+    "warm_until": 1439.749527,
+    "seed": 0,
+    "interval_ms": {
+      "count": 421,
+      "min": 14.70910000011827,
+      "max": 18.494599999939965,
+      "p95": 18.04360000005545,
+      "p50": 16.670399999838992,
+      "mean": 16.66333657957242
+    },
+    "frames": 480,
+    "gpu_verified": false,
+    "upload_ms": {
+      "count": 420,
+      "min": 0.0,
+      "max": 0.0,
+      "p95": 0.0,
+      "p50": 0.0,
+      "mean": 0.0
+    },
+    "count": 0,
+    "kind": "baseline",
+    "success": true,
+    "start": 1438.749527,
+    "mode": -1,
+    "fps": {
+      "count": 28,
+      "min": 60.0775146484375,
+      "max": 60.0775146484375,
+      "p95": 60.0775146484375,
+      "p50": 60.0775146484375,
+      "mean": 60.0775146484375
+    },
+    "error": null,
+    "previous": 1446.7518411,
+    "until": 1446.749527
+  },
+  "source_scene_change": {
+    "passed": true,
+    "exact_equal": true,
+    "mode": 1,
+    "start": 0,
+    "count": 3072,
+    "salt": 7,
+    "columns": 24,
+    "rows": 128,
+    "capture_size": [
+      720,
+      1080
+    ],
+    "checked_cells": 3072,
+    "checked_pixels": 27648,
+    "failed_cells": 0,
+    "max_error": 0,
+    "padding_cells": 0,
+    "verified_query_count": 3072,
+    "unique_target_count": 3072,
+    "cross_page_queries": 0,
+    "observed_query_sha256": "b282f7e97b6ab1764b0b642e5850e8e62fb28e7fa693ac93884c2f7f5aab46f5",
+    "expected_query_sha256": "b282f7e97b6ab1764b0b642e5850e8e62fb28e7fa693ac93884c2f7f5aab46f5"
+  },
+  "paused_producers": {
+    "passed": false,
+    "exact_equal": false,
+    "mode": 1,
+    "start": 0,
+    "count": 3072,
+    "salt": 7,
+    "columns": 24,
+    "rows": 128,
+    "capture_size": [
+      720,
+      1080
+    ],
+    "checked_cells": 3072,
+    "checked_pixels": 27648,
+    "failed_cells": 3059,
+    "max_error": 255,
+    "padding_cells": 0,
+    "verified_query_count": 3072,
+    "unique_target_count": 3072,
+    "cross_page_queries": 0,
+    "observed_query_sha256": "e80232b4d18d0bb7e794be263ba937626f383f9917d4b8a737ba893a8f752293",
+    "expected_query_sha256": "b282f7e97b6ab1764b0b642e5850e8e62fb28e7fa693ac93884c2f7f5aab46f5"
+  },
+  "native_alpha_preservation_verified": false,
+  "all_dynamic_frames_verified": false,
+  "gpu_to_python_readback": false,
+  "actual_mobile_hardware": false,
+  "bulk_full_updates_discontinued_per_user": true,
+  "candidate_update_budget_bytes_per_frame": 3072,
+  "incremental_budget_implementation_verified": false,
+  "raw_evidence_directory": ".runtime/isolated-atlas-study/v1/evidence",
+  "interrupted_128_initial_benchmark": {
+    "status": "completed",
+    "measured_frames": 34,
+    "dynamic": true,
+    "generation_ms": {
+      "count": 34,
+      "min": 29.030599999998685,
+      "max": 98.78200000002835,
+      "p95": 96.3805000000093,
+      "p50": 29.96440000003986,
+      "mean": 36.29502352941592
+    },
+    "elapsed": 8.11016090000004,
+    "warm_until": 279.9251801,
+    "seed": 54321,
+    "interval_ms": {
+      "count": 35,
+      "min": 190.48829999996997,
+      "max": 270.6713000000036,
+      "p95": 261.52330000002166,
+      "p50": 195.91830000001664,
+      "mean": 203.62502000000083
+    },
+    "gpu_verified": false,
+    "frames": 40,
+    "isolated_case_token": "3af935a541b649b9b5f95b0814c082a9",
+    "upload_ms": {
+      "count": 34,
+      "min": 13.203099999998358,
+      "max": 17.136300000004212,
+      "p95": 14.544199999988905,
+      "p50": 13.937800000007883,
+      "mean": 14.066867647052144
+    },
+    "count": 5462,
+    "kind": "aggregate",
+    "success": true,
+    "start": 278.9251801,
+    "mode": -1,
+    "fps": {
+      "count": 2,
+      "min": 5.119453430175781,
+      "max": 5.199306488037109,
+      "p95": 5.119453430175781,
+      "p50": 5.119453430175781,
+      "mean": 5.159379959106445
+    },
+    "error": null,
+    "previous": 287.035341,
+    "until": 286.9251801
+  },
+  "independent_replay": {
+    "audit_passed": true,
+    "windows": 142,
+    "input_artifacts": 595,
+    "independent_second_oracle": false
+  }
+}

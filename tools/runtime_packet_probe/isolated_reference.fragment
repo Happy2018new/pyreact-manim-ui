@@ -1,0 +1,15 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform vec4 EXTRA_VECTOR1;
+
+void main() {
+    // Fixed input fixture for pixel comparisons; independent of payload.
+    vec2 p = floor(uv * vec2(720.0, 1080.0));
+    float phase = floor(EXTRA_VECTOR1.x);
+    vec4 channels = vec4(mod(p.x + p.y * 3.0 + phase, 256.0),
+                         mod(p.x * 7.0 + p.y + phase * 3.0, 256.0),
+                         mod(p.x * 5.0 + p.y * 11.0 + phase * 7.0, 256.0),
+                         mod(p.x * 13.0 + p.y * 17.0 + phase, 256.0));
+    gl_FragColor = channels / 255.0;
+}
