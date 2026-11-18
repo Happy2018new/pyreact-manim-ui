@@ -1,0 +1,48 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform vec4 EXTRA_VECTOR1; // sourceROI top-left,width,height
+uniform vec4 EXTRA_VECTOR2; // screen width,height,sampler0/1,flipY
+uniform vec4 EXTRA_VECTOR3; // mode,output top,width,source pixel count
+
+vec4 sourceAt(vec2 pixel) {
+    vec2 location=(pixel+vec2(.5))/EXTRA_VECTOR2.xy;
+    if (EXTRA_VECTOR2.w>.5) location.y=1.0-location.y;
+    if (EXTRA_VECTOR2.z<.5) return texture2D(TEXTURE_0,location);
+    return texture2D(TEXTURE_1,location);
+}
+
+vec4 sourceIndex(float index) {
+    return sourceAt(EXTRA_VECTOR1.xy+vec2(mod(index,EXTRA_VECTOR1.z),floor(index/EXTRA_VECTOR1.z)));
+}
+
+void main() {
+    vec2 pixel=floor(vec2(uv.x,1.0-uv.y)*EXTRA_VECTOR2.xy);
+    float localY=pixel.y-EXTRA_VECTOR3.y;
+    if (localY<0. || localY>=ceil(EXTRA_VECTOR3.w*2./EXTRA_VECTOR3.z)) {
+        gl_FragColor=texture2D(TEXTURE_0,uv);
+        return;
+    }
+    if (EXTRA_VECTOR3.x>.5) {
+        float index=min(floor(pixel.x*32./EXTRA_VECTOR3.z),31.);
+        if (EXTRA_VECTOR3.x>1.5) {
+            index=mod(131.*index+29.,32.);
+            vec4 first=sourceAt(EXTRA_VECTOR1.xy+vec2((index+.5)*EXTRA_VECTOR1.z/32.,EXTRA_VECTOR1.w*.5));
+            index=mod(index+3.*floor(first.r*255.+.5)+7.,32.);
+        }
+        gl_FragColor=vec4(sourceAt(EXTRA_VECTOR1.xy+vec2((index+.5)*EXTRA_VECTOR1.z/32.,EXTRA_VECTOR1.w*.5)).rgb,1.);
+        return;
+    }
+    float ordinal=localY*EXTRA_VECTOR3.z+pixel.x;
+    float index=floor(ordinal*.5);
+    if (index>=EXTRA_VECTOR3.w) {
+        gl_FragColor=vec4(1.,0.,1.,1.);
+        return;
+    }
+    vec4 value=sourceIndex(index);
+    // Adjacent output pixels expose RGB and Alpha from one source texel in
+    // the same scene texture and same frame, without modifying native rain.
+    gl_FragColor=mod(ordinal,2.)<.5?vec4(value.rgb,1.):vec4(vec3(value.a),1.);
+}

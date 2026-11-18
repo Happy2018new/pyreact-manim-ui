@@ -1,0 +1,37 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformExtraVectorConstants.h"
+
+void main() {
+    float index = floor(uv.x * 32.0);
+    float page = floor(EXTRA_VECTOR3.a * 8.0 + 0.5) - 1.0;
+    float localIndex = index - page * 9.0;
+    // Four effects own disjoint stripes; the last page carries only five bytes.
+    if (index < 0.0 || index >= 32.0 || page < 0.0 || page >= 4.0 ||
+            localIndex < 0.0 || localIndex >= 9.0) {
+        discard;
+    }
+
+    float channel = floor(localIndex / 3.0);
+    highp float packedValue = EXTRA_VECTOR3.r;
+    if (channel >= 2.0) {
+        packedValue = EXTRA_VECTOR3.b;
+    } else if (channel >= 1.0) {
+        packedValue = EXTRA_VECTOR3.g;
+    }
+
+    // The sender encodes uint24 / 2^24. Adding 0.5 can corrupt large words.
+    highp float word = floor(packedValue * 16777216.0);
+    float byteIndex = mod(localIndex, 3.0);
+    float divisor = 65536.0;
+    if (byteIndex >= 2.0) {
+        divisor = 1.0;
+    } else if (byteIndex >= 1.0) {
+        divisor = 256.0;
+    }
+    float value = mod(floor(word / divisor), 256.0);
+    gl_FragColor = vec4(value / 255.0,
+        mod(value * 71.0 + 43.0, 256.0) / 255.0,
+        mod(value * 131.0 + 17.0, 256.0) / 255.0, 1.0);
+}

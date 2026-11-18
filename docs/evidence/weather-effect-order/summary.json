@@ -1,0 +1,162 @@
+{
+  "schema": "weather_effect_order_evidence_v1",
+  "client": "3.10.0.467018",
+  "physical_size": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "performance_measured": false,
+  "r1_order_audit": {
+    "schema": "weather_effect_order_audit_v1",
+    "clear_cases": 8,
+    "clear_all_source_rgb_exact": true,
+    "rain_layer1": [
+      {
+        "label": "031_rain_0_layer1",
+        "rgb_error_pixels": 3572,
+        "alpha_not255_pixels": 3572,
+        "intact_rgb_and_alpha_not255_pixels": 0
+      },
+      {
+        "label": "031_rain_1_layer1",
+        "rgb_error_pixels": 3494,
+        "alpha_not255_pixels": 3494,
+        "intact_rgb_and_alpha_not255_pixels": 0
+      },
+      {
+        "label": "031_rain_2_layer1",
+        "rgb_error_pixels": 3171,
+        "alpha_not255_pixels": 3171,
+        "intact_rgb_and_alpha_not255_pixels": 0
+      }
+    ],
+    "rain_layer15": [
+      {
+        "label": "032_rain_0_layer15",
+        "rgb_error_pixels": 0,
+        "alpha_not255_pixels": 3097,
+        "intact_rgb_and_alpha_not255_pixels": 3097
+      },
+      {
+        "label": "032_rain_1_layer15",
+        "rgb_error_pixels": 0,
+        "alpha_not255_pixels": 2577,
+        "intact_rgb_and_alpha_not255_pixels": 2577
+      },
+      {
+        "label": "032_rain_2_layer15",
+        "rgb_error_pixels": 0,
+        "alpha_not255_pixels": 3115,
+        "intact_rgb_and_alpha_not255_pixels": 3115
+      }
+    ],
+    "strict_after_rain_before_post_pixel_gate": true,
+    "native_precip_material_hashes_unchanged": true,
+    "marker_bytes": 32,
+    "arbitrary_32_byte_upload": false,
+    "runtime_control": "one scalar byte via public SetMixColor,32byte proceduralmarker",
+    "rain_restored_level": 0.0
+  },
+  "r2_payload": {
+    "bytes": 32,
+    "arbitrary_payloads": 3,
+    "effect_count": 4,
+    "bytes_per_effect": 9,
+    "clear_cases": 13,
+    "rain_cases": 12,
+    "all_exact": true,
+    "wet_same_source_rgb_alpha_checks": [
+      {
+        "label": "030_wet_0_t0_pairs",
+        "source_pixel_count": 124416,
+        "changed_alpha_with_intact_rgb": 3078,
+        "rgb_errors": 0
+      },
+      {
+        "label": "030_wet_0_t1_pairs",
+        "source_pixel_count": 124416,
+        "changed_alpha_with_intact_rgb": 2989,
+        "rgb_errors": 0
+      },
+      {
+        "label": "030_wet_1_t0_pairs",
+        "source_pixel_count": 124416,
+        "changed_alpha_with_intact_rgb": 3350,
+        "rgb_errors": 0
+      },
+      {
+        "label": "030_wet_1_t1_pairs",
+        "source_pixel_count": 124416,
+        "changed_alpha_with_intact_rgb": 3232,
+        "rgb_errors": 0
+      }
+    ]
+  },
+  "native_precipitation_overridden": false,
+  "scene_rgb_restoration_validated": false,
+  "tested_above_32_arbitrary_bytes": false,
+  "artifacts": [
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/project/material_source_receipt.json",
+      "sha256": "749232a7feddaef7c9a55047393eb9b780ea9e80741c22832127ba90bf939ed9"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/results.json",
+      "sha256": "830cca24b9f1f9911a555b40e84308f054c27a2d30ebf00ade8e823673ca4289"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/audit.json",
+      "sha256": "c200b34057f5f77d57f63956e91ee3cbafe4b9970e9f2000cbcc233d15316c9e"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/031_rain_0_layer1.png",
+      "sha256": "3ecd4d477f57d55bee94ff653deb73a8cedf8224c86dd050eb9ca15be8668bee"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/032_rain_0_layer15.png",
+      "sha256": "26f32ccca767bbaa1d0de585de9c834b9e192fc2cb630b5d9a1f8befe5ce0705"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/focused_wet_retry/results.json",
+      "sha256": "2e38daa311e3f6b1d1520e4d97c4d63d95a865a30f241e89475755423c8c5eb6"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/focused_wet_retry/query_results.json",
+      "sha256": "3c3c3d19075b5ff83058236107b36402654aefae30508200db1b6deea7125da9"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/project/material_source_receipt.json",
+      "sha256": "749232a7feddaef7c9a55047393eb9b780ea9e80741c22832127ba90bf939ed9"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/results.json",
+      "sha256": "837c176cbb8529b322f24142921c817ae3851982f2b4364e895e84c9414b159b"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/final-host-status.json",
+      "sha256": "81467765bdc89625ec0984f7b83f4c1962b398e56bfa68bf18d10fc47cc468ab"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/030_wet_1_t1_pairs.png",
+      "sha256": "c7bc211d355bf33c2f0068b0db639b6a117e4e067b737c35e4e4dff29dad186c"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/032_wet_1_t1_dependent.png",
+      "sha256": "a750555865fa3e5ccbde39222b0ff355c7837ab42b4abf146666db1c0cf46e3b"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r1/evidence/cleanup.json",
+      "sha256": "1b3c2c2f0e10dd1ca019330c2e6d8605c045c10bee49de696c66c92edb9c7ca5"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/cleanup.json",
+      "sha256": "077460ec155f42873ab289987492b716fe00493f0992871d4571f739a7dac438"
+    },
+    {
+      "path": ".runtime/weather-effect-order-native-20261118-r2/evidence/audit.json",
+      "sha256": "b0607e85c939bdce49a992456101b48419a96deb55e5ff132042cc614874e12b"
+    }
+  ],
+  "owned_instances_stopped": true
+}

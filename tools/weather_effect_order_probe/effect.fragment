@@ -1,0 +1,12 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformExtraVectorConstants.h"
+void main() {
+    float index=min(floor(clamp(uv.x,0.0,1.0)*32.0),31.0);
+    float seed=floor(EXTRA_VECTOR3.r*255.0+0.5);
+    float s=mod(seed+index*43.0,251.0);
+    float value=mod(s*s+17.0*s+index*73.0,256.0);
+    gl_FragColor=vec4(value/255.0,mod(value*71.0+43.0,256.0)/255.0,
+        mod(value*131.0+17.0,256.0)/255.0,1.0);
+}

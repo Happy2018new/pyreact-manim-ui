@@ -1,0 +1,20 @@
+// __multiversion__
+#if __VERSION__ >= 300
+#define attribute in
+#ifdef MSAA_FRAMEBUFFER_ENABLED
+#define _centroid centroid
+#else
+#define _centroid
+#endif
+_centroid out vec2 uv;
+#else
+varying vec2 uv;
+#endif
+attribute mediump vec4 POSITION;
+attribute vec2 TEXCOORD_0;
+void main() {
+    uv=TEXCOORD_0;
+    // A finite source strip. The native effect remains the draw carrier;
+    // clip-space placement makes comparison and same-pixel rain checks exact.
+    gl_Position=vec4(-0.8+1.6*uv.x,0.7-0.4*uv.y,0.0,1.0);
+}
