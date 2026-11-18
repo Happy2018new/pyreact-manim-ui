@@ -1,0 +1,5 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+#include "uniformShaderConstants.h"
+void main() { gl_FragColor=vec4(CURRENT_COLOR.r,0.15,0.65,CURRENT_COLOR.r); }

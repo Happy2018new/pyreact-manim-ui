@@ -1,0 +1,5 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+void main() { gl_FragColor=vec4(vec3(texture2D(TEXTURE_0,uv).a),1.0); }
