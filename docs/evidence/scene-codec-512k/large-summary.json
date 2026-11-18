@@ -1,0 +1,394 @@
+{
+  "schema": "scene_codec_large_isolated_summary_v1",
+  "status": "passed",
+  "source_bundle_sha256": "3cd4e7ee11091aae049bc360fecf85977e0c8e5ca1914220a4a7b25767923806",
+  "condition": "fixed clear weather; native config and reported flags disabled; copy baseline1/writer copy1/restore3/dependent4",
+  "native_effect_state_scope": "Startup config and reported getters disabled; no native shader execution compatibility claim.",
+  "fps_cap": 60,
+  "background_only": true,
+  "game_runtime_file_writes": false,
+  "continuous_updates": false,
+  "rain_compatibility_claimed": false,
+  "bloom_compatibility_claimed": false,
+  "positive_captures": 17,
+  "positive_native_query_pixels": 6992000,
+  "positive_query_errors": 0,
+  "all_capture_guard_errors": 0,
+  "negative_controls": [
+    {
+      "label": "262144_hidden",
+      "kind": "identity",
+      "expected_pass": false,
+      "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\023_262144_hidden_settled.state.json",
+      "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\262144_hidden.png",
+      "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\262144_hidden.verify.json",
+      "passed": false,
+      "failed_query_pixels": 261088,
+      "failed_guard_pixels": 0,
+      "checked_native_query_pixels": 262144
+    },
+    {
+      "label": "524288_hidden",
+      "kind": "identity",
+      "expected_pass": false,
+      "receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\092_524288_hidden_settled.state.json",
+      "capture": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\524288_hidden.png",
+      "verification": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\524288_hidden.verify.json",
+      "passed": false,
+      "failed_query_pixels": 522157,
+      "failed_guard_pixels": 0,
+      "checked_native_query_pixels": 524288
+    }
+  ],
+  "wrong_generation_control_count": 10,
+  "all_wrong_generation_controls_rejected": true,
+  "profiles": [
+    {
+      "logical_bytes": 262144,
+      "profile": "copy_baseline",
+      "custom_pass_count": 1,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.0142742,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.058799999998598,
+        "min": 9.698100000001375,
+        "max": 24.93899999999627,
+        "p95": 17.932899999998142,
+        "over_50_ms": 0,
+        "over_25_ms": 0,
+        "mean": 16.667244800000006
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 262416,
+        "records_all_datasets": 349888,
+        "anchor_count": 6
+      }
+    },
+    {
+      "logical_bytes": 262144,
+      "profile": "writer_copy",
+      "custom_pass_count": 1,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.0066926,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.088300000002278,
+        "min": 8.240399999991155,
+        "max": 25.19060000000195,
+        "p95": 17.935100000002535,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.666144066666625
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 262416,
+        "records_all_datasets": 349888,
+        "anchor_count": 6
+      }
+    },
+    {
+      "logical_bytes": 262144,
+      "profile": "restore",
+      "custom_pass_count": 3,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.006077200000007,
+      "frames": 1496,
+      "fps": {
+        "count": 99,
+        "max": 60.0775146484375,
+        "min": 51.282047271728516,
+        "p95": 60.0775146484375,
+        "mean": 59.89982843880701
+      },
+      "interval_ms": {
+        "count": 1495,
+        "over_33_3_ms": 1,
+        "p99": 18.096200000002227,
+        "min": 8.609199999995099,
+        "max": 90.64349999999877,
+        "p95": 17.923500000009085,
+        "over_50_ms": 1,
+        "over_25_ms": 1,
+        "mean": 16.71745003344479
+      },
+      "raw_fps_count": 99,
+      "raw_interval_count": 1495,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 262416,
+        "records_all_datasets": 349888,
+        "anchor_count": 6
+      }
+    },
+    {
+      "logical_bytes": 262144,
+      "profile": "dependent",
+      "custom_pass_count": 4,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.013722499999986,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 59.96131134033203,
+        "p95": 60.0775146484375,
+        "mean": 60.07519058227539
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.061499999987518,
+        "min": 9.478400000006104,
+        "max": 25.15669999999659,
+        "p95": 17.87959999998634,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.666890066666653
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 262416,
+        "records_all_datasets": 349888,
+        "anchor_count": 6
+      }
+    },
+    {
+      "logical_bytes": 524288,
+      "profile": "copy_baseline",
+      "custom_pass_count": 1,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.0153665,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 61.02362060546875,
+        "min": 59.160301208496094,
+        "p95": 60.0775146484375,
+        "mean": 60.07825729370117
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.119600000005676,
+        "min": 7.54129999998554,
+        "max": 25.982599999991862,
+        "p95": 17.949500000014496,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.668015066666648
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 786720,
+        "records_all_datasets": 1048960,
+        "anchor_count": 17
+      }
+    },
+    {
+      "logical_bytes": 524288,
+      "profile": "writer_copy",
+      "custom_pass_count": 1,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.013638000000014,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.081800000004478,
+        "min": 9.856799999994337,
+        "max": 24.679700000007188,
+        "p95": 17.9027000000076,
+        "over_50_ms": 0,
+        "over_25_ms": 0,
+        "mean": 16.66684719999999
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 786720,
+        "records_all_datasets": 1048960,
+        "anchor_count": 17
+      }
+    },
+    {
+      "logical_bytes": 524288,
+      "profile": "restore",
+      "custom_pass_count": 3,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.013162499999993,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.07819999999083,
+        "min": 9.522000000004027,
+        "max": 25.357999999982894,
+        "p95": 17.90979999998399,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.666591399999984
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 786720,
+        "records_all_datasets": 1048960,
+        "anchor_count": 17
+      }
+    },
+    {
+      "logical_bytes": 524288,
+      "profile": "dependent",
+      "custom_pass_count": 4,
+      "warmup_seconds": 2.0,
+      "sample_seconds": 25.012817100000007,
+      "frames": 1501,
+      "fps": {
+        "count": 100,
+        "max": 60.0775146484375,
+        "min": 60.0775146484375,
+        "p95": 60.0775146484375,
+        "mean": 60.0775146484375
+      },
+      "interval_ms": {
+        "count": 1500,
+        "over_33_3_ms": 0,
+        "p99": 18.01269999998567,
+        "min": 7.803599999988364,
+        "max": 25.711100000023634,
+        "p95": 17.902699999979177,
+        "over_50_ms": 0,
+        "over_25_ms": 1,
+        "mean": 16.666414066666672
+      },
+      "raw_fps_count": 100,
+      "raw_interval_count": 1500,
+      "allocation_identity": {
+        "payload_bytes_all_datasets": 786720,
+        "records_all_datasets": 1048960,
+        "anchor_count": 17
+      }
+    }
+  ],
+  "available_commit_bytes": {
+    "after_262144.resources.json": 13202034688,
+    "after_524288.resources.json": 12886675456,
+    "before_262144.resources.json": 13437620224,
+    "before_524288.resources.json": 13239234560
+  },
+  "resident_page_count_before_exit": 17,
+  "native_attempt_serial": 17,
+  "geometry_build_serial": 17,
+  "allocated_payload_bytes_all_datasets": 786720,
+  "allocated_records_all_datasets": 1048960,
+  "native_memory_bytes_measured": false,
+  "final_profile": "quiesced",
+  "all_native_attachments_hidden": true,
+  "final_custom_enabled": [],
+  "final_native_reported_enabled": [],
+  "release": {
+    "utc": "2026-11-18T10:42:20.3832333Z",
+    "owned_pid": 47332,
+    "owned_pid_running": false,
+    "minecraft_processes": [
+      {
+        "ProcessId": 44232,
+        "Name": "Minecraft.Windows.exe",
+        "ThreadCount": 0,
+        "HandleCount": 0,
+        "WorkingSetSize": 32768,
+        "VirtualSize": 0
+      },
+      {
+        "ProcessId": 1448,
+        "Name": "Minecraft.Windows.exe",
+        "ThreadCount": 0,
+        "HandleCount": 0,
+        "WorkingSetSize": 32768,
+        "VirtualSize": 0
+      }
+    ],
+    "active_count": 0,
+    "normal_stop_timed_out_then_process_exited_without_force": true
+  },
+  "artifacts": {
+    "large_codec.results.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\large_codec.results.json",
+      "sha256": "3d740485f7ef653a6578347257da16a812fc4b87f3105378208aaef10e82f2d9"
+    },
+    "host_control_sources.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\host_control_sources.json",
+      "sha256": "1ba887c58a772ae2a749300e1327980ca5c16bc861d18199ac49260a97f060dd"
+    },
+    "preflight_processes.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\preflight_processes.json",
+      "sha256": "65fd863414d80327db6f443c44afecdba0c28e6d5d1f085f0ea4becf6d311a42"
+    },
+    "pre_run_processes.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\pre_run_processes.json",
+      "sha256": "3c1421fe44df956e996a8bb56428c5a6ff7e4bb85c88d95a1df4fb2bbf588450"
+    },
+    "fixed_clear_weather.decoded.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\fixed_clear_weather.decoded.json",
+      "sha256": "83126191bc90ad5e1965a3f3ac5832deca2287e4c4f62a6dd1d7a120f842c5fd"
+    },
+    "resize_native.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\resize_native.json",
+      "sha256": "59f5ed3defecdf6d774ad4f1c78430d366a747e7cca633395b0c22f4acbcb51d"
+    },
+    "final_cpu_tests.log": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\final_cpu_tests.log",
+      "sha256": "80851cfca5b6b7a668ee28d65fdf528a2a5d52520dcb75fb556189b02c6e9866"
+    },
+    "released_processes.json": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\released_processes.json",
+      "sha256": "9bbbb81b3c45a3484d96b53602cc078f7bd0b992f68f5a5dd2ee52f90d27d4e8"
+    },
+    "stop.stdout.log": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\stop.stdout.log",
+      "sha256": "57868e5fdc57a5e6c7b7ea3cf6629dacc743337dc67553c804bc13ce68373bca"
+    },
+    "stop_finalize_after_exit.log": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-large-native-20261118-r2\\evidence\\stop_finalize_after_exit.log",
+      "sha256": "c12e7c2685fc744068f7d07b431670fd5371c9b3dab2bbb8af11445c42564e51"
+    }
+  }
+}

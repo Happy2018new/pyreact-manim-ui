@@ -1,0 +1,101 @@
+{
+  "schema": "scene_codec_512k_research_evidence_index_v1",
+  "research_date": "2026-11-18",
+  "scope": "Controlled native RGB domain, real alpha/weather/native-effects compatibility, isolated static 256/512 KiB tests.",
+  "result": {
+    "isolated_512k_correctness_passed": true,
+    "isolated_512k_static_about_60_fps": true,
+    "rain_payload_compatibility_passed": false,
+    "native_bloom_replacement_proven": false,
+    "continuous_updates_tested": false
+  },
+  "screen_alpha8_raw_budget": {
+    "physical_screen_pixels": [
+      2560,
+      1600
+    ],
+    "bytes_per_pixel": 1,
+    "bytes": 4096000,
+    "kib": 4000,
+    "mib": 3.90625,
+    "full_screen_capacity_native_validated": false,
+    "previous_direct_alpha_capacity_validated_bytes": 2097152
+  },
+  "raw_artifact_policy": "Large PNGs, complete runtime packages, raw FPS/interval vectors and saved commands remain under .runtime; archives below are verbatim small evidence reports, not replacements for raw inputs.",
+  "conditions": [
+    "1080x1440 native viewport",
+    "fixed clear weather and time6000",
+    "native startup config and actual reported flags disabled",
+    "single active MC",
+    "60 FPS cap",
+    "owned noactivation session and passive WGC",
+    "no game-runtime file writes",
+    "no continuous updates"
+  ],
+  "source_identity_scope": "source_bundle_sha256 covers the explicit source_manifest inputs; it is not a complete transitive build/package hash. Saved running package differs from latest source profile method; hashed explicit host controls and actual states establish 1/1/3/4 measured pass counts.",
+  "artifacts": [
+    {
+      "archive": "independent-domain-audit.json",
+      "source": ".runtime/scene-codec-native/rgb-domain-evidence-v4/independent-domain-audit.json",
+      "bytes": 78356,
+      "sha256": "1c05b5f88e895d4860c9020bc60da27133ff0041bf0ad2429b261cf04078cc41",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "independent-compat-audit.json",
+      "source": ".runtime/scene-codec-compat/newindependent-compat-audit.json",
+      "bytes": 69460,
+      "sha256": "5574871b001cc9b0d0b949f7611f8bfa2a9d0450f923668a99758242379354c9",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "historical-disjoint-failures.json",
+      "source": ".runtime/scene-codec-historical-rgb-audit-20261118/disjoint-failures-v2.json",
+      "bytes": 8512,
+      "sha256": "92ba66a055c0cef90ee6e7eb059625f7ddf5f04b0c79aff1da146a80f2a595e5",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "historical-identical-double-blend.json",
+      "source": ".runtime/scene-codec-historical-rgb-audit-20261118/identical-double-blend-v3.json",
+      "bytes": 10764,
+      "sha256": "45a4e3ea87d9d34cf35a65f470f3f722f1afae7828c156e004aefe941fbd1a05",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "large-summary.json",
+      "source": ".runtime/scene-codec-large-native-20261118-r2/evidence/large_codec.summary.json",
+      "bytes": 14222,
+      "sha256": "03e60e8e310edb0f92f8e584c8a8e047c26000e4082e7cc10a5535e864187ed5",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "independent-large-audit.json",
+      "source": ".runtime/scene-codec-large-native-20261118-r2/evidence/independent-large-codec-audit.json",
+      "bytes": 89805,
+      "sha256": "202ed300f3a331bbb63c5c92be4cddb5a4c60f85289127f0c8a7fb3e15db7c8e",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "large-host-control-sources.json",
+      "source": ".runtime/scene-codec-large-native-20261118-r2/evidence/host_control_sources.json",
+      "bytes": 673,
+      "sha256": "1ba887c58a772ae2a749300e1327980ca5c16bc861d18199ac49260a97f060dd",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "large-source-manifest.json",
+      "source": ".runtime/scene-codec-large-native-20261118-r2/project/source_manifest.json",
+      "bytes": 3074,
+      "sha256": "49337e33bdabf2bf6588dd190a7a5a0d74a4c593e19a1f82aa3f6894bc368990",
+      "copied_verbatim": true
+    },
+    {
+      "archive": "large-native-effects-off-manifest.json",
+      "source": ".runtime/scene-codec-large-native-20261118-r2/project/native_effects_off.manifest.json",
+      "bytes": 722,
+      "sha256": "f2060092d81d045d4fd12e339e2e1618cb93914a505137c35ccf28b263695c3b",
+      "copied_verbatim": true
+    }
+  ]
+}

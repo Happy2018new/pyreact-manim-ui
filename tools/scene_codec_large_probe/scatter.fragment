@@ -1,0 +1,12 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+varying highp float geometryByte;
+
+void main() {
+    // Fixed k2 production carrier. Actor G4 is deliberately absent here:
+    // G4.w belongs exclusively to the vertex global record base.
+    highp float value=floor(geometryByte*255.0+0.5);
+    highp vec3 payload=vec3(mod(value,4.0),mod(floor(value/4.0),4.0),floor(value/16.0));
+    gl_FragColor=vec4(payload/3.0,192.0/255.0);
+}

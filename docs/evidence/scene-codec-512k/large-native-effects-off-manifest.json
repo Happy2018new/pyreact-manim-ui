@@ -1,0 +1,24 @@
+{
+  "native_source": {
+    "path": "D:\\MCStudioDownload\\game\\MinecraftPE_Netease\\3.10.0.448891\\data\\resource_packs\\vanilla_netease\\graphics_settings\\post_process.json",
+    "sha256": "04ff46f5fcbdafd1f86e4e09da3fd265cb19c4b3922a8121d46cf123076b67d3",
+    "bytes": 11220
+  },
+  "only_changed_fields": [
+    "process_array[*].enable"
+  ],
+  "render_order_unchanged": true,
+  "native_names": [
+    "bloom",
+    "lensflare",
+    "depthoffield",
+    "gaussianblur",
+    "coloradjustment",
+    "vignette",
+    "lensstain",
+    "oldtv",
+    "scanmap"
+  ],
+  "generated_sha256": "3783d7f1a2e56cab18d2ba91061eb688e343b29e92890a7e5c3c07dc022ec3f5",
+  "native_effects_compatibility_claimed": false
+}

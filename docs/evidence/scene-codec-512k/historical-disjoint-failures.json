@@ -1,0 +1,446 @@
+{
+  "kind": "historical_rgb_disjoint_failure_audit_v1",
+  "independent_of_probe_codec": true,
+  "sources": {
+    "baseline": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-native\\evidence-v2\\native64k2_native_k2_bytes65536_baseline.png",
+      "sha256": "020131614372891919bbfc75ff82051942a5ffb8eec33f6fc44ddd2fa880ae97"
+    },
+    "first_restored": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-native\\evidence-v2\\native64k2_native_k2_bytes65536_restored.png",
+      "sha256": "e3b56b40c9c1d0b9d8e88c460b8712b4dc57012db8f069da5f89ffa376b288b8"
+    },
+    "later_off": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-native\\evidence-v2\\k2_rgb_steady_off_after.png",
+      "sha256": "4f2a641f0bf1a23b45557fea6bdb5b4a89dd1503dab08a869c8f10175c71d59c"
+    },
+    "followup_before": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-native\\evidence-v2\\k2_rgb_followup_off_before.png",
+      "sha256": "d25c9e2bc634e9c1604844fe6219e2a822a81497a99d1661d85dc0d90b21db81"
+    },
+    "steady_on": {
+      "path": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-native\\evidence-v2\\k2_rgb_steady_on.png",
+      "sha256": "89cf10440664d54bedad8b090d62a11bc576e2cc01640cdb60ab39f83dee1a8d"
+    }
+  },
+  "layout": {
+    "source_roi": [
+      8,
+      32,
+      128,
+      683
+    ],
+    "count": 87424,
+    "display_x": "ordinal % 720",
+    "display_y": "128 + ordinal // 720"
+  },
+  "first_restored_error_gt_2": {
+    "count": 1356,
+    "display_bbox_inclusive": [
+      0,
+      222,
+      719,
+      228
+    ],
+    "ordinal_min_max": [
+      67712,
+      72346
+    ],
+    "rows": {
+      "222": 222,
+      "223": 185,
+      "224": 222,
+      "225": 217,
+      "226": 190,
+      "227": 222,
+      "228": 98
+    },
+    "max_rgb_error": 52,
+    "baseline_common": [
+      {
+        "rgb": [
+          62,
+          78,
+          40
+        ],
+        "count": 727
+      },
+      {
+        "rgb": [
+          61,
+          77,
+          39
+        ],
+        "count": 170
+      },
+      {
+        "rgb": [
+          61,
+          77,
+          40
+        ],
+        "count": 144
+      },
+      {
+        "rgb": [
+          64,
+          80,
+          41
+        ],
+        "count": 122
+      },
+      {
+        "rgb": [
+          64,
+          80,
+          42
+        ],
+        "count": 115
+      }
+    ],
+    "candidate_common": [
+      {
+        "rgb": [
+          57,
+          101,
+          45
+        ],
+        "count": 135
+      },
+      {
+        "rgb": [
+          65,
+          109,
+          57
+        ],
+        "count": 132
+      },
+      {
+        "rgb": [
+          69,
+          101,
+          57
+        ],
+        "count": 124
+      },
+      {
+        "rgb": [
+          69,
+          113,
+          61
+        ],
+        "count": 115
+      },
+      {
+        "rgb": [
+          69,
+          109,
+          57
+        ],
+        "count": 108
+      }
+    ],
+    "delta_common": [
+      {
+        "rgb": [
+          3,
+          31,
+          17
+        ],
+        "count": 95
+      },
+      {
+        "rgb": [
+          7,
+          23,
+          17
+        ],
+        "count": 76
+      },
+      {
+        "rgb": [
+          -5,
+          23,
+          5
+        ],
+        "count": 76
+      },
+      {
+        "rgb": [
+          7,
+          31,
+          17
+        ],
+        "count": 70
+      },
+      {
+        "rgb": [
+          -9,
+          7,
+          5
+        ],
+        "count": 62
+      }
+    ],
+    "ordinal_mask_sha256": "d346ad44cb99268d9977ba8e31aee99d1115a621d2998007be0bf7aea1b90109",
+    "source_bbox_inclusive": [
+      8,
+      561,
+      44,
+      597
+    ],
+    "source_rows": {
+      "561": 37,
+      "562": 37,
+      "563": 37,
+      "564": 37,
+      "565": 37,
+      "566": 37,
+      "567": 37,
+      "568": 37,
+      "569": 37,
+      "570": 37,
+      "571": 37,
+      "572": 37,
+      "573": 37,
+      "574": 37,
+      "575": 37,
+      "576": 37,
+      "577": 37,
+      "578": 37,
+      "579": 37,
+      "580": 37,
+      "581": 37,
+      "582": 37,
+      "583": 37,
+      "584": 37,
+      "585": 37,
+      "586": 37,
+      "587": 37,
+      "588": 37,
+      "589": 37,
+      "590": 37,
+      "591": 37,
+      "592": 37,
+      "593": 37,
+      "594": 37,
+      "595": 36,
+      "596": 35,
+      "597": 27
+    }
+  },
+  "later_off_error_gt_0": {
+    "count": 555,
+    "display_bbox_inclusive": [
+      16,
+      228,
+      719,
+      237
+    ],
+    "ordinal_min_max": [
+      72567,
+      78719
+    ],
+    "rows": {
+      "228": 25,
+      "229": 80,
+      "230": 96,
+      "231": 96,
+      "232": 80,
+      "233": 40,
+      "234": 4,
+      "235": 5,
+      "236": 97,
+      "237": 32
+    },
+    "max_rgb_error": 166,
+    "baseline_common": [
+      {
+        "rgb": [
+          62,
+          78,
+          40
+        ],
+        "count": 87
+      },
+      {
+        "rgb": [
+          63,
+          79,
+          41
+        ],
+        "count": 56
+      },
+      {
+        "rgb": [
+          61,
+          77,
+          39
+        ],
+        "count": 44
+      },
+      {
+        "rgb": [
+          64,
+          80,
+          41
+        ],
+        "count": 43
+      },
+      {
+        "rgb": [
+          61,
+          77,
+          40
+        ],
+        "count": 43
+      }
+    ],
+    "candidate_common": [
+      {
+        "rgb": [
+          136,
+          129,
+          132
+        ],
+        "count": 128
+      },
+      {
+        "rgb": [
+          145,
+          137,
+          140
+        ],
+        "count": 104
+      },
+      {
+        "rgb": [
+          155,
+          147,
+          150
+        ],
+        "count": 88
+      },
+      {
+        "rgb": [
+          175,
+          166,
+          169
+        ],
+        "count": 64
+      },
+      {
+        "rgb": [
+          50,
+          59,
+          27
+        ],
+        "count": 20
+      }
+    ],
+    "delta_common": [
+      {
+        "rgb": [
+          -19,
+          -26,
+          -14
+        ],
+        "count": 39
+      },
+      {
+        "rgb": [
+          -20,
+          -27,
+          -14
+        ],
+        "count": 36
+      },
+      {
+        "rgb": [
+          73,
+          50,
+          92
+        ],
+        "count": 27
+      },
+      {
+        "rgb": [
+          93,
+          69,
+          110
+        ],
+        "count": 23
+      },
+      {
+        "rgb": [
+          83,
+          59,
+          100
+        ],
+        "count": 22
+      }
+    ],
+    "ordinal_mask_sha256": "8090c5bd35883507ec4f9b574eb92633eca9fa0a3952b510ddd4f65c8ff78313",
+    "source_bbox_inclusive": [
+      111,
+      598,
+      135,
+      646
+    ],
+    "source_rows": {
+      "598": 9,
+      "599": 16,
+      "600": 16,
+      "601": 16,
+      "602": 16,
+      "603": 16,
+      "604": 16,
+      "605": 16,
+      "606": 16,
+      "607": 16,
+      "608": 16,
+      "609": 16,
+      "610": 16,
+      "611": 16,
+      "612": 16,
+      "613": 16,
+      "614": 16,
+      "615": 16,
+      "616": 16,
+      "617": 16,
+      "618": 16,
+      "619": 16,
+      "620": 16,
+      "621": 16,
+      "622": 16,
+      "623": 16,
+      "624": 2,
+      "625": 2,
+      "626": 2,
+      "627": 2,
+      "628": 1,
+      "629": 1,
+      "630": 1,
+      "631": 1,
+      "634": 1,
+      "635": 1,
+      "636": 1,
+      "637": 1,
+      "638": 1,
+      "639": 2,
+      "640": 8,
+      "641": 17,
+      "642": 21,
+      "643": 24,
+      "644": 25,
+      "645": 21,
+      "646": 11
+    }
+  },
+  "intersection_count": 0,
+  "baseline_equals_followup_before": true,
+  "first_failure_pixels_matching_later_off_within_2": 0,
+  "causal_attribution": null,
+  "conclusion": "Compare locations and colors; later scene variation is not an explanation for the first anomaly when the failure masks are disjoint. No object or engine cause is inferred.",
+  "first_failure_pixels_matching_steady_on_exactly": 0
+}

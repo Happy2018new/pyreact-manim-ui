@@ -142,6 +142,27 @@ class RuntimeAdapterTests(unittest.TestCase):
         self.assertEqual([name for name, visible in self.native.visible.items() if visible],
                          [self.probe.geometry_name])
 
+    def test_code_domain_has_every_original_byte_times_every_rgb_symbol(self):
+        for bits in (1, 2):
+            pixels = 256*(1 << (3*bits))
+            byte_count = pixels*3*bits//8
+            with patch.object(time, 'clock', time.perf_counter, create=True), \
+                    patch.object(self.probe, '_attach_background') as background:
+                state = self.probe.load_payload(byte_count, bits, code_domain=True)
+            background.assert_called_once_with(pixels)
+            self.assertEqual(state['codec_roi'], [8, 192, 256, pixels//256])
+            self.assertEqual(state['slot_count'], pixels)
+            self.assertTrue(state['code_domain_sweep'])
+            plane = self.native.data['volume'][0]**2
+            recovered = {}
+            for (identifier, aux), indices in self.native.data['common'].items():
+                template = int(identifier.rsplit('_', 1)[1])
+                for address in indices:
+                    y, index = divmod(address, plane)
+                    recovered[index] = y*16+template
+            self.assertEqual([recovered[index] for index in range(pixels)],
+                             [index//256 for index in range(pixels)])
+
 
 if __name__ == '__main__':
     unittest.main()

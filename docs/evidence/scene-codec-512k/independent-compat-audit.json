@@ -1,0 +1,2462 @@
+{
+  "kind": "independent_scene_codec_compat_audit_v1",
+  "independent_of_probe_codec_and_verifier": true,
+  "audit_source_sha256": "8889fced004b4bd16449875a9d0aae60db24bac7f5eae1e0d53c102a1d5cf6d2",
+  "source_summary_sha256": {
+    "carrier-evidence-v1/real6.results.json": "a10dbdec11ee4cbe2d7b763f1e28453517362a631bc4c1555f70a215c328b56e",
+    "carrier-evidence-v1/rain_isolate1.results.json": "69df0a824f43cf143a237303ea6a466e27e98b0f23a654fe6ef637e57bfe1cb5",
+    "carrier-evidence-v2b/sameframe1.results.json": "ed4fff11738853785da6983fbf4e9d984d0b2e93aeec2f9c6a819f884410f4d8",
+    "carrier-evidence-v2b/native_math1.results.json": "d6aaf889a7f03bbbd3018fca8e612dadbd2b2f36f286e8cbba8b1dcf4dd7cde6",
+    "native-sentinel-evidence-v1/sentinel1.results.json": "5a1433b120cc5852249c03b4ccaedbc0e83618e34e9c57f211c3815675f7d8a2"
+  },
+  "capture_count": 64,
+  "capture_state_receipt_hashes_checked": 192,
+  "command_hashes_checked": 83,
+  "capture_receipts": [
+    {
+      "file": "real6_water_glass_visible.png",
+      "sha256": "396a1bd99896f25c16b7b179aa23af6d3bbdeb6e028ad1b1ee1b95a83541ec16",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_alpha_grid.png",
+      "sha256": "39db729545519145a1af880e66b0c4b6673bcc2ab41f516e1beb7ae4637f34f7",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_alpha_blocks.png",
+      "sha256": "9aeee87e2267c4fbed8d46c98192dd7a85dd8bd11b5c99dcfcf4a1464da2fa06",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_alpha_sameframe.png",
+      "sha256": "8e499f8eded770f3524dff1724a8dee22ff9196fd0068ddb1bb99fbc58049e97",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_bloom.png",
+      "sha256": "4bf690d77d2438256c8d5641507eb699a57662489daa347e9f2e0b1e37f32745",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_dof.png",
+      "sha256": "71fa0a13473d0aafdce3f23fbe9889acea907f5a9e2e2170cd01ea0e84c3af3b",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_both.png",
+      "sha256": "1cbcc1eaf4f4ba37e2a3d14f8efa36b178512f2644a6822e442f8ee398ea6a34",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_identity_after_native.png",
+      "sha256": "97d037a7c70025f736fffb64e68993fd6da84d22d8c3d2744b4a6c0141ee8a91",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_water_glass_dependent_after_native.png",
+      "sha256": "b2797e36141edf895cb86b2713724ceaaee42045046f39f15852efb43e1c3dde",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_visible.png",
+      "sha256": "c86a8f8ef678be15fec0b56f64e44fc142ae8677a23c3daf213cfe154ecc07c0",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_alpha_grid.png",
+      "sha256": "40f2ad6d70432cd3dd1a3e1ccc10dcd859541a9411d0cfa795bb7cbc0506e97a",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_alpha_blocks.png",
+      "sha256": "d410f31a0fa90631c954962018d79b0134ad6052aab7b6408736870ec5380344",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_alpha_sameframe.png",
+      "sha256": "14bf833815116b88403d43a48532c1340116a890d82a64eb3f2a3822884897a2",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_bloom.png",
+      "sha256": "895fd86dd5632725a04bc12c8c81e05c0bdfab7070b37ef614173a82df289032",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_dof.png",
+      "sha256": "26de24b8fde1ce663e844824582cc340ed58ba260dca824f187724cc826d74f0",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_both.png",
+      "sha256": "7f25dbb0a73c480a88c43c95c2105ed71bb8569bd19d14acc69a50bb7306c5df",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_identity_after_native.png",
+      "sha256": "9187ffc3e8584d7a5f70ade39f841f549c91a142174c7e1a72ebfd3b23e0fb19",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_rain_dependent_after_native.png",
+      "sha256": "5fe41f7b892c20e82c714f156bbbdbfa7f7220f97d6c94e21781cffd2fcceed2",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_visible.png",
+      "sha256": "ce4b75408f002638b6bfe2680cdaa1445c8b1715f9802f7b3c7ca1e6b730b234",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_alpha_grid.png",
+      "sha256": "10a7c9f2a0a59ad5f2f463af8912865f0af7324c8ce438059a2ddc337bca6ab4",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_alpha_blocks.png",
+      "sha256": "4d24caeed20bf5c8daab217db4afaba511601a3ae96f108d4a2446d6326499bc",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_alpha_sameframe.png",
+      "sha256": "48e65ddee98c6943deea6332c6bcd7e54536086e93a564caab8cb499ccaed380",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_bloom.png",
+      "sha256": "77ae439a2221980a40deae58af77152d4658666b5309a4ddc1ef0cdb84d188af",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_dof.png",
+      "sha256": "c9885036d56c96ba8dae28f1ed03d5142e1772d39fcfe473ca3d57b203d2d197",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_both.png",
+      "sha256": "e62e22e2941a062e5b2708d8e704d4ea69f4eeeab45183bd1aa0c845d1d3d746",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_identity_after_native.png",
+      "sha256": "8a0ac52ca82c95295fd0445e530b3dd4aaacb80ae93c365bd9620dad6f573eb1",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_glint_emissive_dependent_after_native.png",
+      "sha256": "9864d08df18d3c41688f7c3e431678ffdcc879541e51d882826b2cebaf41a145",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_visible.png",
+      "sha256": "6be74ac17ac83306cd88309f40f6feacf3f5050d213e2f656d185ac9ccce04d2",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_alpha_grid.png",
+      "sha256": "ac7490eca14d39429d711c411a334d83ec9085df2de66a9f5bf043a74a8a2a36",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_alpha_blocks.png",
+      "sha256": "84ecb3907a2a2a3894f23b511afb5d6f7923006fcabe86021c3a6a6f90e25bd4",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_alpha_sameframe.png",
+      "sha256": "1b1ed9f37670fab9071ac9bcf52e7018582c15a79b586e1615e1e286edcabd8a",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_bloom.png",
+      "sha256": "36b96165a035444dc7c30ad90acd1cedd78e51005babf0f005ba449fbc334371",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_dof.png",
+      "sha256": "983023594936d4682873deaed7569c17cdcd3bd84487f5045d9438c0afab4c6b",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_both.png",
+      "sha256": "67288095ccc09dc477089ea3471842f051a307fce29ec6a3a3a40e196b89f91a",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_identity_after_native.png",
+      "sha256": "4aefad4b992c5d6218e426c4a0953d496217eb910152032c26b99f3c1cf2fa1d",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "real6_particle_dependent_after_native.png",
+      "sha256": "ab50d996401839778cc1f739b153669c25edb58be1b74318e4c39f4a98024f82",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_raw_rgb.png",
+      "sha256": "c450ff213b98007ba0f8af1dcb5a29e04f9cc46064ec2336782e03cd1e1745d7",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_early_identity.png",
+      "sha256": "07e5a3ff524dc2f45803f1e45fcc44efc4ec9edeb7227581bf57d5bfd0f565c5",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_early_dependent.png",
+      "sha256": "0963d1a75c35eb09f82af1499140ef0debb485414fef734c9abfa92a9bb539be",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_late_identity_off.png",
+      "sha256": "1610d122c26d8bde02cff38c1e5ed23f5086772f127751845c4ec0693ff1364d",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_late_identity_bloom.png",
+      "sha256": "7ae90e091ea561f106381e6b3dde5827a669d0382a84c76281b6e9d62a246c68",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_late_identity_dof.png",
+      "sha256": "955d582e38df06bcd7554c8a3b1c57bebdab1227f2db607762c2497ff8bf1bcc",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "rain_isolate1_late_identity_both.png",
+      "sha256": "1d4217216269f35bbbef1e0d9adfd37064fa3bdcf66715f16920cc9d95b9dd3a",
+      "pid": 12136,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_solid_0.png",
+      "sha256": "55af0da5d26bf3e694bc2e3dd4a66fdde8db93899ea8dd88ae80c9ee23dab0c8",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_solid_1.png",
+      "sha256": "41ed7487dce707c755fe952b80b1830d4b4cd80db3b42a87b2c9daa94d8436d4",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_rain_0.png",
+      "sha256": "b3edeb90180e743bd9fa6779be244d9d73275fa43fb2eb6139d144ed9e8d95d6",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_rain_1.png",
+      "sha256": "4f11d6e85a37092bfbf4db46a7c8b425f7fc0e00eab2e4330a82cf6d2be68df7",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_rain_2.png",
+      "sha256": "d365981dcc6b960f8dd8a98d39d7bccd352effd1f09f3271cf31b5db2896d221",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_rain_3.png",
+      "sha256": "ef74296426b60eeb959cd081deee302d1fec5c67f6ebdf8c6cfca6dbb12436f0",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sameframe1_rain_4.png",
+      "sha256": "c8c9161bf2ec09401bec3d9279c837037f8fad5cad14cb3de8ef04064a713c9b",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_off.png",
+      "sha256": "a3f41a0e53452b24457479c64774bbb3c51300fefeaa069995fe12ccd5823251",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_dof.png",
+      "sha256": "95aa330362508c49423964cd5a5a4b7d717129373d93b58bacfd80933e8d1935",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_bloom.png",
+      "sha256": "0a86ad06bc52bd085564fe286e55b467b5674c247f254e3bce37a4d89336b0ca",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_synthetic_alpha_-1.png",
+      "sha256": "1dfb2a45a2b602a0b95ec78e0ddd979d3177e3b2ae33c1f90abdac66547e301f",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_synthetic_alpha_255.png",
+      "sha256": "0b23c606bac7225d13dbdf9519a7cf436689cc8c3a8d22bb133aa5d204fdee81",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_synthetic_alpha_128.png",
+      "sha256": "c97233c9b724f2649da5dceb4c9722c00158a236d9a69f6ba37f76dd98b6d58c",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_synthetic_alpha_127.png",
+      "sha256": "18e2594f2d0514cfc6dc5ed96985a2f5dbaef1b29839ed34ae3f5acdcc55dc5d",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "native_math1_synthetic_alpha_0.png",
+      "sha256": "ce4d8b08e8e96c23343b0459ebc1fed015e1b5e3fd4487411bddd4cf77f187eb",
+      "pid": 45788,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_off.png",
+      "sha256": "a10d0fc0e3e10306be6d97d8a899a4c9241e6dd9fa9dd22b7fc24ba1051a7ea8",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_bloom.png",
+      "sha256": "55d5fd1ca09326cde452e6529735aa638cb32bf3da27ece27f283d66db6408b1",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_dof.png",
+      "sha256": "9f707d9ebd8ab6bf45ad97bf0af20ef8e326823a8e62632c767ec622c0e7cc75",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_both.png",
+      "sha256": "ebc080e8bc431e8135fff09d6ec88c14d968b624fcd28699a1da6cfe612e8e2e",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_bloom_custom_positive.png",
+      "sha256": "2305362d5e1d9939485e3e85c4ce4b316cf095dec3bc91bf32724e069f91253e",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    },
+    {
+      "file": "sentinel1_dof_custom_positive.png",
+      "sha256": "d2ccc19f61ac41481cedf41f38c496f9a5604fff1ad42352492888a48d6b9fc2",
+      "pid": 5584,
+      "hashes_checked": 3,
+      "noactivation": true,
+      "user_foreground_allowed": true
+    }
+  ],
+  "real_scenes": [
+    {
+      "case": "water_glass",
+      "alpha_grid": {
+        "samples": 87424,
+        "histogram": {
+          "255": 87424
+        },
+        "non255": 0,
+        "offgrid_flags": 0,
+        "maximum_displayed_residual": 0
+      },
+      "alpha_blocks": {
+        "blocks": 2732,
+        "exception_histogram": {
+          "0": 2732
+        },
+        "max_exceptions": 0,
+        "overflow_blocks": 0
+      },
+      "same_frame_alpha_error": {
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      "queries": [
+        {
+          "mode": 0,
+          "requests": 65536,
+          "distinct_addresses": 65536,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        },
+        {
+          "mode": 2,
+          "requests": 65536,
+          "distinct_addresses": 48449,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        }
+      ],
+      "native_states_before_late_queries": [
+        [
+          "scene_codec_raw",
+          true
+        ],
+        [
+          "scene_codec_fixture",
+          false
+        ],
+        [
+          "scene_codec_encode",
+          true
+        ],
+        [
+          "scene_codec_decode",
+          true
+        ],
+        [
+          "scene_codec_consumer",
+          false
+        ],
+        [
+          "scene_codec_diagnostic",
+          false
+        ],
+        [
+          "scene_codec_inspect",
+          false
+        ],
+        [
+          "bloom",
+          true
+        ],
+        [
+          "lensflare",
+          false
+        ],
+        [
+          "depthoffield",
+          true
+        ],
+        [
+          "gaussianblur",
+          false
+        ],
+        [
+          "coloradjustment",
+          false
+        ],
+        [
+          "vignette",
+          false
+        ],
+        [
+          "lensstain",
+          false
+        ],
+        [
+          "oldtv",
+          false
+        ],
+        [
+          "scanmap",
+          false
+        ],
+        [
+          "scene_codec_compat_consumer_after",
+          false
+        ]
+      ],
+      "native_receipt_sha256": "7ec57821f23916a6eb672c8c0ad2e332a04db9c4e17ac9a7de8ad27be19a9ce5"
+    },
+    {
+      "case": "rain",
+      "alpha_grid": {
+        "samples": 87424,
+        "histogram": {
+          "157": 8,
+          "158": 9,
+          "159": 4,
+          "160": 19,
+          "191": 39,
+          "194": 38,
+          "196": 126,
+          "199": 22,
+          "200": 35,
+          "255": 87124
+        },
+        "non255": 300,
+        "offgrid_flags": 0,
+        "maximum_displayed_residual": 0
+      },
+      "alpha_blocks": {
+        "blocks": 2732,
+        "exception_histogram": {
+          "0": 2697,
+          "1": 21,
+          "2": 14
+        },
+        "max_exceptions": 2,
+        "overflow_blocks": 0
+      },
+      "same_frame_alpha_error": {
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      "queries": [
+        {
+          "mode": 0,
+          "requests": 65536,
+          "distinct_addresses": 65536,
+          "passed": false,
+          "samples": 65536,
+          "mismatch_samples": 290,
+          "maximum_channel_error": 162,
+          "first_failures": [
+            {
+              "ordinal": 1464,
+              "observed": [
+                116,
+                116,
+                116
+              ],
+              "expected": [
+                244,
+                244,
+                244
+              ]
+            },
+            {
+              "ordinal": 1465,
+              "observed": [
+                89,
+                89,
+                89
+              ],
+              "expected": [
+                61,
+                61,
+                61
+              ]
+            },
+            {
+              "ordinal": 1466,
+              "observed": [
+                150,
+                150,
+                150
+              ],
+              "expected": [
+                134,
+                134,
+                134
+              ]
+            },
+            {
+              "ordinal": 1467,
+              "observed": [
+                217,
+                217,
+                217
+              ],
+              "expected": [
+                207,
+                207,
+                207
+              ]
+            },
+            {
+              "ordinal": 1561,
+              "observed": [
+                85,
+                85,
+                85
+              ],
+              "expected": [
+                176,
+                176,
+                176
+              ]
+            }
+          ]
+        },
+        {
+          "mode": 2,
+          "requests": 65536,
+          "distinct_addresses": 48449,
+          "passed": false,
+          "samples": 65536,
+          "mismatch_samples": 386,
+          "maximum_channel_error": 237,
+          "first_failures": [
+            {
+              "ordinal": 139,
+              "observed": [
+                42,
+                42,
+                42
+              ],
+              "expected": [
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "ordinal": 222,
+              "observed": [
+                109,
+                109,
+                109
+              ],
+              "expected": [
+                173,
+                173,
+                173
+              ]
+            },
+            {
+              "ordinal": 437,
+              "observed": [
+                26,
+                26,
+                26
+              ],
+              "expected": [
+                23,
+                23,
+                23
+              ]
+            },
+            {
+              "ordinal": 544,
+              "observed": [
+                201,
+                201,
+                201
+              ],
+              "expected": [
+                198,
+                198,
+                198
+              ]
+            },
+            {
+              "ordinal": 660,
+              "observed": [
+                101,
+                101,
+                101
+              ],
+              "expected": [
+                119,
+                119,
+                119
+              ]
+            }
+          ]
+        }
+      ],
+      "native_states_before_late_queries": [
+        [
+          "scene_codec_raw",
+          true
+        ],
+        [
+          "scene_codec_fixture",
+          false
+        ],
+        [
+          "scene_codec_encode",
+          true
+        ],
+        [
+          "scene_codec_decode",
+          true
+        ],
+        [
+          "scene_codec_consumer",
+          false
+        ],
+        [
+          "scene_codec_diagnostic",
+          false
+        ],
+        [
+          "scene_codec_inspect",
+          false
+        ],
+        [
+          "bloom",
+          true
+        ],
+        [
+          "lensflare",
+          false
+        ],
+        [
+          "depthoffield",
+          true
+        ],
+        [
+          "gaussianblur",
+          false
+        ],
+        [
+          "coloradjustment",
+          false
+        ],
+        [
+          "vignette",
+          false
+        ],
+        [
+          "lensstain",
+          false
+        ],
+        [
+          "oldtv",
+          false
+        ],
+        [
+          "scanmap",
+          false
+        ],
+        [
+          "scene_codec_compat_consumer_after",
+          false
+        ]
+      ],
+      "native_receipt_sha256": "207433f96f6a817f5ff8bbd4de0709ddd4f989097b489218d2f857670348b876"
+    },
+    {
+      "case": "glint_emissive",
+      "alpha_grid": {
+        "samples": 87424,
+        "histogram": {
+          "255": 87424
+        },
+        "non255": 0,
+        "offgrid_flags": 0,
+        "maximum_displayed_residual": 0
+      },
+      "alpha_blocks": {
+        "blocks": 2732,
+        "exception_histogram": {
+          "0": 2732
+        },
+        "max_exceptions": 0,
+        "overflow_blocks": 0
+      },
+      "same_frame_alpha_error": {
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      "queries": [
+        {
+          "mode": 0,
+          "requests": 65536,
+          "distinct_addresses": 65536,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        },
+        {
+          "mode": 2,
+          "requests": 65536,
+          "distinct_addresses": 48449,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        }
+      ],
+      "native_states_before_late_queries": [
+        [
+          "scene_codec_raw",
+          true
+        ],
+        [
+          "scene_codec_fixture",
+          false
+        ],
+        [
+          "scene_codec_encode",
+          true
+        ],
+        [
+          "scene_codec_decode",
+          true
+        ],
+        [
+          "scene_codec_consumer",
+          false
+        ],
+        [
+          "scene_codec_diagnostic",
+          false
+        ],
+        [
+          "scene_codec_inspect",
+          false
+        ],
+        [
+          "bloom",
+          true
+        ],
+        [
+          "lensflare",
+          false
+        ],
+        [
+          "depthoffield",
+          true
+        ],
+        [
+          "gaussianblur",
+          false
+        ],
+        [
+          "coloradjustment",
+          false
+        ],
+        [
+          "vignette",
+          false
+        ],
+        [
+          "lensstain",
+          false
+        ],
+        [
+          "oldtv",
+          false
+        ],
+        [
+          "scanmap",
+          false
+        ],
+        [
+          "scene_codec_compat_consumer_after",
+          false
+        ]
+      ],
+      "native_receipt_sha256": "17b886a594d02512ca80273802d731e32ac5cc26f8e04a244716904a5d9d3a70"
+    },
+    {
+      "case": "particle",
+      "alpha_grid": {
+        "samples": 87424,
+        "histogram": {
+          "255": 87424
+        },
+        "non255": 0,
+        "offgrid_flags": 0,
+        "maximum_displayed_residual": 0
+      },
+      "alpha_blocks": {
+        "blocks": 2732,
+        "exception_histogram": {
+          "0": 2732
+        },
+        "max_exceptions": 0,
+        "overflow_blocks": 0
+      },
+      "same_frame_alpha_error": {
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      "queries": [
+        {
+          "mode": 0,
+          "requests": 65536,
+          "distinct_addresses": 65536,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        },
+        {
+          "mode": 2,
+          "requests": 65536,
+          "distinct_addresses": 48449,
+          "passed": true,
+          "samples": 65536,
+          "mismatch_samples": 0,
+          "maximum_channel_error": 0,
+          "first_failures": []
+        }
+      ],
+      "native_states_before_late_queries": [
+        [
+          "scene_codec_raw",
+          true
+        ],
+        [
+          "scene_codec_fixture",
+          false
+        ],
+        [
+          "scene_codec_encode",
+          true
+        ],
+        [
+          "scene_codec_decode",
+          true
+        ],
+        [
+          "scene_codec_consumer",
+          false
+        ],
+        [
+          "scene_codec_diagnostic",
+          false
+        ],
+        [
+          "scene_codec_inspect",
+          false
+        ],
+        [
+          "bloom",
+          true
+        ],
+        [
+          "lensflare",
+          false
+        ],
+        [
+          "depthoffield",
+          true
+        ],
+        [
+          "gaussianblur",
+          false
+        ],
+        [
+          "coloradjustment",
+          false
+        ],
+        [
+          "vignette",
+          false
+        ],
+        [
+          "lensstain",
+          false
+        ],
+        [
+          "oldtv",
+          false
+        ],
+        [
+          "scanmap",
+          false
+        ],
+        [
+          "scene_codec_compat_consumer_after",
+          false
+        ]
+      ],
+      "native_receipt_sha256": "67e7526ac1ccfff421e6abd81d925cd23d39b916a7892e56f734e5fe91d7c49e"
+    }
+  ],
+  "rain_isolation": {
+    "captures": [
+      {
+        "case": "raw_rgb",
+        "source_pixels": 87424,
+        "bad_payload_symbols": 68,
+        "source_bbox_local_inclusive": [
+          112,
+          223,
+          113,
+          267
+        ]
+      },
+      {
+        "case": "early_identity",
+        "mode": 0,
+        "distinct_addresses": 65536,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 4425,
+        "maximum_channel_error": 255,
+        "first_failures": [
+          {
+            "ordinal": 4601,
+            "observed": [
+              164,
+              164,
+              164
+            ],
+            "expected": [
+              116,
+              116,
+              116
+            ]
+          },
+          {
+            "ordinal": 4602,
+            "observed": [
+              169,
+              169,
+              169
+            ],
+            "expected": [
+              189,
+              189,
+              189
+            ]
+          },
+          {
+            "ordinal": 4697,
+            "observed": [
+              148,
+              148,
+              148
+            ],
+            "expected": [
+              212,
+              212,
+              212
+            ]
+          },
+          {
+            "ordinal": 4698,
+            "observed": [
+              41,
+              41,
+              41
+            ],
+            "expected": [
+              29,
+              29,
+              29
+            ]
+          },
+          {
+            "ordinal": 4793,
+            "observed": [
+              135,
+              135,
+              135
+            ],
+            "expected": [
+              71,
+              71,
+              71
+            ]
+          }
+        ]
+      },
+      {
+        "case": "early_dependent",
+        "mode": 2,
+        "distinct_addresses": 48449,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 476,
+        "maximum_channel_error": 250,
+        "first_failures": [
+          {
+            "ordinal": 61,
+            "observed": [
+              148,
+              148,
+              148
+            ],
+            "expected": [
+              152,
+              152,
+              152
+            ]
+          },
+          {
+            "ordinal": 121,
+            "observed": [
+              101,
+              101,
+              101
+            ],
+            "expected": [
+              214,
+              214,
+              214
+            ]
+          },
+          {
+            "ordinal": 133,
+            "observed": [
+              45,
+              45,
+              45
+            ],
+            "expected": [
+              225,
+              225,
+              225
+            ]
+          },
+          {
+            "ordinal": 144,
+            "observed": [
+              167,
+              167,
+              167
+            ],
+            "expected": [
+              3,
+              3,
+              3
+            ]
+          },
+          {
+            "ordinal": 227,
+            "observed": [
+              89,
+              89,
+              89
+            ],
+            "expected": [
+              173,
+              173,
+              173
+            ]
+          }
+        ]
+      },
+      {
+        "case": "late_identity_off",
+        "mode": 0,
+        "distinct_addresses": 65536,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 83,
+        "maximum_channel_error": 166,
+        "first_failures": [
+          {
+            "ordinal": 55,
+            "observed": [
+              76,
+              76,
+              76
+            ],
+            "expected": [
+              204,
+              204,
+              204
+            ]
+          },
+          {
+            "ordinal": 56,
+            "observed": [
+              22,
+              22,
+              22
+            ],
+            "expected": [
+              21,
+              21,
+              21
+            ]
+          },
+          {
+            "ordinal": 151,
+            "observed": [
+              92,
+              92,
+              92
+            ],
+            "expected": [
+              44,
+              44,
+              44
+            ]
+          },
+          {
+            "ordinal": 152,
+            "observed": [
+              118,
+              118,
+              118
+            ],
+            "expected": [
+              117,
+              117,
+              117
+            ]
+          },
+          {
+            "ordinal": 247,
+            "observed": [
+              73,
+              73,
+              73
+            ],
+            "expected": [
+              140,
+              140,
+              140
+            ]
+          }
+        ]
+      },
+      {
+        "case": "late_identity_bloom",
+        "mode": 0,
+        "distinct_addresses": 65536,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 142,
+        "maximum_channel_error": 160,
+        "first_failures": [
+          {
+            "ordinal": 4605,
+            "observed": [
+              164,
+              164,
+              164
+            ],
+            "expected": [
+              152,
+              152,
+              152
+            ]
+          },
+          {
+            "ordinal": 4701,
+            "observed": [
+              244,
+              244,
+              244
+            ],
+            "expected": [
+              248,
+              248,
+              248
+            ]
+          },
+          {
+            "ordinal": 4797,
+            "observed": [
+              102,
+              102,
+              102
+            ],
+            "expected": [
+              107,
+              107,
+              107
+            ]
+          },
+          {
+            "ordinal": 4893,
+            "observed": [
+              85,
+              85,
+              85
+            ],
+            "expected": [
+              203,
+              203,
+              203
+            ]
+          },
+          {
+            "ordinal": 4894,
+            "observed": [
+              24,
+              24,
+              24
+            ],
+            "expected": [
+              20,
+              20,
+              20
+            ]
+          }
+        ]
+      },
+      {
+        "case": "late_identity_dof",
+        "mode": 0,
+        "distinct_addresses": 65536,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 132,
+        "maximum_channel_error": 146,
+        "first_failures": [
+          {
+            "ordinal": 15770,
+            "observed": [
+              145,
+              145,
+              145
+            ],
+            "expected": [
+              161,
+              161,
+              161
+            ]
+          },
+          {
+            "ordinal": 15771,
+            "observed": [
+              229,
+              229,
+              229
+            ],
+            "expected": [
+              234,
+              234,
+              234
+            ]
+          },
+          {
+            "ordinal": 15866,
+            "observed": [
+              84,
+              84,
+              84
+            ],
+            "expected": [
+              20,
+              20,
+              20
+            ]
+          },
+          {
+            "ordinal": 15867,
+            "observed": [
+              105,
+              105,
+              105
+            ],
+            "expected": [
+              93,
+              93,
+              93
+            ]
+          },
+          {
+            "ordinal": 15962,
+            "observed": [
+              164,
+              164,
+              164
+            ],
+            "expected": [
+              116,
+              116,
+              116
+            ]
+          }
+        ]
+      },
+      {
+        "case": "late_identity_both",
+        "mode": 0,
+        "distinct_addresses": 65536,
+        "passed": false,
+        "samples": 65536,
+        "mismatch_samples": 613,
+        "maximum_channel_error": 176,
+        "first_failures": [
+          {
+            "ordinal": 24,
+            "observed": [
+              117,
+              117,
+              117
+            ],
+            "expected": [
+              245,
+              245,
+              245
+            ]
+          },
+          {
+            "ordinal": 25,
+            "observed": [
+              57,
+              57,
+              57
+            ],
+            "expected": [
+              62,
+              62,
+              62
+            ]
+          },
+          {
+            "ordinal": 120,
+            "observed": [
+              21,
+              21,
+              21
+            ],
+            "expected": [
+              85,
+              85,
+              85
+            ]
+          },
+          {
+            "ordinal": 121,
+            "observed": [
+              153,
+              153,
+              153
+            ],
+            "expected": [
+              158,
+              158,
+              158
+            ]
+          },
+          {
+            "ordinal": 216,
+            "observed": [
+              117,
+              117,
+              117
+            ],
+            "expected": [
+              181,
+              181,
+              181
+            ]
+          }
+        ]
+      }
+    ],
+    "native_off_receipt": {
+      "order_after_native_toggle": [
+        "scene_codec_raw",
+        "scene_codec_fixture",
+        "scene_codec_encode",
+        "scene_codec_decode",
+        "scene_codec_consumer",
+        "scene_codec_diagnostic",
+        "scene_codec_inspect",
+        "bloom",
+        "lensflare",
+        "depthoffield",
+        "gaussianblur",
+        "coloradjustment",
+        "vignette",
+        "lensstain",
+        "oldtv",
+        "scanmap",
+        "scene_codec_compat_consumer_after"
+      ],
+      "accepted": [
+        true,
+        true
+      ],
+      "bloom": false,
+      "dof": false
+    },
+    "native_off_receipt_sha256": "d8a3d094f9ce5dc03a9ff7573796e61ff890ac62ff2a005a789105798f5799ab",
+    "conclusion": "Payload errors exist with both native flags off and in raw incoming RGB; native effects are not necessary for failure."
+  },
+  "rain_sameframe": {
+    "cases": [
+      {
+        "case": "solid_0",
+        "pixels": 87424,
+        "bad_q": 0,
+        "non255_alpha": 0,
+        "bad_q_and_non255": 0,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "255": 87424
+        },
+        "bad_alpha_histogram": {}
+      },
+      {
+        "case": "solid_1",
+        "pixels": 87424,
+        "bad_q": 0,
+        "non255_alpha": 0,
+        "bad_q_and_non255": 0,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "255": 87424
+        },
+        "bad_alpha_histogram": {}
+      },
+      {
+        "case": "rain_0",
+        "pixels": 87424,
+        "bad_q": 617,
+        "non255_alpha": 640,
+        "bad_q_and_non255": 617,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "160": 58,
+          "161": 30,
+          "169": 32,
+          "177": 32,
+          "190": 28,
+          "191": 36,
+          "194": 45,
+          "197": 43,
+          "199": 6,
+          "200": 10,
+          "203": 32,
+          "204": 45,
+          "212": 47,
+          "218": 32,
+          "223": 48,
+          "233": 26,
+          "235": 54,
+          "244": 36,
+          "255": 86784
+        },
+        "bad_alpha_histogram": {
+          "160": 57,
+          "161": 30,
+          "169": 30,
+          "177": 31,
+          "190": 28,
+          "191": 32,
+          "194": 40,
+          "197": 41,
+          "199": 6,
+          "200": 7,
+          "203": 32,
+          "204": 44,
+          "212": 47,
+          "218": 32,
+          "223": 47,
+          "233": 25,
+          "235": 53,
+          "244": 35
+        }
+      },
+      {
+        "case": "rain_1",
+        "pixels": 87424,
+        "bad_q": 1740,
+        "non255_alpha": 1839,
+        "bad_q_and_non255": 1740,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "157": 170,
+          "160": 81,
+          "161": 76,
+          "169": 78,
+          "174": 160,
+          "175": 80,
+          "177": 83,
+          "178": 80,
+          "190": 164,
+          "191": 222,
+          "192": 8,
+          "193": 7,
+          "194": 83,
+          "197": 83,
+          "198": 90,
+          "202": 9,
+          "203": 8,
+          "204": 78,
+          "209": 10,
+          "210": 16,
+          "212": 74,
+          "223": 70,
+          "235": 74,
+          "244": 35,
+          "255": 85585
+        },
+        "bad_alpha_histogram": {
+          "157": 160,
+          "160": 80,
+          "161": 74,
+          "169": 78,
+          "174": 152,
+          "175": 78,
+          "177": 82,
+          "178": 79,
+          "190": 159,
+          "191": 191,
+          "192": 8,
+          "193": 6,
+          "194": 76,
+          "197": 77,
+          "198": 87,
+          "202": 7,
+          "203": 8,
+          "204": 71,
+          "209": 10,
+          "210": 14,
+          "212": 70,
+          "223": 66,
+          "235": 73,
+          "244": 34
+        }
+      },
+      {
+        "case": "rain_2",
+        "pixels": 87424,
+        "bad_q": 241,
+        "non255_alpha": 260,
+        "bad_q_and_non255": 241,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "161": 11,
+          "169": 10,
+          "177": 13,
+          "190": 9,
+          "191": 17,
+          "192": 8,
+          "193": 8,
+          "194": 24,
+          "197": 16,
+          "198": 4,
+          "202": 8,
+          "203": 22,
+          "204": 22,
+          "209": 7,
+          "210": 11,
+          "212": 12,
+          "218": 11,
+          "223": 10,
+          "233": 11,
+          "235": 16,
+          "244": 10,
+          "255": 87164
+        },
+        "bad_alpha_histogram": {
+          "161": 10,
+          "169": 10,
+          "177": 13,
+          "190": 9,
+          "191": 14,
+          "192": 6,
+          "193": 7,
+          "194": 22,
+          "197": 16,
+          "198": 4,
+          "202": 7,
+          "203": 19,
+          "204": 19,
+          "209": 6,
+          "210": 11,
+          "212": 11,
+          "218": 11,
+          "223": 10,
+          "233": 11,
+          "235": 15,
+          "244": 10
+        }
+      },
+      {
+        "case": "rain_3",
+        "pixels": 87424,
+        "bad_q": 72,
+        "non255_alpha": 80,
+        "bad_q_and_non255": 72,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "199": 32,
+          "200": 48,
+          "255": 87344
+        },
+        "bad_alpha_histogram": {
+          "199": 28,
+          "200": 44
+        }
+      },
+      {
+        "case": "rain_4",
+        "pixels": 87424,
+        "bad_q": 448,
+        "non255_alpha": 478,
+        "bad_q_and_non255": 448,
+        "bad_q_and_alpha255": 0,
+        "residual_flags": 0,
+        "all_alpha_histogram": {
+          "161": 17,
+          "169": 15,
+          "174": 34,
+          "175": 17,
+          "191": 116,
+          "192": 10,
+          "193": 5,
+          "194": 63,
+          "196": 179,
+          "197": 3,
+          "198": 5,
+          "203": 5,
+          "204": 3,
+          "210": 6,
+          "255": 86946
+        },
+        "bad_alpha_histogram": {
+          "161": 17,
+          "169": 15,
+          "174": 34,
+          "175": 17,
+          "191": 102,
+          "192": 8,
+          "193": 5,
+          "194": 56,
+          "196": 172,
+          "197": 3,
+          "198": 5,
+          "203": 5,
+          "204": 3,
+          "210": 6
+        }
+      }
+    ],
+    "interpretation": "In each sampled rain frame, every bad RGB symbol coincides with a non-255 raw alpha from the same sampled texel.",
+    "causal_limit": "Supports a later blended rain draw; does not expose an engine draw-call trace or establish a public reordering fix.",
+    "precision_limit": "Zero flags reflect a shader threshold and byte-coded PNG; no arbitrary higher-precision alpha guarantee."
+  },
+  "native_sentinels": {
+    "captures": [
+      {
+        "requested_case": "off",
+        "pixels": 673920,
+        "magenta": 0,
+        "cyan": 0,
+        "native_accepted": [
+          false,
+          false
+        ],
+        "actual_native_flags": {
+          "bloom": true,
+          "lensflare": false,
+          "depthoffield": false,
+          "gaussianblur": false,
+          "coloradjustment": false,
+          "vignette": false,
+          "lensstain": false,
+          "oldtv": false,
+          "scanmap": false
+        },
+        "off_request_verified": false
+      },
+      {
+        "requested_case": "bloom",
+        "pixels": 673920,
+        "magenta": 0,
+        "cyan": 0,
+        "native_accepted": [
+          true,
+          true
+        ],
+        "actual_native_flags": {
+          "bloom": true,
+          "lensflare": false,
+          "depthoffield": false,
+          "gaussianblur": false,
+          "coloradjustment": false,
+          "vignette": false,
+          "lensstain": false,
+          "oldtv": false,
+          "scanmap": false
+        }
+      },
+      {
+        "requested_case": "dof",
+        "pixels": 673920,
+        "magenta": 0,
+        "cyan": 672415,
+        "native_accepted": [
+          true,
+          true
+        ],
+        "actual_native_flags": {
+          "bloom": true,
+          "lensflare": false,
+          "depthoffield": true,
+          "gaussianblur": false,
+          "coloradjustment": false,
+          "vignette": false,
+          "lensstain": false,
+          "oldtv": false,
+          "scanmap": false
+        }
+      },
+      {
+        "requested_case": "both",
+        "pixels": 673920,
+        "magenta": 0,
+        "cyan": 672415,
+        "native_accepted": [
+          true,
+          true
+        ],
+        "actual_native_flags": {
+          "bloom": true,
+          "lensflare": false,
+          "depthoffield": true,
+          "gaussianblur": false,
+          "coloradjustment": false,
+          "vignette": false,
+          "lensstain": false,
+          "oldtv": false,
+          "scanmap": false
+        }
+      },
+      {
+        "requested_case": "bloom_custom_positive",
+        "pixels": 673920,
+        "magenta": 672415,
+        "cyan": 0
+      },
+      {
+        "requested_case": "dof_custom_positive",
+        "pixels": 673920,
+        "magenta": 0,
+        "cyan": 672415
+      }
+    ],
+    "source_checks": {
+      "bloom": {
+        "fragment": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-compat\\native-sentinel-project-v1\\resource_pack\\shaders\\glsl\\pmanim_scene_compat_bloom_final.fragment",
+        "sha256": "d255eaec213b6525af2a8c30e45111b378d37b6c7d6290b1a022b13b3b6a2dd5",
+        "material": "pmanim_scene_compat_bloom_final",
+        "native_shaderPassName": "UpScalePass",
+        "custom_positive_command_sha256": "ab132026d0bd52d5e550ec6a39f31c3abd61532e4731a7388c079482420388de"
+      },
+      "depthoffield": {
+        "fragment": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-compat\\native-sentinel-project-v1\\resource_pack\\shaders\\glsl\\pmanim_scene_compat_dof_final.fragment",
+        "sha256": "2d5f45c2b56389748749d6810532ce19baa0f7725c29f70ec5f58b018ab01964",
+        "material": "pmanim_scene_compat_dof_final",
+        "native_shaderPassName": "UpScalePass",
+        "custom_positive_command_sha256": "cf9f9c1a283f560a61f2fbebee308129e17e9d4e6902db5d5276389343e7bcaf"
+      }
+    },
+    "dof_derived_final_execution_observed": true,
+    "bloom_native_derived_final_execution_observed": false,
+    "bloom_material_custom_execution_observed": true,
+    "conclusion": "DOF native derived final executes. The bloom derived material executes as a custom pass, but its sentinel is absent from native bloom in this tested path. Native bloom replacement is not established.",
+    "label_correction": "Requested off and DOF-only labels do not prove bloom was off; consult actual_native_flags."
+  },
+  "native_math_attempt": {
+    "roi": [
+      296,
+      192,
+      128,
+      683
+    ],
+    "pairs": [
+      {
+        "first": "synthetic_alpha_255",
+        "second": "synthetic_alpha_128",
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      {
+        "first": "synthetic_alpha_128",
+        "second": "synthetic_alpha_127",
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      {
+        "first": "synthetic_alpha_127",
+        "second": "synthetic_alpha_0",
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      },
+      {
+        "first": "synthetic_alpha_255",
+        "second": "synthetic_alpha_0",
+        "passed": true,
+        "samples": 87424,
+        "mismatch_samples": 0,
+        "maximum_channel_error": 0,
+        "first_failures": []
+      }
+    ],
+    "native_bloom_threshold_response_established": false,
+    "exact_no_carrier_identity_equivalence_established": false,
+    "conclusion": "Do not interpret separate drifting scene images or alpha-fixture enable receipts as native bloom acceptance. The ROI outputs are compared explicitly; no expected threshold split was established."
+  },
+  "dynamic_chain_lifecycle": {
+    "reset_receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-compat\\carrier-evidence-v1\\reset_probe_custom.execute.json",
+    "reset_sha256": "6a75cbff005124695631a18caf0661a6a391d18926b6d956df1e87cf7ec0dc7a",
+    "observed_transitions": [
+      [
+        "added",
+        [
+          "scene_codec_raw",
+          "scene_codec_fixture",
+          "scene_codec_encode",
+          "scene_codec_decode",
+          "scene_codec_consumer",
+          "scene_codec_diagnostic",
+          "scene_codec_inspect",
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "bloom_false",
+        true,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "dof_false",
+        true,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_raw",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_fixture",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_encode",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_decode",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_consumer",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_diagnostic",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ],
+      [
+        "scene_codec_inspect",
+        false,
+        [
+          "bloom",
+          "lensflare",
+          "depthoffield",
+          "gaussianblur",
+          "coloradjustment",
+          "vignette",
+          "lensstain",
+          "oldtv",
+          "scanmap"
+        ]
+      ]
+    ],
+    "reinstalled_chain_receipt": "D:\\Happy2018new\u306e\u4e2a\u4eba\u6587\u4ef6\\GitHub\\pyreact-manim-ui\\.runtime\\scene-codec-compat\\carrier-evidence-v1\\real6_rain_both_order.execute.json",
+    "reinstalled_chain_sha256": "ead2d998e339ec708107295d26cbd6dc4321a0a70a04134c80fa3ada54753e49",
+    "reinstalled_order": [
+      "scene_codec_raw",
+      "scene_codec_fixture",
+      "scene_codec_encode",
+      "scene_codec_decode",
+      "scene_codec_consumer",
+      "scene_codec_diagnostic",
+      "scene_codec_inspect",
+      "bloom",
+      "lensflare",
+      "depthoffield",
+      "gaussianblur",
+      "coloradjustment",
+      "vignette",
+      "lensstain",
+      "oldtv",
+      "scanmap",
+      "scene_codec_compat_consumer_after"
+    ],
+    "conclusion": "Native SetEnableByName can reset dynamically added processes, immediately or after settling. Order must be checked and the custom chain reinstalled/reconnected before relying on private bindings."
+  },
+  "resources": {
+    "projects": [
+      {
+        "project": "carrier-project-v1",
+        "manifest_sha256": "a77422d1c6684b3d3657eea2daaf5ab8fe0977aaab3c9de5b33dd57aab0a2158",
+        "resource_hashes": {
+          "resource_pack/graphics_settings/post_process.json": {
+            "manifest": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "actual": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "matches_manifest": true
+          },
+          "resource_pack/materials/postprocess.material": {
+            "manifest": "f6185f062a11ee9b2cf2586b61d2ab8a651a7129d2e078f093bafad8882dc062",
+            "actual": "855310cc36a414675d21f88f8451f072d3c134c89e04cf2bc447390063252aab",
+            "matches_manifest": false
+          },
+          "resource_pack/particles/pmanim_scene_compat_translucent.particle.json": {
+            "manifest": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "actual": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_alpha_math.fragment": {
+            "manifest": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "actual": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_bloom_final.fragment": {
+            "manifest": "bd127f05a885564e45d2e4904f221cd8109ae06dbeaf295a2cd1cb360e1991a7",
+            "actual": "bd127f05a885564e45d2e4904f221cd8109ae06dbeaf295a2cd1cb360e1991a7",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_dof_final.fragment": {
+            "manifest": "b75b1073d3c9ec7f3f9fac54b5b46d4cc5929f38946c72f08805070c9fd282eb",
+            "actual": "b75b1073d3c9ec7f3f9fac54b5b46d4cc5929f38946c72f08805070c9fd282eb",
+            "matches_manifest": true
+          }
+        },
+        "derived_material_entries_match_overlay": true,
+        "material_file_hash_note": "Host installation merges prior custom entries, so whole-file material hash differs from the standalone overlay by design.",
+        "sentinel_hash_note": "Sentinel project deliberately changes both final shader files after ordinary overlay construction; current shader hashes above are the diagnostic sources."
+      },
+      {
+        "project": "carrier-project-v2",
+        "manifest_sha256": "a77422d1c6684b3d3657eea2daaf5ab8fe0977aaab3c9de5b33dd57aab0a2158",
+        "resource_hashes": {
+          "resource_pack/graphics_settings/post_process.json": {
+            "manifest": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "actual": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "matches_manifest": true
+          },
+          "resource_pack/materials/postprocess.material": {
+            "manifest": "f6185f062a11ee9b2cf2586b61d2ab8a651a7129d2e078f093bafad8882dc062",
+            "actual": "855310cc36a414675d21f88f8451f072d3c134c89e04cf2bc447390063252aab",
+            "matches_manifest": false
+          },
+          "resource_pack/particles/pmanim_scene_compat_translucent.particle.json": {
+            "manifest": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "actual": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_alpha_math.fragment": {
+            "manifest": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "actual": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_bloom_final.fragment": {
+            "manifest": "bd127f05a885564e45d2e4904f221cd8109ae06dbeaf295a2cd1cb360e1991a7",
+            "actual": "bd127f05a885564e45d2e4904f221cd8109ae06dbeaf295a2cd1cb360e1991a7",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_dof_final.fragment": {
+            "manifest": "b75b1073d3c9ec7f3f9fac54b5b46d4cc5929f38946c72f08805070c9fd282eb",
+            "actual": "b75b1073d3c9ec7f3f9fac54b5b46d4cc5929f38946c72f08805070c9fd282eb",
+            "matches_manifest": true
+          }
+        },
+        "derived_material_entries_match_overlay": true,
+        "material_file_hash_note": "Host installation merges prior custom entries, so whole-file material hash differs from the standalone overlay by design.",
+        "sentinel_hash_note": "Sentinel project deliberately changes both final shader files after ordinary overlay construction; current shader hashes above are the diagnostic sources."
+      },
+      {
+        "project": "native-sentinel-project-v1",
+        "manifest_sha256": "a77422d1c6684b3d3657eea2daaf5ab8fe0977aaab3c9de5b33dd57aab0a2158",
+        "resource_hashes": {
+          "resource_pack/graphics_settings/post_process.json": {
+            "manifest": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "actual": "161cc285b69bcfc8be8f3313175f1b18749c3489b352fcaeeef7e84a11a7a0fe",
+            "matches_manifest": true
+          },
+          "resource_pack/materials/postprocess.material": {
+            "manifest": "f6185f062a11ee9b2cf2586b61d2ab8a651a7129d2e078f093bafad8882dc062",
+            "actual": "855310cc36a414675d21f88f8451f072d3c134c89e04cf2bc447390063252aab",
+            "matches_manifest": false
+          },
+          "resource_pack/particles/pmanim_scene_compat_translucent.particle.json": {
+            "manifest": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "actual": "e33cdc407ff10526eab15ac8fb5bc796774c1d3912bd4859d2bc6d90e9780979",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_alpha_math.fragment": {
+            "manifest": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "actual": "ee94b345e3d98c88f0f8519db23937e99874b0edfa4d3be908d4507941a97b4c",
+            "matches_manifest": true
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_bloom_final.fragment": {
+            "manifest": "bd127f05a885564e45d2e4904f221cd8109ae06dbeaf295a2cd1cb360e1991a7",
+            "actual": "d255eaec213b6525af2a8c30e45111b378d37b6c7d6290b1a022b13b3b6a2dd5",
+            "matches_manifest": false
+          },
+          "resource_pack/shaders/glsl/pmanim_scene_compat_dof_final.fragment": {
+            "manifest": "b75b1073d3c9ec7f3f9fac54b5b46d4cc5929f38946c72f08805070c9fd282eb",
+            "actual": "2d5f45c2b56389748749d6810532ce19baa0f7725c29f70ec5f58b018ab01964",
+            "matches_manifest": false
+          }
+        },
+        "derived_material_entries_match_overlay": true,
+        "material_file_hash_note": "Host installation merges prior custom entries, so whole-file material hash differs from the standalone overlay by design.",
+        "sentinel_hash_note": "Sentinel project deliberately changes both final shader files after ordinary overlay construction; current shader hashes above are the diagnostic sources."
+      }
+    ],
+    "sameframe_diagnostic_source_sha256": "b8c9714dbf0e3fe4df326ba0e279fe375ce41e8f2ef1df35a73f49774789f66e",
+    "sameframe_diagnostic_semantics": "R=bad 6-bit payload symbol, G=raw alpha byte, B=off-byte-grid flag; known salt29/64KiB fixture only."
+  },
+  "owned_process_release": [
+    {
+      "evidence": "carrier-evidence-v1",
+      "exit_receipt": {
+        "pid": 12136,
+        "open_process_handle": 464,
+        "queried": true,
+        "exit_code": 3221226505,
+        "not_running": true
+      },
+      "exit_receipt_sha256": "b83ddca8514c9155ed9ad2bf9f31b2bee7b54c6753aae8968d08419d1e111578",
+      "launch_receipt_sha256": "d2ad93a6f4d58f4a58806a576acbd3ed1d10399d89b89b788219df776a3d782f",
+      "limitation": "Saved process status evidence; audit does not query or operate live processes."
+    },
+    {
+      "evidence": "carrier-evidence-v2",
+      "exit_receipt": {
+        "pid": 34212,
+        "open_process_handle": 448,
+        "queried": true,
+        "exit_code": 1,
+        "not_running": true
+      },
+      "exit_receipt_sha256": "a6790d2994a8cb5439d6bc47f71d7b748cd7ac49968eb339ebbae0b68b91e061",
+      "launch_receipt_sha256": "637f6c0dd4ccf53c728e045fe821a9d7bc237deeda89e2979db4ac448ca9d16c",
+      "limitation": "Saved process status evidence; audit does not query or operate live processes."
+    },
+    {
+      "evidence": "carrier-evidence-v2b",
+      "exit_receipt": {
+        "pid": 45788,
+        "exit_code": 3221226505,
+        "queried": true,
+        "not_running": true
+      },
+      "exit_receipt_sha256": "2daa9d17272ae6759f5ddebea0f3ab4ab3046bae006d49da0b38980c3571a9ad",
+      "launch_receipt_sha256": "59b687d39e54d8de81a8ba6fd2ef7f1ceab8555af6c5dc8fcd7abc39fca802ae",
+      "limitation": "Saved process status evidence; audit does not query or operate live processes."
+    },
+    {
+      "evidence": "native-sentinel-evidence-v1",
+      "exit_receipt": {
+        "pid": 5584,
+        "exit_code": 3221226505,
+        "queried": true,
+        "not_running": true
+      },
+      "exit_receipt_sha256": "236c5a96169d6889f2531efa8c0df4aef3a4a9dbf1a8fb1ceb1bd5d9cd6cd106",
+      "launch_receipt_sha256": "155a6520c368c524c10908f5df5f51681acc81a85fae50a8d7eb9575bb66f887",
+      "limitation": "Saved process status evidence; audit does not query or operate live processes."
+    }
+  ],
+  "all_native_compatibility_passed": false,
+  "native_bloom_replacement_succeeded": false,
+  "exact_identity_baseline_equivalence_established": false,
+  "independent_visual_observations": {
+    "water_glass": "Water surface and glass panes visible over the wall/floor; sampled source alpha remains 255.",
+    "rain": "Rain streaks and splashes visibly overlap the scene; payload failure remains recorded.",
+    "glint_emissive": "Two glowstone blocks and a bow visible; server receipt confirms enchanted bow, not quantitative bloom activation.",
+    "particle": "Pink translucent particles visible in front of the wall and overlapping the carrier ROI; sampled alpha remains 255."
+  },
+  "limits": [
+    "This is a bounded observed-scene audit; rain is incompatible in this carrier configuration.",
+    "The identity package was built but not launched; exact no-carrier equivalence was not established.",
+    "DOF sentinel execution proves the hook executes, not complete native-math or image equivalence.",
+    "Native bloom sentinel absence prevents claiming the derived final sampler repair was applied.",
+    "All byte-coded alpha diagnostics have finite PNG/threshold precision.",
+    "No FPS or GPU-cost conclusion follows from these correctness screenshots."
+  ]
+}

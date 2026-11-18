@@ -1,5 +1,11 @@
 # In-memory RGB input and 32-alpha scene codec experiment
 
+Latest research: [512 KiB, native color domain and weather compatibility](../../docs/SCENE_CODEC_512K_RESEARCH.md).
+The controlled native color-domain test now covers every byte/symbol pair.
+The isolated 1080x1440 clear-weather chain passes full 512 KiB readback and
+static ~60 FPS; rain corrupts the source RGB payload, and native bloom
+replacement remains unproven. Older results below retain their original scope.
+
 This isolated research package tests the combination of an in-memory geometry
 RGB carrier and an independently decoded alpha block. It does not modify the
 older `tools/geometry_atlas_probe` or product resources. Game Python builds a

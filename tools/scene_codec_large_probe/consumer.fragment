@@ -1,0 +1,63 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3; // immutable encoded alpha blocks
+uniform highp vec4 EXTRA_VECTOR1; // k,logical bytes,mode(0identity/1indexed/2dependent/3calibration),query start
+uniform highp vec4 EXTRA_VECTOR2; // source ROI left,top,width,height
+uniform highp vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,query count
+uniform highp vec4 EXTRA_VECTOR4; // engine ScreenInfo
+
+float packedByte(float index) {
+    vec2 pixel = EXTRA_VECTOR2.xy + vec2(mod(index,EXTRA_VECTOR2.z),floor(index/EXTRA_VECTOR2.z));
+    vec2 location = (pixel+0.5)/EXTRA_VECTOR3.xy;
+    if (EXTRA_VECTOR3.z>0.5) location.y=1.0-location.y;
+    return floor(texture2D(TEXTURE_3,location).a*255.0+0.5);
+}
+
+float exceptions(float blockStart) {
+    float count=0.0;
+    for (int group=0;group<4;++group) {
+        float mask=packedByte(blockStart+float(group));
+        for (int bit=0;bit<8;++bit) count+=mod(floor(mask/exp2(float(bit))),2.0);
+    }
+    return count;
+}
+
+float byteAt(float address) {
+    return packedByte(floor(address/24.0)*32.0+8.0+mod(address,24.0));
+}
+
+void main() {
+    vec2 nativePixel=floor(vec2(uv.x,1.0-uv.y)*EXTRA_VECTOR3.xy);
+    vec2 point=nativePixel-vec2(8.0,128.0);
+    float count=floor(EXTRA_VECTOR3.w+0.5);
+    float rows=ceil(count/1024.0);
+    float ordinal=point.y*1024.0+point.x;
+    if (point.x<0.0 || point.x>=1024.0 || point.y<0.0 || point.y>=rows || ordinal>=count) {
+        gl_FragColor=vec4(8.0/255.0,16.0/255.0,32.0/255.0,1.0);return;
+    }
+    float mode=floor(EXTRA_VECTOR1.z+0.5);
+    if (mode>2.5) {
+        float value=mod(ordinal,256.0);
+        gl_FragColor=vec4(vec3(value/255.0),1.0);return;
+    }
+    float capacity=floor(EXTRA_VECTOR1.y+0.5);
+    float address=mod(EXTRA_VECTOR1.w+ordinal,capacity);
+    if (mode>0.5) {
+        // N<=2^19: every intermediate is below2^24 and every integer is exact.
+        float times16=mod(address*16.0,capacity);
+        float times128=mod(times16*8.0,capacity);
+        address=mod(times128+3.0*address+29.0,capacity);
+    }
+    if (mode>1.5) {
+        if (exceptions(floor(address/24.0)*32.0)>4.5) {
+            gl_FragColor=vec4(1.0,0.0,1.0,1.0);return;
+        }
+        address=mod(address+257.0*byteAt(address)+113.0,capacity);
+    }
+    if (exceptions(floor(address/24.0)*32.0)>4.5) {
+        gl_FragColor=vec4(1.0,0.0,1.0,1.0);return;
+    }
+    gl_FragColor=vec4(vec3(byteAt(address)/255.0),1.0);
+}

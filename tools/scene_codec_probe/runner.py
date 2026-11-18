@@ -277,6 +277,34 @@ class Experiment:
             hidden['passed'] = hidden['negative_control_rejected_payload']
             self.call(prefix+'_restore', 'probe.set_writer_visible(True)')
 
+    def native_domain(self):
+        for bits in (1, 2):
+            count = 256*(1 << (3*bits))
+            byte_count = count*3*bits//8
+            for first in (False, True):
+                prefix = 'domain_k%d_background_first%d' % (bits, first)
+                self.call(prefix+'_load', 'probe.load_payload(%d,bits=%d,code_domain=True,background_first=%r)\n'
+                          'probe.set_writer_visible(False)' % (byte_count, bits, first))
+                original = [(i%256, ((i%256)*73+19)%256, ((i%256)*151+47)%256) for i in range(count)]
+                self.checked(prefix+'_background', 'probe.inspect(11,0,%d)' % count, original, native=True)
+                n = 1 << (8-bits)
+                encoded = [tuple(n*((i//256 >> (channel*bits))&((1 << bits)-1))+
+                                 (2*(n-1)*value+255)//510 for channel,value in enumerate(rgb))
+                           for i,rgb in enumerate(original)]
+                self.checked(prefix+'_encoded', 'probe.set_writer_visible(True)\nprobe.inspect(11,0,%d)' % count,
+                             encoded, native=True)
+                restored = [tuple((2*(value%n)*255+(n-1))//(2*(n-1)) for value in rgb) for rgb in encoded]
+                report = self.checked(prefix+'_restored', 'probe.inspect(12,0,%d)' % count, restored, native=True)
+                report['max_expected_original_error'] = max(abs(a-b) for p,q in zip(restored,original) for a,b in zip(p,q))
+                self.checked(prefix+'_alpha_error', 'probe.inspect(20,0,%d)' % count, [(0,0,0)]*count, native=True)
+                self.checked(prefix+'_background_return', 'probe.set_writer_visible(False)\nprobe.inspect(11,0,%d)' % count,
+                             original, native=True)
+                report = self.checked(prefix+'_background_hidden', 'probe.set_background_visible(False)\nprobe.inspect(11,0,%d)' % count,
+                                      original, native=True)
+                report['negative_control_rejected_background'] = not report.pop('passed')
+                report['passed'] = report['negative_control_rejected_background']
+                self.call(prefix+'_restore', 'probe.set_background_visible(True)')
+
     def static(self):
         logical, bits, salt = self.args.bytes, self.args.bits, 29
         frozen = self.call('static_load', 'probe.load_payload(%d,bits=%d,salt=%d)\nprobe.set_native_writer_visible(True)' %
@@ -354,7 +382,7 @@ def main():
     parser.add_argument('--project', type=Path, required=True)
     parser.add_argument('--evidence', type=Path, required=True)
     parser.add_argument('--name', required=True)
-    parser.add_argument('--stage', choices=('setup', 'fixtures', 'alpha', 'native', 'static'), required=True)
+    parser.add_argument('--stage', choices=('setup', 'fixtures', 'alpha', 'native', 'native_domain', 'static'), required=True)
     parser.add_argument('--bytes', type=int, default=65536)
     parser.add_argument('--bits', type=int, choices=(1, 2), default=2)
     parser.add_argument('--settle', type=float, default=.75)

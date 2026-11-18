@@ -1,0 +1,10 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_3; // Explicit final restored source; never a native slot.
+uniform vec4 EXTRA_VECTOR1; // alpha byte; negative means identity.
+void main() {
+    vec4 restored = texture2D(TEXTURE_3, uv);
+    if (EXTRA_VECTOR1.x >= 0.0) restored.a = EXTRA_VECTOR1.x / 255.0;
+    gl_FragColor = restored;
+}

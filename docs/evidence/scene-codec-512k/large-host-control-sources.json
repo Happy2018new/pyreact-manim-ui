@@ -1,0 +1,11 @@
+{
+  "native_package_runtime_differs_from_host_source": true,
+  "reason": "r2 runtime uses old 0-pass baseline method; hashed runner explicit controls implement persistent raw copy without editing game files",
+  "files": {
+    "runner.py": "bbf4862d1b3ccc209a83a58c194fbfafdec95c771efa03fddf352f8710c0a1de",
+    "runtime.py": "12e6ad36cf5fd39c791f5de724c6fcd0c39b523d4b0001ee25330bf399191355",
+    "build_probe.py": "16140370d5bfaa8c28929845bff9f387b58664c340f6075f9f605286b4187ce0",
+    "host.py": "bfb5a27a44f1ba1297c8dc9a6e419f3e05060244e13e3642604dd17e46f23e12",
+    "verify_capture.py": "c6d4b3278ab8b6f0d3a26e05803944f26b7da1f24619058427159e5401ddb2b9"
+  }
+}

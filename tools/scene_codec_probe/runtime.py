@@ -25,13 +25,29 @@ class ProbeSystem(BaseProbe):
         self.codec_connections = []
         self.static_measurement_window = None
         self.native_visibility = {}
+        self.background_name = None
+        self.background_entity = None
+        self.background_render = None
+        self.background_visible = False
+        self.code_domain = False
 
     def _writer_controls(self, candidate=None):
         accepted = BaseProbe._writer_controls(self, candidate)
         if not accepted:
             return False
-        return self.render.SetEntityExtraUniforms(4, (float(self.writer_visible), 0.,
-                                                      float(self.rgb_bits), 0.))
+        accepted = self.render.SetEntityExtraUniforms(4, (float(self.writer_visible), 0.,
+                                                         float(self.rgb_bits), 0.))
+        return accepted and self._background_controls()
+
+    def _background_controls(self):
+        if self.background_render is None:
+            return True
+        groups = ((float(self.stride), 8., float(self.slot_count), float(self.layout[1])),
+                  tuple(float(value) for value in self.layout[2:]+self.dimensions[:2]),
+                  (1080.,)+tuple(float(value) for value in self.center),
+                  (float(self.background_visible), 0., 0., 1.))
+        return all(self.background_render.SetEntityExtraUniforms(index+1, values)
+                   for index, values in enumerate(groups))
 
     def _params(self, name, mode=0, start=0, count=1, roi=None):
         roi = self.codec_roi if roi is None else roi
@@ -42,35 +58,37 @@ class ProbeSystem(BaseProbe):
             if not self.post.SetParameter(name, key, [float(item) for item in value]):
                 raise RuntimeError('Scene codec parameter rejected: '+name+'/'+key)
 
-    def load_payload(self, byte_count=3072, bits=2, salt=29):
+    def load_payload(self, byte_count=3072, bits=2, salt=29, code_domain=False, background_first=False):
         self._require_idle_controls()
         if not self.ready:
             raise ValueError('Open the actor before loading a payload')
         plan = plan_payload(byte_count, bits)
+        if code_domain:
+            pixels = 256*(1 << (3*bits))
+            if byte_count != pixels*3*bits//8:
+                raise ValueError('Code-domain sweep needs exactly 256 times all RGB symbols')
+            plan.update(columns=256, rows=pixels//256, pixels=pixels, roi=[8, 192, 256, pixels//256])
         if not self.can_upload(plan['pixels']):
             raise RuntimeError('Named geometry budget exhausted; restart this owned probe')
         previous_names = list(self.dataset_names)
         self.begin_dataset()
         for previous in previous_names:
             self.native_visibility[previous] = False
+        if self.background_name is not None:
+            self.set_background_visible(False)
+        self.code_domain = bool(code_domain)
         self.rgb_bits, self.logical_bytes, self.payload_salt = bits, int(byte_count), int(salt)
         self.payload_plan, self.allocated_bytes = plan, plan['allocated_bytes']
         started = time.clock()
-        payload = bytearray(payload_oracle(index, self.payload_salt) if index < self.logical_bytes else 0
-                            for index in range(self.allocated_bytes))
-        symbols = payload_to_symbols(payload, bits)
-        encoded = encode_values(symbols, 'compact8')
-        data = encoded['data']
-        data['common'] = {(identifier.replace('pmanim_geometry_packet:', 'pmanim_geometry_atlas:'), aux): indices
-                          for (identifier, aux), indices in data['common'].items()}
-        palette = self.block.GetBlankBlockPalette()
-        if palette is None or not palette.DeserializeBlockPalette(data):
-            raise RuntimeError('Scene codec palette rejected')
-        self.native_attempt_serial += 1
-        name = 'scene_codec_epoch%d_attempt%d' % (self.epoch, self.native_attempt_serial)
-        result = self.geometry.CombineBlockPaletteToGeometry(palette, name, 1)
-        if not result:
-            raise RuntimeError('Scene codec geometry combine rejected')
+        if code_domain:
+            symbols = bytearray(index//256 for index in range(plan['pixels']))
+        else:
+            payload = bytearray(payload_oracle(index, self.payload_salt) if index < self.logical_bytes else 0
+                                for index in range(self.allocated_bytes))
+            symbols = payload_to_symbols(payload, bits)
+        if code_domain and background_first:
+            self._attach_background(plan['pixels'])
+        result, stride = self._combine_symbols(symbols, 'scene_codec_epoch%d_attempt' % self.epoch)
         self.names.append(result)
         self.name_records[result] = len(symbols)
         self.named_records += len(symbols)
@@ -81,18 +99,73 @@ class ProbeSystem(BaseProbe):
         if not self.render.SetActorBlockGeometryVisible(result, True):
             raise RuntimeError('Scene codec native attachment visibility rejected')
         self.native_visibility[result] = True
-        self.geometry_name, self.slot_count, self.stride = result, len(symbols), encoded['stride']
+        self.geometry_name, self.slot_count, self.stride = result, len(symbols), stride
         self.geometry_build_serial += 1
         self.generation += 1
-        self.layout = [len(symbols), plan['columns'], 8, 32]
+        self.layout = [len(symbols), plan['columns'], plan['roi'][0], plan['roi'][1]]
         self.dimensions = [1, 720, 1080, 0]
         self.codec_roi = list(plan['roi'])
+        if code_domain and not background_first:
+            self._attach_background(plan['pixels'])
         if not self._writer_controls():
             raise RuntimeError('Scene codec actor parameters rejected')
         self.timings = {'build_attach_ms': (time.clock()-started)*1000.}
-        self.codec_mode = 'geometry_rgb'
+        self.codec_mode = 'native_code_domain' if code_domain else 'geometry_rgb'
         if self.pipeline_ready:
             self.configure_codec()
+        return self.snapshot()
+
+    def _combine_symbols(self, symbols, prefix):
+        encoded = encode_values(symbols, 'compact8')
+        data = encoded['data']
+        data['common'] = {(identifier.replace('pmanim_geometry_packet:', 'pmanim_geometry_atlas:'), aux): indices
+                          for (identifier, aux), indices in data['common'].items()}
+        palette = self.block.GetBlankBlockPalette()
+        if palette is None or not palette.DeserializeBlockPalette(data):
+            raise RuntimeError('Scene codec palette rejected')
+        self.native_attempt_serial += 1
+        name = prefix+str(self.native_attempt_serial)
+        result = self.geometry.CombineBlockPaletteToGeometry(palette, name, 1)
+        if not result:
+            raise RuntimeError('Scene codec geometry combine rejected')
+        return result, encoded['stride']
+
+    def _attach_background(self, pixels):
+        if self.background_entity is None:
+            camera = self.factory.CreateCamera(self.level)
+            position, forward = camera.GetPosition(), camera.GetForward()
+            anchor = tuple(position[index]+forward[index]*6. for index in range(3))
+            self.background_entity = self.CreateClientEntityByTypeStr('pmanim_geometry_atlas:anchor',anchor,(0.,0.))
+            if self.background_entity is None:
+                raise RuntimeError('Native background anchor rejected')
+            self.background_render = self.factory.CreateActorRender(self.background_entity)
+            self.factory.CreateModel(self.background_entity).SetEntityShadowShow(False)
+        encoded = encode_values(bytearray(index%256 for index in range(pixels)), 'compact8')
+        data = encoded['data']
+        data['common'] = {(identifier.replace('pmanim_geometry_packet:', 'pmanim_geometry_atlas:'), aux): indices
+                          for (identifier, aux), indices in data['common'].items()}
+        palette = self.block.GetBlankBlockPalette()
+        if palette is None or not palette.DeserializeBlockPalette(data):
+            raise RuntimeError('Native background palette rejected')
+        self.native_attempt_serial += 1
+        name = 'scene_background_attempt%d' % self.native_attempt_serial
+        result = self.geometry.CombineBlockPaletteToGeometry(palette, name, 1)
+        if not result or not self.background_render.AddActorBlockGeometry(result, (0.,0.,0.), (0.,0.,0.)):
+            raise RuntimeError('Native background build/attachment rejected')
+        self.background_name, self.background_visible = result, True
+        self.native_visibility[result] = True
+        self.names.append(result)
+        self.name_records[result] = pixels
+        self.named_records += pixels
+
+    def set_background_visible(self, visible):
+        self.background_visible = bool(visible)
+        if self.background_name is not None:
+            if not self.background_render.SetActorBlockGeometryVisible(self.background_name, bool(visible)):
+                raise RuntimeError('Native background visibility rejected')
+            self.native_visibility[self.background_name] = bool(visible)
+        if self.ready and not self._writer_controls():
+            raise RuntimeError('Native background actor controls rejected')
         return self.snapshot()
 
     def install_pipeline(self):
@@ -188,8 +261,10 @@ class ProbeSystem(BaseProbe):
     def inspect(self, mode=0, start=0, count=4096, full_scene=False):
         self._require_idle_controls()
         maximum = 673920 if mode >= 10 else 4096
-        if not 0 <= mode <= 22 or start < 0 or not 1 <= count <= maximum:
+        if not 0 <= mode <= 23 or start < 0 or not 1 <= count <= maximum:
             raise ValueError('Invalid diagnostic query')
+        if mode == 23 and (self.logical_bytes != 65536 or self.payload_salt != 29 or self.code_domain):
+            raise ValueError('Same-frame RGB/alpha diagnostic requires 64 KiB salt-29 payload')
         roi = [0, 0, 720, 1080] if full_scene else self.codec_roi
         if start+count > roi[2]*roi[3]:
             raise ValueError('Diagnostic query exceeds its ROI')
@@ -225,6 +300,9 @@ class ProbeSystem(BaseProbe):
                       codec_roi=list(getattr(self, 'codec_roi', [8, 32, 32, 32])),
                       base_alpha=getattr(self, 'base_alpha', 255),
                       codec_mode=getattr(self, 'codec_mode', 'unconfigured'),
+                      native_background_name=getattr(self, 'background_name', None),
+                      native_background_visible=getattr(self, 'background_visible', False),
+                      code_domain_sweep=getattr(self, 'code_domain', False),
                       baseline_sampling='separate writer-off/on captures; live raw producer',
                       codec_connections=list(getattr(self, 'codec_connections', [])),
                       codec_enabled_processes=([name for name in getattr(self, 'codec_processes', [])
@@ -252,6 +330,9 @@ class ProbeSystem(BaseProbe):
         raise RuntimeError('This experiment permits static payloads only')
 
     def close(self):
+        if getattr(self, 'background_entity', None) is not None:
+            self.DestroyClientEntity(self.background_entity)
+            self.background_entity = self.background_render = None
         for name in getattr(self, 'codec_processes', []):
             if self.pipeline_installed:
                 self.post.SetEnableByName(name, False)

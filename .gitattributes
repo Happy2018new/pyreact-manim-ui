@@ -16,3 +16,4 @@
 
 # Preserve the exact evidence bytes used by archived SHA-256 manifests.
 docs/evidence/geometry-atlas/streaming/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/evidence/scene-codec-512k/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

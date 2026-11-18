@@ -1,0 +1,470 @@
+{
+  "kind": "historical_identical_double_blend_negative_control_v3",
+  "independent_of_probe_codec_and_verifier": true,
+  "source_sha256": {
+    "native64k2_native_k2_bytes65536_baseline.png": "020131614372891919bbfc75ff82051942a5ffb8eec33f6fc44ddd2fa880ae97",
+    "native64k2_native_k2_bytes65536_baseline.state.json": "2acc75bec441761278e4f6be735a28a6a17fdfb760dc482fd289227a0cebc626",
+    "native64k2_native_k2_bytes65536_restored.png": "e3b56b40c9c1d0b9d8e88c460b8712b4dc57012db8f069da5f89ffa376b288b8",
+    "native64k2_native_k2_bytes65536_restored.state.json": "b2269f1e5df5951f0ed6d021de60bc345cb0f8e09e98c04ac94181eb500f6656"
+  },
+  "parameters": {
+    "bits": 2,
+    "logical_bytes": 65536,
+    "salt": 29,
+    "source_pixels": 87424
+  },
+  "first_failure_pixels": 1356,
+  "models": {
+    "1_draw": {
+      "failure_region_exact_matches": 0,
+      "failure_region_exact_match_fraction": 0.0,
+      "failure_region_matches_within_2": 0,
+      "failure_region_within_2_fraction": 0.0,
+      "failure_region_comparison": {
+        "passed": false,
+        "checked_pixels": 1356,
+        "mismatch_pixels": 1356,
+        "maximum_channel_error": 53,
+        "tolerance": 0,
+        "error_histogram": {
+          "53": 1,
+          "44": 38,
+          "40": 34,
+          "48": 4,
+          "12": 66,
+          "16": 39,
+          "8": 120,
+          "32": 298,
+          "24": 338,
+          "28": 100,
+          "9": 28,
+          "36": 170,
+          "20": 97,
+          "21": 23
+        },
+        "first_failures": [
+          {
+            "ordinal": 0,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              85,
+              130,
+              69
+            ]
+          },
+          {
+            "ordinal": 1,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 2,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 3,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 4,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          }
+        ]
+      },
+      "full_roi_comparison": {
+        "passed": false,
+        "checked_pixels": 87424,
+        "mismatch_pixels": 1356,
+        "maximum_channel_error": 53,
+        "tolerance": 0,
+        "error_histogram": {
+          "0": 86068,
+          "53": 1,
+          "44": 38,
+          "40": 34,
+          "48": 4,
+          "12": 66,
+          "16": 39,
+          "8": 120,
+          "32": 298,
+          "24": 338,
+          "28": 100,
+          "9": 28,
+          "36": 170,
+          "20": 97,
+          "21": 23
+        },
+        "first_failures": [
+          {
+            "ordinal": 67712,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              85,
+              130,
+              69
+            ]
+          },
+          {
+            "ordinal": 67713,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 67714,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 67715,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 67716,
+            "expected": [
+              61,
+              77,
+              40
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          }
+        ]
+      }
+    },
+    "2_draw": {
+      "failure_region_exact_matches": 0,
+      "failure_region_exact_match_fraction": 0.0,
+      "failure_region_matches_within_2": 0,
+      "failure_region_within_2_fraction": 0.0,
+      "failure_region_comparison": {
+        "passed": false,
+        "checked_pixels": 1356,
+        "mismatch_pixels": 1356,
+        "maximum_channel_error": 174,
+        "tolerance": 0,
+        "error_histogram": {
+          "133": 18,
+          "101": 43,
+          "89": 77,
+          "125": 23,
+          "61": 11,
+          "137": 122,
+          "57": 19,
+          "73": 35,
+          "149": 67,
+          "93": 83,
+          "53": 37,
+          "85": 37,
+          "97": 34,
+          "32": 3,
+          "121": 9,
+          "162": 17,
+          "157": 81,
+          "129": 11,
+          "145": 138,
+          "81": 90,
+          "109": 43,
+          "16": 2,
+          "41": 8,
+          "98": 11,
+          "65": 14,
+          "49": 29,
+          "105": 18,
+          "20": 5,
+          "102": 5,
+          "77": 39,
+          "141": 84,
+          "36": 2,
+          "28": 6,
+          "33": 4,
+          "45": 17,
+          "166": 7,
+          "153": 50,
+          "37": 17,
+          "113": 12,
+          "170": 4,
+          "69": 8,
+          "106": 3,
+          "29": 1,
+          "24": 5,
+          "117": 3,
+          "110": 1,
+          "174": 1,
+          "161": 2
+        },
+        "first_failures": [
+          {
+            "ordinal": 0,
+            "expected": [
+              206,
+              146,
+              202
+            ],
+            "observed": [
+              85,
+              130,
+              69
+            ]
+          },
+          {
+            "ordinal": 1,
+            "expected": [
+              81,
+              20,
+              73
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 2,
+            "expected": [
+              16,
+              210,
+              73
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 3,
+            "expected": [
+              206,
+              20,
+              8
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          },
+          {
+            "ordinal": 4,
+            "expected": [
+              142,
+              85,
+              73
+            ],
+            "observed": [
+              81,
+              121,
+              65
+            ]
+          }
+        ]
+      },
+      "full_roi_comparison": {
+        "passed": false,
+        "checked_pixels": 87424,
+        "mismatch_pixels": 87424,
+        "maximum_channel_error": 178,
+        "tolerance": 0,
+        "error_histogram": {
+          "114": 2383,
+          "61": 2248,
+          "98": 4016,
+          "93": 3727,
+          "178": 2557,
+          "126": 4367,
+          "69": 3191,
+          "49": 1123,
+          "33": 623,
+          "32": 622,
+          "174": 6267,
+          "110": 5193,
+          "45": 1395,
+          "130": 5149,
+          "65": 4004,
+          "102": 3053,
+          "37": 424,
+          "28": 403,
+          "89": 692,
+          "106": 3141,
+          "24": 187,
+          "41": 182,
+          "129": 1976,
+          "170": 2332,
+          "85": 490,
+          "20": 149,
+          "81": 3310,
+          "133": 1967,
+          "57": 1330,
+          "137": 1162,
+          "73": 678,
+          "118": 830,
+          "53": 270,
+          "77": 711,
+          "166": 5420,
+          "141": 4843,
+          "122": 463,
+          "162": 3170,
+          "145": 1320,
+          "149": 172,
+          "153": 671,
+          "101": 43,
+          "125": 23,
+          "97": 34,
+          "121": 9,
+          "157": 1021,
+          "109": 43,
+          "16": 2,
+          "105": 18,
+          "36": 2,
+          "113": 12,
+          "29": 1,
+          "117": 3,
+          "161": 2
+        },
+        "first_failures": [
+          {
+            "ordinal": 0,
+            "expected": [
+              93,
+              235,
+              121
+            ],
+            "observed": [
+              125,
+              166,
+              235
+            ]
+          },
+          {
+            "ordinal": 1,
+            "expected": [
+              32,
+              170,
+              121
+            ],
+            "observed": [
+              125,
+              166,
+              235
+            ]
+          },
+          {
+            "ordinal": 2,
+            "expected": [
+              158,
+              105,
+              251
+            ],
+            "observed": [
+              125,
+              166,
+              235
+            ]
+          },
+          {
+            "ordinal": 3,
+            "expected": [
+              223,
+              170,
+              186
+            ],
+            "observed": [
+              125,
+              166,
+              235
+            ]
+          },
+          {
+            "ordinal": 4,
+            "expected": [
+              32,
+              170,
+              251
+            ],
+            "observed": [
+              125,
+              166,
+              235
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "model_assumption": "The saved writer-off RGB is the exact source; the identical intended writer blends once or twice at each tested pixel, with UNORM8 rounding after each draw.",
+  "causal_attribution": null,
+  "specific_identical_double_draw_explanation_matches": false,
+  "conclusion": "Use fit counts to assess only the exact identical-double-writer model. No inference rules out other blend order, different sources, occlusion or frame changes."
+}

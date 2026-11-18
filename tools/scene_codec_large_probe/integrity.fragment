@@ -1,0 +1,51 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_3; // encoded alpha blocks, restored RGB
+uniform sampler2D TEXTURE_4; // decoded RGBA
+uniform sampler2D TEXTURE_5; // same-frame native writer output, original alpha
+uniform highp vec4 EXTRA_VECTOR1; // k,base alpha,mode,reserved
+uniform highp vec4 EXTRA_VECTOR2; // source ROI left,top,width,height
+uniform highp vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,count
+uniform highp vec4 EXTRA_VECTOR4; // engine ScreenInfo
+
+void main() {
+    vec2 pixel=floor(vec2(uv.x,1.0-uv.y)*EXTRA_VECTOR3.xy);
+    vec2 point=pixel-vec2(8.0,128.0);
+    float count=EXTRA_VECTOR2.z*EXTRA_VECTOR2.w;
+    float ordinal=point.y*1024.0+point.x;
+    if (point.x<0.0 || point.x>=1024.0 || point.y<0.0 || point.y>=ceil(count/1024.0) || ordinal>=count) {
+        gl_FragColor=vec4(8.0/255.0,16.0/255.0,32.0/255.0,1.0);return;
+    }
+    float mode=floor(EXTRA_VECTOR1.z+0.5);
+    if (mode>2.5 && mode<3.5) {
+        vec2 frag=floor(gl_FragCoord.xy);
+        gl_FragColor=vec4(vec3(mod(frag.x,256.0),mod(frag.y,256.0),
+            floor(frag.x/256.0)+8.0*floor(frag.y/256.0))/255.0,1.0);return;
+    }
+    if (mode>3.5) {
+        float component=mod(ordinal,4.0);
+        float value=EXTRA_VECTOR4.x;
+        if(component>0.5)value=EXTRA_VECTOR4.y;
+        if(component>1.5)value=EXTRA_VECTOR4.z*16777216.0;
+        if(component>2.5)value=EXTRA_VECTOR4.w*16777216.0;
+        float code=floor(value+0.5);
+        gl_FragColor=vec4(vec3(mod(code,256.0),mod(floor(code/256.0),256.0),floor(code/65536.0))/255.0,1.0);return;
+    }
+    vec2 sourcePixel=EXTRA_VECTOR2.xy+vec2(mod(ordinal,EXTRA_VECTOR2.z),floor(ordinal/EXTRA_VECTOR2.z));
+    vec2 location=(sourcePixel+0.5)/EXTRA_VECTOR3.xy;
+    if(EXTRA_VECTOR3.z>0.5)location.y=1.0-location.y;
+    vec4 raw=texture2D(TEXTURE_5,location);
+    vec4 coded=texture2D(TEXTURE_3,location);
+    vec4 decoded=texture2D(TEXTURE_4,location);
+    if(mode<0.5) {
+        // All source pixels, including header/padding: alpha restored exactly,
+        // no decoder overflow marker, RGB equals the encoded restored RGB.
+        gl_FragColor=vec4(abs(decoded.a-raw.a),
+            max(max(abs(decoded.r-coded.r),abs(decoded.g-coded.g)),abs(decoded.b-coded.b)),0.0,1.0);
+    } else if(mode<1.5) {
+        gl_FragColor=vec4(vec3(raw.a),1.0);
+    } else {
+        gl_FragColor=vec4(vec3(decoded.a),1.0);
+    }
+}

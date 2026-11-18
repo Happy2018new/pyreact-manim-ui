@@ -9,6 +9,26 @@ uniform vec4 EXTRA_VECTOR2; // source ROI left,top,width,height
 uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,count
 uniform vec4 EXTRA_VECTOR4; // engine ScreenInfo: width,height,pixelWidth,pixelHeight
 
+// Diagnostic mode 23 uses the probe's declared 64 KiB, salt-29 payload.
+// It reads RGB and alpha from one source sample in the same render turn.
+float oracleByte(float index) {
+    if (index >= 65536.0) return 0.0;
+    return mod(mod(index,256.0)*73.0+mod(floor(index/251.0),256.0)*19.0+29.0,256.0);
+}
+
+float oracleSymbol(float index) {
+    float result=0.0;
+    float width=3.0*EXTRA_VECTOR1.x;
+    for (int bit=0;bit<6;++bit) {
+        if (float(bit)<width) {
+            float address=index*width+float(bit);
+            float value=oracleByte(floor(address/8.0));
+            result+=mod(floor(value/exp2(mod(address,8.0))),2.0)*exp2(float(bit));
+        }
+    }
+    return result;
+}
+
 void main() {
     float nativeMode = step(9.5, EXTRA_VECTOR1.z);
     float mode = EXTRA_VECTOR1.z - 10.0 * nativeMode;
@@ -51,7 +71,7 @@ void main() {
         vec2 pixel=floor(gl_FragCoord.xy);
         result=vec3(mod(pixel.x,256.0),mod(pixel.y,256.0),
                     floor(pixel.x/256.0)+4.0*floor(pixel.y/256.0))/255.0;
-    } else {
+    } else if (mode < 12.5) {
         float component=mod(ordinal,4.0);
         float value=EXTRA_VECTOR4.x;
         if (component > 0.5) value=EXTRA_VECTOR4.y;
@@ -59,6 +79,13 @@ void main() {
         if (component > 2.5) value=EXTRA_VECTOR4.w*16777216.0;
         float code=floor(value+0.5);
         result=vec3(mod(code,256.0),mod(floor(code/256.0),256.0),floor(code/65536.0))/255.0;
+    } else {
+        float symbols=exp2(EXTRA_VECTOR1.x);
+        vec3 digits=floor(floor(raw.rgb*255.0+0.5)/(256.0/symbols));
+        float observed=dot(digits,vec3(1.0,symbols,symbols*symbols));
+        float alpha=raw.a*255.0;
+        result=vec3(step(0.5,abs(observed-oracleSymbol(index))),
+                    floor(alpha+0.5)/255.0,step(0.0001,abs(alpha-floor(alpha+0.5))));
     }
     gl_FragColor=vec4(result,1.0);
 }

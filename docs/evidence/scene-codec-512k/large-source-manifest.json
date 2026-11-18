@@ -1,0 +1,60 @@
+{
+  "source_bundle_sha256": "3cd4e7ee11091aae049bc360fecf85977e0c8e5ca1914220a4a7b25767923806",
+  "sources": {
+    "runtime.py": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_large_probe\\runtime.py",
+      "sha256": "876827974dbaba998e15c8f948250d3464627538ce970a59f43b74ed8ceeacc3",
+      "bytes": 17115
+    },
+    "large_layout.py": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_large_probe\\layout.py",
+      "sha256": "daa5c274bdd0ff4f9caab02276bb44876ada541b890300dbdb626c0b2e4f9d6c",
+      "bytes": 3233
+    },
+    "scene_codec.py": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_probe\\codec.py",
+      "sha256": "445a2cdf61776b3b7691720cc4ce8611ec159cfa70d73223b6d6ab079a0f0710",
+      "bytes": 9363
+    },
+    "scatter.vertex": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\geometry_atlas_probe\\scatter.vertex",
+      "sha256": "88b517bd4ff5acd8e2567e18bc749eba9246d63fdf9aec8e07e5d0aa2f6b4146",
+      "bytes": 2222
+    },
+    "scatter.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_large_probe\\scatter.fragment",
+      "sha256": "44fd70fa7bed3a30f216d840bb2d44b053854f3e4c5a1ecfd173020f561a2ae7",
+      "bytes": 461
+    },
+    "raw.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_probe\\copy.fragment",
+      "sha256": "65ca389a9647c30a93536a3e577a5e6c30b6fe0cf4499ec85ddd27b7dd1df403",
+      "bytes": 168
+    },
+    "encode.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_probe\\shaders\\alpha_block_encode.fragment",
+      "sha256": "a043533c2e55896976cac9c77c11019e93acb66651118db2f4dcdd1941c790ec",
+      "bytes": 3368
+    },
+    "decode.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_probe\\shaders\\alpha_block_decode.fragment",
+      "sha256": "b142ee8c34bdcb6b293baa9f4d5bffd964547bb3ea2be8faa883d29f4fa85957",
+      "bytes": 2428
+    },
+    "consumer.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_large_probe\\consumer.fragment",
+      "sha256": "31e12045732eaad323193bc46ba2d60ca3b5b28cd5b0fa901fed0a39bd73fae0",
+      "bytes": 2495
+    },
+    "integrity.fragment": {
+      "path": "D:\\Happy2018newの个人文件\\GitHub\\pyreact-manim-ui\\tools\\scene_codec_large_probe\\integrity.fragment",
+      "sha256": "dbde1a6813d7621217142ea68d9fd933e02e4d4403b384f17befe90b2555f5ea",
+      "bytes": 2434
+    },
+    "native_post_process.json": {
+      "path": "D:\\MCStudioDownload\\game\\MinecraftPE_Netease\\3.10.0.448891\\data\\resource_packs\\vanilla_netease\\graphics_settings\\post_process.json",
+      "sha256": "04ff46f5fcbdafd1f86e4e09da3fd265cb19c4b3922a8121d46cf123076b67d3",
+      "bytes": 11220
+    }
+  }
+}
