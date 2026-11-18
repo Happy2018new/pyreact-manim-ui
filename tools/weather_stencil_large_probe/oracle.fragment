@@ -1,0 +1,81 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform highp vec4 EXTRA_VECTOR1; // viewport W,H,mode,logical byte count
+uniform highp vec4 EXTRA_VECTOR2; // source ROI x,y,width,height
+uniform highp vec4 EXTRA_VECTOR3; // output x,y,width,source slot0/1
+const vec3 GUARD=vec3(17.0,53.0,97.0)/255.0;
+
+vec4 atPixel(vec2 pixel) {
+    vec2 location=(pixel+vec2(0.5))/EXTRA_VECTOR1.xy;
+    location.y=1.0-location.y;
+    if (EXTRA_VECTOR3.w<0.5) return texture2D(TEXTURE_0,location);
+    return texture2D(TEXTURE_1,location);
+}
+
+vec4 atSymbol(float index) {
+    // Index identifies an integer source pixel. atPixel adds the sole half pixel.
+    return atPixel(EXTRA_VECTOR2.xy+vec2(mod(index,EXTRA_VECTOR2.z),floor(index/EXTRA_VECTOR2.z)));
+}
+
+float readByte(float index) {
+    float start=index*4.0;
+    float a=floor(floor(atSymbol(start).r*255.0+0.5)/64.0);
+    float b=floor(floor(atSymbol(start+1.0).r*255.0+0.5)/64.0);
+    float c=floor(floor(atSymbol(start+2.0).r*255.0+0.5)/64.0);
+    float d=floor(floor(atSymbol(start+3.0).r*255.0+0.5)/64.0);
+    return a+4.0*b+16.0*c+64.0*d;
+}
+
+void main() {
+    float mode=floor(EXTRA_VECTOR1.z+0.5);
+    if (mode<0.5) {
+        gl_FragColor=texture2D(TEXTURE_0,uv);
+        return;
+    }
+    vec2 pixel=floor(vec2(gl_FragCoord.x,EXTRA_VECTOR1.y-gl_FragCoord.y));
+    if (mode>3.5) {
+        vec2 relative=pixel-EXTRA_VECTOR2.xy;
+        if (relative.x<0.0 || relative.y<0.0 || relative.x>=EXTRA_VECTOR2.z || relative.y>=EXTRA_VECTOR2.w) {
+            gl_FragColor=texture2D(TEXTURE_0,uv);
+            return;
+        }
+        vec4 raw=atPixel(pixel);
+        vec3 bytes=floor(raw.rgb*255.0+vec3(0.5));
+        gl_FragColor=vec4(clamp(vec3(mod(bytes.r,64.0),bytes.g,bytes.b)/63.0,0.0,1.0),raw.a);
+        return;
+    }
+    vec2 local=pixel-EXTRA_VECTOR3.xy;
+    if (local.x<0.0 || local.y<0.0 || local.x>=EXTRA_VECTOR3.z) {
+        gl_FragColor=texture2D(TEXTURE_0,uv);
+        return;
+    }
+    float ordinal=local.y*EXTRA_VECTOR3.z+local.x;
+    float length=EXTRA_VECTOR1.w;
+    if (mode>2.5) {
+        if (ordinal>=length*4.0) {
+            gl_FragColor=vec4(GUARD,1.0);
+            return;
+        }
+        vec4 raw=atSymbol(ordinal);
+        vec2 gb=floor(raw.gb*255.0+vec2(0.5));
+        float rangeFlag=(gb.x>63.0 || gb.y>63.0)?1.0:0.0;
+        // One output RGB exposes raw red, the same raw texel's alpha, and range.
+        gl_FragColor=vec4(raw.r,raw.a,rangeFlag/255.0,1.0);
+        return;
+    }
+    if (ordinal>=length) {
+        gl_FragColor=vec4(GUARD,1.0);
+        return;
+    }
+    float address=ordinal;
+    if (mode>1.5) {
+        address=mod(13.0*ordinal+7.0,length);
+        float first=readByte(address);
+        address=mod(address+3.0*first+5.0,length);
+    }
+    float value=readByte(address);
+    gl_FragColor=vec4(value,mod(71.0*value+43.0,256.0),mod(131.0*value+17.0,256.0),255.0)/255.0;
+}

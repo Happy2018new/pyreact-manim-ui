@@ -1,0 +1,450 @@
+{
+  "schema": "weather_stencil_large_evidence_summary_v1",
+  "net_ease_windows_client": "3.10.0.467018",
+  "fps_cap": 60,
+  "native_post_effects_enabled": false,
+  "input_payload_generated_in_host_python": true,
+  "runtime_payload_file_writes": false,
+  "maximum_verified_static_payload_bytes": 524288,
+  "maximum_verified_source_sample_count": 2097152,
+  "stencil_bitplanes": [
+    64,
+    128
+  ],
+  "native_late_effect_draws": 3,
+  "post_passes_per_static_profile": 2,
+  "larger_target_required_for_512_kib": true,
+  "total_replayed_pngs": 80,
+  "exact_positive_diagnostic_pngs": 65,
+  "exact_positive_diagnostic_native_pixels": 106520832,
+  "negative_controls_rejected": 4,
+  "raw_timing_vectors_recomputed": 11,
+  "datasets": [
+    {
+      "logical_bytes": 65536,
+      "input_sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+      "viewport": [
+        720,
+        1080
+      ],
+      "roi": [
+        8,
+        128,
+        512,
+        512
+      ],
+      "generation": 2,
+      "active_payload_pages": 2,
+      "resident_native_pages": 5,
+      "payload_quads": 131072,
+      "native_build_total_ms": 33.63009999999633,
+      "native_build_writer_only_ms": 33.63009999999633,
+      "page_build_max_ms": 17.109199999993052,
+      "host_stage_elapsed_s": 4.206973314285278,
+      "private_commit_MB_before": 2527.731712,
+      "private_commit_MB_after": 2612.133888,
+      "available_system_commit_GiB_after": 9.028705596923828,
+      "source_samples": 262144,
+      "initial_wet_non255_alpha": [
+        4937,
+        5129
+      ],
+      "hidden_control_wrong_bytes": 65280,
+      "restoration_reference_is_stable": false
+    },
+    {
+      "logical_bytes": 262144,
+      "input_sha256": "ebdea26de383a97f7635608768015d3a0a8cb9ce39ecef32c4113df7c130cb6e",
+      "viewport": [
+        1080,
+        1440
+      ],
+      "roi": [
+        8,
+        128,
+        1024,
+        1024
+      ],
+      "generation": 3,
+      "active_payload_pages": 8,
+      "resident_native_pages": 13,
+      "payload_quads": 524288,
+      "native_build_total_ms": 146.61500000002547,
+      "native_build_writer_only_ms": 146.61500000002547,
+      "page_build_max_ms": 19.748599999985572,
+      "host_stage_elapsed_s": 11.579225063323975,
+      "private_commit_MB_before": 2719.010816,
+      "private_commit_MB_after": 2851.262464,
+      "available_system_commit_GiB_after": 8.696834564208984,
+      "source_samples": 1048576,
+      "initial_wet_non255_alpha": [
+        17486,
+        19043
+      ],
+      "hidden_control_wrong_bytes": 261149,
+      "restoration_reference_is_stable": false
+    },
+    {
+      "logical_bytes": 524288,
+      "input_sha256": "154491d297c550de8426422f8dec78397e7b5370051350efc2a4c73779cc2b1d",
+      "viewport": [
+        2304,
+        1280
+      ],
+      "roi": [
+        8,
+        128,
+        2048,
+        1024
+      ],
+      "generation": 4,
+      "active_payload_pages": 16,
+      "resident_native_pages": 29,
+      "payload_quads": 1048576,
+      "native_build_total_ms": 257.60659999968993,
+      "native_build_writer_only_ms": 257.60659999968993,
+      "page_build_max_ms": 17.031900000006317,
+      "host_stage_elapsed_s": 19.319329023361206,
+      "private_commit_MB_before": 3052.945408,
+      "private_commit_MB_after": 3284.168704,
+      "available_system_commit_GiB_after": 8.582466125488281,
+      "source_samples": 2097152,
+      "initial_wet_non255_alpha": [
+        67775,
+        69749
+      ],
+      "hidden_control_wrong_bytes": 522264,
+      "restoration_reference_is_stable": false
+    }
+  ],
+  "timing": [
+    {
+      "interval_count": 1499,
+      "fps_count": 100,
+      "interval_mean_ms": 16.668765110073387,
+      "interval_p99_ms": 18.293100000022378,
+      "interval_max_ms": 18.75029999999356,
+      "engine_mean_fps": 60.07286651611328,
+      "event_rate_fps": 59.99244655476445,
+      "intervals_over_25_ms": 0,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 65536,
+      "mode": "baseline",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.000344900000016,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1499,
+      "fps_count": 100,
+      "interval_mean_ms": 16.670234889926622,
+      "interval_p99_ms": 18.379699999997,
+      "interval_max_ms": 18.657799999999725,
+      "engine_mean_fps": 60.065894317626956,
+      "event_rate_fps": 59.987157145834416,
+      "intervals_over_25_ms": 0,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 65536,
+      "mode": "restore",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.002013199999993,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1499,
+      "fps_count": 100,
+      "interval_mean_ms": 16.67003935957304,
+      "interval_p99_ms": 18.33619999999314,
+      "interval_max_ms": 19.59629999998924,
+      "engine_mean_fps": 60.07054244995117,
+      "event_rate_fps": 59.987860762052364,
+      "intervals_over_25_ms": 0,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 65536,
+      "mode": "dependent",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.00112200000001,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.6673452,
+      "interval_p99_ms": 18.925400000000536,
+      "interval_max_ms": 27.09760000004735,
+      "engine_mean_fps": 60.07286651611328,
+      "event_rate_fps": 59.99755737944397,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 262144,
+      "mode": "baseline",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.014596400000016,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.666855200000025,
+      "interval_p99_ms": 18.51080000000138,
+      "interval_max_ms": 25.60670000002574,
+      "engine_mean_fps": 60.07519058227539,
+      "event_rate_fps": 59.9993212876775,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 262144,
+      "mode": "restore",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.013989100000003,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.666811599999996,
+      "interval_p99_ms": 18.294500000024527,
+      "interval_max_ms": 26.036599999997634,
+      "engine_mean_fps": 60.0775146484375,
+      "event_rate_fps": 59.9994782445372,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 262144,
+      "mode": "dependent",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.0133972000001,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.668248733333336,
+      "interval_p99_ms": 18.321300000025076,
+      "interval_max_ms": 25.149199999987104,
+      "engine_mean_fps": 60.071183395385745,
+      "event_rate_fps": 59.99430510058262,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 524288,
+      "mode": "baseline",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.014866900000015,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.66696539999998,
+      "interval_p99_ms": 18.324399999983143,
+      "interval_max_ms": 26.0644999999613,
+      "engine_mean_fps": 60.0775146484375,
+      "event_rate_fps": 59.99892457927591,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 524288,
+      "mode": "restore",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.013089000000036,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.667622533333315,
+      "interval_p99_ms": 18.336599999997816,
+      "interval_max_ms": 25.958300000070267,
+      "engine_mean_fps": 60.07519058227539,
+      "event_rate_fps": 59.99655907734386,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 524288,
+      "mode": "dependent",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.014130300000033,
+      "post_pass_count": 2,
+      "weather": "clear"
+    },
+    {
+      "interval_count": 1500,
+      "fps_count": 100,
+      "interval_mean_ms": 16.667150333333364,
+      "interval_p99_ms": 18.699699999842778,
+      "interval_max_ms": 25.6733000001077,
+      "engine_mean_fps": 60.07519058227539,
+      "event_rate_fps": 59.998258850528046,
+      "intervals_over_25_ms": 1,
+      "intervals_over_33_3_ms": 0,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 524288,
+      "mode": "baseline",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.013656800000035,
+      "post_pass_count": 2,
+      "weather": "rain"
+    },
+    {
+      "interval_count": 1498,
+      "fps_count": 99,
+      "interval_mean_ms": 16.68532630173558,
+      "interval_p99_ms": 18.633599999930084,
+      "interval_max_ms": 41.97159999989708,
+      "engine_mean_fps": 60.017165598243174,
+      "event_rate_fps": 59.9329004369535,
+      "intervals_over_25_ms": 2,
+      "intervals_over_33_3_ms": 1,
+      "intervals_over_50_ms": 0,
+      "logical_bytes": 524288,
+      "mode": "restore",
+      "warm_seconds": 2.0,
+      "requested_seconds": 25.0,
+      "actual_sample_seconds": 25.007258500000034,
+      "post_pass_count": 2,
+      "weather": "rain"
+    }
+  ],
+  "wet_after_performance_non255_alpha": [
+    66460,
+    95007
+  ],
+  "frozen_runtime_source_sha256": "dbe02e536118431dc689939d6f14196b52611a3210b320b5e14f50d4d9d96eea",
+  "frozen_shaders": {
+    "scatter.vertex": "08f05dec1565061546099ce812bf12909bb29cbe0d189be2d44add0d255d765a",
+    "writer64.fragment": "4170243d44e9776ebc87142001c03ee7783ab9e01536aa10f34d274192c1b036",
+    "writer128.fragment": "644103722b5caf329bb15e66016051537749c07b9d1c1879e5c2ccca986c40f6",
+    "clear.vertex": "98a755c9a1f9bcac3e57fc6cf951a3bec4f1b109181e8ad59c731ebcb572d325",
+    "clear.fragment": "23efb3508aeb0a3ead70fb19bb2fe24c1011d1ce59806d63ec89e3cbcc225da6",
+    "effect.vertex": "10da027f027dbd19de00c45bf0133f4aacc3c81d1b8a888242d50dbcf4054c5c",
+    "effect.fragment": "40559905b08127a5b71ecfa432c82656325e9efd11de0c35edb7619fd2da18ff",
+    "copy.fragment": "ee09ea0078f339141cda49c5b81d1fbf5723454aaf20f589b75f005a5921b749",
+    "oracle.fragment": "12ac08a1e0029ebfbf733f07bdd36c96e639a352f47c0b81f7f7efdd570f3588"
+  },
+  "retained_failed_readback_operators": [
+    {
+      "bytes": 262144,
+      "capture": {
+        "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/n262144_clear_t0_m1.png",
+        "sha256": "8a884af09b547543d285fcc34868d340967adf632d5123f4ee708822c408454b"
+      },
+      "wrong_readback_pixels": 0,
+      "wrong_guard_pixels": 81000,
+      "cause": "75 raster rows beyond the physical screen"
+    },
+    {
+      "bytes": 524288,
+      "capture": {
+        "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/followup/n524288_clear_t0_m1.png",
+        "sha256": "2c85ccfa15de90a88f5c67c10085049448ab9a483550830230c76158db417651"
+      },
+      "wrong_readback_pixels": 3787,
+      "wrong_guard_pixels": 0,
+      "cause": "native debug label over the diagnostic output"
+    }
+  ],
+  "rgb_restore_baseline_drift_pixels_by_capacity": {
+    "65536": 4894,
+    "262144": 18367,
+    "524288": 17811
+  },
+  "native_prefilter_alpha_oracle_available": false,
+  "native_outline_and_ui_compatibility_validated": false,
+  "artifacts": [
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/results.json",
+      "sha256": "2080419d2aaf6c4da58097fb68c90452ae661a421ea35155303d2d744df2de9f"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/followup/results.json",
+      "sha256": "d5a001f43606b3526e0088611e8600ba884ce31a9e4d693db50dc054244a063d"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/followup512/results.json",
+      "sha256": "ea5101b313d56e3cba1d774bdf1059dcf7e39057340b2ff99d5c911f3b172071"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/rain-timing-r3/results.json",
+      "sha256": "dfbe4038fabf956fbfe1bc5439dbfceb37d704a6dc6a8e35d42a0bb064cfb44e"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/rain-timing-r3/rain-measurement-vectors.json",
+      "sha256": "c14d1fa19051be88ca92dd671f1ae8507840178b216d5f9e999d95b255db6f4f"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/followup/continuation-status.json",
+      "sha256": "fbe062fa09f73a027ba318e9cf508cf564480f921815e2af54343068931999ea"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/followup512/continuation-status.json",
+      "sha256": "3dbb35aa458db0f374c25706e1369485a75aa8b53fe1cbcec5ee06aeabb3ef6c"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/rain-timing/rain-timing-status.json",
+      "sha256": "a5da7c0f23039f4392468d8e19d2e61fd11090075283f716b3e94a826ab80d1d"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/rain-timing-r2/rain-timing-status.json",
+      "sha256": "86c4288d973c3e2de9a663347967de8afe8437874de7b2363437f4f05850f90f"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/rain-timing-r3/rain-timing-status.json",
+      "sha256": "01e6ef194d5871e22296c847c51ac37f7105504d401cf279abc2721d423043e5"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r1/evidence/launch.json",
+      "sha256": "33301cd82883c4ea36d2717cb843cb9786f4597a1fd5554495f2a0727775120a"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/project/probe_resources.json",
+      "sha256": "ed9d438b342b2f42b899f743871ab16e3adef8d51db2851661c7f185ce455916"
+    },
+    {
+      "path": ".runtime/weather-stencil-bulk-independent/final-audit-0.json",
+      "sha256": "e772425e69c0ef0d9cd0c3cba3c0eb83419d64984077a289776af3c57b1db58d"
+    },
+    {
+      "path": ".runtime/weather-stencil-bulk-independent/final-audit-1.json",
+      "sha256": "bfe3c4029895f2afde5f3d8f27df20d9769e47e352bc45870bbda6088c5a2e03"
+    },
+    {
+      "path": ".runtime/weather-stencil-bulk-independent/final-audit-2.json",
+      "sha256": "a6799b9fa156f2aace98dd7adbe2e958619d6aad4c250c246ad664dc0e3001f8"
+    },
+    {
+      "path": ".runtime/weather-stencil-bulk-independent/final-audit-3.json",
+      "sha256": "880468da77e54389ed12cb0562841a8f3ea1b69213ba875dfbfe941c194c681a"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r1/evidence/cleanup.json",
+      "sha256": "44312cf014c84cea7dc2b89ee0895d5f6ad740c1de6bf3d52a47f213b0c99563"
+    },
+    {
+      "path": ".runtime/weather-stencil-large-native-20261119-r2/evidence/cleanup.json",
+      "sha256": "4e20d6a5107822bb4a3e6030c1650c148866eecbcbe5b6088d42a4ab9e4ed91b"
+    }
+  ]
+}

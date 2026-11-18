@@ -1,0 +1,18 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+
+varying highp float geometryByte;
+varying highp float roiOriginX;
+
+void main() {
+    float value = floor(geometryByte * 255.0 + 0.5);
+    float originX = floor(roiOriginX + 0.5);
+    float lane = mod(floor(gl_FragCoord.x) - originX, 4.0);
+    // Explicit powers of two avoid transcendental rounding at byte boundaries.
+    float divisor = lane < 0.5 ? 1.0 : (lane < 1.5 ? 4.0 : (lane < 2.5 ? 16.0 : 64.0));
+    float symbol = mod(floor(value / divisor), 4.0);
+    if (mod(symbol, 2.0) < 0.5) discard;
+    // The material disables RGBA writes and replaces stencil bit 64.
+    gl_FragColor = vec4(0.0);
+}

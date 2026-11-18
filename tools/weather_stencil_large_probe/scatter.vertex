@@ -1,0 +1,42 @@
+// __multiversion__
+precision highp float;
+#include "vertexVersionCentroid.h"
+#include "uniformWorldConstants.h"
+
+attribute POS4 POSITION;
+uniform highp vec4 EXTRA_ACTOR_UNIFORM1; // stride, local byte count, byte columns, reserved
+uniform highp vec4 EXTRA_ACTOR_UNIFORM2; // ROI left, ROI top, viewport width, viewport height
+uniform highp vec4 EXTRA_ACTOR_UNIFORM3; // calibrated source center XYZ, reserved
+uniform highp vec4 EXTRA_ACTOR_UNIFORM4; // enabled, reserved, reserved, global byte base
+varying highp float geometryByte;
+varying highp float roiOriginX;
+
+void main() {
+    float stride = EXTRA_ACTOR_UNIFORM1.x;
+    float count = EXTRA_ACTOR_UNIFORM1.y;
+    float columns = EXTRA_ACTOR_UNIFORM1.z;
+    vec3 source = POSITION.xyz + EXTRA_ACTOR_UNIFORM3.xyz;
+    // Compact8 quads span half a unit in X/Z. The source center (1,.5,.5)
+    // is the capture-calibrated correction used by geometry_atlas_probe.
+    vec2 cell = floor(source.xz + vec2(0.25));
+    float localRecord = cell.x * stride + cell.y;
+    vec2 corner = (source.xz - cell) * 2.0;
+    float value = 16.0 * floor(source.y) + floor(16.0 * fract(source.y));
+    geometryByte = value / 255.0;
+    roiOriginX = EXTRA_ACTOR_UNIFORM2.x;
+
+    float globalByte = localRecord + EXTRA_ACTOR_UNIFORM4.w;
+    vec2 viewport = EXTRA_ACTOR_UNIFORM2.zw;
+    if (EXTRA_ACTOR_UNIFORM4.x < 0.5 || stride < 1.0 || count < 1.0 ||
+        columns < 1.0 || localRecord < 0.0 || localRecord >= count ||
+        globalByte < 0.0 || viewport.x < 1.0 || viewport.y < 1.0) {
+        gl_Position = vec4(2.0, 2.0, 0.0, 1.0);
+        return;
+    }
+
+    // One payload byte expands into four adjacent 2-bit symbols.
+    vec2 grid = vec2(mod(globalByte, columns) * 4.0, floor(globalByte / columns));
+    vec2 pixel = EXTRA_ACTOR_UNIFORM2.xy + grid + corner * vec2(4.0, 1.0);
+    vec2 uv = pixel / viewport;
+    gl_Position = vec4(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.0, 1.0);
+}

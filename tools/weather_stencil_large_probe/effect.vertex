@@ -1,0 +1,13 @@
+// __multiversion__
+#if __VERSION__ >= 300
+#define attribute in
+#endif
+
+attribute mediump vec4 POSITION;
+attribute vec2 TEXCOORD_0;
+
+void main() {
+    // Keep metadata in the known fragment-stage SetMixColor binding.
+    gl_Position = vec4(TEXCOORD_0.x * 2.0 - 1.0,
+                       1.0 - TEXCOORD_0.y * 2.0, 0.0, 1.0);
+}

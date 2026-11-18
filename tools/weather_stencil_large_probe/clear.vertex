@@ -1,0 +1,25 @@
+// __multiversion__
+precision highp float;
+#include "vertexVersionCentroid.h"
+#include "uniformWorldConstants.h"
+
+attribute POS4 POSITION;
+uniform highp vec4 EXTRA_ACTOR_UNIFORM1; // reserved, reserved, ROI columns, ROI rows
+uniform highp vec4 EXTRA_ACTOR_UNIFORM2; // ROI left, ROI top, viewport width, viewport height
+uniform highp vec4 EXTRA_ACTOR_UNIFORM4; // enabled, reserved, reserved, reserved
+
+void main() {
+    vec2 extent = EXTRA_ACTOR_UNIFORM1.zw;
+    vec2 viewport = EXTRA_ACTOR_UNIFORM2.zw;
+    if (EXTRA_ACTOR_UNIFORM4.x < 0.5 || extent.x < 1.0 || extent.y < 1.0 ||
+        viewport.x < 1.0 || viewport.y < 1.0) {
+        gl_Position = vec4(2.0, 2.0, 0.0, 1.0);
+        return;
+    }
+
+    // One all-zero compact8 quad has calibrated X={-1,-.5}, Z={-.5,0}.
+    vec2 corner = (POSITION.xz + vec2(1.0, 0.5)) * 2.0;
+    vec2 pixel = EXTRA_ACTOR_UNIFORM2.xy + corner * extent;
+    vec2 uv = pixel / viewport;
+    gl_Position = vec4(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.0, 1.0);
+}

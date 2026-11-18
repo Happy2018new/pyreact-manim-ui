@@ -1,0 +1,38 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+#include "uniformExtraVectorConstants.h"
+
+vec2 unpackPair(float component) {
+    // Each component transports an exact uint24 divided by 2^24.
+    float encodedPair = floor(component * 16777216.0);
+    return vec2(floor(encodedPair / 4096.0), mod(encodedPair, 4096.0));
+}
+
+void main() {
+    // SetMixColor: R=viewport W/H, G=ROI left/top, B=ROI W/H.
+    // Each pair contains two 12-bit unsigned integers; A=(role+1)/4.
+    vec2 viewport = unpackPair(EXTRA_VECTOR3.r);
+    vec2 origin = unpackPair(EXTRA_VECTOR3.g);
+    vec2 extent = unpackPair(EXTRA_VECTOR3.b);
+    if (viewport.x < 1.0 || viewport.y < 1.0 ||
+        extent.x < 1.0 || extent.y < 1.0) discard;
+
+    // gl_FragCoord has a bottom-left origin and pixel-center coordinates.
+    vec2 pixel = floor(vec2(gl_FragCoord.x, viewport.y - gl_FragCoord.y));
+    if (pixel.x < origin.x || pixel.y < origin.y ||
+        pixel.x >= origin.x + extent.x || pixel.y >= origin.y + extent.y) discard;
+
+    float role = floor(EXTRA_VECTOR3.a * 4.0) - 1.0;
+    if (role < -0.5 || role > 2.5) discard;
+    if (role < 0.5) {
+        // SourceAlpha/OneMinusSourceAlpha scales RGB by 63/255, preserving alpha
+        // through the material's RGB-only write mask.
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 192.0 / 255.0);
+    } else if (role < 1.5) {
+        // The bit readers use additive RGB blending and preserve alpha.
+        gl_FragColor = vec4(64.0 / 255.0, 0.0, 0.0, 1.0);
+    } else {
+        gl_FragColor = vec4(128.0 / 255.0, 0.0, 0.0, 1.0);
+    }
+}
