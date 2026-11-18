@@ -1,0 +1,742 @@
+{
+  "schema": "scene_codec_native_archive_v1",
+  "date": "2026-11-18",
+  "runtime_file_writes": false,
+  "continuous_uploads_tested": false,
+  "screen_size": [
+    720,
+    1080
+  ],
+  "alpha": {
+    "histogram": {
+      "255": 673920
+    },
+    "safe_pixels": 673920,
+    "non_gray_pixels": 0,
+    "off_unorm8_flag_pixels": 0,
+    "maximum_residual_display_byte": 0,
+    "exception_count_histogram": {
+      "0": 21060
+    },
+    "valid_blocks": 21060,
+    "overflow_blocks": 0,
+    "conditional_alpha_payload_bytes": 505440
+  },
+  "capacity_is_not_rgb_plus_alpha_sum": true,
+  "native_payload_and_alpha_passed": true,
+  "all_initial_observations_passed": false,
+  "initial_RGB_failures_preserved": [
+    {
+      "summary": "native64k2.results.json",
+      "rgb_bits": 2,
+      "logical_bytes": 65536,
+      "mismatch_samples": 1356,
+      "maximum_channel_error": 52
+    }
+  ],
+  "native_cases": [
+    {
+      "rgb_bits": 1,
+      "logical_bytes": 3072,
+      "allocated_bytes": 3072,
+      "geometry_pixels": 8192,
+      "payload_and_alpha_passed": true,
+      "rgb_bound_passed": true,
+      "fixture_path_used": false
+    },
+    {
+      "rgb_bits": 2,
+      "logical_bytes": 3072,
+      "allocated_bytes": 3072,
+      "geometry_pixels": 4096,
+      "payload_and_alpha_passed": true,
+      "rgb_bound_passed": true,
+      "fixture_path_used": false
+    },
+    {
+      "rgb_bits": 1,
+      "logical_bytes": 65536,
+      "allocated_bytes": 65556,
+      "geometry_pixels": 174816,
+      "payload_and_alpha_passed": true,
+      "rgb_bound_passed": true,
+      "fixture_path_used": false
+    },
+    {
+      "rgb_bits": 2,
+      "logical_bytes": 65536,
+      "allocated_bytes": 65568,
+      "geometry_pixels": 87424,
+      "payload_and_alpha_passed": true,
+      "rgb_bound_passed": false,
+      "fixture_path_used": false
+    }
+  ],
+  "natural_scene_separated_rgb_baseline_is_not_atomic": true,
+  "native_effects_compatibility_proven": false,
+  "source": ".runtime/scene-codec-native/evidence-v2/independent-scene-audit-v2.json",
+  "static_profiles": [
+    {
+      "profile": "baseline",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch1_attempt1",
+        "generation": 1,
+        "elapsed": 27.014926599999995,
+        "geometry_build_serial": 1,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 59.96131134033203,
+          "p95": 60.0775146484375,
+          "mean": 60.06821838378906
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.119299999995064,
+          "min": 14.295300000000566,
+          "max": 18.92949999999871,
+          "p95": 17.954299999999535,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.66774270486343
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [],
+      "post_pass_count": 0,
+      "visible_native_attachments": [],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 1,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 1,
+        "named_records": 174816
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          288,
+          607
+        ],
+        "rows": 607,
+        "allocated_bytes": 65556,
+        "logical_bytes": 65536,
+        "blocks": 5463,
+        "padding_bytes": 20,
+        "block_aligned_bytes": 65544,
+        "columns": 288,
+        "pixels": 174816
+      }
+    },
+    {
+      "profile": "writer",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch1_attempt1",
+        "generation": 1,
+        "elapsed": 27.0139449,
+        "geometry_build_serial": 1,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "mean": 60.0775146484375
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.1225999999981,
+          "min": 13.536299999998391,
+          "max": 19.76800000001333,
+          "p95": 17.920199999991837,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.66596042638241
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [],
+      "post_pass_count": 0,
+      "visible_native_attachments": [
+        "scene_codec_epoch1_attempt1"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 1,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 1,
+        "named_records": 174816
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          288,
+          607
+        ],
+        "rows": 607,
+        "allocated_bytes": 65556,
+        "logical_bytes": 65536,
+        "blocks": 5463,
+        "padding_bytes": 20,
+        "block_aligned_bytes": 65544,
+        "columns": 288,
+        "pixels": 174816
+      }
+    },
+    {
+      "profile": "combo_restore",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch1_attempt1",
+        "generation": 1,
+        "elapsed": 27.0135473,
+        "geometry_build_serial": 1,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "mean": 60.0775146484375
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          4096,
+          0,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.105199999979504,
+          "min": 14.758100000022978,
+          "max": 18.547999999981357,
+          "p95": 17.933699999986175,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.665768087941373
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [
+        "scene_codec_raw",
+        "scene_codec_encode",
+        "scene_codec_decode"
+      ],
+      "post_pass_count": 3,
+      "visible_native_attachments": [
+        "scene_codec_epoch1_attempt1"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 1,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 1,
+        "named_records": 174816
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          288,
+          607
+        ],
+        "rows": 607,
+        "allocated_bytes": 65556,
+        "logical_bytes": 65536,
+        "blocks": 5463,
+        "padding_bytes": 20,
+        "block_aligned_bytes": 65544,
+        "columns": 288,
+        "pixels": 174816
+      }
+    },
+    {
+      "profile": "combo_dependent",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch1_attempt1",
+        "generation": 1,
+        "elapsed": 27.014036299999987,
+        "geometry_build_serial": 1,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 60.0775146484375,
+          "p95": 60.0775146484375,
+          "mean": 60.0775146484375
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.22450000000231,
+          "min": 14.400499999993599,
+          "max": 19.543800000008105,
+          "p95": 18.034000000000106,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.666409593604268
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [
+        "scene_codec_raw",
+        "scene_codec_encode",
+        "scene_codec_decode",
+        "scene_codec_consumer"
+      ],
+      "post_pass_count": 4,
+      "visible_native_attachments": [
+        "scene_codec_epoch1_attempt1"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 1,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 1,
+        "named_records": 174816
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          288,
+          607
+        ],
+        "rows": 607,
+        "allocated_bytes": 65556,
+        "logical_bytes": 65536,
+        "blocks": 5463,
+        "padding_bytes": 20,
+        "block_aligned_bytes": 65544,
+        "columns": 288,
+        "pixels": 174816
+      }
+    },
+    {
+      "profile": "baseline",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch2_attempt2",
+        "generation": 1,
+        "elapsed": 27.003351199999997,
+        "geometry_build_serial": 2,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 59.845558166503906,
+          "p95": 60.0775146484375,
+          "mean": 60.05963371276855
+        },
+        "frames": 1620,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1500,
+          "over_33_3_ms": 0,
+          "p99": 18.23410000002923,
+          "min": 14.466700000014043,
+          "max": 18.943400000011934,
+          "p95": 18.06940000000168,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.670123266666643
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [],
+      "post_pass_count": 0,
+      "visible_native_attachments": [],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 2,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 2,
+        "named_records": 262240
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          128,
+          683
+        ],
+        "rows": 683,
+        "allocated_bytes": 65568,
+        "logical_bytes": 65536,
+        "blocks": 2732,
+        "padding_bytes": 32,
+        "block_aligned_bytes": 65544,
+        "columns": 128,
+        "pixels": 87424
+      }
+    },
+    {
+      "profile": "writer",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch2_attempt2",
+        "generation": 1,
+        "elapsed": 27.000912099999994,
+        "geometry_build_serial": 2,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 59.8802375793457,
+          "p95": 60.0775146484375,
+          "mean": 60.06892097473145
+        },
+        "frames": 1620,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1500,
+          "over_33_3_ms": 0,
+          "p99": 18.239699999980985,
+          "min": 14.722199999994245,
+          "max": 19.59870000001729,
+          "p95": 18.056899999976395,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.668287466666655
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [],
+      "post_pass_count": 0,
+      "visible_native_attachments": [
+        "scene_codec_epoch2_attempt2"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 2,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 2,
+        "named_records": 262240
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          128,
+          683
+        ],
+        "rows": 683,
+        "allocated_bytes": 65568,
+        "logical_bytes": 65536,
+        "blocks": 2732,
+        "padding_bytes": 32,
+        "block_aligned_bytes": 65544,
+        "columns": 128,
+        "pixels": 87424
+      }
+    },
+    {
+      "profile": "combo_restore",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch2_attempt2",
+        "generation": 1,
+        "elapsed": 27.0140035,
+        "geometry_build_serial": 2,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 59.96131134033203,
+          "p95": 60.0775146484375,
+          "mean": 60.07519058227539
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          4096,
+          0,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.26549999998406,
+          "min": 14.142399999968802,
+          "max": 19.26000000003114,
+          "p95": 18.05780000000823,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.66628740839436
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [
+        "scene_codec_raw",
+        "scene_codec_encode",
+        "scene_codec_decode"
+      ],
+      "post_pass_count": 3,
+      "visible_native_attachments": [
+        "scene_codec_epoch2_attempt2"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 2,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 2,
+        "named_records": 262240
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          128,
+          683
+        ],
+        "rows": 683,
+        "allocated_bytes": 65568,
+        "logical_bytes": 65536,
+        "blocks": 2732,
+        "padding_bytes": 32,
+        "block_aligned_bytes": 65544,
+        "columns": 128,
+        "pixels": 87424
+      }
+    },
+    {
+      "profile": "combo_dependent",
+      "measurement": {
+        "gpu_completion_fence": false,
+        "geometry_name": "scene_codec_epoch2_attempt2",
+        "generation": 1,
+        "elapsed": 27.0147791,
+        "geometry_build_serial": 2,
+        "fps": {
+          "count": 100,
+          "max": 60.0775146484375,
+          "min": 59.96131134033203,
+          "p95": 60.0775146484375,
+          "mean": 60.07286651611328
+        },
+        "frames": 1621,
+        "query": [
+          0,
+          65536,
+          5,
+          0
+        ],
+        "interval_ms": {
+          "count": 1501,
+          "over_33_3_ms": 0,
+          "p99": 18.32769999998618,
+          "min": 10.329500000011649,
+          "max": 24.266899999986435,
+          "p95": 18.06690000000799,
+          "over_50_ms": 0,
+          "over_25_ms": 0,
+          "mean": 16.66678147901399
+        }
+      },
+      "static_payload": true,
+      "continuous_updates": false,
+      "fps_limit": 60,
+      "geometry_identity_unchanged": true,
+      "measurement_window": {
+        "warmup_seconds": 2.0,
+        "total_seconds": 27.0,
+        "sample_seconds": 25.0
+      },
+      "enabled_processes": [
+        "scene_codec_raw",
+        "scene_codec_encode",
+        "scene_codec_decode",
+        "scene_codec_consumer"
+      ],
+      "post_pass_count": 4,
+      "visible_native_attachments": [
+        "scene_codec_epoch2_attempt2"
+      ],
+      "profile_controls_match": true,
+      "passed": true,
+      "rgb_bits": 2,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json",
+      "resource_budget": {
+        "max_named_records": 2097152,
+        "native_reclamation_verified": false,
+        "max_names": 256,
+        "names": 2,
+        "named_records": 262240
+      },
+      "payload_plan": {
+        "roi": [
+          8,
+          32,
+          128,
+          683
+        ],
+        "rows": 683,
+        "allocated_bytes": 65568,
+        "logical_bytes": 65536,
+        "blocks": 2732,
+        "padding_bytes": 32,
+        "block_aligned_bytes": 65544,
+        "columns": 128,
+        "pixels": 87424
+      }
+    }
+  ],
+  "before_after_checks": [
+    {
+      "rgb_bits": 1,
+      "name": "static_before_query0",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json"
+    },
+    {
+      "rgb_bits": 1,
+      "name": "static_before_query2",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json"
+    },
+    {
+      "rgb_bits": 1,
+      "name": "static_after_query2",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k1.results.json"
+    },
+    {
+      "rgb_bits": 2,
+      "name": "static_before_query0",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json"
+    },
+    {
+      "rgb_bits": 2,
+      "name": "static_before_query2",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json"
+    },
+    {
+      "rgb_bits": 2,
+      "name": "static_after_query2",
+      "passed": true,
+      "source": ".runtime/scene-codec-native/evidence-v3/static_k2.results.json"
+    }
+  ],
+  "static_frame_counter_includes_warmup": true,
+  "after_check_is_dependent_requests_not_identity_memcmp": true
+}

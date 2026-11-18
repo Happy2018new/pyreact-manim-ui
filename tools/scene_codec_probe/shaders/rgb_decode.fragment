@@ -1,0 +1,23 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // k, base alpha byte, mode(0=scene,1=private), reserved
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height (pixels)
+uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,reserved
+
+void main() {
+    vec4 source = texture2D(TEXTURE_1, uv);
+    if (EXTRA_VECTOR1.z > 0.5) source = texture2D(TEXTURE_3, uv);
+    vec2 point = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.xy) - EXTRA_VECTOR2.xy;
+    if (point.x < 0.0 || point.y < 0.0 || point.x >= EXTRA_VECTOR2.z || point.y >= EXTRA_VECTOR2.w) {
+        gl_FragColor = source;
+        return;
+    }
+    float levels = exp2(8.0 - EXTRA_VECTOR1.x);
+    vec3 encoded = floor(source.rgb * 255.0 + 0.5);
+    vec3 quantized = mod(encoded, levels);
+    vec3 restored = floor(quantized * 255.0 / (levels - 1.0) + 0.5);
+    gl_FragColor = vec4(restored / 255.0, source.a);
+}

@@ -1,0 +1,1142 @@
+{
+  "schema": "large_alpha_native_archive_v1",
+  "date": "2026-11-18",
+  "runtime_file_writes": false,
+  "continuous_uploads_tested": false,
+  "verified_capacity_bytes": 2097152,
+  "absolute_upper_limit_found": false,
+  "screen_size": [
+    2560,
+    1440
+  ],
+  "source": ".runtime/geometry-atlas-large-20261118-r3/evidence-centered/large_case.summary.json",
+  "correctness": [
+    {
+      "label": "calibration_64k_identity",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 65536,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_identity.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/003_calibration_64k_identity_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_identity.verify.json"
+    },
+    {
+      "label": "calibration_64k_hidden",
+      "expected_pass": false,
+      "passed": false,
+      "checked": 65536,
+      "failed": 65279,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_hidden.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/005_calibration_64k_hidden_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_hidden.verify.json"
+    },
+    {
+      "label": "calibration_64k_restored",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 65536,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_restored.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/007_calibration_64k_restored_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_restored.verify.json"
+    },
+    {
+      "label": "resident_1048576_identity",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 1048576,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_identity.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/025_resident_1048576_identity_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_identity.verify.json"
+    },
+    {
+      "label": "resident_1048576_dependent",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 1048576,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_dependent.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/027_resident_1048576_dependent_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_dependent.verify.json"
+    },
+    {
+      "label": "resident_1572864_identity",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 1572864,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_identity.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/038_resident_1572864_identity_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_identity.verify.json"
+    },
+    {
+      "label": "resident_1572864_dependent",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 1572864,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_dependent.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/040_resident_1572864_dependent_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_dependent.verify.json"
+    },
+    {
+      "label": "resident_2097152_identity",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 2097152,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_identity.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/051_resident_2097152_identity_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_identity.verify.json"
+    },
+    {
+      "label": "resident_2097152_dependent",
+      "expected_pass": true,
+      "passed": true,
+      "checked": 2097152,
+      "failed": 0,
+      "border_failures": 0,
+      "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_dependent.png",
+      "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/053_resident_2097152_dependent_settled.state.json",
+      "verification": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_dependent.verify.json"
+    }
+  ],
+  "initialization_cumulative_cpu_sdk_ms": [
+    {
+      "bytes": 1048576,
+      "generation_ms": 862.163,
+      "encode_ms": 190.807,
+      "deserialize_ms": 0.235,
+      "combine_ms": 69.772,
+      "attach_ms": 78.266,
+      "fingerprint_ms": 3.727,
+      "total_ms": 1204.969
+    },
+    {
+      "bytes": 1572864,
+      "generation_ms": 1298.074,
+      "encode_ms": 287.97,
+      "deserialize_ms": 0.344,
+      "combine_ms": 100.807,
+      "attach_ms": 78.685,
+      "fingerprint_ms": 5.602,
+      "total_ms": 1771.482
+    },
+    {
+      "bytes": 2097152,
+      "generation_ms": 1744.356,
+      "encode_ms": 383.623,
+      "deserialize_ms": 0.583,
+      "combine_ms": 141.023,
+      "attach_ms": 79.587,
+      "fingerprint_ms": 7.563,
+      "total_ms": 2356.735
+    }
+  ],
+  "initialization_timing_scope": "Sum of page CPU/SDK return intervals during parallel correctness; excludes host IPC, waits, captures and GPU completion.",
+  "static_performance": {
+    "schema": "geometry_atlas_large_static_perf_v1",
+    "status": "passed",
+    "actual_sampling": true,
+    "allocated_bytes_all_cases": 2097152,
+    "allocated_pages_all_cases": 32,
+    "page_bytes": 65536,
+    "screen_size": [
+      2560,
+      1440
+    ],
+    "sample_seconds": 25.0,
+    "warmup_seconds": 2.0,
+    "baseline": "all32native geometry attachments hidden; pipeline disabled; allocations and anchors retained",
+    "resident": "native visible prefix; writer plus copy/private texture/consumer active; mode3 has no diagnostic gathers",
+    "continuous_uploads": false,
+    "cases": [
+      {
+        "active_pages": 0,
+        "active_prefix_bytes": 0,
+        "allocated_bytes": 2097152,
+        "controls": {
+          "allocated_bytes": 2097152,
+          "pipeline_enabled": false,
+          "diagnostic_enabled": false,
+          "active_pages": 0,
+          "native_visibility": [
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 0,
+              "name": "pmanim_large_generation1_page000"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 1,
+              "name": "pmanim_large_generation1_page001"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 2,
+              "name": "pmanim_large_generation1_page002"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 3,
+              "name": "pmanim_large_generation1_page003"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 4,
+              "name": "pmanim_large_generation1_page004"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 5,
+              "name": "pmanim_large_generation1_page005"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 6,
+              "name": "pmanim_large_generation1_page006"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 7,
+              "name": "pmanim_large_generation1_page007"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 8,
+              "name": "pmanim_large_generation1_page008"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 9,
+              "name": "pmanim_large_generation1_page009"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 10,
+              "name": "pmanim_large_generation1_page010"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 11,
+              "name": "pmanim_large_generation1_page011"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 12,
+              "name": "pmanim_large_generation1_page012"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 13,
+              "name": "pmanim_large_generation1_page013"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 14,
+              "name": "pmanim_large_generation1_page014"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 15,
+              "name": "pmanim_large_generation1_page015"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 16,
+              "name": "pmanim_large_generation1_page016"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 17,
+              "name": "pmanim_large_generation1_page017"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 18,
+              "name": "pmanim_large_generation1_page018"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 19,
+              "name": "pmanim_large_generation1_page019"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 20,
+              "name": "pmanim_large_generation1_page020"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 21,
+              "name": "pmanim_large_generation1_page021"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 22,
+              "name": "pmanim_large_generation1_page022"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 23,
+              "name": "pmanim_large_generation1_page023"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 24,
+              "name": "pmanim_large_generation1_page024"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 25,
+              "name": "pmanim_large_generation1_page025"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 26,
+              "name": "pmanim_large_generation1_page026"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 27,
+              "name": "pmanim_large_generation1_page027"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 28,
+              "name": "pmanim_large_generation1_page028"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 29,
+              "name": "pmanim_large_generation1_page029"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 30,
+              "name": "pmanim_large_generation1_page030"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 31,
+              "name": "pmanim_large_generation1_page031"
+            }
+          ],
+          "baseline_has_resident_allocations_and32anchors": true,
+          "active_prefix_bytes": 0
+        },
+        "measurement": {
+          "writer_visible": false,
+          "gpu_completion_fence": false,
+          "sample_seconds": 25.014451999999892,
+          "generation": 1,
+          "elapsed": 27.014451999999892,
+          "geometry_visible": false,
+          "interval_ms": {
+            "count": 1501,
+            "over_33_3_ms": 0,
+            "p99": 18.316799999865907,
+            "min": 8.9516000000458,
+            "max": 23.442500000101063,
+            "p95": 18.14080000008289,
+            "over_50_ms": 0,
+            "over_25_ms": 0,
+            "mean": 16.666671885409684
+          },
+          "frames": 1501,
+          "query": [
+            0,
+            0,
+            3,
+            37
+          ],
+          "slot_count": 2097152,
+          "warmup_seconds": 2.0,
+          "pipeline_enabled": false,
+          "fps": {
+            "count": 100,
+            "max": 60.0775146484375,
+            "min": 59.8802375793457,
+            "p95": 60.0775146484375,
+            "mean": 60.07356910705566
+          }
+        },
+        "payload_identity_frozen": true
+      },
+      {
+        "active_pages": 16,
+        "active_prefix_bytes": 1048576,
+        "allocated_bytes": 2097152,
+        "controls": {
+          "allocated_bytes": 2097152,
+          "pipeline_enabled": true,
+          "diagnostic_enabled": false,
+          "active_pages": 16,
+          "native_visibility": [
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 0,
+              "name": "pmanim_large_generation1_page000"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 1,
+              "name": "pmanim_large_generation1_page001"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 2,
+              "name": "pmanim_large_generation1_page002"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 3,
+              "name": "pmanim_large_generation1_page003"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 4,
+              "name": "pmanim_large_generation1_page004"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 5,
+              "name": "pmanim_large_generation1_page005"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 6,
+              "name": "pmanim_large_generation1_page006"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 7,
+              "name": "pmanim_large_generation1_page007"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 8,
+              "name": "pmanim_large_generation1_page008"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 9,
+              "name": "pmanim_large_generation1_page009"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 10,
+              "name": "pmanim_large_generation1_page010"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 11,
+              "name": "pmanim_large_generation1_page011"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 12,
+              "name": "pmanim_large_generation1_page012"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 13,
+              "name": "pmanim_large_generation1_page013"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 14,
+              "name": "pmanim_large_generation1_page014"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 15,
+              "name": "pmanim_large_generation1_page015"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 16,
+              "name": "pmanim_large_generation1_page016"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 17,
+              "name": "pmanim_large_generation1_page017"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 18,
+              "name": "pmanim_large_generation1_page018"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 19,
+              "name": "pmanim_large_generation1_page019"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 20,
+              "name": "pmanim_large_generation1_page020"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 21,
+              "name": "pmanim_large_generation1_page021"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 22,
+              "name": "pmanim_large_generation1_page022"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 23,
+              "name": "pmanim_large_generation1_page023"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 24,
+              "name": "pmanim_large_generation1_page024"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 25,
+              "name": "pmanim_large_generation1_page025"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 26,
+              "name": "pmanim_large_generation1_page026"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 27,
+              "name": "pmanim_large_generation1_page027"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 28,
+              "name": "pmanim_large_generation1_page028"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 29,
+              "name": "pmanim_large_generation1_page029"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 30,
+              "name": "pmanim_large_generation1_page030"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 31,
+              "name": "pmanim_large_generation1_page031"
+            }
+          ],
+          "baseline_has_resident_allocations_and32anchors": true,
+          "active_prefix_bytes": 1048576
+        },
+        "measurement": {
+          "writer_visible": true,
+          "gpu_completion_fence": false,
+          "sample_seconds": 25.013350200000104,
+          "generation": 1,
+          "elapsed": 27.013350200000104,
+          "geometry_visible": true,
+          "interval_ms": {
+            "count": 1501,
+            "over_33_3_ms": 0,
+            "p99": 18.445100000008097,
+            "min": 9.486299999935,
+            "max": 22.83239999997022,
+            "p95": 18.17669999991267,
+            "over_50_ms": 0,
+            "over_25_ms": 0,
+            "mean": 16.666117521652314
+          },
+          "frames": 1501,
+          "query": [
+            0,
+            1048576,
+            3,
+            37
+          ],
+          "slot_count": 2097152,
+          "warmup_seconds": 2.0,
+          "pipeline_enabled": true,
+          "fps": {
+            "count": 100,
+            "max": 60.0775146484375,
+            "min": 59.96131134033203,
+            "p95": 60.0775146484375,
+            "mean": 60.07519058227539
+          }
+        },
+        "payload_identity_frozen": true
+      },
+      {
+        "active_pages": 24,
+        "active_prefix_bytes": 1572864,
+        "allocated_bytes": 2097152,
+        "controls": {
+          "allocated_bytes": 2097152,
+          "pipeline_enabled": true,
+          "diagnostic_enabled": false,
+          "active_pages": 24,
+          "native_visibility": [
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 0,
+              "name": "pmanim_large_generation1_page000"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 1,
+              "name": "pmanim_large_generation1_page001"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 2,
+              "name": "pmanim_large_generation1_page002"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 3,
+              "name": "pmanim_large_generation1_page003"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 4,
+              "name": "pmanim_large_generation1_page004"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 5,
+              "name": "pmanim_large_generation1_page005"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 6,
+              "name": "pmanim_large_generation1_page006"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 7,
+              "name": "pmanim_large_generation1_page007"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 8,
+              "name": "pmanim_large_generation1_page008"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 9,
+              "name": "pmanim_large_generation1_page009"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 10,
+              "name": "pmanim_large_generation1_page010"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 11,
+              "name": "pmanim_large_generation1_page011"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 12,
+              "name": "pmanim_large_generation1_page012"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 13,
+              "name": "pmanim_large_generation1_page013"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 14,
+              "name": "pmanim_large_generation1_page014"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 15,
+              "name": "pmanim_large_generation1_page015"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 16,
+              "name": "pmanim_large_generation1_page016"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 17,
+              "name": "pmanim_large_generation1_page017"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 18,
+              "name": "pmanim_large_generation1_page018"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 19,
+              "name": "pmanim_large_generation1_page019"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 20,
+              "name": "pmanim_large_generation1_page020"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 21,
+              "name": "pmanim_large_generation1_page021"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 22,
+              "name": "pmanim_large_generation1_page022"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 23,
+              "name": "pmanim_large_generation1_page023"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 24,
+              "name": "pmanim_large_generation1_page024"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 25,
+              "name": "pmanim_large_generation1_page025"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 26,
+              "name": "pmanim_large_generation1_page026"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 27,
+              "name": "pmanim_large_generation1_page027"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 28,
+              "name": "pmanim_large_generation1_page028"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 29,
+              "name": "pmanim_large_generation1_page029"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 30,
+              "name": "pmanim_large_generation1_page030"
+            },
+            {
+              "visible": false,
+              "accepted": true,
+              "page": 31,
+              "name": "pmanim_large_generation1_page031"
+            }
+          ],
+          "baseline_has_resident_allocations_and32anchors": true,
+          "active_prefix_bytes": 1572864
+        },
+        "measurement": {
+          "writer_visible": true,
+          "gpu_completion_fence": false,
+          "sample_seconds": 25.01364609999996,
+          "generation": 1,
+          "elapsed": 27.01364609999996,
+          "geometry_visible": true,
+          "interval_ms": {
+            "count": 1501,
+            "over_33_3_ms": 0,
+            "p99": 18.359800000098403,
+            "min": 10.876300000063566,
+            "max": 23.787999999967724,
+            "p95": 18.135900000061156,
+            "over_50_ms": 0,
+            "over_25_ms": 0,
+            "mean": 16.666282411725508
+          },
+          "frames": 1501,
+          "query": [
+            0,
+            1572864,
+            3,
+            37
+          ],
+          "slot_count": 2097152,
+          "warmup_seconds": 2.0,
+          "pipeline_enabled": true,
+          "fps": {
+            "count": 100,
+            "max": 60.0775146484375,
+            "min": 60.0775146484375,
+            "p95": 60.0775146484375,
+            "mean": 60.0775146484375
+          }
+        },
+        "payload_identity_frozen": true
+      },
+      {
+        "active_pages": 32,
+        "active_prefix_bytes": 2097152,
+        "allocated_bytes": 2097152,
+        "controls": {
+          "allocated_bytes": 2097152,
+          "pipeline_enabled": true,
+          "diagnostic_enabled": false,
+          "active_pages": 32,
+          "native_visibility": [
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 0,
+              "name": "pmanim_large_generation1_page000"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 1,
+              "name": "pmanim_large_generation1_page001"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 2,
+              "name": "pmanim_large_generation1_page002"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 3,
+              "name": "pmanim_large_generation1_page003"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 4,
+              "name": "pmanim_large_generation1_page004"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 5,
+              "name": "pmanim_large_generation1_page005"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 6,
+              "name": "pmanim_large_generation1_page006"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 7,
+              "name": "pmanim_large_generation1_page007"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 8,
+              "name": "pmanim_large_generation1_page008"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 9,
+              "name": "pmanim_large_generation1_page009"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 10,
+              "name": "pmanim_large_generation1_page010"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 11,
+              "name": "pmanim_large_generation1_page011"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 12,
+              "name": "pmanim_large_generation1_page012"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 13,
+              "name": "pmanim_large_generation1_page013"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 14,
+              "name": "pmanim_large_generation1_page014"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 15,
+              "name": "pmanim_large_generation1_page015"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 16,
+              "name": "pmanim_large_generation1_page016"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 17,
+              "name": "pmanim_large_generation1_page017"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 18,
+              "name": "pmanim_large_generation1_page018"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 19,
+              "name": "pmanim_large_generation1_page019"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 20,
+              "name": "pmanim_large_generation1_page020"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 21,
+              "name": "pmanim_large_generation1_page021"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 22,
+              "name": "pmanim_large_generation1_page022"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 23,
+              "name": "pmanim_large_generation1_page023"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 24,
+              "name": "pmanim_large_generation1_page024"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 25,
+              "name": "pmanim_large_generation1_page025"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 26,
+              "name": "pmanim_large_generation1_page026"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 27,
+              "name": "pmanim_large_generation1_page027"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 28,
+              "name": "pmanim_large_generation1_page028"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 29,
+              "name": "pmanim_large_generation1_page029"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 30,
+              "name": "pmanim_large_generation1_page030"
+            },
+            {
+              "visible": true,
+              "accepted": true,
+              "page": 31,
+              "name": "pmanim_large_generation1_page031"
+            }
+          ],
+          "baseline_has_resident_allocations_and32anchors": true,
+          "active_prefix_bytes": 2097152
+        },
+        "measurement": {
+          "writer_visible": true,
+          "gpu_completion_fence": false,
+          "sample_seconds": 25.01252569999997,
+          "generation": 1,
+          "elapsed": 27.01252569999997,
+          "geometry_visible": true,
+          "interval_ms": {
+            "count": 1501,
+            "over_33_3_ms": 0,
+            "p99": 18.28679999994165,
+            "min": 9.594900000138296,
+            "max": 22.651300000006813,
+            "p95": 18.09499999990294,
+            "over_50_ms": 0,
+            "over_25_ms": 0,
+            "mean": 16.665832178547664
+          },
+          "frames": 1501,
+          "query": [
+            0,
+            2097152,
+            3,
+            37
+          ],
+          "slot_count": 2097152,
+          "warmup_seconds": 2.0,
+          "pipeline_enabled": true,
+          "fps": {
+            "count": 100,
+            "max": 60.0775146484375,
+            "min": 60.0775146484375,
+            "p95": 60.0775146484375,
+            "mean": 60.0775146484375
+          }
+        },
+        "payload_identity_frozen": true
+      }
+    ]
+  }
+}

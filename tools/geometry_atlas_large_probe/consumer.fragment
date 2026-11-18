@@ -1,0 +1,50 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform highp vec4 EXTRA_VECTOR1; // start,count,mode+4*flipY,salt
+uniform highp vec4 EXTRA_VECTOR2; // logical bytes,source columns,left,top
+uniform highp vec4 EXTRA_VECTOR3; // cell,width,height,salt2
+
+float byteAt(float index) {
+    vec2 grid = vec2(mod(index, EXTRA_VECTOR2.y), floor(index / EXTRA_VECTOR2.y));
+    vec2 location = (EXTRA_VECTOR2.zw + (grid + 0.5) * EXTRA_VECTOR3.x) / EXTRA_VECTOR3.yz;
+    if (mod(floor(EXTRA_VECTOR1.z / 4.0), 2.0) > 0.5) location.y = 1.0 - location.y;
+    return floor(texture2D(TEXTURE_3, location).a * 255.0 + 0.5);
+}
+
+void main() {
+    float mode = mod(floor(EXTRA_VECTOR1.z), 4.0);
+    if (mode > 2.5) {
+        // Static resident path: copy and private array remain live, no diagnostic gathers.
+        gl_FragColor = vec4(texture2D(TEXTURE_3, uv).rgb, 1.0);
+        return;
+    }
+    vec2 pixel = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.yz);
+    vec2 local = pixel - vec2(16.0, 128.0);
+    float rows = ceil(EXTRA_VECTOR1.y / 2048.0);
+    if (local.x < 0.0 || local.x >= 2048.0 || local.y < 0.0 || local.y >= rows) {
+        gl_FragColor = vec4(8.0 / 255.0, 16.0 / 255.0, 32.0 / 255.0, 1.0);
+        return;
+    }
+    float ordinal = local.y * 2048.0 + local.x;
+    if (ordinal >= EXTRA_VECTOR1.y) {
+        gl_FragColor = vec4(8.0 / 255.0, 16.0 / 255.0, 32.0 / 255.0, 1.0);
+        return;
+    }
+    float index = EXTRA_VECTOR1.x + ordinal;
+    if (mode > 0.5) {
+        // Seven bounded doubles implement 128*j mod N. For N<=2^21,
+        // each product is below2^22; the final sum is below2^24.
+        float v128 = index;
+        for (int step = 0; step < 7; ++step) v128 = mod(v128 * 2.0, EXTRA_VECTOR2.x);
+        index = mod(v128 + 3.0 * index + floor(EXTRA_VECTOR1.w), EXTRA_VECTOR2.x);
+        if (mode > 1.5) {
+            float first = byteAt(index);
+            index = mod(index + 257.0 * first + floor(EXTRA_VECTOR3.w), EXTRA_VECTOR2.x);
+        }
+    }
+    float value = byteAt(index) / 255.0;
+    gl_FragColor = vec4(value, value, value, 1.0);
+}

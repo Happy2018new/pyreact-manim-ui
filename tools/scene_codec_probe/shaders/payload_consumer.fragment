@@ -1,0 +1,91 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // k,logical byte count,mode(0..2=grid,3..5=native),query start
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height
+uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,query count
+
+float packedByte(float index) {
+    vec2 pixel = EXTRA_VECTOR2.xy + vec2(mod(index, EXTRA_VECTOR2.z), floor(index / EXTRA_VECTOR2.z));
+    vec2 location = (pixel + 0.5) / EXTRA_VECTOR3.xy;
+    if (EXTRA_VECTOR3.z > 0.5) location.y = 1.0 - location.y;
+    return floor(texture2D(TEXTURE_3, location).a * 255.0 + 0.5);
+}
+
+float blockExceptionCount(float start) {
+    float count = 0.0;
+    for (int group = 0; group < 4; ++group) {
+        float mask = packedByte(start + float(group));
+        for (int bit = 0; bit < 8; ++bit) {
+            count += mod(floor(mask / exp2(float(bit))), 2.0);
+        }
+    }
+    return count;
+}
+
+float byteAt(float address) {
+    float perBlock = 12.0 * EXTRA_VECTOR1.x;
+    float start = floor(address / perBlock) * 32.0;
+    return packedByte(start + 8.0 + mod(address, perBlock));
+}
+
+void main() {
+    // Modes 0..2: 64-column calibration grid. Modes 3..5: native pixels
+    // in x=[0,720), y=[128,1064), avoiding the debug overlay above it.
+    float count = floor(EXTRA_VECTOR3.w + 0.5);
+    float rows = ceil(count / 64.0);
+    vec2 point = vec2(uv.x, 1.0 - uv.y);
+    float mode = floor(EXTRA_VECTOR1.z + 0.5);
+    float ordinal;
+    if (mode >= 3.0) {
+        vec2 pixel = floor(point * EXTRA_VECTOR3.xy);
+        if (pixel.x >= 720.0 || pixel.y < 128.0 || pixel.y >= 1064.0) {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+            return;
+        }
+        ordinal = (pixel.y - 128.0) * 720.0 + pixel.x;
+        mode -= 3.0;
+    } else {
+        point.y = (point.y * EXTRA_VECTOR3.y - 128.0) / 936.0;
+        if (point.y < 0.0 || point.y >= 1.0) {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+            return;
+        }
+        ordinal = floor(point.y * rows) * 64.0 + floor(point.x * 64.0);
+    }
+    if (count < 0.5 || ordinal >= count) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+    float allocated = floor(EXTRA_VECTOR2.z * EXTRA_VECTOR2.w / 32.0) * 12.0 * EXTRA_VECTOR1.x;
+    float capacity = min(allocated, floor(EXTRA_VECTOR1.y + 0.5));
+    if (capacity < 0.5) {
+        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        return;
+    }
+    float address = mod(EXTRA_VECTOR1.w + ordinal, capacity);
+    if (mode > 0.5) {
+        // Multiplier 131 is not assumed coprime to every possible capacity.
+        // This is an indexed query, not proof of full permutation coverage.
+        float times16 = mod(address * 16.0, capacity);
+        float times128 = mod(times16 * 8.0, capacity);
+        address = mod(times128 + address * 3.0 + 29.0, capacity);
+    }
+    if (mode > 1.5) {
+        float dependencyBlock = floor(address / (12.0 * EXTRA_VECTOR1.x)) * 32.0;
+        if (blockExceptionCount(dependencyBlock) > 4.5) {
+            gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+            return;
+        }
+        address = mod(address + 257.0 * byteAt(address) + 113.0, capacity);
+    }
+    float block = floor(address / (12.0 * EXTRA_VECTOR1.x)) * 32.0;
+    if (blockExceptionCount(block) > 4.5) {
+        // Invalid blocks remain visibly invalid; do not report their bytes.
+        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        return;
+    }
+    gl_FragColor = vec4(vec3(byteAt(address) / 255.0), 1.0);
+}

@@ -1,0 +1,61 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform vec4 EXTRA_VECTOR1; // k,base alpha byte,alpha fixture(0=base,1=4 exceptions,2=5,3=ramp),salt
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height
+uniform vec4 EXTRA_VECTOR3; // physical width,height,unused,unused
+
+float payloadOracle(float address) {
+    return mod(mod(address, 256.0) * 73.0 + mod(floor(address / 251.0), 256.0) * 19.0 + EXTRA_VECTOR1.w, 256.0);
+}
+
+float symbolAt(float index) {
+    float width = 3.0 * EXTRA_VECTOR1.x;
+    float symbol = 0.0;
+    for (int bit = 0; bit < 6; ++bit) {
+        if (float(bit) < width) {
+            float address = index * width + float(bit);
+            float value = payloadOracle(floor(address / 8.0));
+            symbol += mod(floor(value / exp2(mod(address, 8.0))), 2.0) * exp2(float(bit));
+        }
+    }
+    return symbol;
+}
+
+float alphaAt(float index) {
+    float local = mod(index, 32.0);
+    float base = EXTRA_VECTOR1.y;
+    float mode = EXTRA_VECTOR1.z;
+    if (mode < 0.5) return base;
+    if (mode < 1.5) {
+        if (local < 0.5) return mod(base + 1.0, 256.0);
+        if (abs(local - 7.0) < 0.5) return mod(base + 2.0, 256.0);
+        if (abs(local - 16.0) < 0.5) return mod(base + 3.0, 256.0);
+        if (abs(local - 31.0) < 0.5) return mod(base + 4.0, 256.0);
+        return base;
+    }
+    if (mode < 2.5) {
+        if (local < 4.5) return mod(base + local + 1.0, 256.0);
+        return base;
+    }
+    return mod(index, 256.0);
+}
+
+void main() {
+    vec2 point = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.xy) - EXTRA_VECTOR2.xy;
+    if (point.x < 0.0 || point.y < 0.0 || point.x >= EXTRA_VECTOR2.z || point.y >= EXTRA_VECTOR2.w) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+    float index = point.y * EXTRA_VECTOR2.z + point.x;
+    float original = mod(index, 256.0);
+    vec3 rgb = vec3(original, mod(original * 73.0 + 19.0, 256.0), mod(original * 151.0 + 47.0, 256.0));
+    float symbols = exp2(EXTRA_VECTOR1.x);
+    float levels = 256.0 / symbols;
+    float symbol = symbolAt(index);
+    vec3 payload = vec3(mod(symbol, symbols), mod(floor(symbol / symbols), symbols),
+                        mod(floor(symbol / (symbols * symbols)), symbols));
+    vec3 encoded = floor((levels - 1.0) * rgb / 255.0 + 0.5) + levels * payload;
+    // Explicit arithmetic fixture: this does not exercise a blend unit.
+    gl_FragColor = vec4(encoded, alphaAt(index)) / 255.0;
+}

@@ -1,0 +1,1277 @@
+{
+  "source": ".runtime/geometry-atlas-large-20261118-r3/evidence-centered/independent-audit.json",
+  "source_sha256": "7df1f6683730e1943307c7c2a87216776680405a6ce659a8a0d7c09c1ac6ed03",
+  "normalization": "Only absolute repository path prefixes are replaced with <repo>; raw evidence retained locally.",
+  "result": {
+    "schema": "independent_large_alpha_audit_v1",
+    "passed": true,
+    "complete": true,
+    "evidence": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered",
+    "missing_captures": [],
+    "observations": [
+      {
+        "label": "calibration_64k_identity",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/003_calibration_64k_identity_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_identity.png",
+        "receipt_sha256": "91a8e5350a9431b4e48f269562ae49509b5a6fd61de7c5f0a223ab1f7c693943",
+        "capture_sha256": "2448282eb9bee92d4119fbc63fb118d348e886dba34df450d59d1457a413ff7d",
+        "slot_count": 65536,
+        "mode": 0,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d3fd7679e68a5ed552c2575de2ca4cb037a094bfb9874ab05c0ee8c1f8e5f2bb",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 65536,
+          "outside_pixels_checked": 3211264,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "expected_query_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 65279
+      },
+      {
+        "label": "calibration_64k_hidden",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/005_calibration_64k_hidden_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_hidden.png",
+        "receipt_sha256": "683c7ede446fbe513a57306f4edcea2501b19c21665ad882b920541f0f29d8f5",
+        "capture_sha256": "23efd6871e42ebc2e0dbd262665e5849f4f4dbb5b5fd2b104955838b5d0e0d56",
+        "slot_count": 65536,
+        "mode": 0,
+        "writer_visible": false,
+        "frozen_identity_sha256": "d3fd7679e68a5ed552c2575de2ca4cb037a094bfb9874ab05c0ee8c1f8e5f2bb",
+        "independent_replay": {
+          "passed": false,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 65536,
+          "outside_pixels_checked": 3211264,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 65279,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 255,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+          "expected_query_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "failures_first12": [
+            {
+              "ordinal": 0,
+              "address": 0,
+              "expected": 33,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 1,
+              "address": 1,
+              "expected": 179,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 2,
+              "address": 2,
+              "expected": 44,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 3,
+              "address": 3,
+              "expected": 158,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 4,
+              "address": 4,
+              "expected": 134,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 5,
+              "address": 5,
+              "expected": 246,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 6,
+              "address": 6,
+              "expected": 161,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 7,
+              "address": 7,
+              "expected": 47,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 8,
+              "address": 8,
+              "expected": 107,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 9,
+              "address": 9,
+              "expected": 10,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 10,
+              "address": 10,
+              "expected": 162,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            },
+            {
+              "ordinal": 11,
+              "address": 11,
+              "expected": 246,
+              "observed": [
+                255,
+                255,
+                255,
+                255
+              ]
+            }
+          ]
+        },
+        "wrong_generation_failed_queries": null
+      },
+      {
+        "label": "calibration_64k_restored",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/007_calibration_64k_restored_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/calibration_64k_restored.png",
+        "receipt_sha256": "73baf700cd7eab84271f671be41c746efdf10820ce975c804d2f3f984a6bac1c",
+        "capture_sha256": "6f7c684106cab008602f584f41ddc1ecc7ecaf1be55334337e6d2ea6efc45de2",
+        "slot_count": 65536,
+        "mode": 0,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d3fd7679e68a5ed552c2575de2ca4cb037a094bfb9874ab05c0ee8c1f8e5f2bb",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 65536,
+          "outside_pixels_checked": 3211264,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "expected_query_sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 65279
+      },
+      {
+        "label": "resident_1048576_identity",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/025_resident_1048576_identity_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_identity.png",
+        "receipt_sha256": "46314d3d72fde2b4f95c6af370e106707814653132e1fb52a34106e4119de17a",
+        "capture_sha256": "d9015cce419b93d4468b1ccc4b523f69413c49961e75e1de888275df92e9bbaa",
+        "slot_count": 1048576,
+        "mode": 0,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d154e195b50714f514ddb8adc34f91f4bf40dc95a875bc3c92d77c94d3999747",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 1048576,
+          "outside_pixels_checked": 2228224,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "8d3cefd628a108937df95b127cb4d15d4e691bb77b0bcf8522e8abf81e220ce0",
+          "expected_query_sha256": "8d3cefd628a108937df95b127cb4d15d4e691bb77b0bcf8522e8abf81e220ce0",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 1044533
+      },
+      {
+        "label": "resident_1048576_dependent",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/027_resident_1048576_dependent_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1048576_dependent.png",
+        "receipt_sha256": "6023b045a83b74924c61d033b35268d6a68989b0129b648004d9cc77114bd36b",
+        "capture_sha256": "1950d1026d65b9ca6fe5b69538c8b60f1b77ab791cc36e33da3482d1191ad64a",
+        "slot_count": 1048576,
+        "mode": 2,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d154e195b50714f514ddb8adc34f91f4bf40dc95a875bc3c92d77c94d3999747",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 1048576,
+          "outside_pixels_checked": 2228224,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "e1baa5e9a1d7af7119f1d988b8e3dbab45ccf0358fc550487a27952c6a9f6f1a",
+          "expected_query_sha256": "e1baa5e9a1d7af7119f1d988b8e3dbab45ccf0358fc550487a27952c6a9f6f1a",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 1044510
+      },
+      {
+        "label": "resident_1572864_identity",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/038_resident_1572864_identity_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_identity.png",
+        "receipt_sha256": "de4bf2520e7a13df330ccf8845a91d3eb850c7ffed06058b07ba4e34a29574e5",
+        "capture_sha256": "b83cf152dc0499fdf241e1a31dc1053fa4894427212cad4eeb968ac0d378e38b",
+        "slot_count": 1572864,
+        "mode": 0,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d5a3e81dd22a0ea11e89d8044aae2e2665da3b6d235b51887d7cd546553a38c3",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 1572864,
+          "outside_pixels_checked": 1703936,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "41e6db5f3925e21dd22845376519fd25b2b452c554a09b6f6087055787eb357e",
+          "expected_query_sha256": "41e6db5f3925e21dd22845376519fd25b2b452c554a09b6f6087055787eb357e",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 1566755
+      },
+      {
+        "label": "resident_1572864_dependent",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/040_resident_1572864_dependent_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_1572864_dependent.png",
+        "receipt_sha256": "8f80e9842bc764e25bf4a167b85e0823b9d2e7d5d047853522d9d4f7c32ca718",
+        "capture_sha256": "81650c296cec7ed17948a3ecfc20d523ead5946da14d18fed79a60803308f892",
+        "slot_count": 1572864,
+        "mode": 2,
+        "writer_visible": true,
+        "frozen_identity_sha256": "d5a3e81dd22a0ea11e89d8044aae2e2665da3b6d235b51887d7cd546553a38c3",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 1572864,
+          "outside_pixels_checked": 1703936,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "019f3c7f5de4c05d61e2e520cc36ed509511f52caf7b455b68ab896b711b82ca",
+          "expected_query_sha256": "019f3c7f5de4c05d61e2e520cc36ed509511f52caf7b455b68ab896b711b82ca",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 1566801
+      },
+      {
+        "label": "resident_2097152_identity",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/051_resident_2097152_identity_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_identity.png",
+        "receipt_sha256": "6dbf45934232cbd92203d983c3097dd6cac7a14941e62aa14e0c30f73da8ae0a",
+        "capture_sha256": "5fe53be6d0f7f94ace846cca01a2ce92d2fcdc6d284dd9d5f2296c0ca3c1ea60",
+        "slot_count": 2097152,
+        "mode": 0,
+        "writer_visible": true,
+        "frozen_identity_sha256": "78b649a172ea24b0f32ab0687fd00b8fe84d889752cb3a6f1c7daa7444be70cc",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 2097152,
+          "outside_pixels_checked": 1179648,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "55dda4548fd847e697fd8a9dc893a1cb7860e8c545b16ae6d58d0e135f18aec8",
+          "expected_query_sha256": "55dda4548fd847e697fd8a9dc893a1cb7860e8c545b16ae6d58d0e135f18aec8",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 2089012
+      },
+      {
+        "label": "resident_2097152_dependent",
+        "receipt": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/053_resident_2097152_dependent_settled.state.json",
+        "capture": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/resident_2097152_dependent.png",
+        "receipt_sha256": "039b3f65498cef08836ec3dc7fe48e4246ff2d6cc0a7b8e19341b84c53fb5324",
+        "capture_sha256": "e4fea0450a5898ca01f5f220e25cd3b5a162d2579c6390964852dcfb106d6771",
+        "slot_count": 2097152,
+        "mode": 2,
+        "writer_visible": true,
+        "frozen_identity_sha256": "78b649a172ea24b0f32ab0687fd00b8fe84d889752cb3a6f1c7daa7444be70cc",
+        "independent_replay": {
+          "passed": true,
+          "native_pixels_checked": 3276800,
+          "query_pixels_checked": 2097152,
+          "outside_pixels_checked": 1179648,
+          "excluded_native_UI_pixels": 409600,
+          "diagnostic_layout": [
+            16,
+            128,
+            2048,
+            1
+          ],
+          "diagnostic_border_policy": "declared_guard_rect_excluding_native_debug_UI",
+          "border_guard_rect_native": [
+            0,
+            128,
+            2560,
+            1408
+          ],
+          "failed_queries": 0,
+          "border_failures": 0,
+          "alpha_failures": 0,
+          "maximum_rgb_error": 0,
+          "byte_tolerance": 0,
+          "observed_query_sha256": "94a17ba26ca0b09527d81b3d5ae09da9284e7713527aa484e3b55317f434ba75",
+          "expected_query_sha256": "94a17ba26ca0b09527d81b3d5ae09da9284e7713527aa484e3b55317f434ba75",
+          "failures_first12": []
+        },
+        "wrong_generation_failed_queries": 2089098
+      }
+    ],
+    "page_oracles_by_logical_size": {
+      "65536": [
+        {
+          "page": 0,
+          "base": 0,
+          "count": 65536,
+          "sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "sum_u8_mod2^32": 8352118,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_000.host-oracle.json",
+          "host_oracle_sha256": "7e7cb3865169696463a2fe2ee69f9ce9d69cbd6f3cae705edbbe462d10d80183"
+        }
+      ],
+      "1048576": [
+        {
+          "page": 0,
+          "base": 0,
+          "count": 65536,
+          "sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "sum_u8_mod2^32": 8352118,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_000.host-oracle.json",
+          "host_oracle_sha256": "7e7cb3865169696463a2fe2ee69f9ce9d69cbd6f3cae705edbbe462d10d80183"
+        },
+        {
+          "page": 1,
+          "base": 65536,
+          "count": 65536,
+          "sha256": "e315877fb341360cb75ddf22a6122d9b8e6dcae991d3893683abcaef1a561f22",
+          "sum_u8_mod2^32": 8347793,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_001.host-oracle.json",
+          "host_oracle_sha256": "f68f7b8fa12da1fc7b64198b42ea1cfc8ce09847ace8d34179483f55021b77e6"
+        },
+        {
+          "page": 2,
+          "base": 131072,
+          "count": 65536,
+          "sha256": "b5dbc6ff42ec2f512d546c9c5692e58695b9bde5f31d89906ccd747487c914d7",
+          "sum_u8_mod2^32": 8369591,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_002.host-oracle.json",
+          "host_oracle_sha256": "b5d7c9cb45a7e57d13e08cb822ddd8d084151c4b102a4304b8cc19cbc8ff68cb"
+        },
+        {
+          "page": 3,
+          "base": 196608,
+          "count": 65536,
+          "sha256": "f000007e805d8efcba032d1bfc040a8f3e252e0719d9552f6dc6046d47354da4",
+          "sum_u8_mod2^32": 8350332,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_003.host-oracle.json",
+          "host_oracle_sha256": "5695dd1da0dbae08bece13e955244350d28fa8c501e9606079252be05d22a900"
+        },
+        {
+          "page": 4,
+          "base": 262144,
+          "count": 65536,
+          "sha256": "1072d224400d084f3d7357b6d810d2f53b16f603758b69cff970893e34fb8ee2",
+          "sum_u8_mod2^32": 8389565,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_004.host-oracle.json",
+          "host_oracle_sha256": "85837504366bd07177691b2e6ced90d08227b4f661a0b4a2a27ee7b6ee5726e1"
+        },
+        {
+          "page": 5,
+          "base": 327680,
+          "count": 65536,
+          "sha256": "e330257fbd17f06bd297154d3af3a52f3ddd350f153fb8d69aad6950e3ca0390",
+          "sum_u8_mod2^32": 8349415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_005.host-oracle.json",
+          "host_oracle_sha256": "7403af4d8eb68ff61a38a99d4838a89142c58e70f6333e0814bfde7e73af74fa"
+        },
+        {
+          "page": 6,
+          "base": 393216,
+          "count": 65536,
+          "sha256": "e300a4e4b3b9a23c8b3d78121994c6fd793f885a48669eb699ed2832c89ed3b8",
+          "sum_u8_mod2^32": 8351415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_006.host-oracle.json",
+          "host_oracle_sha256": "816e401fad37c879e90a3622edd17ddef03dcb6734f4610a6a72cc1d9f59655c"
+        },
+        {
+          "page": 7,
+          "base": 458752,
+          "count": 65536,
+          "sha256": "07c313680b45cd2743c8b01654f5eba88783640289d2167b9e6a9ca3d135609e",
+          "sum_u8_mod2^32": 8362855,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_007.host-oracle.json",
+          "host_oracle_sha256": "cd90da8d8cea7eda2e25b92fb01031cbfc25b2edc99439831a033d5024c645f2"
+        },
+        {
+          "page": 8,
+          "base": 524288,
+          "count": 65536,
+          "sha256": "fbd274542a411ca495a96266f5dc8318614e27150e698dfc030e5b1c3a19809a",
+          "sum_u8_mod2^32": 8351144,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_008.host-oracle.json",
+          "host_oracle_sha256": "0b58980dce48c7e6b0c5fbff135787507d1d37fd6b8eba3ec72269f9f767a13c"
+        },
+        {
+          "page": 9,
+          "base": 589824,
+          "count": 65536,
+          "sha256": "91df4117a3e9306c1e20a0f2ee928245afd9a727bd6b5a3e299a00bd8e1b575e",
+          "sum_u8_mod2^32": 8338550,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_009.host-oracle.json",
+          "host_oracle_sha256": "4dde903d24ad4731b3024db878b01d7eca47005fc3bbbe3a143c9e7556ca3d7a"
+        },
+        {
+          "page": 10,
+          "base": 655360,
+          "count": 65536,
+          "sha256": "a1a5359c9fd10664955d76d7d720bb7d173e99292cdbcfb3dac412a81a2b68ca",
+          "sum_u8_mod2^32": 8340471,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_010.host-oracle.json",
+          "host_oracle_sha256": "37cfef1fe17e77deb1ae18ba5e93774e9d563f1101fce7f578df316d90b76634"
+        },
+        {
+          "page": 11,
+          "base": 720896,
+          "count": 65536,
+          "sha256": "d70c5bb06171a1f034b46bddb5fbfedbf2f8364079534dcea1f7cf4efbd5f18f",
+          "sum_u8_mod2^32": 8370041,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_011.host-oracle.json",
+          "host_oracle_sha256": "f4a2ac6f0a3924ad07b122b25b45ab0a5bce56493bb626376f58a9a4eedb8b1d"
+        },
+        {
+          "page": 12,
+          "base": 786432,
+          "count": 65536,
+          "sha256": "b96231ccab04e4bd70d137636f32f4d5bfe95e46a988f7f9c95334ea33becfdf",
+          "sum_u8_mod2^32": 8376740,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_012.host-oracle.json",
+          "host_oracle_sha256": "2149e1032cc5d906d9ba4c5b6b4e8d322e45542359f476b5550dbbefe5ecaaf4"
+        },
+        {
+          "page": 13,
+          "base": 851968,
+          "count": 65536,
+          "sha256": "77bbe6bcc684ba6469969036d8a1c99c07319c444b0a475391b9587454834d9a",
+          "sum_u8_mod2^32": 8365932,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_013.host-oracle.json",
+          "host_oracle_sha256": "5758542b7ef57cf92cdbfd36e37b2541a5fdd062932c99d021820e729f4b1095"
+        },
+        {
+          "page": 14,
+          "base": 917504,
+          "count": 65536,
+          "sha256": "02c725cd4b2625ef3c477477d6c4ff7e531613a0556c6d633a7c775efa966339",
+          "sum_u8_mod2^32": 8360861,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_014.host-oracle.json",
+          "host_oracle_sha256": "920bd9816bef433c73664246e3c166177230af53c6804c1ab3fc2426e74d8efd"
+        },
+        {
+          "page": 15,
+          "base": 983040,
+          "count": 65536,
+          "sha256": "e6803e6321eb79325d4b574b4555bf454927a87187d6ab3d77ef118c83bcc722",
+          "sum_u8_mod2^32": 8362735,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_015.host-oracle.json",
+          "host_oracle_sha256": "01db7966457aa417f2b750a0f0208b64067d849bb4976be9339cba2740b73871"
+        }
+      ],
+      "1572864": [
+        {
+          "page": 0,
+          "base": 0,
+          "count": 65536,
+          "sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "sum_u8_mod2^32": 8352118,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_000.host-oracle.json",
+          "host_oracle_sha256": "7e7cb3865169696463a2fe2ee69f9ce9d69cbd6f3cae705edbbe462d10d80183"
+        },
+        {
+          "page": 1,
+          "base": 65536,
+          "count": 65536,
+          "sha256": "e315877fb341360cb75ddf22a6122d9b8e6dcae991d3893683abcaef1a561f22",
+          "sum_u8_mod2^32": 8347793,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_001.host-oracle.json",
+          "host_oracle_sha256": "f68f7b8fa12da1fc7b64198b42ea1cfc8ce09847ace8d34179483f55021b77e6"
+        },
+        {
+          "page": 2,
+          "base": 131072,
+          "count": 65536,
+          "sha256": "b5dbc6ff42ec2f512d546c9c5692e58695b9bde5f31d89906ccd747487c914d7",
+          "sum_u8_mod2^32": 8369591,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_002.host-oracle.json",
+          "host_oracle_sha256": "b5d7c9cb45a7e57d13e08cb822ddd8d084151c4b102a4304b8cc19cbc8ff68cb"
+        },
+        {
+          "page": 3,
+          "base": 196608,
+          "count": 65536,
+          "sha256": "f000007e805d8efcba032d1bfc040a8f3e252e0719d9552f6dc6046d47354da4",
+          "sum_u8_mod2^32": 8350332,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_003.host-oracle.json",
+          "host_oracle_sha256": "5695dd1da0dbae08bece13e955244350d28fa8c501e9606079252be05d22a900"
+        },
+        {
+          "page": 4,
+          "base": 262144,
+          "count": 65536,
+          "sha256": "1072d224400d084f3d7357b6d810d2f53b16f603758b69cff970893e34fb8ee2",
+          "sum_u8_mod2^32": 8389565,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_004.host-oracle.json",
+          "host_oracle_sha256": "85837504366bd07177691b2e6ced90d08227b4f661a0b4a2a27ee7b6ee5726e1"
+        },
+        {
+          "page": 5,
+          "base": 327680,
+          "count": 65536,
+          "sha256": "e330257fbd17f06bd297154d3af3a52f3ddd350f153fb8d69aad6950e3ca0390",
+          "sum_u8_mod2^32": 8349415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_005.host-oracle.json",
+          "host_oracle_sha256": "7403af4d8eb68ff61a38a99d4838a89142c58e70f6333e0814bfde7e73af74fa"
+        },
+        {
+          "page": 6,
+          "base": 393216,
+          "count": 65536,
+          "sha256": "e300a4e4b3b9a23c8b3d78121994c6fd793f885a48669eb699ed2832c89ed3b8",
+          "sum_u8_mod2^32": 8351415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_006.host-oracle.json",
+          "host_oracle_sha256": "816e401fad37c879e90a3622edd17ddef03dcb6734f4610a6a72cc1d9f59655c"
+        },
+        {
+          "page": 7,
+          "base": 458752,
+          "count": 65536,
+          "sha256": "07c313680b45cd2743c8b01654f5eba88783640289d2167b9e6a9ca3d135609e",
+          "sum_u8_mod2^32": 8362855,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_007.host-oracle.json",
+          "host_oracle_sha256": "cd90da8d8cea7eda2e25b92fb01031cbfc25b2edc99439831a033d5024c645f2"
+        },
+        {
+          "page": 8,
+          "base": 524288,
+          "count": 65536,
+          "sha256": "fbd274542a411ca495a96266f5dc8318614e27150e698dfc030e5b1c3a19809a",
+          "sum_u8_mod2^32": 8351144,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_008.host-oracle.json",
+          "host_oracle_sha256": "0b58980dce48c7e6b0c5fbff135787507d1d37fd6b8eba3ec72269f9f767a13c"
+        },
+        {
+          "page": 9,
+          "base": 589824,
+          "count": 65536,
+          "sha256": "91df4117a3e9306c1e20a0f2ee928245afd9a727bd6b5a3e299a00bd8e1b575e",
+          "sum_u8_mod2^32": 8338550,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_009.host-oracle.json",
+          "host_oracle_sha256": "4dde903d24ad4731b3024db878b01d7eca47005fc3bbbe3a143c9e7556ca3d7a"
+        },
+        {
+          "page": 10,
+          "base": 655360,
+          "count": 65536,
+          "sha256": "a1a5359c9fd10664955d76d7d720bb7d173e99292cdbcfb3dac412a81a2b68ca",
+          "sum_u8_mod2^32": 8340471,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_010.host-oracle.json",
+          "host_oracle_sha256": "37cfef1fe17e77deb1ae18ba5e93774e9d563f1101fce7f578df316d90b76634"
+        },
+        {
+          "page": 11,
+          "base": 720896,
+          "count": 65536,
+          "sha256": "d70c5bb06171a1f034b46bddb5fbfedbf2f8364079534dcea1f7cf4efbd5f18f",
+          "sum_u8_mod2^32": 8370041,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_011.host-oracle.json",
+          "host_oracle_sha256": "f4a2ac6f0a3924ad07b122b25b45ab0a5bce56493bb626376f58a9a4eedb8b1d"
+        },
+        {
+          "page": 12,
+          "base": 786432,
+          "count": 65536,
+          "sha256": "b96231ccab04e4bd70d137636f32f4d5bfe95e46a988f7f9c95334ea33becfdf",
+          "sum_u8_mod2^32": 8376740,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_012.host-oracle.json",
+          "host_oracle_sha256": "2149e1032cc5d906d9ba4c5b6b4e8d322e45542359f476b5550dbbefe5ecaaf4"
+        },
+        {
+          "page": 13,
+          "base": 851968,
+          "count": 65536,
+          "sha256": "77bbe6bcc684ba6469969036d8a1c99c07319c444b0a475391b9587454834d9a",
+          "sum_u8_mod2^32": 8365932,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_013.host-oracle.json",
+          "host_oracle_sha256": "5758542b7ef57cf92cdbfd36e37b2541a5fdd062932c99d021820e729f4b1095"
+        },
+        {
+          "page": 14,
+          "base": 917504,
+          "count": 65536,
+          "sha256": "02c725cd4b2625ef3c477477d6c4ff7e531613a0556c6d633a7c775efa966339",
+          "sum_u8_mod2^32": 8360861,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_014.host-oracle.json",
+          "host_oracle_sha256": "920bd9816bef433c73664246e3c166177230af53c6804c1ab3fc2426e74d8efd"
+        },
+        {
+          "page": 15,
+          "base": 983040,
+          "count": 65536,
+          "sha256": "e6803e6321eb79325d4b574b4555bf454927a87187d6ab3d77ef118c83bcc722",
+          "sum_u8_mod2^32": 8362735,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_015.host-oracle.json",
+          "host_oracle_sha256": "01db7966457aa417f2b750a0f0208b64067d849bb4976be9339cba2740b73871"
+        },
+        {
+          "page": 16,
+          "base": 1048576,
+          "count": 65536,
+          "sha256": "3ab827d2a758a6290c4bb4d992c3923db408ab9097f2aa8d1423ac3681d0b7de",
+          "sum_u8_mod2^32": 8349196,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_016.host-oracle.json",
+          "host_oracle_sha256": "d2d66e6aadc58735c64f9b8d13d58d70667480116acff6a540c66518d26f8d06"
+        },
+        {
+          "page": 17,
+          "base": 1114112,
+          "count": 65536,
+          "sha256": "aec2187cc07714a138729b2e090de79b2975f1bce608a3028b4a142944eb0cdf",
+          "sum_u8_mod2^32": 8341027,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_017.host-oracle.json",
+          "host_oracle_sha256": "92a6827a1dadae2db860116c56d4ff05af4fab889ac7554597d8a0e6f8a2dece"
+        },
+        {
+          "page": 18,
+          "base": 1179648,
+          "count": 65536,
+          "sha256": "f0adaa4894a639e697dd39a1bbae4b0941d4f64d07373722df89845d1d5b40fe",
+          "sum_u8_mod2^32": 8364055,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_018.host-oracle.json",
+          "host_oracle_sha256": "ad6e191aa4d972f1d3c55e81e9ae72028a1bdf479d227e6f0e8ea42532d01db0"
+        },
+        {
+          "page": 19,
+          "base": 1245184,
+          "count": 65536,
+          "sha256": "73f7730554cc1b5a0902a673209b969d0bc357c1b84d2e4ce52e36812cfe37b9",
+          "sum_u8_mod2^32": 8379625,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_019.host-oracle.json",
+          "host_oracle_sha256": "8583f4c773936345f3719752ec5dec9f1d15d7b658b5a58364e5447d25f3d520"
+        },
+        {
+          "page": 20,
+          "base": 1310720,
+          "count": 65536,
+          "sha256": "949cd8b258e058db3c64d3ff356399b0a381670b62be1789fb0fa9d9cb1403d5",
+          "sum_u8_mod2^32": 8352427,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_020.host-oracle.json",
+          "host_oracle_sha256": "1ab227d2f2b4811b0adb9fa3260b1c8bb2267e4f00eb19390bb4b026ea4bbbaf"
+        },
+        {
+          "page": 21,
+          "base": 1376256,
+          "count": 65536,
+          "sha256": "db30c1bd30de6df9c978df6963fdd72d47bef326c76c0c2c83d7649f41dcf212",
+          "sum_u8_mod2^32": 8334347,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_021.host-oracle.json",
+          "host_oracle_sha256": "f089b14f7dce7921c8a3f5edd3fd16dc8ebbc5660d98f97cad40d0f95dd1eb46"
+        },
+        {
+          "page": 22,
+          "base": 1441792,
+          "count": 65536,
+          "sha256": "b83b2c0b47d199abbf277c01424bcd2f7d481d1f573fd2e2d41cddad1f8e8c75",
+          "sum_u8_mod2^32": 8344594,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_022.host-oracle.json",
+          "host_oracle_sha256": "e864fbccfc28a8ed77daf79845c20ecce0c89ea1efb29addec549413eb9ead3b"
+        },
+        {
+          "page": 23,
+          "base": 1507328,
+          "count": 65536,
+          "sha256": "64628b724a70bd42cc2221db381b0913738170106f15d8858243f0bc24f8348c",
+          "sum_u8_mod2^32": 8362868,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_023.host-oracle.json",
+          "host_oracle_sha256": "a16924d80faabbdf379e3f17aaf9419eadb0c50bb5b65f650072201761be15f0"
+        }
+      ],
+      "2097152": [
+        {
+          "page": 0,
+          "base": 0,
+          "count": 65536,
+          "sha256": "9493bcf501a51131379dd60ec180ae8b2cbf7243f723853c01bad051ee72729c",
+          "sum_u8_mod2^32": 8352118,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_000.host-oracle.json",
+          "host_oracle_sha256": "7e7cb3865169696463a2fe2ee69f9ce9d69cbd6f3cae705edbbe462d10d80183"
+        },
+        {
+          "page": 1,
+          "base": 65536,
+          "count": 65536,
+          "sha256": "e315877fb341360cb75ddf22a6122d9b8e6dcae991d3893683abcaef1a561f22",
+          "sum_u8_mod2^32": 8347793,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_001.host-oracle.json",
+          "host_oracle_sha256": "f68f7b8fa12da1fc7b64198b42ea1cfc8ce09847ace8d34179483f55021b77e6"
+        },
+        {
+          "page": 2,
+          "base": 131072,
+          "count": 65536,
+          "sha256": "b5dbc6ff42ec2f512d546c9c5692e58695b9bde5f31d89906ccd747487c914d7",
+          "sum_u8_mod2^32": 8369591,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_002.host-oracle.json",
+          "host_oracle_sha256": "b5d7c9cb45a7e57d13e08cb822ddd8d084151c4b102a4304b8cc19cbc8ff68cb"
+        },
+        {
+          "page": 3,
+          "base": 196608,
+          "count": 65536,
+          "sha256": "f000007e805d8efcba032d1bfc040a8f3e252e0719d9552f6dc6046d47354da4",
+          "sum_u8_mod2^32": 8350332,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_003.host-oracle.json",
+          "host_oracle_sha256": "5695dd1da0dbae08bece13e955244350d28fa8c501e9606079252be05d22a900"
+        },
+        {
+          "page": 4,
+          "base": 262144,
+          "count": 65536,
+          "sha256": "1072d224400d084f3d7357b6d810d2f53b16f603758b69cff970893e34fb8ee2",
+          "sum_u8_mod2^32": 8389565,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_004.host-oracle.json",
+          "host_oracle_sha256": "85837504366bd07177691b2e6ced90d08227b4f661a0b4a2a27ee7b6ee5726e1"
+        },
+        {
+          "page": 5,
+          "base": 327680,
+          "count": 65536,
+          "sha256": "e330257fbd17f06bd297154d3af3a52f3ddd350f153fb8d69aad6950e3ca0390",
+          "sum_u8_mod2^32": 8349415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_005.host-oracle.json",
+          "host_oracle_sha256": "7403af4d8eb68ff61a38a99d4838a89142c58e70f6333e0814bfde7e73af74fa"
+        },
+        {
+          "page": 6,
+          "base": 393216,
+          "count": 65536,
+          "sha256": "e300a4e4b3b9a23c8b3d78121994c6fd793f885a48669eb699ed2832c89ed3b8",
+          "sum_u8_mod2^32": 8351415,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_006.host-oracle.json",
+          "host_oracle_sha256": "816e401fad37c879e90a3622edd17ddef03dcb6734f4610a6a72cc1d9f59655c"
+        },
+        {
+          "page": 7,
+          "base": 458752,
+          "count": 65536,
+          "sha256": "07c313680b45cd2743c8b01654f5eba88783640289d2167b9e6a9ca3d135609e",
+          "sum_u8_mod2^32": 8362855,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_007.host-oracle.json",
+          "host_oracle_sha256": "cd90da8d8cea7eda2e25b92fb01031cbfc25b2edc99439831a033d5024c645f2"
+        },
+        {
+          "page": 8,
+          "base": 524288,
+          "count": 65536,
+          "sha256": "fbd274542a411ca495a96266f5dc8318614e27150e698dfc030e5b1c3a19809a",
+          "sum_u8_mod2^32": 8351144,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_008.host-oracle.json",
+          "host_oracle_sha256": "0b58980dce48c7e6b0c5fbff135787507d1d37fd6b8eba3ec72269f9f767a13c"
+        },
+        {
+          "page": 9,
+          "base": 589824,
+          "count": 65536,
+          "sha256": "91df4117a3e9306c1e20a0f2ee928245afd9a727bd6b5a3e299a00bd8e1b575e",
+          "sum_u8_mod2^32": 8338550,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_009.host-oracle.json",
+          "host_oracle_sha256": "4dde903d24ad4731b3024db878b01d7eca47005fc3bbbe3a143c9e7556ca3d7a"
+        },
+        {
+          "page": 10,
+          "base": 655360,
+          "count": 65536,
+          "sha256": "a1a5359c9fd10664955d76d7d720bb7d173e99292cdbcfb3dac412a81a2b68ca",
+          "sum_u8_mod2^32": 8340471,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_010.host-oracle.json",
+          "host_oracle_sha256": "37cfef1fe17e77deb1ae18ba5e93774e9d563f1101fce7f578df316d90b76634"
+        },
+        {
+          "page": 11,
+          "base": 720896,
+          "count": 65536,
+          "sha256": "d70c5bb06171a1f034b46bddb5fbfedbf2f8364079534dcea1f7cf4efbd5f18f",
+          "sum_u8_mod2^32": 8370041,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_011.host-oracle.json",
+          "host_oracle_sha256": "f4a2ac6f0a3924ad07b122b25b45ab0a5bce56493bb626376f58a9a4eedb8b1d"
+        },
+        {
+          "page": 12,
+          "base": 786432,
+          "count": 65536,
+          "sha256": "b96231ccab04e4bd70d137636f32f4d5bfe95e46a988f7f9c95334ea33becfdf",
+          "sum_u8_mod2^32": 8376740,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_012.host-oracle.json",
+          "host_oracle_sha256": "2149e1032cc5d906d9ba4c5b6b4e8d322e45542359f476b5550dbbefe5ecaaf4"
+        },
+        {
+          "page": 13,
+          "base": 851968,
+          "count": 65536,
+          "sha256": "77bbe6bcc684ba6469969036d8a1c99c07319c444b0a475391b9587454834d9a",
+          "sum_u8_mod2^32": 8365932,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_013.host-oracle.json",
+          "host_oracle_sha256": "5758542b7ef57cf92cdbfd36e37b2541a5fdd062932c99d021820e729f4b1095"
+        },
+        {
+          "page": 14,
+          "base": 917504,
+          "count": 65536,
+          "sha256": "02c725cd4b2625ef3c477477d6c4ff7e531613a0556c6d633a7c775efa966339",
+          "sum_u8_mod2^32": 8360861,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_014.host-oracle.json",
+          "host_oracle_sha256": "920bd9816bef433c73664246e3c166177230af53c6804c1ab3fc2426e74d8efd"
+        },
+        {
+          "page": 15,
+          "base": 983040,
+          "count": 65536,
+          "sha256": "e6803e6321eb79325d4b574b4555bf454927a87187d6ab3d77ef118c83bcc722",
+          "sum_u8_mod2^32": 8362735,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_015.host-oracle.json",
+          "host_oracle_sha256": "01db7966457aa417f2b750a0f0208b64067d849bb4976be9339cba2740b73871"
+        },
+        {
+          "page": 16,
+          "base": 1048576,
+          "count": 65536,
+          "sha256": "3ab827d2a758a6290c4bb4d992c3923db408ab9097f2aa8d1423ac3681d0b7de",
+          "sum_u8_mod2^32": 8349196,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_016.host-oracle.json",
+          "host_oracle_sha256": "d2d66e6aadc58735c64f9b8d13d58d70667480116acff6a540c66518d26f8d06"
+        },
+        {
+          "page": 17,
+          "base": 1114112,
+          "count": 65536,
+          "sha256": "aec2187cc07714a138729b2e090de79b2975f1bce608a3028b4a142944eb0cdf",
+          "sum_u8_mod2^32": 8341027,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_017.host-oracle.json",
+          "host_oracle_sha256": "92a6827a1dadae2db860116c56d4ff05af4fab889ac7554597d8a0e6f8a2dece"
+        },
+        {
+          "page": 18,
+          "base": 1179648,
+          "count": 65536,
+          "sha256": "f0adaa4894a639e697dd39a1bbae4b0941d4f64d07373722df89845d1d5b40fe",
+          "sum_u8_mod2^32": 8364055,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_018.host-oracle.json",
+          "host_oracle_sha256": "ad6e191aa4d972f1d3c55e81e9ae72028a1bdf479d227e6f0e8ea42532d01db0"
+        },
+        {
+          "page": 19,
+          "base": 1245184,
+          "count": 65536,
+          "sha256": "73f7730554cc1b5a0902a673209b969d0bc357c1b84d2e4ce52e36812cfe37b9",
+          "sum_u8_mod2^32": 8379625,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_019.host-oracle.json",
+          "host_oracle_sha256": "8583f4c773936345f3719752ec5dec9f1d15d7b658b5a58364e5447d25f3d520"
+        },
+        {
+          "page": 20,
+          "base": 1310720,
+          "count": 65536,
+          "sha256": "949cd8b258e058db3c64d3ff356399b0a381670b62be1789fb0fa9d9cb1403d5",
+          "sum_u8_mod2^32": 8352427,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_020.host-oracle.json",
+          "host_oracle_sha256": "1ab227d2f2b4811b0adb9fa3260b1c8bb2267e4f00eb19390bb4b026ea4bbbaf"
+        },
+        {
+          "page": 21,
+          "base": 1376256,
+          "count": 65536,
+          "sha256": "db30c1bd30de6df9c978df6963fdd72d47bef326c76c0c2c83d7649f41dcf212",
+          "sum_u8_mod2^32": 8334347,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_021.host-oracle.json",
+          "host_oracle_sha256": "f089b14f7dce7921c8a3f5edd3fd16dc8ebbc5660d98f97cad40d0f95dd1eb46"
+        },
+        {
+          "page": 22,
+          "base": 1441792,
+          "count": 65536,
+          "sha256": "b83b2c0b47d199abbf277c01424bcd2f7d481d1f573fd2e2d41cddad1f8e8c75",
+          "sum_u8_mod2^32": 8344594,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_022.host-oracle.json",
+          "host_oracle_sha256": "e864fbccfc28a8ed77daf79845c20ecce0c89ea1efb29addec549413eb9ead3b"
+        },
+        {
+          "page": 23,
+          "base": 1507328,
+          "count": 65536,
+          "sha256": "64628b724a70bd42cc2221db381b0913738170106f15d8858243f0bc24f8348c",
+          "sum_u8_mod2^32": 8362868,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_023.host-oracle.json",
+          "host_oracle_sha256": "a16924d80faabbdf379e3f17aaf9419eadb0c50bb5b65f650072201761be15f0"
+        },
+        {
+          "page": 24,
+          "base": 1572864,
+          "count": 65536,
+          "sha256": "26eea7f9814533a908c1815fefb12260481612e9d8e3f241e2c77a86ace96e77",
+          "sum_u8_mod2^32": 8350592,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_024.host-oracle.json",
+          "host_oracle_sha256": "0f9240ab12a37257c7e11d4a875afe5620cb801834872a567f901003bba89e4d"
+        },
+        {
+          "page": 25,
+          "base": 1638400,
+          "count": 65536,
+          "sha256": "606b0bbabce7340692ab5c629d586a5319cc02e18af50e44d058966cd9c49d74",
+          "sum_u8_mod2^32": 8370485,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_025.host-oracle.json",
+          "host_oracle_sha256": "3c1eab2bbde00d0c1597df1ce79f8147b09b984a2056afcafc7ddad54655eb83"
+        },
+        {
+          "page": 26,
+          "base": 1703936,
+          "count": 65536,
+          "sha256": "002c4ca0c3183f899f1412f56b17a336a42badf47234a2ac4521c496abad0579",
+          "sum_u8_mod2^32": 8332763,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_026.host-oracle.json",
+          "host_oracle_sha256": "3861f7134a84730b0302bbfa38e5d40cabcfc2a991796cc778711a89df616f6a"
+        },
+        {
+          "page": 27,
+          "base": 1769472,
+          "count": 65536,
+          "sha256": "5b417e2faf733ee6e26daa8d0eee701a11fbea38d6184f0a49243f1db7aef50f",
+          "sum_u8_mod2^32": 8341932,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_027.host-oracle.json",
+          "host_oracle_sha256": "7db230b6366c87c31e01dc754c61f0f5617b8cd757a03ac42c65502bce0141a5"
+        },
+        {
+          "page": 28,
+          "base": 1835008,
+          "count": 65536,
+          "sha256": "111b3443165a9822a37cd176405506a3fb9e6a88a512905bcd8c992bc2fe13f6",
+          "sum_u8_mod2^32": 8364849,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_028.host-oracle.json",
+          "host_oracle_sha256": "8c3dae8f49ed041c3ae71e132cef3a4bd53830255daf9bad950aed9a5c81a3fb"
+        },
+        {
+          "page": 29,
+          "base": 1900544,
+          "count": 65536,
+          "sha256": "146d220c82b595a0913c41ec7e0140d9ad0fb39ce24656ab2f69f1fb1d1695c3",
+          "sum_u8_mod2^32": 8347595,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_029.host-oracle.json",
+          "host_oracle_sha256": "fc5c08552bd846349aab2b82cb57acf25218cce59bcdd60bae1f08001d512cb7"
+        },
+        {
+          "page": 30,
+          "base": 1966080,
+          "count": 65536,
+          "sha256": "90d25b199a2769617705411b2c81814e16a092326de49146058dcae3bdb4d684",
+          "sum_u8_mod2^32": 8352335,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_030.host-oracle.json",
+          "host_oracle_sha256": "85250afeb07821aa3bcc74aa73c63787498536ae9d75cc6dc2326b615aeaea0b"
+        },
+        {
+          "page": 31,
+          "base": 2031616,
+          "count": 65536,
+          "sha256": "68254884ac14dc9dcccb3abb2774f0fa4db4de4e266b341f51526fa4b71cef91",
+          "sum_u8_mod2^32": 8352775,
+          "host_oracle": "<repo>/.runtime/geometry-atlas-large-20261118-r3/evidence-centered/page_031.host-oracle.json",
+          "host_oracle_sha256": "f63113f529da163bfde2e0aad1341d2d4ed893d0dfb33fa3c36ba969ef0fec5e"
+        }
+      ]
+    },
+    "float32_address_replay": {
+      "65536": {
+        "indices_checked_per_mode": 65536,
+        "indexed_failures": 0,
+        "dependent_failures": 0,
+        "maximum_pre_modulus_sum_bound": 262177,
+        "exact_integer_limit_exclusive": 16777216,
+        "native_precision_proof": false
+      },
+      "1048576": {
+        "indices_checked_per_mode": 1048576,
+        "indexed_failures": 0,
+        "dependent_failures": 0,
+        "maximum_pre_modulus_sum_bound": 4194337,
+        "exact_integer_limit_exclusive": 16777216,
+        "native_precision_proof": false
+      },
+      "1572864": {
+        "indices_checked_per_mode": 1572864,
+        "indexed_failures": 0,
+        "dependent_failures": 0,
+        "maximum_pre_modulus_sum_bound": 6291489,
+        "exact_integer_limit_exclusive": 16777216,
+        "native_precision_proof": false
+      },
+      "2097152": {
+        "indices_checked_per_mode": 2097152,
+        "indexed_failures": 0,
+        "dependent_failures": 0,
+        "maximum_pre_modulus_sum_bound": 8388641,
+        "exact_integer_limit_exclusive": 16777216,
+        "native_precision_proof": false
+      }
+    },
+    "layout": {
+      "physical_source_bounds_half_open": [
+        8,
+        32,
+        2056,
+        1056
+      ],
+      "supported_query_bounds_at_2mib_half_open": {
+        "legacy": [
+          16,
+          64,
+          2064,
+          1088
+        ],
+        "declared_UI_guard": [
+          16,
+          128,
+          2064,
+          1152
+        ]
+      },
+      "point_texel_centers": [
+        {
+          "global_index": 0,
+          "source_pixel": [
+            8,
+            32
+          ],
+          "u": "17/5120",
+          "v_top": "13/576"
+        },
+        {
+          "global_index": 65535,
+          "source_pixel": [
+            2055,
+            63
+          ],
+          "u": "4111/5120",
+          "v_top": "127/2880"
+        },
+        {
+          "global_index": 65536,
+          "source_pixel": [
+            8,
+            64
+          ],
+          "u": "17/5120",
+          "v_top": "43/960"
+        },
+        {
+          "global_index": 2097151,
+          "source_pixel": [
+            2055,
+            1055
+          ],
+          "u": "4111/5120",
+          "v_top": "2111/2880"
+        }
+      ],
+      "one_byte_per_native_pixel": true
+    },
+    "all_available_captures_passed_their_expected_outcome": true,
+    "probe_verifier_imported": false,
+    "mc_or_gpu_accessed": false,
+    "runtime_fingerprint_is_cryptographic": false,
+    "source_capture_is_a_gpu_fence": false,
+    "formal_fps_measured": false,
+    "timing_interpretation": "SDK return latency and render-event intervals, not GPU completion time",
+    "summary_sha256": "c9b321418841493a1d42d8bf642aec3f3b19ef01d91079cfd8fa2497f807e377"
+  }
+}

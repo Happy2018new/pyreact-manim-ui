@@ -1,0 +1,22 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+#ifndef SCENE_CODEC_RGB_BITS
+#define SCENE_CODEC_RGB_BITS 0
+#endif
+varying highp float geometryByte;
+uniform highp vec4 EXTRA_ACTOR_UNIFORM4;
+
+void main() {
+    // 0 selects actor uniform4.z; an offline fixture can define 1 or 2.
+    float k = float(SCENE_CODEC_RGB_BITS);
+    if (k < 0.5) k = floor(EXTRA_ACTOR_UNIFORM4.z + 0.5);
+    if (k < 0.5 || k > 2.5) { discard; }
+    float symbols = exp2(k);
+    float value = floor(geometryByte * 255.0 + 0.5);
+    vec3 payload = vec3(mod(value, symbols), mod(floor(value / symbols), symbols),
+                        mod(floor(value / (symbols * symbols)), symbols));
+    // Material: SourceAlpha/OneMinusSrcAlpha; DisableAlphaWrite.
+    // Alpha is a blend coefficient, not a payload or destination alpha.
+    gl_FragColor = vec4(payload / (symbols - 1.0), (256.0 - 256.0 / symbols) / 255.0);
+}

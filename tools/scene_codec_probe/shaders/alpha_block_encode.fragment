@@ -1,0 +1,87 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // k,base alpha byte,source(0=scene,1=TEXTURE_3),reserved
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height
+uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,reserved
+
+vec4 sourceAt(float index) {
+    vec2 pixel = EXTRA_VECTOR2.xy + vec2(mod(index, EXTRA_VECTOR2.z), floor(index / EXTRA_VECTOR2.z));
+    vec2 location = (pixel + 0.5) / EXTRA_VECTOR3.xy;
+    if (EXTRA_VECTOR3.z > 0.5) location.y = 1.0 - location.y;
+    if (EXTRA_VECTOR1.z > 0.5) return texture2D(TEXTURE_3, location);
+    return texture2D(TEXTURE_1, location);
+}
+
+float alphaByte(float index) {
+    return floor(sourceAt(index).a * 255.0 + 0.5);
+}
+
+float symbolAt(float index) {
+    float symbols = exp2(EXTRA_VECTOR1.x);
+    float levels = 256.0 / symbols;
+    vec3 payload = floor(floor(sourceAt(index).rgb * 255.0 + 0.5) / levels);
+    return dot(payload, vec3(1.0, symbols, symbols * symbols));
+}
+
+float payloadByte(float blockStart, float ordinal) {
+    // k=1 supplies 12 bytes/block; k=2 supplies all 24 free alpha slots.
+    if (ordinal >= 12.0 * EXTRA_VECTOR1.x) return 0.0;
+    float result = 0.0;
+    float width = 3.0 * EXTRA_VECTOR1.x;
+    for (int bit = 0; bit < 8; ++bit) {
+        float address = ordinal * 8.0 + float(bit);
+        float record = floor(address / width);
+        float inRecord = mod(address, width);
+        float digit = mod(floor(symbolAt(blockStart + record) / exp2(inRecord)), 2.0);
+        result += digit * exp2(float(bit));
+    }
+    return result;
+}
+
+float packedAlpha(float start, float local) {
+    if (local < 4.0) {
+        float result = 0.0;
+        for (int bit = 0; bit < 8; ++bit) {
+            float value = alphaByte(start + local * 8.0 + float(bit));
+            if (abs(value - EXTRA_VECTOR1.y) > 0.5) result += exp2(float(bit));
+        }
+        // Full mask survives overflow: decoder detects popcount>4.
+        return result;
+    }
+    if (local < 8.0) {
+        float rank = 0.0;
+        float result = 0.0;
+        for (int slot = 0; slot < 32; ++slot) {
+            float value = alphaByte(start + float(slot));
+            if (abs(value - EXTRA_VECTOR1.y) > 0.5) {
+                if (abs(rank - (local - 4.0)) < 0.5) result = value;
+                rank += 1.0;
+            }
+        }
+        return result;
+    }
+    return payloadByte(start, local - 8.0);
+}
+
+void main() {
+    vec2 point = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.xy) - EXTRA_VECTOR2.xy;
+    if (point.x < 0.0 || point.y < 0.0 || point.x >= EXTRA_VECTOR2.z || point.y >= EXTRA_VECTOR2.w) {
+        gl_FragColor = texture2D(TEXTURE_1, uv);
+        return;
+    }
+    float index = point.y * EXTRA_VECTOR2.z + point.x;
+    float start = floor(index / 32.0) * 32.0;
+    vec4 source = sourceAt(index);
+    float levels = exp2(8.0 - EXTRA_VECTOR1.x);
+    vec3 encoded = floor(source.rgb * 255.0 + 0.5);
+    vec3 restored = floor(mod(encoded, levels) * 255.0 / (levels - 1.0) + 0.5);
+    if (start + 32.0 > EXTRA_VECTOR2.z * EXTRA_VECTOR2.w) {
+        // No partial block is claimed as compressed storage.
+        gl_FragColor = vec4(restored / 255.0, source.a);
+        return;
+    }
+    gl_FragColor = vec4(restored / 255.0, packedAlpha(start, mod(index, 32.0)) / 255.0);
+}

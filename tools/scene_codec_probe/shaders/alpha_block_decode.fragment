@@ -1,0 +1,64 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_3;
+uniform vec4 EXTRA_VECTOR1; // k,base alpha byte,overflow mode(0=reject,1=original-alpha fallback),reserved
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height
+uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,reserved
+
+vec2 locationAt(float index) {
+    vec2 pixel = EXTRA_VECTOR2.xy + vec2(mod(index, EXTRA_VECTOR2.z), floor(index / EXTRA_VECTOR2.z));
+    vec2 location = (pixel + 0.5) / EXTRA_VECTOR3.xy;
+    if (EXTRA_VECTOR3.z > 0.5) location.y = 1.0 - location.y;
+    return location;
+}
+
+vec4 packedAt(float index) {
+    return texture2D(TEXTURE_3, locationAt(index));
+}
+
+float flagAt(vec4 masks, float slot) {
+    float code = masks.x;
+    if (slot >= 8.0) code = masks.y;
+    if (slot >= 16.0) code = masks.z;
+    if (slot >= 24.0) code = masks.w;
+    return mod(floor(code / exp2(mod(slot, 8.0))), 2.0);
+}
+
+void main() {
+    vec2 point = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.xy) - EXTRA_VECTOR2.xy;
+    if (point.x < 0.0 || point.y < 0.0 || point.x >= EXTRA_VECTOR2.z || point.y >= EXTRA_VECTOR2.w) {
+        gl_FragColor = texture2D(TEXTURE_3, uv);
+        return;
+    }
+    float index = point.y * EXTRA_VECTOR2.z + point.x;
+    float start = floor(index / 32.0) * 32.0;
+    vec4 source = packedAt(index);
+    if (start + 32.0 > EXTRA_VECTOR2.z * EXTRA_VECTOR2.w) {
+        gl_FragColor = source;
+        return;
+    }
+    vec4 masks = floor(vec4(packedAt(start).a, packedAt(start + 1.0).a,
+                            packedAt(start + 2.0).a, packedAt(start + 3.0).a) * 255.0 + 0.5);
+    float count = 0.0;
+    float rank = 0.0;
+    float local = mod(index, 32.0);
+    for (int slot = 0; slot < 32; ++slot) {
+        float flag = flagAt(masks, float(slot));
+        count += flag;
+        if (float(slot) < local) rank += flag;
+    }
+    if (count > 4.5) {
+        if (EXTRA_VECTOR1.z > 0.5) {
+            // Explicit external fallback: not an independent alpha decode.
+            gl_FragColor = vec4(source.rgb, texture2D(TEXTURE_1, locationAt(index)).a);
+        } else {
+            gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+        }
+        return;
+    }
+    float alpha = EXTRA_VECTOR1.y;
+    if (flagAt(masks, local) > 0.5) alpha = floor(packedAt(start + 4.0 + rank).a * 255.0 + 0.5);
+    gl_FragColor = vec4(source.rgb, alpha / 255.0);
+}

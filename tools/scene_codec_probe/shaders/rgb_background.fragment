@@ -1,0 +1,11 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroid.h"
+varying highp vec3 originalColor;
+varying highp float originalAlpha;
+
+void main() {
+    // Reserved for a genuinely ordered native opaque-background/blend fixture.
+    // A shader-calculated blend result cannot validate hardware blending.
+    gl_FragColor = vec4(originalColor, originalAlpha);
+}

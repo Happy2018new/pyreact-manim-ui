@@ -1,0 +1,51 @@
+// __multiversion__
+precision highp float;
+#include "fragmentVersionCentroidUV.h"
+uniform sampler2D TEXTURE_1;
+uniform vec4 EXTRA_VECTOR1; // k, base alpha byte, mode(0=gray,1=grid,2=block), reserved
+uniform vec4 EXTRA_VECTOR2; // ROI left,top,width,height
+uniform vec4 EXTRA_VECTOR3; // physical width,height,flip source Y,reserved
+
+float alphaAt(float index) {
+    vec2 pixel = EXTRA_VECTOR2.xy + vec2(mod(index, EXTRA_VECTOR2.z), floor(index / EXTRA_VECTOR2.z));
+    vec2 location = (pixel + 0.5) / EXTRA_VECTOR3.xy;
+    if (EXTRA_VECTOR3.z > 0.5) location.y = 1.0 - location.y;
+    return texture2D(TEXTURE_1, location).a;
+}
+
+void main() {
+    vec2 point = floor(vec2(uv.x, 1.0 - uv.y) * EXTRA_VECTOR3.xy) - EXTRA_VECTOR2.xy;
+    if (point.x < 0.0 || point.y < 0.0 || point.x >= EXTRA_VECTOR2.z || point.y >= EXTRA_VECTOR2.w) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+    }
+    float index = point.y * EXTRA_VECTOR2.z + point.x;
+    float alpha = alphaAt(index);
+    float code = floor(alpha * 255.0 + 0.5);
+    float residual = abs(alpha * 255.0 - code);
+    if (EXTRA_VECTOR1.z < 0.5) {
+        gl_FragColor = vec4(vec3(alpha), 1.0);
+        return;
+    }
+    if (EXTRA_VECTOR1.z < 1.5) {
+        // Green reports subbyte residual, blue rejects non-UNORM8 values.
+        gl_FragColor = vec4(code / 255.0, min(residual * 2.0, 1.0), step(0.0001, residual), 1.0);
+        return;
+    }
+    float start = floor(index / 32.0) * 32.0;
+    if (start + 32.0 > EXTRA_VECTOR2.z * EXTRA_VECTOR2.w) {
+        // Yellow is an incomplete block, never a compressibility result.
+        gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+        return;
+    }
+    float count = 0.0;
+    float maximum = 0.0;
+    for (int slot = 0; slot < 32; ++slot) {
+        float sampleAlpha = alphaAt(start + float(slot));
+        float sampleCode = floor(sampleAlpha * 255.0 + 0.5);
+        count += abs(sampleCode - EXTRA_VECTOR1.y) > 0.5 ? 1.0 : 0.0;
+        maximum = max(maximum, abs(sampleAlpha * 255.0 - sampleCode));
+    }
+    // R=exception count/32; G=overflow; B=subbyte residual*2.
+    gl_FragColor = vec4(count / 32.0, step(4.5, count), min(maximum * 2.0, 1.0), 1.0);
+}

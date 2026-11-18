@@ -1,0 +1,605 @@
+{
+  "source": ".runtime/scene-codec-native/evidence-v3/independent-static-perf-audit.json",
+  "source_sha256": "2584ed7ae13d2d51459752a56679f257e307c90dd3dbdd49ac4b6c5278364e6a",
+  "normalization": "Only absolute repository path prefixes are replaced with <repo>; raw evidence retained locally.",
+  "result": {
+    "schema": "independent_scene_static_perf_audit_v1",
+    "passed": true,
+    "case_count": 8,
+    "case_results": [
+      {
+        "rgb_bits": 1,
+        "profile": "baseline",
+        "post_pass_count": 0,
+        "enabled_processes": [],
+        "visible_native_attachments": [],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65556,
+        "resident_named_records": 174816,
+        "resident_geometry_names": 1,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.014926599999995,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.06821838378906,
+        "interval_p99_ms": 18.119299999995064,
+        "interval_max_ms": 18.92949999999871,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 1,
+        "profile": "writer",
+        "post_pass_count": 0,
+        "enabled_processes": [],
+        "visible_native_attachments": [
+          "scene_codec_epoch1_attempt1"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65556,
+        "resident_named_records": 174816,
+        "resident_geometry_names": 1,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.0139449,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.0775146484375,
+        "interval_p99_ms": 18.1225999999981,
+        "interval_max_ms": 19.76800000001333,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 1,
+        "profile": "combo_restore",
+        "post_pass_count": 3,
+        "enabled_processes": [
+          "scene_codec_raw",
+          "scene_codec_encode",
+          "scene_codec_decode"
+        ],
+        "visible_native_attachments": [
+          "scene_codec_epoch1_attempt1"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65556,
+        "resident_named_records": 174816,
+        "resident_geometry_names": 1,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.0135473,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.0775146484375,
+        "interval_p99_ms": 18.105199999979504,
+        "interval_max_ms": 18.547999999981357,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 1,
+        "profile": "combo_dependent",
+        "post_pass_count": 4,
+        "enabled_processes": [
+          "scene_codec_raw",
+          "scene_codec_encode",
+          "scene_codec_decode",
+          "scene_codec_consumer"
+        ],
+        "visible_native_attachments": [
+          "scene_codec_epoch1_attempt1"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65556,
+        "resident_named_records": 174816,
+        "resident_geometry_names": 1,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.014036299999987,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.0775146484375,
+        "interval_p99_ms": 18.22450000000231,
+        "interval_max_ms": 19.543800000008105,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 2,
+        "profile": "baseline",
+        "post_pass_count": 0,
+        "enabled_processes": [],
+        "visible_native_attachments": [],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65568,
+        "resident_named_records": 262240,
+        "resident_geometry_names": 2,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.003351199999997,
+        "frames_including_warmup": 1620,
+        "sample_intervals": 1500,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.05963371276855,
+        "interval_p99_ms": 18.23410000002923,
+        "interval_max_ms": 18.943400000011934,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 2,
+        "profile": "writer",
+        "post_pass_count": 0,
+        "enabled_processes": [],
+        "visible_native_attachments": [
+          "scene_codec_epoch2_attempt2"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65568,
+        "resident_named_records": 262240,
+        "resident_geometry_names": 2,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.000912099999994,
+        "frames_including_warmup": 1620,
+        "sample_intervals": 1500,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.06892097473145,
+        "interval_p99_ms": 18.239699999980985,
+        "interval_max_ms": 19.59870000001729,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 2,
+        "profile": "combo_restore",
+        "post_pass_count": 3,
+        "enabled_processes": [
+          "scene_codec_raw",
+          "scene_codec_encode",
+          "scene_codec_decode"
+        ],
+        "visible_native_attachments": [
+          "scene_codec_epoch2_attempt2"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65568,
+        "resident_named_records": 262240,
+        "resident_geometry_names": 2,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.0140035,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.07519058227539,
+        "interval_p99_ms": 18.26549999998406,
+        "interval_max_ms": 19.26000000003114,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      },
+      {
+        "rgb_bits": 2,
+        "profile": "combo_dependent",
+        "post_pass_count": 4,
+        "enabled_processes": [
+          "scene_codec_raw",
+          "scene_codec_encode",
+          "scene_codec_decode",
+          "scene_codec_consumer"
+        ],
+        "visible_native_attachments": [
+          "scene_codec_epoch2_attempt2"
+        ],
+        "logical_bytes": 65536,
+        "allocated_bytes": 65568,
+        "resident_named_records": 262240,
+        "resident_geometry_names": 2,
+        "warmup_seconds": 2,
+        "actual_sample_seconds": 25.0147791,
+        "frames_including_warmup": 1621,
+        "sample_intervals": 1501,
+        "warmup_frames": 120,
+        "engine_fps_samples": 100,
+        "engine_fps_mean": 60.07286651611328,
+        "interval_p99_ms": 18.32769999998618,
+        "interval_max_ms": 24.266899999986435,
+        "over_25_ms": 0,
+        "aggregate_equals_case_receipt": true
+      }
+    ],
+    "native_before_after_queries": [
+      {
+        "rgb_bits": 1,
+        "name": "static_before_query0",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_before_query0.png",
+        "capture_sha256": "47ca64169de63fb3ab914cef487d5ca1710f78422b7e13ee2b44feacf4abc9ab",
+        "mode": 0,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 65536,
+        "whole_array_identity_memcmp": true
+      },
+      {
+        "rgb_bits": 1,
+        "name": "static_before_query2",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_before_query2.png",
+        "capture_sha256": "4044c8285cbc6917bf4b2e68b1725116cebdf4330cd5f921c720b01d48fd5bf5",
+        "mode": 2,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 48449,
+        "whole_array_identity_memcmp": false
+      },
+      {
+        "rgb_bits": 1,
+        "name": "static_after_query2",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_after_query2.png",
+        "capture_sha256": "b87870a660a81ca7da5cd4059581345030ebd9bc3081f3460bacc12e95dac4df",
+        "mode": 2,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 48449,
+        "whole_array_identity_memcmp": false
+      },
+      {
+        "rgb_bits": 2,
+        "name": "static_before_query0",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_before_query0.png",
+        "capture_sha256": "73e323acfbe4fa8a7671081190f756fd059023ab7ebf8b8eefcecb367e99298a",
+        "mode": 0,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 65536,
+        "whole_array_identity_memcmp": true
+      },
+      {
+        "rgb_bits": 2,
+        "name": "static_before_query2",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_before_query2.png",
+        "capture_sha256": "03cc18719d87ba041c901e69f6cc8704266485cced76f38bab9ea08ce5f4f1aa",
+        "mode": 2,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 48449,
+        "whole_array_identity_memcmp": false
+      },
+      {
+        "rgb_bits": 2,
+        "name": "static_after_query2",
+        "capture": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_after_query2.png",
+        "capture_sha256": "d4b0cd58a1ad234b66e9b8396a9e705db5bf31482c82b98e0a50761dcd5e8de6",
+        "mode": 2,
+        "mismatch_samples": 0,
+        "query_ordinals_checked": 65536,
+        "distinct_source_addresses_checked": 48449,
+        "whole_array_identity_memcmp": false
+      }
+    ],
+    "payload_queries_checked": 393216,
+    "payload_mismatch_samples": 0,
+    "all_states_and_commands_checked": 32,
+    "frozen_native_datasets": [
+      {
+        "rgb_bits": 1,
+        "identity": {
+          "geometry_name": "scene_codec_epoch1_attempt1",
+          "entity": "-9223372036854775807",
+          "generation": 1,
+          "epoch": 1,
+          "native_attempt_serial": 1,
+          "geometry_build_serial": 1,
+          "slot_count": 174816,
+          "codec_roi": [
+            8,
+            32,
+            288,
+            607
+          ],
+          "logical_payload_bytes": 65536,
+          "allocated_payload_bytes": 65556,
+          "rgb_bits": 1,
+          "payload_salt": 29,
+          "base_alpha": 255
+        },
+        "resource_budget": {
+          "max_named_records": 2097152,
+          "native_reclamation_verified": false,
+          "max_names": 256,
+          "names": 1,
+          "named_records": 174816
+        },
+        "summary": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1.results.json",
+        "summary_sha256": "73d8aaf7e57b244ee22bfa18a35710887ff855bf22011862b6826e133d0e038f"
+      },
+      {
+        "rgb_bits": 2,
+        "identity": {
+          "geometry_name": "scene_codec_epoch2_attempt2",
+          "entity": "-9223372036854775807",
+          "generation": 1,
+          "epoch": 2,
+          "native_attempt_serial": 2,
+          "geometry_build_serial": 2,
+          "slot_count": 87424,
+          "codec_roi": [
+            8,
+            32,
+            128,
+            683
+          ],
+          "logical_payload_bytes": 65536,
+          "allocated_payload_bytes": 65568,
+          "rgb_bits": 2,
+          "payload_salt": 29,
+          "base_alpha": 255
+        },
+        "resource_budget": {
+          "max_named_records": 2097152,
+          "native_reclamation_verified": false,
+          "max_names": 256,
+          "names": 2,
+          "named_records": 262240
+        },
+        "summary": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2.results.json",
+        "summary_sha256": "9fdf5033309b2e8ac34aa5ab0f587e1f0a54ca4e6b34a76cd1ac60ba21250953"
+      }
+    ],
+    "source_contract": {
+      "files": [
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/behavior_pack/geometry_atlas_probe/runtime.py",
+          "sha256": "442f02275c43e59bb895e9b8ef82e0efe7078bd9367aa6794bca0bffa94d37f5"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/behavior_pack/geometry_atlas_probe/scene_config.py",
+          "sha256": "fd594a31c5cb60eb370a2760d7ff2c8ab468383c1219b201a5964b976a314c1d"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/resource_pack/shaders/glsl/scene_codec_alpha_block_encode.fragment",
+          "sha256": "a043533c2e55896976cac9c77c11019e93acb66651118db2f4dcdd1941c790ec"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/resource_pack/shaders/glsl/scene_codec_payload_consumer.fragment",
+          "sha256": "ece0dd9031a78786e575bf358515819cc095bb05a93bb3e9d2b756038b9d491e"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/resource_pack/shaders/glsl/scene_codec_fixture.fragment",
+          "sha256": "7be0fe9f301fa26dcf958e4ac005c6f7c176c4cb92922b8c7fdce980cdec88df"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/resource_pack/shaders/glsl/scene_codec_scatter.fragment",
+          "sha256": "223063101b7afda3966a82c648caf728f13ab46c040c7790af611bd7ef20d6ce"
+        },
+        {
+          "path": "<repo>/.runtime/scene-codec-native/project-v3/resource_pack/materials/terrain.material",
+          "sha256": "ed37f47874a102c3554f5672c0eeb8b2a1848548720997251ff54d6a8de751d0"
+        }
+      ],
+      "fixture_disabled_after_native_upload_by_source_contract": true,
+      "native_encoder_scene_mode": 0,
+      "native_shaders_synthesize_oracle": false,
+      "direct_process_enabled_snapshot_available": true,
+      "fixture_off_evidence": "installed runtime reset plus unchanged hidden-writer negative control"
+    },
+    "baseline_is_unallocated_fresh_game": false,
+    "baseline_retains_resident_allocations": true,
+    "raw_timing_vectors_retained": false,
+    "percentiles_independently_recomputed": false,
+    "aggregate_consistency_checked": true,
+    "frames_include_warmup": true,
+    "gpu_zero_cost_proven": false,
+    "fps_cap": 60,
+    "launch_evidence": {
+      "path": "<repo>/.runtime/scene-codec-native/evidence-v3/launch.json",
+      "sha256": "6a390cb7c53df53ec5f3678825f82f39afc985e7878c51f7c5825cc80c2b8d35",
+      "fps": 60,
+      "noactivation": true
+    },
+    "single_instance_precondition": {
+      "prior_alpha_process_absent": true,
+      "prior_release_evidence": "<repo>/.runtime/geometry-atlas-large-20261118-r3/static-perf-r1.process-exit.json",
+      "prior_release_sha256": "d37e96a5d48be676308d4d630bd846009c251b01f858aea8162abc65fe040c15",
+      "root_coordinated_handoff_reported": true,
+      "v3_launch_full_process_census_retained": false,
+      "full_process_census_independently_proven": false,
+      "prior_manager_stop_evidence": "<repo>/.runtime/geometry-atlas-large-20261118-r3/static-perf-r1.stop-confirmed.json",
+      "prior_manager_stop_sha256": "c12e7c2685fc744068f7d07b431670fd5371c9b3dab2bbb8af11445c42564e51",
+      "coordination_scope": "Root received alpha process absence and manager stopped before explicitly allowing combo launch; no combo full-process census retained"
+    },
+    "formal_exit_evidence": {
+      "pid": 35024,
+      "observed_utc": "2026-11-18T06:47:29.2936372Z",
+      "win32_process_present": false,
+      "thread_count": null,
+      "handle_count": null,
+      "virtual_size": null
+    },
+    "formal_exit_sha256": "32eff682ad2b3e2318a5b07c92f779700a7680fa641ba0f7643a3e072e5b0ce2",
+    "artifact_hashes": [
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_load.state.json",
+        "state_sha256": "bc91d8830e7cfab9a4578668802c470e17f8064dd0fcf51008b6307c7435971c",
+        "command_sha256": "48ac6e0606cc2334216232177978f7e14275b8e4779fc7daa78573c8f4c9b188"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_before_query0.state.json",
+        "state_sha256": "9809230ff1f7defee26c9f0d270aacaf480719e780a90ae5e8e996b89eaee32b",
+        "command_sha256": "117e80f57121a6b7884fd029e5967e83d2807af0ef8df01599dfe725eed6e6f3"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_before_query2.state.json",
+        "state_sha256": "5a77ece7d6454204a6d8e92d85e0eea334e5a0711a351da2fcc847e1166a3e91",
+        "command_sha256": "5ea85f53d888b74ca3e72192bf9597fbe9f3415b41ca3577b0f5f9635b7e234d"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_baseline_profile.state.json",
+        "state_sha256": "c0a6035e9584e771a8144fde6b5eee29e9182ee2201e784070587d9d3643b647",
+        "command_sha256": "654f93c5f6530fd2d5ec3fa5116013622965d726f39331625a5c81713d7ba51e"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_baseline_start.state.json",
+        "state_sha256": "de98d973140e6077c8e3f406786fbbce8d04f81a2b0c54f82daa444b4de9aff7",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_baseline_result.state.json",
+        "state_sha256": "2d7a97001bcc92e669d2562740387bff0671297cfc38caaf27280cd01e09b7c0",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_writer_profile.state.json",
+        "state_sha256": "0bbf6199e0aeab19ddd9396801f2f85e9e2c2bc081fcc4e9bec332c958e9c8bc",
+        "command_sha256": "4a8909497c5f9707dd7e6980632f5a115140837e08d4f4e2dbd1b61915608b90"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_writer_start.state.json",
+        "state_sha256": "ac2c779c5b0a41cfe213b179d490c0e871f3ebba265c57b758d9ce071ad28324",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_writer_result.state.json",
+        "state_sha256": "46da0f44c2d00d7bd5417d37f6e3afad86ecf4e9bf4eee3afb13fb9dd3d77fe8",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_restore_profile.state.json",
+        "state_sha256": "faf16e87c575cefd1334860ea1ae63a43dd441f25c52e844786b9a69e9c0471d",
+        "command_sha256": "a62a1eeeeaad8c0257bf5111db56441c1936d97c409d25eab97db64c732b67f4"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_restore_start.state.json",
+        "state_sha256": "63c7db1f2e2397914a679044d1d9cbadd4dcf1b88cef04908ae957b1cf6b06d4",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_restore_result.state.json",
+        "state_sha256": "93d2f128d9922d1d64f58ac35cadb769ae030b7c3bb2ec5b299e2e590aa0742e",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_dependent_profile.state.json",
+        "state_sha256": "00ae865a0ab9a9a2a96bd920a89fdecceace5eb2e4a3b62adb736aef7a1d6cc0",
+        "command_sha256": "eba2485e59c932ee92e8204083cf0e4b6eb64a50930c6eb3f0f4f88236909e40"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_dependent_start.state.json",
+        "state_sha256": "4c54f4f4e4326de1ecbc80697b5ae481e4295f0ff1d5240d140e10f111166e41",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_combo_dependent_result.state.json",
+        "state_sha256": "91e2ec4c9dec54748b2fcd733b0e02a87e94779721927f56e8c023e5d15894a3",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k1_static_after_query2.state.json",
+        "state_sha256": "91e2ec4c9dec54748b2fcd733b0e02a87e94779721927f56e8c023e5d15894a3",
+        "command_sha256": "5ea85f53d888b74ca3e72192bf9597fbe9f3415b41ca3577b0f5f9635b7e234d"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_load.state.json",
+        "state_sha256": "300547b28bc4317f3b9a24f66b92192f8ac993b453a1115766c7a3f94d48bc9c",
+        "command_sha256": "ae0c6ad2abd1241d9689077a1bd8444ae976d0d3f919d3971d94039059cbe57b"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_before_query0.state.json",
+        "state_sha256": "eb5b07a618f813fb2ebc5def452ec3f3bc483b540f7054bdaa0096093319749b",
+        "command_sha256": "117e80f57121a6b7884fd029e5967e83d2807af0ef8df01599dfe725eed6e6f3"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_before_query2.state.json",
+        "state_sha256": "a1b0b5eb7accd02d21cd8670cbaa042b589694434a9a71b6ed09162bf56a8233",
+        "command_sha256": "5ea85f53d888b74ca3e72192bf9597fbe9f3415b41ca3577b0f5f9635b7e234d"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_baseline_profile.state.json",
+        "state_sha256": "2424cc42b98f19d6444b241b6d941aeb5f08d0dd7e22b46a6659c6c5b911dc35",
+        "command_sha256": "654f93c5f6530fd2d5ec3fa5116013622965d726f39331625a5c81713d7ba51e"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_baseline_start.state.json",
+        "state_sha256": "799835753dc27e4c1b638baac960ba95c84b6ae8dbb2ed21d23963411481a4f2",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_baseline_result.state.json",
+        "state_sha256": "7c1642d0b4878ebe1269eea918192aa69230f95fd8942e39c0ac1256442de70f",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_writer_profile.state.json",
+        "state_sha256": "0a3d9104afa1337a8bf05d3c91135da817a0e9d18c76931090a7d5733cd4992f",
+        "command_sha256": "4a8909497c5f9707dd7e6980632f5a115140837e08d4f4e2dbd1b61915608b90"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_writer_start.state.json",
+        "state_sha256": "4f6ee93f02565d2fad0a2a8368775b27ada661d6bd0f4b66f6560ed96696f87f",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_writer_result.state.json",
+        "state_sha256": "f99a7828695e60de5feeb4533952532f882a22d72fe3705eec77300f956086eb",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_restore_profile.state.json",
+        "state_sha256": "039a74df9966a00329b28d956e94f816fada13ffdee5f6662dd420d109e6fcf6",
+        "command_sha256": "a62a1eeeeaad8c0257bf5111db56441c1936d97c409d25eab97db64c732b67f4"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_restore_start.state.json",
+        "state_sha256": "c9ce02632486ca72e176b26dff67a0ab6e5b90576ce208ad566c342c0be62f21",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_restore_result.state.json",
+        "state_sha256": "e74bc85d46cfecf0159d50f6b527b9c063f8218295bb05e15cfe11fcdab69f65",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_dependent_profile.state.json",
+        "state_sha256": "a5ec9dfe6b2af0f0a2bb6c7b8a9ee9c7dcec679bc41ae72c444147b8149cd3f8",
+        "command_sha256": "eba2485e59c932ee92e8204083cf0e4b6eb64a50930c6eb3f0f4f88236909e40"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_dependent_start.state.json",
+        "state_sha256": "0f805647b9ae535b54b440d93bf15bf8d03f0902738a00b44fd761900467fc36",
+        "command_sha256": "660a645d2b6c2d5f77d6b8883b6fbd3689e71842210ec1cf537298c47af92a08"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_combo_dependent_result.state.json",
+        "state_sha256": "24adf5716c3a476a2016112c7c165f12c8ae57c4871799eecc0f711819517592",
+        "command_sha256": "26938bd268a73c1daada196292c9398ee31461636e70cf5ab6a9917c82785bc5"
+      },
+      {
+        "state": "<repo>/.runtime/scene-codec-native/evidence-v3/static_k2_static_after_query2.state.json",
+        "state_sha256": "24adf5716c3a476a2016112c7c165f12c8ae57c4871799eecc0f711819517592",
+        "command_sha256": "5ea85f53d888b74ca3e72192bf9597fbe9f3415b41ca3577b0f5f9635b7e234d"
+      }
+    ],
+    "probe_codec_or_verifier_imported": false,
+    "MC_or_GPU_accessed": false,
+    "conclusion": "No observed sustained frame-rate loss under60FPS cap in these static controls; not zero GPU cost or comparison with an unallocated game",
+    "before_identity_full_array_verified": true,
+    "after_identity_full_memcmp_performed": false,
+    "after_evidence_scope": "65536 dependent outputs per dataset, covering48449 distinct source addresses; not after identity/full-memory comparison",
+    "final_quiesce": {
+      "entity": null,
+      "enabled_processes": [],
+      "native_attachment_visibility": {
+        "scene_codec_epoch2_attempt2": false,
+        "scene_codec_epoch1_attempt1": false
+      },
+      "path": "<repo>/.runtime/scene-codec-native/evidence-v3/formal_quiesce.state.json",
+      "sha256": "abdc92f626b53aafd59c6d4ed8561133f80d42cdd74271f0bfdcdc7a027c8c63",
+      "passed": true
+    }
+  }
+}
