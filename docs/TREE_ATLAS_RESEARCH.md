@@ -54,6 +54,8 @@
 
 ## 后续判断
 
+2026-11-18 后续用户调整：仍以完全不修改场景 RGBA 的私有纹理为最高优先级，同时允许在最终视觉不变且透明物／特效兼容的条件下研究 alpha 暂存。新增[私有入口与无损 alpha 压缩静态研究](PRIVATE_TEXTURE_STATIC_OPTIONS.md)区分 U5–U16、Image 自身纹理消费和压缩兜底；均未由本轮静态分析变成已验证能力。以下保留本树采用的严格场景隔离条件。
+
 树形合并已经完成概念验证。**不要继续把调分支数、缩 RT 或增加相同节点当作 64 KiB／60 FPS 的解决方案。** 要显著减少逐帧绘制次数，需要新的批量输入，或确实可跨帧保存且可寻址的 GPU 纹理能力。
 
 公开接口复查未找到几何体／实体／纸娃娃直接画入私有 RT 并交给后处理 sampler 的桥接入口：`RenderBlockGeometryModel`、`RenderEntity`、`RenderSkeletonModel` 返回 bool，参数没有目标 RT；`PostPassResultToOtherPass` 的源只能是自定义后处理 process／pass。材质写入掩码不负责选择 framebuffer。此前几何方案先把数据写入场景 alpha，不能在当前约束下复用，即使最终画面可恢复。
