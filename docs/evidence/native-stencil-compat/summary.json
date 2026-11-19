@@ -1,0 +1,234 @@
+{
+  "schema": "native_stencil_compat_evidence_v1",
+  "baseline_commit": "0c8800c",
+  "client": "NetEase 3.10.0.467018",
+  "renderer": "Windows OpenGL",
+  "fps_cap": 60,
+  "new_frame_timings_measured": false,
+  "initial_viewport": [
+    720,
+    1080
+  ],
+  "payload_bytes": 65536,
+  "payload_sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+  "result": {
+    "native_outline_rectangular_ui_clip_and_joint": "prior_native_pass",
+    "ordinary_frameani": "native_conflict",
+    "entity_shadow": "native_conflict",
+    "enchanted_inventory_glint": "native_pass",
+    "filled_target_highlight": "native_pass",
+    "native_inventory_and_pause_return": "native_pass",
+    "residual_after_toggle_and_viewport_changes": "native_pass",
+    "dimension_round_trip_without_rebinding": "native_conflict",
+    "resource_pack_order": {
+      "before": {
+        "experiment_pack_index": 1,
+        "extra_pack_index": 0,
+        "ordinary_effects_visible": 0,
+        "ordinary_effects_tested": 8,
+        "data_diagnostics_passed": 16,
+        "resolver_rule_established": false
+      },
+      "after": {
+        "experiment_pack_index": 0,
+        "extra_pack_index": 1,
+        "ordinary_effects_visible": 0,
+        "ordinary_effects_tested": 8,
+        "data_diagnostics_passed": 16,
+        "resolver_rule_established": false
+      }
+    },
+    "msaa_1_and_4": "native_pass",
+    "depth_of_field": "native_conflict",
+    "bloom": "native_stage_unproven",
+    "mobile": "device_unavailable"
+  },
+  "all_owned_sessions_stopped": true,
+  "local_artifacts": {
+    "stock_frameani": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/stock/evidence/frameani-status.json",
+      "bytes": 176341,
+      "sha256": "05a580ce1ff10a330198883c397abc31280abcd7afff62944fd6a75a72c321a1"
+    },
+    "carrier_frameani": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/evidence/frameani-status.json",
+      "bytes": 312952,
+      "sha256": "b2cb7954e8331dc1a41b408bb6f2716c5da8a33e6247b31d52b0d0e5302f0006"
+    },
+    "native_shadow": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/shadow-evidence/shadow-recovery-status.json",
+      "bytes": 44515,
+      "sha256": "fe89eaf68f5b83532d0eda1723176d9a1cf8b8bff41ea2a2c4d1ca70e204c7a4"
+    },
+    "enchanted_native_renderer": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/enchanted-evidence/enchanted-status.json",
+      "bytes": 142471,
+      "sha256": "abe4eeafcee2b754f1bc6fbcbfc0d8ae60b6b6a339146bb9a0c37915fce05735"
+    },
+    "inventory_pause_glint_and_viewport": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/lifecycle-evidence/lifecycle-results.json",
+      "bytes": 108262,
+      "sha256": "2c4515287429bac8b84583a523e03b09a2d7d35d936427094aa2f3be789904be"
+    },
+    "dimension_round_trip": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/dimension-recovery-evidence/dimension-recovery-status.json",
+      "bytes": 24966,
+      "sha256": "1333dbc702404038f0eb2e58289f2c1f098295a2ba2320b0fd6f843dc1b429e2"
+    },
+    "target_highlight": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-first-recovery-r2/attached-highlight-selective-hud-evidence/attached-highlight-status.json",
+      "bytes": 54136,
+      "sha256": "d4e86e57505b4a4ab0f56fcf7f8e688ac23600fb6546e273415d2857143bb7d5"
+    },
+    "target_highlight_hud_setup": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-first-recovery-r2/attached-highlight-selective-hud-evidence/selective-hud-highlight-status.json",
+      "bytes": 1253,
+      "sha256": "57b0e80fe29c9869dcfbb8716cce1d7d778b2761c2e90c7a22c70247e1441ef0"
+    },
+    "msaa_1": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/retry-evidence-1/msaa-result.json",
+      "bytes": 7304,
+      "sha256": "64119f47d86be0753b5d5445f2f0e1746e876accee0fe2943dc16199f9ac825a"
+    },
+    "msaa_4": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/retry-evidence-4/msaa-result.json",
+      "bytes": 7304,
+      "sha256": "3f96ee13dd07128c527cb6b895cf0489af1954fe86b46bc59312ac6b22da4b53"
+    },
+    "native_dof": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/dof/run-evidence/native_original_depthoffield_status.json",
+      "bytes": 170940,
+      "sha256": "0d8a07a46ba05d40d097586f25303b5e6733d693fc5ac9d1226761fe7e28f66e"
+    },
+    "native_bloom": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/bloom/run-evidence/native_original_bloom_status.json",
+      "bytes": 140809,
+      "sha256": "47c18d6502315395eefd0b7d00687add5f55b5d0315480a2d013beb31bf913e7"
+    },
+    "native_bloom_strength_retry": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/bloom-strength-retry/run-evidence/native_original_bloom_status.json",
+      "bytes": 141185,
+      "sha256": "ce314f53f05400e915fc48839c5b3cb98f9ed60dec006646f85753edb40958b9"
+    },
+    "bloom_options_restoration": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/bloom-strength-retry/options-restored.json",
+      "bytes": 209,
+      "sha256": "44994a25438b6ea2e7f9dcf65a782e14bcbcd9028a395697a6b41305ff1a60ff"
+    },
+    "mobile_adb": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/mobile-availability/receipt.json",
+      "bytes": 291,
+      "sha256": "e435a55cfda26d0ef60f828d2342fe575813a8e48c8145f4a3a78a9ef959c0f5"
+    },
+    "mobile_mumu": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/mobile-availability/mumu-check.json",
+      "bytes": 234,
+      "sha256": "b996ef89d57a40b84c5f55603de7e6436696e04bf41346e592ae9b0a6f0858a6"
+    },
+    "frameani_comparison": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/comparisons/frameani-native-vs-carrier.png",
+      "bytes": 11400,
+      "sha256": "4414c54d7208048ea04e5eec2c6c5115547be392d29a72bdeacea5ef14e8c2e5"
+    },
+    "shadow_comparison": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/comparisons/shadow-native-vs-carrier.png",
+      "bytes": 19069,
+      "sha256": "686ebe85ecf5d5d15863ec1eb5b729a62fc62bac956d014668cd9febd73df50b"
+    },
+    "dof_comparison": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/comparisons/dof-native-raw-t1.png",
+      "bytes": 263955,
+      "sha256": "c0efac8293c107d5ebe2a588de57dc0cbbf317c9ebfae6a55e7127759000c7ae"
+    },
+    "earlier_integrated_outline_and_ui": {
+      "path_from_repo": "docs/evidence/weather-stencil-integrated/summary.json",
+      "bytes": 9596,
+      "sha256": "73d7874f39f2f2b28c35afdf43fdcc4efd84678757dcfc64fc91c52631baa868"
+    },
+    "earlier_outline_independent": {
+      "path_from_repo": ".runtime/outline-resolved-audit-20261119-r1/audit.json",
+      "bytes": 50007,
+      "sha256": "10b3d1a9df97ae9c326d85b3ff2a88c13b34986638010d07645f877eb86f209d"
+    },
+    "shadow_independent": {
+      "path_from_repo": ".runtime/native-shadow-independent-audit-20261119-carrier-r1/audit.json",
+      "bytes": 71364,
+      "sha256": "98e9ce6bd02d9e4449893b02cce8238c2952cb048de78f00e145a574d0239f1d"
+    },
+    "target_highlight_independent": {
+      "path_from_repo": ".runtime/native-highlight-independent-audit-20261119-selective-r1/audit.json",
+      "bytes": 30003,
+      "sha256": "3ca0eb8278f267399e34d65ff879198f2654d4e13f00407c7c82a608b9f65947"
+    },
+    "resource_pack_extra_before": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-first-recovery-r2/run-evidence/pack-order-status.json",
+      "bytes": 192737,
+      "sha256": "fb2c405b4356bfb075454d2d582d424b607bbafd19f954d7f47248d75cdf6adc"
+    },
+    "resource_pack_extra_after": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-last-recovery-r2/run-evidence/pack-order-status.json",
+      "bytes": 207494,
+      "sha256": "70db947d541334d44cc02d697229e2193f8dcb41c90154560358d34e9d3f67fd"
+    },
+    "cleanup_bloom": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/bloom/cleanup-evidence/cleanup.json",
+      "bytes": 9283,
+      "sha256": "98bb5c90e94926e64557f31637145d32925db447b455b1218f194b53bbe08331"
+    },
+    "cleanup_bloom-strength-retry": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/bloom-strength-retry/cleanup-evidence/cleanup.json",
+      "bytes": 9487,
+      "sha256": "895fdc60974ba9fb87f879ef8e687f50a8d7d18e6e61e6ad60323022643a118e"
+    },
+    "cleanup_carrier": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/carrier/cleanup-evidence/cleanup.json",
+      "bytes": 3144,
+      "sha256": "5ee67fb1cc8a3ccca16f48ccaf28909bf8716d1dede26053bf6abbfb6cb0783b"
+    },
+    "cleanup_dof": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/dof/cleanup-evidence/cleanup.json",
+      "bytes": 9130,
+      "sha256": "2b3b3813e5288fdbd1cc543082ab5cf65f68d331de27cf68e7bc8a223ee432b4"
+    },
+    "cleanup_order-first": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-first/cleanup-evidence/cleanup.json",
+      "bytes": 9068,
+      "sha256": "d62ef25f01fc824ef9d7f958cdfa0e2aa7922403097186367e155c96f183c2df"
+    },
+    "cleanup_order-first-recovery-r2": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-first-recovery-r2/cleanup-evidence/cleanup.json",
+      "bytes": 9475,
+      "sha256": "1d896dd0e4e29ddc001009b78d6d1801aeaa96fcc9c0ddeef2f5cb4ec4a0e5b6"
+    },
+    "cleanup_order-last-recovery-r2": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/order-last-recovery-r2/cleanup-evidence/cleanup.json",
+      "bytes": 9476,
+      "sha256": "d014287c98b36f8de6c95bc2698231178d5403d8a84fc9682998852a2fe64ceb"
+    },
+    "cleanup_stock": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/stock/cleanup-evidence/cleanup.json",
+      "bytes": 7267,
+      "sha256": "791d9ee4b98ab6bd0cbbda34bd601f7df7c8e8a6a71fb7cdcd9b66f7b51ce716"
+    },
+    "cleanup_cleanup-1": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/cleanup-1/cleanup.json",
+      "bytes": 3107,
+      "sha256": "580c07318165c08f32e688da4583d454d561fc54f7c91275e49dbce35fbee009"
+    },
+    "cleanup_cleanup-4": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/cleanup-4/cleanup.json",
+      "bytes": 3110,
+      "sha256": "f5c5186f8da0f3d39c9c4b31835eb058768830a4426c4c5f71384bfc0798c55c"
+    },
+    "cleanup_retry-cleanup-1": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/retry-cleanup-1/cleanup.json",
+      "bytes": 9070,
+      "sha256": "8d58890271950728cace8dd38ec538d57db62c2b224b07b0a97147a2f4956315"
+    },
+    "cleanup_retry-cleanup-4": {
+      "path_from_repo": ".runtime/native-stencil-compat-20261119-r1/msaa/retry-cleanup-4/cleanup.json",
+      "bytes": 9072,
+      "sha256": "fc2f8382c7350dd08cd0b438a8c055b2a6c100940f8556d89b06391e1b0a3e14"
+    }
+  }
+}
