@@ -1,0 +1,203 @@
+{
+  "schema": "native_stencil_candidate_retest_v1",
+  "client_version": "3.10.0.467018",
+  "renderer": "Windows OpenGL",
+  "compatibility_payload_bytes": 65536,
+  "performance_measured_this_round": false,
+  "offline_followup_checks_passed": 115,
+  "result": {
+    "both_resource_pack_orders": "native_pass",
+    "standalone_particle": "data_pass_strict_frameani_14_of_16",
+    "shadow_255": "reproduced",
+    "shadow_191_and_63": "controlled_native_pass",
+    "dimension_natural_positive_pose": "one_native_round_trip_pass",
+    "dof_identity": "native_pass",
+    "dof_active": "zero_blur_roi_pass_strict_whole_reference_mismatch",
+    "bloom": "source_control_unproven",
+    "mobile": "no_device_detected"
+  },
+  "evidence": {
+    "original_matrix": {
+      "path": ".runtime/native-stencil-candidates-next-r2/matrix-run-1795075464182434800.json",
+      "sha256": "341c0aea288e0de006294c85240f384b7d0d22ceb7ae941a3a802f72dd4d2ee3",
+      "size_bytes": 8195
+    },
+    "resource_pack_first": {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-first/run-evidence/particle-pack-order-status.json",
+      "sha256": "9002c55b27afedc2a8fb68d8f1950272b8c1669385fde0b6cd893b30a5974f93",
+      "size_bytes": 167063
+    },
+    "resource_pack_first_candidate": {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-first/run-evidence/particle-candidate-status.json",
+      "sha256": "6704969352ee54866316738612b38d337e8ea275ed06e3b340210e174b0fd9e9",
+      "size_bytes": 255848
+    },
+    "resource_pack_last": {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-last/run-evidence/particle-pack-order-status.json",
+      "sha256": "60b781a3ee5c178bb4daee21570e3751367858fc3abf8519d27459aba26258ef",
+      "size_bytes": 167059
+    },
+    "resource_pack_last_candidate": {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-last/run-evidence/particle-candidate-status.json",
+      "sha256": "975a364d917a3de47a4548029f56c31bb01c4803c1d93c73c6efe3053f64040c",
+      "size_bytes": 256422
+    },
+    "particle_undisturbed": {
+      "path": ".runtime/native-stencil-candidates-particle-camera-retry/particle/run-evidence/particle-candidate-status.json",
+      "sha256": "ba82342fa295ac5c27ad7fb7e7db8fa9ef0da8141783de68f07c16032cb6c67f",
+      "size_bytes": 125668
+    },
+    "particle_quantization_audit": {
+      "path": ".runtime/native-stencil-candidates-particle-camera-retry/quantization-audit.json",
+      "sha256": "e72cb9ee2cc275f50e56ab16cafe03e29f0c23ddefe5245ecd4f7332cde15fa4",
+      "size_bytes": 22836
+    },
+    "shadow_three_mask_comparison": {
+      "path": ".runtime/native-stencil-candidates-next-r2/shadow-comparison.json",
+      "sha256": "578e6d532b631cd2f4e74498855b5fbe9f390581044d939f2cc1b13967954856",
+      "size_bytes": 65506
+    },
+    "original_dimension": {
+      "path": ".runtime/native-stencil-candidates-next-r2/dimension/run-evidence/dimension-candidate-status.json",
+      "sha256": "b8453f06708ed18ac3b523719772b43ce5817962e26d53387d1e4acd765df8b9",
+      "size_bytes": 334332
+    },
+    "dimension_natural": {
+      "path": ".runtime/native-stencil-dimension-natural-20261119-r1/run-evidence/positive-pose-status.json",
+      "sha256": "32034ec20e0017670d4ffa60a8d6e9c4a2ae8b6f851da2e132177951a1c22bc6",
+      "size_bytes": 537555
+    },
+    "dof_identity": {
+      "path": ".runtime/native-stencil-dof-matched-native-r2/dof-identity/run-evidence/dof-identity-status.json",
+      "sha256": "896c05541893b3d4708fb1e9d5cd355c8fb925b9c88fdf9605bd79bb35ff1c54",
+      "size_bytes": 304711
+    },
+    "dof_active": {
+      "path": ".runtime/native-stencil-dof-matched-native-r2/dof-active/run-evidence/dof-active-status.json",
+      "sha256": "ba08fa1f4ce822c9af7a5bdb181671619ab150ed0925666de985b95b3d03eb68",
+      "size_bytes": 306796
+    },
+    "dof_active_fixture": {
+      "path": ".runtime/native-stencil-dof-matched-native-r2/dof-active/run-evidence/dof-guard-status.json",
+      "sha256": "1a48d0e3502552c22b242ba8d81f71fbf06b57ad6780ac5cf7f0c7552b41fb27",
+      "size_bytes": 3482
+    },
+    "bloom_explicit_link": {
+      "path": ".runtime/native-stencil-post-retest-native-r2/bloom-control/run-evidence/bloom_retest_status.json",
+      "sha256": "fbd1ced4b32212f7bc3b2f5f7d54ffc01e2624a4ddcb1068b87dfcd25dedf28c",
+      "size_bytes": 110763
+    },
+    "bloom_sequential_source": {
+      "path": ".runtime/native-stencil-bloom-sequential-native-r2/source-control/run-evidence/bloom_sequential_status.json",
+      "sha256": "6553494d4fcc95f1643405f17caa094e7f387cd19037f5bf7e02f863315a1fb0",
+      "size_bytes": 120928
+    }
+  },
+  "owned_stopped_cases": [
+    {
+      "path": ".runtime/native-stencil-bloom-sequential-native-r2/source-control/cleanup-evidence/cleanup.json",
+      "sha256": "10e2c4cfa8512e37023ee91bc0cd775d9ddd5944369de61c4f43f96f46b365ad",
+      "size_bytes": 7593
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/bloom-control/cleanup-evidence/cleanup.json",
+      "sha256": "6d1c74a0a967aef4e5eb71118233537398641e4db72a36e2e1d1ff8244ece446",
+      "size_bytes": 10111
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/dimension/cleanup-evidence/cleanup.json",
+      "sha256": "617b0c4f304bc2fc61c2b64c9134b90a7977101af299dfd82726ad8e9276f0eb",
+      "size_bytes": 14813
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/dof-identity/cleanup-evidence/cleanup.json",
+      "sha256": "04a38728436a6c479726b0548c9508dffbdc8800eac00c8328f83c0125cfb448",
+      "size_bytes": 9938
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle/cleanup-evidence/cleanup.json",
+      "sha256": "6fa07615b2f53acd211d6a46c2201d79209bfbe51219683ea74788bb1acbfc3b",
+      "size_bytes": 10913
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-first/cleanup-evidence/cleanup.json",
+      "sha256": "28d6bb125fca0444319b9a45efd64e5b89b7c305fe1a7c84c46cd6395b184488",
+      "size_bytes": 10913
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/particle-pack-last/cleanup-evidence/cleanup.json",
+      "sha256": "097972bc3be1ce76a9cd448fa9bf71c964e1bc51f69fc36c695b03f3797a2aa9",
+      "size_bytes": 10918
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/shadow-191/cleanup-evidence/cleanup.json",
+      "sha256": "6ab4fb4e53a6e8d57ac78c8082beed8bae280f0f8b91e354491d64f9ab4728c6",
+      "size_bytes": 10052
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/shadow-255/cleanup-evidence/cleanup.json",
+      "sha256": "aab6321ad7f90d4bd71d96285151e50d48967f7f28ae1ac4dffd44c47f6a2506",
+      "size_bytes": 9851
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-next-r2/shadow-63/cleanup-evidence/cleanup.json",
+      "sha256": "6d6db927fbebeaccfe025546741bec0118f9d669f1e15e72945ec4e097ba4a85",
+      "size_bytes": 10050
+    },
+    {
+      "path": ".runtime/native-stencil-candidates-particle-camera-retry/particle/cleanup-evidence/cleanup.json",
+      "sha256": "616e8d77e95472969d385537c327227593620501055bd3d4fe8dac0aaa9a3e79",
+      "size_bytes": 11317
+    },
+    {
+      "path": ".runtime/native-stencil-dimension-natural-20261119-r1/cleanup-evidence/cleanup.json",
+      "sha256": "de2e3d585113abb05e6288928e73cdcebc5765b63cf84086cbc7a1d03c3581af",
+      "size_bytes": 15416
+    },
+    {
+      "path": ".runtime/native-stencil-dimension-positive-retry/cleanup-evidence/cleanup.json",
+      "sha256": "2a41cb4d4b9b9da55a8380d00e4531e21a875160ad45e4c5c372b34c23571e80",
+      "size_bytes": 3918
+    },
+    {
+      "path": ".runtime/native-stencil-dimension-positive-retry-r2/cleanup-evidence/cleanup.json",
+      "sha256": "d76a6c5d7b0d6cd90b3eca00c765f07e0f21d3ab2fd9cfd5d3eb31895f0823ca",
+      "size_bytes": 3918
+    },
+    {
+      "path": ".runtime/native-stencil-dof-matched-native-r1/dof-identity/cleanup-evidence/cleanup.json",
+      "sha256": "190f843a29a2556e3b6f6e569d2ee8ed42d99cc602a19d688f0fb9524050142d",
+      "size_bytes": 4120
+    },
+    {
+      "path": ".runtime/native-stencil-dof-matched-native-r2/dof-active/cleanup-evidence/cleanup.json",
+      "sha256": "b62041ecfbaaa11e0833b449b342ad67b9f7e52b19b53be2771c8acf4abfe9cf",
+      "size_bytes": 10142
+    },
+    {
+      "path": ".runtime/native-stencil-dof-matched-native-r2/dof-identity/cleanup-evidence/cleanup.json",
+      "sha256": "ce1d5c04217187a4c9fcf5cf516cecbba81c70664f03f9c3dc0e8d836ff9e782",
+      "size_bytes": 10144
+    },
+    {
+      "path": ".runtime/native-stencil-post-active-clean-retry-r1/cleanup-evidence/cleanup.json",
+      "sha256": "7efd0fd87ec0bd5b1ac59517336fca07773fc9898b9ed26b7c03350e19d4c70a",
+      "size_bytes": 9942
+    },
+    {
+      "path": ".runtime/native-stencil-post-retest-native-r2/bloom-control/cleanup-evidence/cleanup.json",
+      "sha256": "d6d335eb31d183436ac12b05dd9a0ac1fcdbe69227327f4abd8b32abde15061d",
+      "size_bytes": 10108
+    },
+    {
+      "path": ".runtime/native-stencil-post-retest-native-r2/dof-active/cleanup-evidence/cleanup.json",
+      "sha256": "d40939677e82e1682a737305eb7ff8812277e39bf6f8236c9c4b62a8f436d765",
+      "size_bytes": 9942
+    },
+    {
+      "path": ".runtime/native-stencil-post-retest-native-r2/dof-identity/cleanup-evidence/cleanup.json",
+      "sha256": "4b80cf0f2d8ba462b3e120917eff27c0d1643ce55461f81c82602ed6ec334a32",
+      "size_bytes": 9940
+    }
+  ]
+}

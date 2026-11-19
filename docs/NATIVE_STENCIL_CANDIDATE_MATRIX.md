@@ -34,3 +34,5 @@ python -B -X utf8 tools/native_stencil_candidate_matrix/matrix.py run --base $ba
 | `bloom-control` | 对照保持 RGB 不变，只改变白色光源块的 alpha。检查光源外是否出现可重复的光晕，再判断原生 Bloom 是否实际执行。 |
 
 独立粒子的读出顺序、阴影掩码的结果、景深替换的路由与维度资源恢复都需要进游戏证实。单项通过后再组合复验阴影、普通特效、景深、附魔背包、目标方块高亮、界面裁剪和抗锯齿。手机段需要可部署的网易版 Android 客户端和已连接的手机，本矩阵是 Windows 测试。512 KiB 和 alpha 打包留到原生兼容性复验通过后。
+
+本批原生运行及后续定向复测见[候选实机结果](NATIVE_STENCIL_CANDIDATE_RESULTS.md)。
