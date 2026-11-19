@@ -1,0 +1,206 @@
+{
+  "schema": "native_stencil_dimension_stage_evidence_v1",
+  "client_version": "3.10.0.467018",
+  "renderer": "Windows OpenGL",
+  "viewport": [
+    720,
+    1080
+  ],
+  "fps_cap": 60,
+  "payload_bytes": 65536,
+  "stage_without_global_opt_out": {
+    "status": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-stage/run-evidence/stage-status.json",
+      "sha256": "78a80efbd636155fcbae789e85a8b5c211c36b0311240a3c21fb7a348aaea06e",
+      "size_bytes": 2259559
+    },
+    "cleanup": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-stage/cleanup-evidence/cleanup.json",
+      "sha256": "53b7895c9749203f8f0470519ee43d40f5419718353827e4f24d06a1ab21cee7",
+      "size_bytes": 15905
+    },
+    "fixed_payload": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-stage/run-evidence/n65536_actual_input.bin",
+      "sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+      "size_bytes": 65536
+    },
+    "automatic_errors": 65281,
+    "initial_byte_errors": 0,
+    "return_byte_errors": 0,
+    "overworld_blocks_restored": 990,
+    "owned_instance_closed": true,
+    "wgc_capture_count": 35,
+    "mode7_total_screen_to_t3_pixels": 2621440,
+    "mode7_screen_to_t3_errors": 0,
+    "fixture": {
+      "off": {
+        "screen_roi": 262144,
+        "exported_t3": 262144,
+        "different_pixels_between_source_and_t3": 0
+      },
+      "base": {
+        "screen_roi": 262116,
+        "exported_t3": 262116,
+        "different_pixels_between_source_and_t3": 0
+      },
+      "all": {
+        "screen_roi": 262137,
+        "exported_t3": 262137,
+        "different_pixels_between_source_and_t3": 0
+      }
+    },
+    "manual_checkpoints": {
+      "A_relink": [
+        {
+          "mode": 1,
+          "data_error_pixels": 65281,
+          "guard_error_pixels": 0
+        },
+        {
+          "mode": 3,
+          "data_error_pixels": 198376,
+          "guard_error_pixels": 0,
+          "symbol_error_pixels": 196521
+        }
+      ],
+      "B_effects": [
+        {
+          "mode": 1,
+          "data_error_pixels": 65281,
+          "guard_error_pixels": 0
+        },
+        {
+          "mode": 3,
+          "data_error_pixels": 198610,
+          "guard_error_pixels": 0,
+          "symbol_error_pixels": 196540
+        }
+      ],
+      "C_holders": [
+        {
+          "mode": 1,
+          "data_error_pixels": 65281,
+          "guard_error_pixels": 0
+        },
+        {
+          "mode": 3,
+          "data_error_pixels": 198374,
+          "guard_error_pixels": 0,
+          "symbol_error_pixels": 196524
+        }
+      ]
+    },
+    "native_base_pixels_with_green_or_blue_above_63": 7428
+  },
+  "same_id_global_opt_out": {
+    "status": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/stage-status.json",
+      "sha256": "be41ebc4313ab003487db61d6cc1327afb0f8ab9cc5824a0cf68da59832069ec",
+      "size_bytes": 967344
+    },
+    "cleanup": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/cleanup-evidence/cleanup.json",
+      "sha256": "aa101e3d0d4c4c54d853333d802d17cf64513bb4fe1073eae0d66bad6d6b4a8a",
+      "size_bytes": 15821
+    },
+    "fixed_payload": {
+      "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/n65536_actual_input.bin",
+      "sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+      "size_bytes": 65536
+    },
+    "automatic_errors": 65281,
+    "initial_byte_errors": 0,
+    "return_byte_errors": 0,
+    "overworld_blocks_restored": 990,
+    "owned_instance_closed": true,
+    "wgc_capture_count": 12,
+    "overworld_fixture": {
+      "screen_roi": 0,
+      "exported_t3": 0,
+      "different_pixels_between_source_and_t3": 0
+    },
+    "recovered_at": "global_only",
+    "effect_ids": {
+      "late": [
+        33554437,
+        33554438,
+        33554439
+      ],
+      "fixture": 33554440
+    },
+    "checkpoints": {
+      "baseline": {
+        "fixture": {
+          "screen_roi": 262144,
+          "exported_t3": 262144,
+          "different_pixels_between_source_and_t3": 0
+        },
+        "payload": [
+          {
+            "mode": 1,
+            "data_error_pixels": 65281,
+            "guard_error_pixels": 0
+          },
+          {
+            "mode": 3,
+            "data_error_pixels": 198375,
+            "guard_error_pixels": 0,
+            "symbol_error_pixels": 196524
+          }
+        ]
+      },
+      "global_only": {
+        "fixture": {
+          "screen_roi": 0,
+          "exported_t3": 0,
+          "different_pixels_between_source_and_t3": 0
+        },
+        "payload": [
+          {
+            "mode": 1,
+            "data_error_pixels": 0,
+            "guard_error_pixels": 0
+          },
+          {
+            "mode": 3,
+            "data_error_pixels": 0,
+            "guard_error_pixels": 0,
+            "symbol_error_pixels": 0
+          }
+        ]
+      }
+    },
+    "representative_frames": {
+      "routing_overworld_fixture_m7": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_overworld_fixture_m7.png",
+        "sha256": "8b0bad4892c54924f821caaa8f7065564b4208038175489d5147eb77363ddb62",
+        "size_bytes": 115280
+      },
+      "routing_baseline_fixture_m7": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_baseline_fixture_m7.png",
+        "sha256": "ecfd767dc315cf820e510c47cedd7da1d7c1f4ee85606c264f8e46eb791993d1",
+        "size_bytes": 478954
+      },
+      "routing_global_fixture_m7": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_global_fixture_m7.png",
+        "sha256": "8d17d81bb785b162579695ce4b8edd266465923518ae2d129273f45e83f5db08",
+        "size_bytes": 239576
+      },
+      "routing_baseline_all_m1": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_baseline_all_m1.png",
+        "sha256": "15dc831f00af77889136472b2ad0c98563ad97d2dcf295f47ca0d048c88fe544",
+        "size_bytes": 60704
+      },
+      "routing_global_all_m1": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_global_all_m1.png",
+        "sha256": "4a77c5c043a9edc94c07dbe0f4971fa780a555f41101309a8eb1606f36198b8f",
+        "size_bytes": 247783
+      },
+      "routing_global_all_m3": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-sfx-routing/run-evidence/routing_global_all_m3.png",
+        "sha256": "3dedb709c508c77ad7675388ab040b6ad2d2fa71a607d12eb1303a32ff392499",
+        "size_bytes": 285406
+      }
+    }
+  }
+}
