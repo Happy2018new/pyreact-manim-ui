@@ -47,3 +47,5 @@ ADB 没有发现 Android 设备。宿主装有 MuMu，命令行返回空实例�
 可用[证据索引](evidence/native-stencil-compat/summary.json)定位逐项原始收据、独立复算结果、三组画面对照和停止回执。索引包含 SHA-256。原始 PNG、日志和游戏数据留在本机的 `.runtime`。两档 MSAA 和 Bloom 的临时设置已恢复，本轮所有受管实例已停止。
 
 普通序列帧、阴影、景深和维度切换仍有已复现的兼容问题。当前概念验证可以在已通过的用例里完整传输 64 KiB，alpha 打包应等这些冲突修复及复测后再接。
+
+兼容候选与启动后的统一测试入口见[候选复测说明](NATIVE_STENCIL_CANDIDATE_MATRIX.md)。
