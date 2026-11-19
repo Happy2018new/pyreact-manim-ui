@@ -1,0 +1,109 @@
+{
+  "schema": "native_stencil_continuation_evidence_v1",
+  "client_version": "3.10.0.467018",
+  "renderer": "Windows OpenGL",
+  "compatibility_payload_bytes": 65536,
+  "evidence": {
+    "bloom_source": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/bloom-source-r2/run-evidence/bloom-world-status.json",
+      "sha256": "947e86e271841080d40d6514dac5cae17583325983030744ed148edb7d629a62",
+      "size_bytes": 41705
+    },
+    "bloom_native": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/bloom-native-r2/run-evidence/bloom-world-status.json",
+      "sha256": "41dae4dc1a7eee3774db3c7aea4f3a6575e9f1768bd04127f98e2fd2a39f5a04",
+      "size_bytes": 42554
+    },
+    "rain_joint_raw": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/rain-shelter/run-evidence/joint-status.json",
+      "sha256": "47d2ef8f478e66520005cae35c4f3026f232a6279ac09e9944313e097fca03fe",
+      "size_bytes": 537752
+    },
+    "rain_joint_shelter": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/rain-shelter/run-evidence/rain-shelter-status.json",
+      "sha256": "91b5889174195873ebbcecb401f46177e2fafdb7320f68c71b2550683af82bd4",
+      "size_bytes": 75455
+    },
+    "rain_joint_independent": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/rain-shelter/independent-shelter-audit.json",
+      "sha256": "92e19f4324fba5a6b0370099fd87b806e0ca52502b4f884bdf2b46b8c3ca0b6d",
+      "size_bytes": 12118
+    },
+    "end_target": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/end-only/run-evidence/target-status.json",
+      "sha256": "11a3df1e4b232285ffbcaec0f73628730cc6be4e1e114338424a8d2a7815a850",
+      "size_bytes": 982899
+    },
+    "nether_target": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/nether-settle/run-evidence/target-status.json",
+      "sha256": "5d53911184cf9bb0575ff406e924c8b80b415fc95b07a335c1f224e0d8a1a8d8",
+      "size_bytes": 985260
+    },
+    "dof_identity": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-identity-verified-cleanup/run-evidence/dof-identity-status.json",
+      "sha256": "c0c06c5528b5b500f78c256edcad6c32fc5e3541fbc7eb507d8e9974fa72fcf0",
+      "size_bytes": 307019
+    },
+    "dof_identity_fixture": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-identity-verified-cleanup/run-evidence/dof-fixed-world-status.json",
+      "sha256": "b8515d756a5c2670547effe774970e631ade7ba2c2e6bf1be9e3769bf21875e1",
+      "size_bytes": 8189
+    },
+    "dof_active": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-active-verified-cleanup/run-evidence/dof-active-status.json",
+      "sha256": "372add5165684b86e5d6556b933853dbe2fc35cfba2b58d81134093a5a534518",
+      "size_bytes": 309670
+    },
+    "dof_active_fixture": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-active-verified-cleanup/run-evidence/dof-fixed-world-status.json",
+      "sha256": "7118eea031b28ee2ee6bf7ba27d20b434064c9ae7dad777119a1d9655229a939",
+      "size_bytes": 8559
+    },
+    "cleanup_rain-shelter": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/rain-shelter/cleanup-evidence/cleanup.json",
+      "sha256": "f78049b8e7f1d2fd165e2f82ce906b797ca52b2bd0e15d8b4e5914dfa5badc95",
+      "size_bytes": 17181
+    },
+    "cleanup_end-only": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/end-only/cleanup-evidence/cleanup.json",
+      "sha256": "b253f14c964e5dca90e30ea9318a8207eb6d73e6b3bf35a6d2a975fbd175f48b",
+      "size_bytes": 15875
+    },
+    "cleanup_nether-settle": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/nether-settle/cleanup-evidence/cleanup.json",
+      "sha256": "a13e00c7c611c85742c0361fdd3f3460dce9c07169d449a978b449d778ac929f",
+      "size_bytes": 15875
+    },
+    "cleanup_bloom-source-r2": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/bloom-source-r2/cleanup-evidence/cleanup.json",
+      "sha256": "bbeeacad22bbb75182f2e1bcc155fd4daff02311b1e2470555de49b8fac0b5f2",
+      "size_bytes": 7860
+    },
+    "cleanup_bloom-native-r2": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/bloom-native-r2/cleanup-evidence/cleanup.json",
+      "sha256": "fe5ae43999c9d6ff957790beb859aeaee6f862d56cbe3e493658fd29d0223060",
+      "size_bytes": 7859
+    },
+    "cleanup_dof-identity-verified-cleanup": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-identity-verified-cleanup/cleanup-evidence/cleanup.json",
+      "sha256": "e811e7d2c9ebaab9601a6749495062fb07b571e5ada9cf54dd5d985d18d61207",
+      "size_bytes": 4682
+    },
+    "cleanup_dof-active-verified-cleanup": {
+      "path": ".runtime/native-stencil-combination-20261119-r1/dof-active-verified-cleanup/cleanup-evidence/cleanup.json",
+      "sha256": "383312b5a93b450bfb9d4cf910a7364a6a48718495a228aab9f45540dbee4b05",
+      "size_bytes": 4524
+    }
+  },
+  "results": {
+    "fixed_world_dof_64k": "controlled_native_pass",
+    "rain_sheltered_visual_regions": "native_all_on_plus_exact_data_within_two",
+    "rain_original_combined_gate": "comparison_mixed_reference_states_failed",
+    "bloom_source": "exact_rgb_control",
+    "bloom_observed_native_halo": false,
+    "dimension_nether_automatic": "fail_occupied_fixed_pose",
+    "dimension_end_automatic": "fail_at_air_pose",
+    "both_return_to_overworld": "exact",
+    "performance_measured": false
+  }
+}

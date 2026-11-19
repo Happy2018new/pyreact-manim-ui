@@ -22,6 +22,9 @@ SCHEMA = 'native_dof_fixed_world_v1'
 ROOM_BLOCK = 'minecraft:glowstone'
 RULE_KEYS = ('daylight_cycle', 'weather_cycle')
 TIME = 6000
+PRESERVE_BLOCKS = ('minecraft:chest', 'minecraft:trapped_chest', 'minecraft:barrel')
+REPLACE_BLOCKS = ('minecraft:air', 'minecraft:dirt', 'minecraft:grass', 'minecraft:grass_block',
+                  'minecraft:stone', 'minecraft:bedrock', 'minecraft:torch')
 
 
 def module(name, path):
@@ -88,6 +91,8 @@ class FixedWorld:
     def __init__(self, experiment, case):
         self.experiment, self.case = experiment, case
         self.prior_blocks = []
+        self.special_states = []
+        self.expected_rows = []
         self.prior_env = None
         self.blocks_touched = self.env_touched = False
         self.cleaned = False
@@ -134,22 +139,41 @@ class FixedWorld:
         positions = [item[0] for item in plan['rows']]
         before = self.experiment.server('fixed_world_blocks_before',
             "block=api.GetEngineCompFactory().CreateBlockInfo(api.GetLevelId())\n"
+            "state=api.GetEngineCompFactory().CreateBlockState(api.GetLevelId())\n"
             "rows=[]\n"
+            "special=[]\n"
             "for pos in %r:\n" % positions +
             "    item=block.GetBlockNew(tuple(pos),0)\n"
             "    if not item or 'name' not in item or 'aux' not in item: raise RuntimeError('Room cell is not loaded')\n"
+            "    if item['name'] not in %r: raise RuntimeError('Unexpected block requires a non-destructive scene plan: '+item['name'])\n" % (REPLACE_BLOCKS+PRESERVE_BLOCKS,) +
             "    rows.append([pos,item['name'],item['aux']])\n"
-            "_result=json.dumps({'rows':rows})")
+            "    if item['name'] in %r:\n" % (('minecraft:torch',)+PRESERVE_BLOCKS,) +
+            "        states=state.GetBlockStates(tuple(pos),0)\n"
+            "        if states is None: raise RuntimeError('Special block state unavailable')\n"
+            "        aux=state.GetBlockAuxValueFromStates(item['name'],states)\n"
+            "        if aux<0: raise RuntimeError('Canonical block aux unavailable')\n"
+            "        special.append({'position':pos,'name':item['name'],'raw_aux':item['aux'],'states':states,'legacy_aux':aux,'preserve':item['name'] in %r})\n" % (PRESERVE_BLOCKS,) +
+            "_result=json.dumps({'rows':rows,'special':special})")
         self.prior_blocks = before['rows']
+        self.special_states = before['special']
         if [item[0] for item in self.prior_blocks] != positions:
             raise RuntimeError('Fixed room snapshot lacks exact cells')
         self.receipt['prior_blocks_sha256'] = digest(self.prior_blocks)
+        self.receipt['prior_special_states'] = self.special_states
+        preserved = {tuple(item['position']): item for item in self.special_states if item['preserve']}
+        plan['rows'] = [[pos, preserved[tuple(pos)]['name'], preserved[tuple(pos)]['raw_aux']]
+                        if tuple(pos) in preserved else [pos,name,aux] for pos,name,aux in plan['rows']]
+        self.expected_rows = plan['rows']
+        self.receipt['room']['preserved_containers'] = list(preserved.values())
+        self.receipt['room']['rows_sha256'] = digest(self.expected_rows)
         self.blocks_touched = True
         changed = self.experiment.server('fixed_world_blocks_set',
             "block=api.GetEngineCompFactory().CreateBlockInfo(api.GetLevelId())\n"
+            "preserved=set(tuple(pos) for pos in %r)\n" % [list(pos) for pos in preserved] +
             "changed=0\n"
             "for pos,name,aux in %r:\n" % plan['rows'] +
-            "    if block.SetBlockNew(tuple(pos),{'name':name,'aux':aux},0,0,True,True): changed+=1\n"
+            "    if tuple(pos) in preserved: continue\n"
+            "    if block.SetBlockNew(tuple(pos),{'name':name,'aux':aux},0,0,True,False): changed+=1\n"
             "_result=json.dumps({'changed_cells':changed})")
         self.receipt['block_set'] = changed
         self.check(plan['rows'], 'fixed_world_blocks_ready')
@@ -164,7 +188,7 @@ class FixedWorld:
         self.receipt['prepared'] = True
 
     def check(self, expected=None, label='fixed_world_blocks_check'):
-        expected = expected or room_plan(self.receipt['room']['camera'])['rows']
+        expected = expected or self.expected_rows
         row = self.experiment.server(label,
             "block=api.GetEngineCompFactory().CreateBlockInfo(api.GetLevelId())\n"
             "clock=api.GetEngineCompFactory().CreateTime(api.GetLevelId())\n"
@@ -194,17 +218,50 @@ class FixedWorld:
             try:
                 row = self.experiment.server('fixed_world_blocks_restore',
                     "block=api.GetEngineCompFactory().CreateBlockInfo(api.GetLevelId())\n"
+                    "state=api.GetEngineCompFactory().CreateBlockState(api.GetLevelId())\n"
                     "expected=%r\n" % self.prior_blocks +
+                    "special=dict((tuple(item['position']),item) for item in %r)\n" % self.special_states +
                     "for pos,name,aux in expected:\n"
-                    "    block.SetBlockNew(tuple(pos),{'name':name,'aux':aux},0,0,True,True)\n"
+                    "    rule=special.get(tuple(pos))\n"
+                    "    if rule and rule['preserve']: continue\n"
+                    "    block.SetBlockNew(tuple(pos),{'name':name,'aux':rule['legacy_aux'] if rule else aux},0,0,True,False)\n"
+                    "repairs=[]\n"
+                    "for pos,name,aux in expected:\n"
+                    "    rule=special.get(tuple(pos))\n"
+                    "    if not rule or rule['preserve'] or name!='minecraft:torch': continue\n"
+                    "    item=block.GetBlockNew(tuple(pos),0)\n"
+                    "    before=state.GetBlockStates(tuple(pos),0)\n"
+                    "    if item and item.get('name')==name and before!=rule['states']:\n"
+                    "        accepted=state.SetBlockStates(tuple(pos),rule['states'],0)\n"
+                    "        repairs.append({'position':pos,'before':item,'states_before':before,'accepted':accepted,'after':block.GetBlockNew(tuple(pos),0),'states_after':state.GetBlockStates(tuple(pos),0)})\n"
                     "mismatches=[]\n"
                     "for pos,name,aux in expected:\n"
                     "    item=block.GetBlockNew(tuple(pos),0)\n"
-                    "    if not item or item.get('name')!=name or item.get('aux')!=aux: mismatches.append(pos)\n"
-                    "_result=json.dumps({'cells':len(expected),'mismatches':mismatches})")
+                    "    rule=special.get(tuple(pos))\n"
+                    "    same=item and item.get('name')==name and item.get('aux')==aux and (not rule or state.GetBlockStates(tuple(pos),0)==rule['states'])\n"
+                    "    if not same: mismatches.append({'position':pos,'expected':[name,aux],'actual':item,'canonical_states':rule['states'] if rule else None})\n"
+                    "_result=json.dumps({'cells':len(expected),'mismatches':mismatches,'state_repairs':repairs,'containers_untouched':[item['position'] for item in special.values() if item['preserve']]})")
                 self.receipt['block_restore'] = row
-                if row['cells'] != len(self.prior_blocks) or row['mismatches']:
+                if (row['cells'] != len(self.prior_blocks) or row['mismatches']
+                        or any(item['accepted'] is not True for item in row['state_repairs'])):
                     raise RuntimeError('Fixed world block restoration failed')
+                time.sleep(.25)
+                row = self.experiment.server('fixed_world_blocks_restored_check',
+                    "block=api.GetEngineCompFactory().CreateBlockInfo(api.GetLevelId())\n"
+                    "state=api.GetEngineCompFactory().CreateBlockState(api.GetLevelId())\n"
+                    "expected=%r\n" % self.prior_blocks +
+                    "special=dict((tuple(item['position']),item) for item in %r)\n" % self.special_states +
+                    "mismatches=[]\n"
+                    "for pos,name,aux in expected:\n"
+                    "    item=block.GetBlockNew(tuple(pos),0)\n"
+                    "    rule=special.get(tuple(pos))\n"
+                    "    actual_states=state.GetBlockStates(tuple(pos),0) if rule else None\n"
+                    "    same=item and item.get('name')==name and item.get('aux')==aux and (not rule or actual_states==rule['states'])\n"
+                    "    if not same: mismatches.append({'position':pos,'expected':[name,aux],'actual':item,'states_actual':actual_states,'canonical_states':rule['states'] if rule else None})\n"
+                    "_result=json.dumps({'cells':len(expected),'mismatches':mismatches})")
+                self.receipt['block_restore_delayed'] = row
+                if row['cells'] != len(self.prior_blocks) or row['mismatches']:
+                    raise RuntimeError('Fixed world delayed block restoration failed')
             except Exception as error:
                 errors.append('blocks: ' + repr(error))
         if self.env_touched:
@@ -306,9 +363,56 @@ def main():
     worlds = {}
 
     class RoomGuard(original_scene):
+        def check_world(self):
+            if getattr(self, '_fixed_actor_rebind_closed', False):
+                return original_scene.check_world(self)
+            # Room edits can expose previously unloaded world actors. Rebind
+            # only during setup; after freeze the original strict check rejects
+            # scene changes. Never adopt a reused live identity or an exact
+            # owned fixture handle as an ordinary actor.
+            code = guard.inventory_code() + """saved=dict(getattr(probe,'_dof_guard_saved',[]))
+expected=getattr(probe,'_dof_guard_expected',{})
+if len(guard_ordinary)>128: raise RuntimeError('Ordinary actor budget exceeded')
+if api.GetLocalPlayerId() in guard_ordinary: raise RuntimeError('Player unexpectedly included in ordinary inventory')
+adopted=[]
+for entity in sorted(guard_ordinary):
+    info=guard_ordinary[entity]
+    if info.get('dimensionId')!=0: raise RuntimeError('Ordinary actor dimension differs from scene')
+    if entity in expected and (expected[entity].get('identifier')!=info.get('identifier') or expected[entity].get('dimensionId')!=info.get('dimensionId')):
+        raise RuntimeError('Ordinary actor handle was reused by a different identity')
+    render=api.GetEngineCompFactory().CreateActorRender(entity)
+    if entity not in saved:
+        prior=render.GetNotRenderAtAll()
+        if type(prior) is not bool: raise RuntimeError('New ordinary actor lacks visibility readback')
+        probe._dof_guard_saved.append((entity,prior))
+        expected[entity]=dict(info)
+        adopted.append(entity)
+    if render.GetNotRenderAtAll() is not True and render.SetNotRenderAtAll(True) is not True:
+        raise RuntimeError('Ordinary actor hide rejected during rebind')
+probe._dof_guard_expected=expected
+"""
+            self.actor_touched = True
+            try:
+                row = self.experiment.call('fixed_world_rebind_actors', code,
+                    "{'adopted':adopted,'saved':probe._dof_guard_saved,'inventory':guard_ordinary,"
+                    "'owned_fixture_ids':list(guard_owned),'frame':probe.render_event}")
+                self.receipt.setdefault('fixed_world_actor_rebinds', []).append(row)
+                self.hidden = row['saved']
+            finally:
+                row = self.experiment.call('fixed_world_saved_actors', expression=
+                    "{'saved':getattr(probe,'_dof_guard_saved',[])}")
+                self.hidden = row['saved']
+            return original_scene.check_world(self)
+
+        def freeze_world_actors(self):
+            row = self.check_world()
+            self._fixed_actor_rebind_closed = True
+            self.receipt['fixed_world_actor_inventory_frozen'] = row
+
         def after_prepare(self):
             original_scene.after_prepare(self)
             world = FixedWorld(self.experiment, case)
+            world.scene_guard = self
             worlds['active'] = world
             try:
                 camera = self.receipt['local_player_hidden']['camera']['position']
@@ -343,6 +447,7 @@ def main():
         def capture(*call_args, **kwargs):
             label = call_args[3]
             world = worlds['active']
+            world.scene_guard.check_world()
             if label in ('candidate_dof-identity_zero', 'candidate_dof-active_zero'):
                 world.check(label='fixed_world_after_initialization')
             row = original_capture(*call_args, **kwargs)
@@ -362,6 +467,7 @@ def main():
 
     def fixed_run(*call_args, **kwargs):
         worlds['active'].check(label='fixed_world_before_profiles')
+        worlds['active'].scene_guard.freeze_world_actors()
         return original_run(*call_args, **kwargs)
 
     guard.SceneGuard, dof.native_module, dof.run = RoomGuard, fixed_native, fixed_run
