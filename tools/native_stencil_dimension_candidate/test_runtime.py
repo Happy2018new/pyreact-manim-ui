@@ -154,7 +154,7 @@ class Control:
         self.native, self.entity = native, entity
 
     def __getattr__(self, name):
-        if name not in ('SetFaceCamera', 'SetLoop', 'SetLayer', 'Stop', 'Play', 'SetMixColor'):
+        if name not in ('SetFaceCamera', 'SetLoop', 'SetLayer', 'Stop', 'Play', 'SetMixColor', 'SetGlobal'):
             raise AttributeError(name)
         return lambda *args: self.native.call(name, self.entity, *args)
 
@@ -397,6 +397,69 @@ class DimensionRecoveryTests(unittest.TestCase):
                          self.system.pipeline_enabled))
         self.assertFalse(result['dimension_recovery']['pixel_verified'])
         self.assertFalse(result['dimension_recovery']['runtime_file_writes'])
+
+    def test_initial_probe_and_initial_late_effect_setup_do_not_enable_global(self):
+        self.assertEqual(0, self.native.count('SetGlobal'))
+        self.system.effects, self.system.controls = [], []
+        self.system._effects_ready()
+        self.assertEqual(3, self.native.count('CreateEngineSfxFromEditor'))
+        self.assertEqual(0, self.native.count('SetGlobal'))
+
+    def test_each_recovery_routes_only_its_three_new_readers_once_before_priming_and_linking(self):
+        payload, identity = self.system.payload, copy.deepcopy(self.system.identity)
+        pages, attempts, generation = list(self.system.pages), copy.deepcopy(self.system.attempts), self.system.generation
+        previous = list(self.system.effects)
+        for source, target in ((0, 2), (2, 0)):
+            with self.subTest(pair=(source, target)):
+                self.native.calls.clear()
+                self.begin(source, target)
+                self.drive()
+                self.assertEqual('ready', self.phase())
+                current = list(self.system.effects)
+                self.assertEqual(3, len(current))
+                self.assertTrue(set(previous).isdisjoint(current))
+                self.assertEqual([(entity, True) for entity in current], self.native.arguments('SetGlobal'))
+                ordered = [method for method, args in self.native.calls]
+                created = [index for index, method in enumerate(ordered) if method == 'CreateEngineSfxFromEditor']
+                global_calls = [index for index, method in enumerate(ordered) if method == 'SetGlobal']
+                priming = [index for index, method in enumerate(ordered) if method == 'SetEnableByName']
+                links = [index for index, method in enumerate(ordered) if method == 'PostPassResultToOtherPass']
+                self.assertLess(max(created), min(global_calls))
+                self.assertLess(max(global_calls), min(priming))
+                self.assertLess(max(global_calls), min(links))
+                receipts = [row for row in self.system.dimension_recovery['api_receipts']
+                            if row['operation'] == 'SetGlobal(recreated_effect)']
+                self.assertEqual(current, [row.get('effect', row.get('entity')) for row in receipts])
+                self.assertTrue(all(row['accepted'] is True for row in receipts))
+                self.assertIs(payload, self.system.payload)
+                self.assertEqual(identity, self.system.identity)
+                self.assertEqual(pages, self.system.pages)
+                self.assertEqual(attempts, self.system.attempts)
+                self.assertEqual(generation, self.system.generation)
+                previous = current
+
+    def test_rejected_global_routing_fails_closed_before_priming_or_links(self):
+        payload, identity = self.system.payload, copy.deepcopy(self.system.identity)
+        pages, attempts = list(self.system.pages), copy.deepcopy(self.system.attempts)
+        for responses in ([False], [None], [True, False]):
+            with self.subTest(responses=responses):
+                self.setUp()
+                self.native.responses['SetGlobal'] = list(responses)
+                self.begin(0, 2)
+                self.drive()
+                self.assert_failed()
+                self.assertEqual(len(responses), self.native.count('SetGlobal'))
+                self.assertEqual(0, self.native.count('SetEnableByName'))
+                self.assertEqual(0, self.native.count('PostPassResultToOtherPass'))
+                self.assertIn('SetGlobal', self.system.dimension_recovery['error'])
+                receipt = self.system.dimension_recovery['api_receipts'][-1]
+                self.assertEqual('SetGlobal(recreated_effect)', receipt['operation'])
+                self.assertIsNot(receipt['accepted'], True)
+                self.assertEqual(identity, self.system.identity)
+                self.assertEqual(pages, self.system.pages)
+                self.assertEqual(attempts, self.system.attempts)
+                self.assertEqual(payload, self.system.payload)
+                self.assertEqual(7, self.system.generation)
 
     def test_duplicate_finish_and_old_pair_cannot_republish_a_later_serial(self):
         self.begin()

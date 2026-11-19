@@ -202,5 +202,215 @@
         "size_bytes": 285406
       }
     }
+  },
+  "automatic_global_opt_out": {
+    "end": {
+      "status": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-auto-global/run-evidence/target-status.json",
+        "sha256": "79bd5815162a10a0ed7ce6e11140098a18b4121413a572c54cde2fdfc6764a72",
+        "size_bytes": 583685
+      },
+      "cleanup": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-auto-global/cleanup-evidence/cleanup.json",
+        "sha256": "a11df50b57281da3a9a5054b2b40351d9a1f12676c4bbcbec495479cf6ceb31a",
+        "size_bytes": 16511
+      },
+      "fixed_payload": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-auto-global/run-evidence/n65536_actual_input.bin",
+        "sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+        "size_bytes": 65536
+      },
+      "pixel_verified": true,
+      "automatic_end_or_nether_frame": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-auto-global/run-evidence/target_end_1_automatic_exact.png",
+        "sha256": "06f4789397f48091b0ea5b1cc189706913af5d0ee90e7b6d1b6112c7cc01aa7e",
+        "size_bytes": 247961
+      },
+      "automatic_return_frame": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/end-auto-global/run-evidence/roundtrip_end_1_overworld_automatic_exact.png",
+        "sha256": "5d03dffc334f2780bd859b6f3c44a33905721075dd7298f7570621c12f68e520",
+        "size_bytes": 206226
+      },
+      "png_replay": {
+        "roundtrip_end_1_overworld_automatic_exact": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "roundtrip_end_1_overworld_checked_m1": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "roundtrip_end_1_overworld_checked_m3": {
+          "symbol_errors": 0,
+          "nonopaque_alpha_samples": 0,
+          "rgb_range_flags": 0,
+          "guard_errors": 0
+        },
+        "target_end_1_automatic_exact": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "target_end_1_checked_m1": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "target_end_1_checked_m3": {
+          "symbol_errors": 0,
+          "nonopaque_alpha_samples": 0,
+          "rgb_range_flags": 0,
+          "guard_errors": 0
+        },
+        "target_initial_exact": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        }
+      },
+      "set_global_receipts": {
+        "outbound": [
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 1916,
+            "effect": 33554436
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 1916,
+            "effect": 33554437
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 1916,
+            "effect": 33554438
+          }
+        ],
+        "return": [
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2657,
+            "effect": 33554439
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2657,
+            "effect": 33554440
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2657,
+            "effect": 33554441
+          }
+        ]
+      },
+      "terrain_sample_counts": {
+        "minecraft:air": 59
+      },
+      "overworld_blocks_restored": 990,
+      "owned_instance_closed": true
+    },
+    "nether": {
+      "status": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/nether-auto-global/run-evidence/target-status.json",
+        "sha256": "bfa66bea1e8b45a0c17384f490640ec1dc494173e72fdd0518b71c0a520f119e",
+        "size_bytes": 737937
+      },
+      "cleanup": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/nether-auto-global/cleanup-evidence/cleanup.json",
+        "sha256": "953a8af12a1ee43429bf9666f21968c372d28b9db4d22f2e3dbed1fc6b398fb7",
+        "size_bytes": 16505
+      },
+      "fixed_payload": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/nether-auto-global/run-evidence/n65536_actual_input.bin",
+        "sha256": "c1f70d0a5c3ac7ef155fb36f93230788e0aaddf0df4df523649d0a705a77e0e0",
+        "size_bytes": 65536
+      },
+      "pixel_verified": false,
+      "automatic_end_or_nether_frame": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/nether-auto-global/run-evidence/target_nether_1_automatic_exact.png",
+        "sha256": "57cb95d2b68719e5575d52af362b7cb91e5bde918a312a45454d25399abd827b",
+        "size_bytes": 9280
+      },
+      "automatic_return_frame": {
+        "path": ".runtime/native-stencil-dimension-stage-20261119-r1/nether-auto-global/run-evidence/roundtrip_nether_1_overworld_automatic_exact.png",
+        "sha256": "095b5d21aa8b313d1e1c95d68a45be275d0b41ca14a923489329b7b0876237b8",
+        "size_bytes": 206037
+      },
+      "png_replay": {
+        "roundtrip_nether_1_overworld_automatic_exact": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "roundtrip_nether_1_overworld_checked_m1": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "roundtrip_nether_1_overworld_checked_m3": {
+          "symbol_errors": 0,
+          "nonopaque_alpha_samples": 0,
+          "rgb_range_flags": 0,
+          "guard_errors": 0
+        },
+        "target_initial_exact": {
+          "byte_errors": 0,
+          "guard_errors": 0
+        },
+        "target_nether_1_automatic_exact": {
+          "byte_errors": 65280,
+          "guard_errors": 0
+        }
+      },
+      "set_global_receipts": {
+        "outbound": [
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2262,
+            "effect": 33554436
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2262,
+            "effect": 33554437
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2262,
+            "effect": 33554438
+          }
+        ],
+        "return": [
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2693,
+            "effect": 33554439
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2693,
+            "effect": 33554440
+          },
+          {
+            "operation": "SetGlobal(recreated_effect)",
+            "accepted": true,
+            "frame": 2693,
+            "effect": 33554441
+          }
+        ]
+      },
+      "terrain_sample_counts": {
+        "minecraft:netherrack": 59
+      },
+      "overworld_blocks_restored": 990,
+      "owned_instance_closed": true
+    }
   }
 }

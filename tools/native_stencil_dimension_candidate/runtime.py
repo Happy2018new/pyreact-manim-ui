@@ -168,6 +168,11 @@ class ProbeSystem(IntegratedProbe):
                 if spec['kind'] != 'clear':
                     self.active_pages.append({'name': name, 'actor': actor})
         self._effects_ready()
+        # These shaders project their UVs to the full viewport. Native bounds
+        # culling can still omit recreated SFX after a dimension change; the
+        # same-ID End control recovered exact bytes with only SetGlobal(True).
+        for effect, control in zip(self.effects, self.controls):
+            self._receipt('SetGlobal(recreated_effect)', control.SetGlobal(True), effect=effect)
         order = list(self.post.GetPostProcessOrder() or [])
         present = [name for name in order if name in PROCESSES]
         if present and present != list(PROCESSES):

@@ -1,5 +1,10 @@
 # Static dimension stage isolation
 
+The historical no-opt-out candidate and its diagnostic tools are available
+together at commit `76dc05f`. The current candidate applies `SetGlobal(True)`
+automatically to the three carrier SFX after a dimension switch. Use the
+isolated target runner for automatic recovery acceptance on the current code.
+
 This host-only diagnostic defaults to **Overworld → End → Overworld**. It uses
 the unchanged target fixture and candidate, initializes once, and uploads the
 same actual 64 KiB payload once. The parent alone owns the 60 FPS noactivation
